@@ -214,7 +214,39 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\core\IEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\core\IEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\IEventDispatcher.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\core\IEventDispatcher.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\IObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\core\IObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\core\ISingleton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\Rtti.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\core\Rtti.h"
 				>
 			</File>
 		</Filter>
@@ -223,6 +255,46 @@
 			>
 			<File
 				RelativePath=".\inc\util\AppUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\util\FileUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\util\FileUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\util\IFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\util\IFile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\util\LogUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\util\LogUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\util\StringUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\util\StringUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\util\SystemUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\util\SystemUtil.h"
 				>
 			</File>
 		</Filter>
@@ -234,6 +306,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\inc\Config.h"
+			>
+		</File>
 		<File
 			RelativePath=".\src\Spank3D.cpp"
 			>

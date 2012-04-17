@@ -21,6 +21,8 @@ public:
 	};
 
 public:
+	RTTI_DEF(Device_Impl, IDevice);
+
 	Device_Impl();
 	virtual ~Device_Impl();
 

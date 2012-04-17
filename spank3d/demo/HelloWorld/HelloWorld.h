@@ -13,6 +13,8 @@
 class HelloWorld : public IApp
 {
 public:
+	RTTI_DEF(HelloWorld, IApp);
+
 	HelloWorld();
 	virtual ~HelloWorld();
 

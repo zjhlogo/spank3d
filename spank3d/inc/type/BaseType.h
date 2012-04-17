@@ -8,6 +8,9 @@
 #ifndef __BASETYPE_H__
 #define __BASETYPE_H__
 
+#include <string>
+#include <cassert>
+
 //typedef bool						bool;
 
 //typedef char						char;
@@ -24,7 +27,15 @@ typedef unsigned __int64			uint64;
 
 //typedef float						float;
 
-#define NULL						0
+#ifdef _UNICODE
+	#define _(x) L ## x
+	typedef wchar_t tchar;
+#else
+	#define _(x) x
+	typedef char tchar;
+#endif // _UNICODE
+
+typedef std::basic_string<tchar>	tstring;
 
 #define SAFE_DELETE(x) if (x) {delete (x); (x) = NULL;}
 #define SAFE_DELETE_ARRAY(x) if (x) {delete[] (x); (x) = NULL;}

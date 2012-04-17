@@ -13,6 +13,8 @@
 class IApp : public ISingleton
 {
 public:
+	RTTI_DEF(IApp, ISingleton);
+
 	IApp();
 	virtual ~IApp();
 
