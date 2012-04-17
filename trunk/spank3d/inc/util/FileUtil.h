@@ -13,13 +13,9 @@
 class FileUtil
 {
 public:
-	FileUtil();
-	virtual ~FileUtil();
+	static IFile* CreateNewFile(const tstring& strFileName, uint nFlag = IFile::OFF_READ);
 
-	static FileUtil& GetInstance();
-
-	IFile* OpenFile(const tstring& strFileName, uint nFlag = IFile::OFF_READ);
-
+	// for IFile used only
 	static IFile::IFILE_HANDLE FileOpen(const tstring& strFile, const tstring& strOption);
 	static void FileClose(IFile::IFILE_HANDLE hFile);
 	static void FileSeek(IFile::IFILE_HANDLE hFile, int nOffset, uint nOrigin);

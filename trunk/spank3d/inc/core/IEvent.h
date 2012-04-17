@@ -9,6 +9,7 @@
 #define __IEVENT_H__
 
 #include <core/Rtti.h>
+#include <event/EventIds.h>
 
 class IEventDispatcher;
 class IEvent

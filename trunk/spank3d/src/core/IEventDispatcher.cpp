@@ -42,7 +42,7 @@ void IEventDispatcher::UnregisterEvent(uint nId, IEventDispatcher* pHandler, FUN
 	}
 }
 
-bool IEventDispatcher::CallEvent(IEvent& event)
+bool IEventDispatcher::DispatchEvent(IEvent& event)
 {
 	TP_EVENT_HANDLER range = m_EventMap.equal_range(event.GetId());
 	if (range.first == range.second) return false;

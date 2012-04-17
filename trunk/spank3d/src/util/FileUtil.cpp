@@ -9,23 +9,7 @@
 #include <util/LogUtil.h>
 #include <tchar.h>
 
-FileUtil::FileUtil()
-{
-	// TODO: 
-}
-
-FileUtil::~FileUtil()
-{
-	// TODO: 
-}
-
-FileUtil& FileUtil::GetInstance()
-{
-	static FileUtil s_FileUtil;
-	return s_FileUtil;
-}
-
-IFile* FileUtil::OpenFile(const tstring& strFileName, uint nFlag /*= IFile::OFF_READ*/)
+IFile* FileUtil::CreateNewFile(const tstring& strFileName, uint nFlag /*= IFile::OFF_READ*/)
 {
 	IFile *pFile = new IFile(strFileName, nFlag);
 	if (!pFile || !pFile->IsOk())
