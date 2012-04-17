@@ -34,9 +34,9 @@ public:
 	IEventDispatcher();
 	virtual ~IEventDispatcher();
 
-	virtual void RegisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc);
-	virtual void UnregisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc);
-	bool CallEvent(IEvent& event);
+	void RegisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc);
+	void UnregisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc);
+	bool DispatchEvent(IEvent& event);
 
 private:
 	TM_EVENT_HANDLER m_EventMap;

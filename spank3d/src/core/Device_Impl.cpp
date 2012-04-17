@@ -12,9 +12,12 @@
 #include <gl/glew.h>
 #include <math/Math.h>
 
+#include <event/MouseEvent.h>
+#include <event/KeyboardEvent.h>
+
 static HWND g_hWnd = NULL;
-static HDC g_hDC = NULL;								// Private GDI Device Context
-static HGLRC g_hRC = NULL;								// Permanent Rendering Context
+static HDC g_hDc = NULL;								// Private GDI Device Context
+static HGLRC g_hRc = NULL;								// Permanent Rendering Context
 
 Device_Impl::Device_Impl()
 {
@@ -90,9 +93,9 @@ void Device_Impl::StartPerform()
 	m_fCurrTime = m_fPrevTime;
 	m_fDetailTime = 0.0f;
 
-// 	// notify start perform
-// 	COEMsgCommand msgStartPerform(OMI_START_PERFORM);
-// 	CallEvent(msgStartPerform);
+	// notify start perform
+	IEvent event(EID_START_PERFORM, this);
+	DispatchEvent(event);
 
 	MSG msg;
 	memset(&msg, 0, sizeof(msg));
@@ -151,10 +154,10 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short x = LOWORD(lParam);
 			short y = HIWORD(lParam);
 
-// 			// send message
-// 			COEMsgMouse msg(OMI_LBUTTON_DOWN);
-// 			msg.SetPos(x, y);
-// 			g_pOEDevice->CallEvent(msg);
+			// dispatch event
+			MouseEvent event(EID_LBUTTON_DOWN, g_pDevice);
+			event.SetPosition(x, y);
+			g_pDevice->DispatchEvent(event);
 		}
 		break;
 	case WM_LBUTTONUP:
@@ -162,10 +165,10 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short x = LOWORD(lParam);
 			short y = HIWORD(lParam);
 
-// 			// send message
-// 			COEMsgMouse msg(OMI_LBUTTON_UP);
-// 			msg.SetPos(x, y);
-// 			g_pOEDevice->CallEvent(msg);
+			// dispatch event
+			MouseEvent event(EID_LBUTTON_UP, g_pDevice);
+			event.SetPosition(x, y);
+			g_pDevice->DispatchEvent(event);
 
 			ReleaseCapture();
 		}
@@ -175,29 +178,30 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short x = LOWORD(lParam);
 			short y = HIWORD(lParam);
 
-// 			// send message
-// 			COEMsgMouse msg(OMI_MOUSE_MOVE);
-// 			msg.SetPos((int)x-s_nLastMousePosX, (int)y-s_nLastMousePosY);
-// 			g_pOEDevice->CallEvent(msg);
-// 
-// 			s_nLastMousePosX = x;
-// 			s_nLastMousePosY = y;
+			// dispatch event
+			MouseEvent event(EID_MOUSE_MOVE, g_pDevice);
+			event.SetPosition(x, y);
+			event.SetPosition((int)x-s_nLastMousePosX, (int)y-s_nLastMousePosY);
+			g_pDevice->DispatchEvent(event);
+
+			s_nLastMousePosX = x;
+			s_nLastMousePosY = y;
 		}
 		break;
 	case WM_KEYDOWN:
 		{
-// 			// send message
-// 			COEMsgKeyboard msg(OMI_KEY_DOWN);
-// 			msg.SetKeyCode(wParam);
-// 			g_pOEDevice->CallEvent(msg);
+			// dispatch event
+			KeyboardEvent event(EID_KEY_DOWN, g_pDevice);
+			event.SetKeyCode(wParam);
+			g_pDevice->DispatchEvent(event);
 		}
 		break;
 	case WM_KEYUP:
 		{
-// 			// send message
-// 			COEMsgKeyboard msg(OMI_KEY_UP);
-// 			msg.SetKeyCode(wParam);
-// 			g_pOEDevice->CallEvent(msg);
+			// dispatch event
+			KeyboardEvent event(EID_KEY_UP, g_pDevice);
+			event.SetKeyCode(wParam);
+			g_pDevice->DispatchEvent(event);
 		}
 		break;
 	case WM_DESTROY:
@@ -301,32 +305,32 @@ bool Device_Impl::InternalCreateOGL()
 		0, 0, 0										// Layer Masks Ignored
 	};
 
-	if (!(g_hDC = GetDC(g_hWnd)))					// Did We Get A Device Context?
+	if (!(g_hDc = GetDC(g_hWnd)))					// Did We Get A Device Context?
 	{
 		LOG(_("Device_Impl::InternalCreateOGL, Can't Create A GL Device Context"));
 		return false;								// Return FALSE
 	}
 
 	GLuint PixelFormat;								// Holds The Results After Searching For A Match
-	if (!(PixelFormat = ChoosePixelFormat(g_hDC, &pfd)))	// Did Windows Find A Matching Pixel Format?
+	if (!(PixelFormat = ChoosePixelFormat(g_hDc, &pfd)))	// Did Windows Find A Matching Pixel Format?
 	{
 		LOG(_("Device_Impl::InternalCreateOGL, Can't Find A Suitable PixelFormat"));
 		return false;								// Return FALSE
 	}
 
-	if (!SetPixelFormat(g_hDC, PixelFormat, &pfd))	// Are We Able To Set The Pixel Format?
+	if (!SetPixelFormat(g_hDc, PixelFormat, &pfd))	// Are We Able To Set The Pixel Format?
 	{
 		LOG(_("Device_Impl::InternalCreateOGL, Can't Set The PixelFormat"));
 		return false;								// Return FALSE
 	}
 
-	if (!(g_hRC = wglCreateContext(g_hDC)))			// Are We Able To Get A Rendering Context?
+	if (!(g_hRc = wglCreateContext(g_hDc)))			// Are We Able To Get A Rendering Context?
 	{
 		LOG(_("Device_Impl::InternalCreateOGL, Can't Create A GL Rendering Context"));
 		return false;								// Return FALSE
 	}
 
-	if(!wglMakeCurrent(g_hDC, g_hRC))				// Try To Activate The Rendering Context
+	if(!wglMakeCurrent(g_hDc, g_hRc))				// Try To Activate The Rendering Context
 	{
 		LOG(_("Device_Impl::InternalCreateOGL, Can't Activate The GL Rendering Context"));
 		return false;								// Return FALSE
@@ -337,24 +341,24 @@ bool Device_Impl::InternalCreateOGL()
 
 void Device_Impl::InternalDestroyOGL()
 {
-	if (g_hRC)											// Do We Have A Rendering Context?
+	if (g_hRc)											// Do We Have A Rendering Context?
 	{
 		if (!wglMakeCurrent(NULL, NULL))				// Are We Able To Release The DC And RC Contexts?
 		{
 			LOG(_("Device_Impl::InternalDestroyOGL, Release Of DC And RC Failed"));
 		}
 
-		if (!wglDeleteContext(g_hRC))					// Are We Able To Delete The RC?
+		if (!wglDeleteContext(g_hRc))					// Are We Able To Delete The RC?
 		{
 			LOG(_("Device_Impl::InternalDestroyOGL, Release Rendering Context Failed"));
 		}
-		g_hRC = NULL;									// Set RC To NULL
+		g_hRc = NULL;									// Set RC To NULL
 	}
 
-	if (g_hDC && !ReleaseDC(g_hWnd, g_hDC))				// Are We Able To Release The DC
+	if (g_hDc && !ReleaseDC(g_hWnd, g_hDc))				// Are We Able To Release The DC
 	{
 		LOG(_("Device_Impl::InternalDestroyOGL, Release Device Context Failed"));
-		g_hDC = NULL;									// Set DC To NULL
+		g_hDc = NULL;									// Set DC To NULL
 	}
 }
 
@@ -362,7 +366,7 @@ void Device_Impl::PerformOnce(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	g_pApp->Update(dt);
-	SwapBuffers(g_hDC);					// Swap Buffers (Double Buffering)
+	SwapBuffers(g_hDc);					// Swap Buffers (Double Buffering)
 }
 
 void Device_Impl::InitializeOGL()

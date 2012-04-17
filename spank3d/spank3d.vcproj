@@ -306,6 +306,30 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="event"
+			>
+			<File
+				RelativePath=".\inc\event\EventIds.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\event\KeyboardEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\event\KeyboardEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\event\MouseEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\event\MouseEvent.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\inc\Config.h"
 			>
