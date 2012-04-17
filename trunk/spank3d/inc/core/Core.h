@@ -13,8 +13,10 @@
 class Core : public ISingleton
 {
 public:
+	RTTI_DEF(Core, ISingleton);
+
 	Core();
-	~Core();
+	virtual ~Core();
 
 	static Core& GetInstance();
 

@@ -13,6 +13,8 @@
 class IDevice : public ISingleton
 {
 public:
+	RTTI_DEF(IDevice, ISingleton);
+
 	virtual void StartPerform() = 0;
 	virtual void EndPerform() = 0;
 };

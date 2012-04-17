@@ -8,11 +8,13 @@
 #ifndef __ISINGLETON_H__
 #define __ISINGLETON_H__
 
-#include <type/BaseType.h>
+#include "IEventDispatcher.h"
 
-class ISingleton
+class ISingleton : public IEventDispatcher
 {
 public:
+	RTTI_DEF(ISingleton, IEventDispatcher);
+
 	virtual bool Initialize() = 0;
 	virtual void Terminate() = 0;
 
