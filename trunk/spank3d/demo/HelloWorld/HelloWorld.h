@@ -26,6 +26,7 @@ public:
 private:
 	float m_rotTriangle;		// Angle For The Triangle ( NEW )
 	float m_rotQuad;			// Angle For The Quad ( NEW )
+	IShader* m_pShader;
 
 };
 #endif // __HELLOWORLD_H__

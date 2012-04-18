@@ -8,6 +8,7 @@
 #include <core/Core.h>
 #include <Spank3D.h>
 #include "Device_Impl.h"
+#include "../render/RenderInterface_Impl.h"
 
 Core::Core()
 {
@@ -28,6 +29,7 @@ Core& Core::GetInstance()
 bool Core::Initialize()
 {
 	if (!Device_Impl::GetInstance().Initialize()) return false;
+	if (!RenderInterface_Impl::GetInstance().Initialize()) return false;
 	if (!g_pApp->Initialize()) return false;
 
 	return true;
@@ -36,6 +38,7 @@ bool Core::Initialize()
 void Core::Terminate()
 {
 	g_pApp->Terminate();
+	RenderInterface_Impl::GetInstance().Terminate();
 	Device_Impl::GetInstance().Terminate();
 }
 
