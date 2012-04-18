@@ -15,6 +15,9 @@ class IDevice : public ISingleton
 public:
 	RTTI_DEF(IDevice, ISingleton);
 
+	IDevice() {};
+	virtual ~IDevice() {};
+
 	virtual void StartPerform() = 0;
 	virtual void EndPerform() = 0;
 };

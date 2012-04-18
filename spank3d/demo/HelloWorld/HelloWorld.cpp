@@ -15,6 +15,7 @@ HelloWorld::HelloWorld()
 {
 	m_rotTriangle = 0.0f;
 	m_rotQuad = 0.0f;
+	m_pShader = NULL;
 }
 
 HelloWorld::~HelloWorld()
@@ -24,17 +25,25 @@ HelloWorld::~HelloWorld()
 
 bool HelloWorld::Initialize()
 {
-	// TODO: 
+	m_pShader = g_pRenderInterface->CreateShader("data/default_shader.vs", "data/default_shader.fs");
+	if (!m_pShader) return false;
+
 	return true;
 }
 
 void HelloWorld::Terminate()
 {
-	// TODO: 
+	SAFE_RELEASE(m_pShader);
 }
 
 void HelloWorld::Update(float dt)
 {
+	//m_pShader->Commit();
+
+	//Matrix4x4 matProj;
+	//Math::BuildPerspectiveFovMatrix(matProj, Math::Radians(45.0f), (float)1024/(float)768, 0.1f, 100.0f);
+	//m_pShader->SetMatrix4x4(matProj, _("u_matModelViewProj"));
+
 	glLoadIdentity();									// Reset The Current Modelview Matrix
 	glTranslatef(-1.5f,0.0f,-6.0f);						// Move Left 1.5 Units And Into The Screen 6.0
 	glRotatef(m_rotTriangle,0.0f,1.0f,0.0f);						// Rotate The Triangle On The Y axis ( NEW )

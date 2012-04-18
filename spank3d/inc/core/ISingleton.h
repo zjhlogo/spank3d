@@ -15,6 +15,9 @@ class ISingleton : public IEventDispatcher
 public:
 	RTTI_DEF(ISingleton, IEventDispatcher);
 
+	ISingleton() {};
+	virtual ~ISingleton() {};
+
 	virtual bool Initialize() = 0;
 	virtual void Terminate() = 0;
 

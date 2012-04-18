@@ -27,6 +27,13 @@ bool StringUtil::tchar2char(std::string& strOut, const tchar* pstrIn)
 #endif // _UNICODE
 }
 
+const char* StringUtil::tchar2char(const tstring& strIn)
+{
+	static std::string s_strBuffer;
+	tchar2char(s_strBuffer, strIn.c_str());
+	return s_strBuffer.c_str();
+}
+
 bool StringUtil::char2tchar(tstring& strOut, const char* pstrIn)
 {
 #ifdef _UNICODE

@@ -330,6 +330,34 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="render"
+			>
+			<File
+				RelativePath=".\inc\render\IRenderInterface.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\render\IShader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\RenderInterface_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\RenderInterface_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\Shader_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\Shader_Impl.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\inc\Config.h"
 			>
