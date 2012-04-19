@@ -8,8 +8,8 @@
 #ifndef __LOGUTIL_H__
 #define __LOGUTIL_H__
 
-#include <Config.h>
-#include <util/StringUtil.h>
+#include "../Config.h"
+#include "StringUtil.h"
 #include "IFile.h"
 
 class LogUtil

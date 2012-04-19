@@ -8,7 +8,7 @@
 #ifndef __FILEUTIL_H__
 #define __FILEUTIL_H__
 
-#include <util/IFile.h>
+#include "IFile.h"
 
 class FileUtil
 {

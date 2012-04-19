@@ -230,6 +230,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\core\IMesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\core\IMeshPiece.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\core\IObject.cpp"
 				>
 			</File>
@@ -238,7 +246,35 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\core\IResMgr.h"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\core\ISingleton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\Mesh_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\Mesh_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\MeshPiece_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\MeshPiece_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\ResMgr_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\ResMgr_Impl.h"
 				>
 			</File>
 			<File
@@ -303,6 +339,10 @@
 			>
 			<File
 				RelativePath=".\inc\type\BaseType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\type\FmtMesh.h"
 				>
 			</File>
 		</Filter>

@@ -8,7 +8,7 @@
 #ifndef __MOUSEEVENT_H__
 #define __MOUSEEVENT_H__
 
-#include <core/IEvent.h>
+#include "../core/IEvent.h"
 
 class MouseEvent : public IEvent
 {

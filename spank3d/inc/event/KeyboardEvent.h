@@ -8,7 +8,7 @@
 #ifndef __KEYBOARDEVENT_H__
 #define __KEYBOARDEVENT_H__
 
-#include <core/IEvent.h>
+#include "../core/IEvent.h"
 
 class KeyboardEvent : public IEvent
 {

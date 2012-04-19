@@ -8,8 +8,8 @@
 #ifndef __IEVENT_H__
 #define __IEVENT_H__
 
-#include <core/Rtti.h>
-#include <event/EventIds.h>
+#include "Rtti.h"
+#include "../event/EventIds.h"
 
 class IEventDispatcher;
 class IEvent

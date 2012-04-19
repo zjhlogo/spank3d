@@ -8,6 +8,7 @@
 #include <Spank3D.h>
 
 Core* g_pCore = NULL;
-IApp* g_pApp = NULL;
+IResMgr* g_pResMgr = NULL;
 IDevice* g_pDevice = NULL;
 IRenderInterface* g_pRenderInterface = NULL;
+IApp* g_pApp = NULL;

@@ -8,7 +8,7 @@
 #ifndef __STRINGUTIL_H__
 #define __STRINGUTIL_H__
 
-#include <type/BaseType.h>
+#include "../type/BaseType.h"
 
 class StringUtil
 {

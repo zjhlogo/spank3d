@@ -28,6 +28,9 @@ bool HelloWorld::Initialize()
 	m_pShader = g_pRenderInterface->CreateShader("data/default_shader.vs", "data/default_shader.fs");
 	if (!m_pShader) return false;
 
+	IMesh* pMesh = g_pResMgr->CreateMesh("box.mesh");
+	if (!pMesh) return false;
+
 	return true;
 }
 
