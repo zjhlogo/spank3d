@@ -8,8 +8,8 @@
 #ifndef __IRENDERINTERFACE_H__
 #define __IRENDERINTERFACE_H__
 
-#include <core/ISingleton.h>
-#include <render/IShader.h>
+#include "../core/ISingleton.h"
+#include "IShader.h"
 
 class IRenderInterface : public ISingleton
 {

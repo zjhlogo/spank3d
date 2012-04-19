@@ -8,7 +8,7 @@
 #ifndef __RTTI_H__
 #define __RTTI_H__
 
-#include <type/BaseType.h>
+#include "../type/BaseType.h"
 
 class Rtti
 {

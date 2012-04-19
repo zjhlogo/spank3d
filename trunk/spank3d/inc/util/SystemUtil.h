@@ -8,7 +8,7 @@
 #ifndef __SYSTEMUTIL_H__
 #define __SYSTEMUTIL_H__
 
-#include <type/BaseType.h>
+#include "../type/BaseType.h"
 
 class SystemUtil
 {

@@ -8,8 +8,8 @@
 #ifndef __ISHADER_H__
 #define __ISHADER_H__
 
-#include <core/IObject.h>
-#include <math/Math.h>
+#include "../core/IObject.h"
+#include "../math/Math.h"
 
 class IShader : public IObject
 {

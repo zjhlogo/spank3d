@@ -8,7 +8,7 @@
 #ifndef __IFILE_H__
 #define __IFILE_H__
 
-#include <core/IObject.h>
+#include "../core/IObject.h"
 
 class IFile : public IObject
 {
