@@ -373,7 +373,6 @@ void Device_Impl::InitializeOGL()
 {
 	glewInit();
 
-	glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
 	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);				// Black Background
 	glClearDepth(1.0f);									// Depth Buffer Setup
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
@@ -381,13 +380,4 @@ void Device_Impl::InitializeOGL()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
 	glViewport(0, 0, m_WindowWidth, m_WindowHeight);	// Reset The Current Viewport
-
-	glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-	// Calculate The Aspect Ratio Of The Window
-	Matrix4x4 matProj;
-	Math::BuildPerspectiveFovMatrix(matProj, Math::Radians(45.0f), (float)m_WindowWidth/(float)m_WindowHeight, 0.1f, 100.0f);
-	glLoadMatrixf(matProj.e);
-
-	glMatrixMode(GL_MODELVIEW);							// Select The Modelview Matrix
-	glLoadIdentity();									// Reset The Modelview Matrix
 }
