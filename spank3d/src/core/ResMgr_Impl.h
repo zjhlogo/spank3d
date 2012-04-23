@@ -33,9 +33,6 @@ public:
 	virtual const tstring& GetDefaultDir();
 
 private:
-	bool GetMediaFilePath(tstring& strFilePathOut, const tstring& strFile);
-
-private:
 	TM_MESH m_MeshMap;
 	tstring m_strDefaultDir;
 

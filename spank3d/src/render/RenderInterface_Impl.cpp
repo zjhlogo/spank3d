@@ -30,7 +30,7 @@ RenderInterface_Impl& RenderInterface_Impl::GetInstance()
 
 bool RenderInterface_Impl::Initialize()
 {
-	// TODO: 
+	SetDefaultDir(_("data"));
 	return true;
 }
 
@@ -41,8 +41,12 @@ void RenderInterface_Impl::Terminate()
 
 IShader* RenderInterface_Impl::CreateShader(const tstring& strShaderFile)
 {
+	// get file path
+	tstring strShaderFilePath;
+	if (!StringUtil::GetFileFullPath(strShaderFilePath, m_strDefaultDir, strShaderFile)) return NULL;
+
 	std::string strXmlFile;
-	if (!FileUtil::ReadFileIntoString(strXmlFile, strShaderFile)) return NULL;
+	if (!FileUtil::ReadFileIntoString(strXmlFile, strShaderFilePath)) return NULL;
 
 	TiXmlDocument doc;
 	doc.Parse(strXmlFile.c_str());
@@ -99,6 +103,16 @@ IShader* RenderInterface_Impl::CreateShader(const tstring& strShaderFile)
 	attrItems[nAttrIndex].szParamName[0] = '\0';
 
 	return InternalCreateShader(strVertexShaderData, strFragmentShaderData, attrItems);
+}
+
+void RenderInterface_Impl::SetDefaultDir(const tstring& strDir)
+{
+	m_strDefaultDir = strDir;
+}
+
+const tstring& RenderInterface_Impl::GetDefaultDir()
+{
+	return m_strDefaultDir;
 }
 
 IShader* RenderInterface_Impl::InternalCreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)

@@ -20,6 +20,8 @@ public:
 	virtual ~IRenderInterface() {};
 
 	virtual IShader* CreateShader(const tstring& strShaderFile) = 0;
+	virtual void SetDefaultDir(const tstring& strDir) = 0;
+	virtual const tstring& GetDefaultDir() = 0;
 
 };
 #endif // __IRENDERINTERFACE_H__

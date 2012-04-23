@@ -41,7 +41,7 @@ IMesh* ResMgr_Impl::CreateMesh(const tstring& strFile)
 {
 	// get file path
 	tstring strFilePath;
-	if (!GetMediaFilePath(strFilePath, strFile)) return NULL;
+	if (!StringUtil::GetFileFullPath(strFilePath, m_strDefaultDir, strFile)) return NULL;
 
 	// check whether the mesh created
 	TM_MESH::iterator itfound = m_MeshMap.find(strFilePath);
@@ -73,11 +73,4 @@ void ResMgr_Impl::SetDefaultDir(const tstring& strDir)
 const tstring& ResMgr_Impl::GetDefaultDir()
 {
 	return m_strDefaultDir;
-}
-
-bool ResMgr_Impl::GetMediaFilePath(tstring& strFilePathOut, const tstring& strFile)
-{
-	strFilePathOut = m_strDefaultDir + _("\\") + strFile;
-	StringUtil::tolower(strFilePathOut, strFilePathOut);
-	return true;
 }

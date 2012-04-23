@@ -60,7 +60,7 @@ bool Shader_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort
 		glBindAttribLocation(m_nProgram, i, pAttrItem->szParamName);
 	}
 
-	glDrawElements(GL_TRIANGLES, nIndis/3, GL_UNSIGNED_SHORT, pIndis);
+	glDrawElements(GL_TRIANGLES, nIndis, GL_UNSIGNED_SHORT, pIndis);
 	return true;
 }
 
