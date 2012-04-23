@@ -10,12 +10,13 @@
 #include <util/StringUtil.h>
 #include <util/LogUtil.h>
 
-Shader_Impl::Shader_Impl(const char* pVertexCode, const char* pFragmentCode)
+Shader_Impl::Shader_Impl(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
 {
 	m_nProgram = 0;
 	m_nVertexShader = 0;
 	m_nFragmentShader = 0;
-	CreateShader(pVertexCode, pFragmentCode);
+	m_pVertexAttribute = NULL;
+	CreateShader(strVertexShader, strFragmentShader, pVertexAttrItem);
 }
 
 Shader_Impl::~Shader_Impl()
@@ -23,33 +24,61 @@ Shader_Impl::~Shader_Impl()
 	DestroyShader();
 }
 
+bool Shader_Impl::Commit()
+{
+	if (!IsOk()) return false;
+	glUseProgram(m_nProgram);
+	return true;
+}
+
 bool Shader_Impl::SetMatrix4x4(const Matrix4x4& m, const tstring& strName)
 {
 	if (!IsOk()) return false;
 
-	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName));
-	if (nLoc <= 0) return false;
+	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName.c_str()));
+	if (nLoc < 0) return false;
 
 	glUniformMatrix4fv(nLoc, 1, false, m.e);
 	return true;
 }
 
-bool Shader_Impl::Commit()
+bool Shader_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
 {
 	if (!IsOk()) return false;
+	if (!pVerts || !pIndis) return false;
+	if (nVerts <= 0 || nIndis <= 0) return false;
 
-	glUseProgram(m_nProgram);
+	// setup vertex attributes
+	int nNumAttrs = m_pVertexAttribute->GetNumAttributeItems();
+	for (int i = 0; i < nNumAttrs; ++i)
+	{
+		const VertexAttribute::ATTRIBUTE_ITEM* pAttrItem = m_pVertexAttribute->GetAttributeItem(i);
+
+		glEnableVertexAttribArray(i);
+		GLenum eType = VertexAttribute::GetGlType(pAttrItem->eItemType);
+		glVertexAttribPointer(i, pAttrItem->nSize, eType, GL_FALSE, m_pVertexAttribute->GetStride(), ((const uchar*)pVerts)+pAttrItem->nOffset);
+		glBindAttribLocation(m_nProgram, i, pAttrItem->szParamName);
+	}
+
+	glDrawElements(GL_TRIANGLES, nIndis, GL_UNSIGNED_SHORT, pIndis);
 	return true;
 }
 
-bool Shader_Impl::CreateShader(const char* pVertexCode, const char* pFragmentCode)
+const VertexAttribute* Shader_Impl::GetVertexAttribute() const
 {
+	return m_pVertexAttribute;
+}
+
+bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
+{
+	if (!pVertexAttrItem) return false;
+
+	m_pVertexAttribute = new VertexAttribute(pVertexAttrItem);
+	if (!m_pVertexAttribute  || !m_pVertexAttribute->IsOk()) return false;
+
 	m_nVertexShader = glCreateShader(GL_VERTEX_SHADER);
-	m_nFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	glShaderSource(m_nVertexShader, 1, &pVertexCode, NULL);
-	glShaderSource(m_nFragmentShader, 1, &pFragmentCode, NULL);
-
+	const char* pszVertexShader = StringUtil::tchar2char(strVertexShader.c_str());
+	glShaderSource(m_nVertexShader, 1, &pszVertexShader, NULL);
 	glCompileShader(m_nVertexShader);
 	if (GetShaderErrorLog(m_nVertexShader))
 	{
@@ -57,6 +86,9 @@ bool Shader_Impl::CreateShader(const char* pVertexCode, const char* pFragmentCod
 		return false;
 	}
 
+	m_nFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	const char* pszFragmentShader = StringUtil::tchar2char(strFragmentShader.c_str());
+	glShaderSource(m_nFragmentShader, 1, &pszFragmentShader, NULL);
 	glCompileShader(m_nFragmentShader);
 	if (GetShaderErrorLog(m_nFragmentShader))
 	{
@@ -101,6 +133,8 @@ void Shader_Impl::DestroyShader()
 		glDeleteShader(m_nFragmentShader);
 		m_nFragmentShader = 0;
 	}
+
+	SAFE_DELETE(m_pVertexAttribute);
 }
 
 bool Shader_Impl::GetShaderErrorLog(uint nShader)

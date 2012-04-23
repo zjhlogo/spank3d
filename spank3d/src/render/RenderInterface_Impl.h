@@ -23,7 +23,10 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
-	virtual IShader* CreateShader(const tstring& strVertexShaderFile, const tstring& strFragmentShaderFile);
+	virtual IShader* CreateShader(const tstring& strShaderFile);
+
+private:
+	IShader* InternalCreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
 
 };
 #endif // __RENDERINTERFACE_IMPL_H__

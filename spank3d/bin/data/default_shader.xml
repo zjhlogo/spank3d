@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shader id="1" vertex_shader="data/default_shader.vs" fregment_shader="data/default_shader.fs">
+	<attributes>
+		<attribute size="3" name="a_position" />
+	</attributes>
+</shader>

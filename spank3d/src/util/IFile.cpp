@@ -8,10 +8,10 @@
 #include <util/IFile.h>
 #include <util/FileUtil.h>
 
-IFile::IFile(const tstring& strFileName, uint nFlag)
+IFile::IFile(const tchar* pszFileName, uint nFlag)
 {
 	Init();
-	Open(strFileName, nFlag);
+	Open(pszFileName, nFlag);
 }
 
 IFile::~IFile()
@@ -67,21 +67,21 @@ uint IFile::Tell() const
 	return FileUtil::FileTell(m_hFile);
 }
 
-bool IFile::Open(const tstring& strFileName, uint nFlag)
+bool IFile::Open(const tchar* pszFileName, uint nFlag)
 {
 	m_nFlag = nFlag;
 
 	if (OFF_READ == m_nFlag)
 	{
-		m_hFile = FileUtil::FileOpen(strFileName.c_str(), _("rb"));
+		m_hFile = FileUtil::FileOpen(pszFileName, _("rb"));
 	}
 	else if (OFF_WRITE == m_nFlag)
 	{
-		m_hFile = FileUtil::FileOpen(strFileName.c_str(), _("wb"));
+		m_hFile = FileUtil::FileOpen(pszFileName, _("wb"));
 	}
 	else if ((OFF_READ|OFF_WRITE) == m_nFlag)
 	{
-		m_hFile = FileUtil::FileOpen(strFileName.c_str(), _("rwb"));
+		m_hFile = FileUtil::FileOpen(pszFileName, _("rwb"));
 	}
 
 	if (!m_hFile) return false;

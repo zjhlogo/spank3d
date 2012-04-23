@@ -15,14 +15,17 @@ class Shader_Impl : public IShader
 public:
 	RTTI_DEF(Shader_Impl, IShader);
 
-	Shader_Impl(const char* pVertexCode, const char* pFragmentCode);
+	Shader_Impl(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
 	virtual ~Shader_Impl();
 
-	virtual bool SetMatrix4x4(const Matrix4x4& m, const tstring& strName);
 	virtual bool Commit();
+	virtual bool SetMatrix4x4(const Matrix4x4& m, const tstring& strName);
+	virtual bool DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
+
+	virtual const VertexAttribute* GetVertexAttribute() const;
 
 private:
-	bool CreateShader(const char* pVertexCode, const char* pFragmentCode);
+	bool CreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
 	void DestroyShader();
 
 	bool GetShaderErrorLog(uint nShader);
@@ -33,6 +36,8 @@ private:
 	uint m_nVertexShader;
 	uint m_nFragmentShader;
 	tstring m_strError;
+
+	const VertexAttribute* m_pVertexAttribute;
 
 };
 #endif // __SHADER_IMPL_H__

@@ -13,10 +13,14 @@
 class FileUtil
 {
 public:
-	static IFile* CreateNewFile(const tstring& strFileName, uint nFlag = IFile::OFF_READ);
+	static IFile* LoadFile(const tstring& strFileName, uint nFlag = IFile::OFF_READ);
+	static IFile* LoadFile(const tchar* pszFileName, uint nFlag = IFile::OFF_READ);
+
+	static bool ReadFileIntoString(std::string& strOut, const tstring& strFileName);
+	static bool ReadFileIntoString(std::string& strOut, const tchar* pszFileName);
 
 	// for IFile used only
-	static IFile::IFILE_HANDLE FileOpen(const tstring& strFile, const tstring& strOption);
+	static IFile::IFILE_HANDLE FileOpen(const tchar* pszFileName, const tchar* pszOption);
 	static void FileClose(IFile::IFILE_HANDLE hFile);
 	static void FileSeek(IFile::IFILE_HANDLE hFile, int nOffset, uint nOrigin);
 	static uint FileTell(IFile::IFILE_HANDLE hFile);

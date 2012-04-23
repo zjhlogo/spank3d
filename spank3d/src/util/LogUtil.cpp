@@ -66,7 +66,7 @@ bool LogUtil::CreateLogFile(const tstring& strFile)
 
 	SAFE_RELEASE(m_pLogFile);
 
-	m_pLogFile = FileUtil::CreateNewFile(strFile, IFile::OFF_WRITE);
+	m_pLogFile = FileUtil::LoadFile(strFile, IFile::OFF_WRITE);
 	if (!m_pLogFile) return false;
 
 	m_pLogFile->Write(s_BOM, 3);
