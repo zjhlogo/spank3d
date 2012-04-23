@@ -28,6 +28,16 @@ float Math::Degrees(float radians)
 
 void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, float znear, float zfar)
 {
+// 	float range = tanf(fovy*0.5f) * znear;
+// 	float left = -range * aspect;
+// 	float right = range * aspect;
+// 	float bottom = -range;
+// 	float top = range;
+// 
+// 	m.Reset((2.0f*znear)/(right-left),        0.0f,        0.0f,                    0.0f,
+// 			0.0f,     (2.0f*znear)/(top-bottom),           0.0f,                    0.0f,
+// 			0.0f,     0.0f,        -(zfar+znear)/(zfar-znear),          -1.0f,
+// 			0.0f,     0.0f,        -(2.0f*zfar*znear)/(zfar-znear),    0.0f);
 	float y = 1.0f / tanf(fovy * 0.5f);
 	float x = y / aspect;
 	float zdist = (znear - zfar);
