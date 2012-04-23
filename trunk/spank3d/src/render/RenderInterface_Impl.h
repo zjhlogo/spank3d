@@ -24,9 +24,14 @@ public:
 	virtual void Terminate();
 
 	virtual IShader* CreateShader(const tstring& strShaderFile);
+	virtual void SetDefaultDir(const tstring& strDir);
+	virtual const tstring& GetDefaultDir();
 
 private:
 	IShader* InternalCreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
+
+private:
+	tstring m_strDefaultDir;
 
 };
 #endif // __RENDERINTERFACE_IMPL_H__

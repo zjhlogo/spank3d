@@ -34,6 +34,7 @@ public:
 	static void GetFileNameWithExt(tstring& strOut, const tstring& strIn);
 	static void GetFileExt(tstring& strOut, const tstring& strIn);
 	static void GetFileDir(tstring& strOut, const tstring& strIn);
+	static bool GetFileFullPath(tstring& strFilePathOut, const tstring& strDir, const tstring& strFile);
 
 };
 #endif // __STRINGUTIL_H__

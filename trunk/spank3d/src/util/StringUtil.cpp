@@ -185,3 +185,9 @@ void StringUtil::GetFileDir(tstring& strOut, const tstring& strIn)
 		strOut.clear();
 	}
 }
+
+bool StringUtil::GetFileFullPath(tstring& strFilePathOut, const tstring& strDir, const tstring& strFile)
+{
+	strFilePathOut = strDir + _("\\") + strFile;
+	return true;
+}

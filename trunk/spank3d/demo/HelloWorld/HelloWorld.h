@@ -24,8 +24,7 @@ public:
 	virtual void Update(float dt);
 
 private:
-	float m_rotTriangle;		// Angle For The Triangle ( NEW )
-	float m_rotQuad;			// Angle For The Quad ( NEW )
+	float m_fRotY;
 
 	IShader* m_pShader;
 	IMesh* m_pMesh;
