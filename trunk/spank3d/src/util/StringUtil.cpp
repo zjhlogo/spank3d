@@ -27,10 +27,10 @@ bool StringUtil::tchar2char(std::string& strOut, const tchar* pstrIn)
 #endif // _UNICODE
 }
 
-const char* StringUtil::tchar2char(const tstring& strIn)
+const char* StringUtil::tchar2char(const tchar* pszIn)
 {
 	static std::string s_strBuffer;
-	tchar2char(s_strBuffer, strIn.c_str());
+	tchar2char(s_strBuffer, pszIn);
 	return s_strBuffer.c_str();
 }
 
@@ -49,6 +49,13 @@ bool StringUtil::char2tchar(tstring& strOut, const char* pstrIn)
 	strOut = pstrIn;
 	return true;
 #endif // _UNICODE
+}
+
+const tchar* StringUtil::char2tchar(const char* pszIn)
+{
+	static tstring s_strBuffer;
+	char2tchar(s_strBuffer, pszIn);
+	return s_strBuffer.c_str();
 }
 
 bool StringUtil::str2bool(bool& bValue, const tchar* pstrIn)

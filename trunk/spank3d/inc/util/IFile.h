@@ -24,7 +24,7 @@ public:
 public:
 	RTTI_DEF(IFile, IObject);
 
-	IFile(const tstring& strFileName, uint nFlag);
+	IFile(const tchar* pszFileName, uint nFlag);
 	virtual ~IFile();
 
 	uint Read(void* pBuffOut, uint nSize);
@@ -37,7 +37,7 @@ private:
 	void Init();
 	void Destroy();
 
-	bool Open(const tstring& strFileName, uint nFlag);
+	bool Open(const tchar* pszFileName, uint nFlag);
 
 private:
 	IFILE_HANDLE m_hFile;

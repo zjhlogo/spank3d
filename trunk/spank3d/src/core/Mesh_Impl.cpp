@@ -65,7 +65,7 @@ bool Mesh_Impl::CreatePieces(const tstring& strFile)
 {
 	DestroyPieces();
 
-	IFile* pFile = FileUtil::CreateNewFile(strFile);
+	IFile* pFile = FileUtil::LoadFile(strFile);
 	if (!pFile) return false;
 
 	FmtMesh::FILE_HEADER header;

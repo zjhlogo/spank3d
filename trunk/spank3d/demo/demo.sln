@@ -7,6 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", "HelloWorld\He
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spank3d", "..\spank3d.vcproj", "{5AE704FB-10E7-4D59-95B8-A1F7F4A667B8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF5B6302-6F61-455F-B702-D307D601EC2F} = {FF5B6302-6F61-455F-B702-D307D601EC2F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtinyxml", "..\vendor\tinyxml-2.6.2\libtinyxml.vcproj", "{FF5B6302-6F61-455F-B702-D307D601EC2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +27,10 @@ Global
 		{5AE704FB-10E7-4D59-95B8-A1F7F4A667B8}.Debug|Win32.Build.0 = Debug|Win32
 		{5AE704FB-10E7-4D59-95B8-A1F7F4A667B8}.Release|Win32.ActiveCfg = Release|Win32
 		{5AE704FB-10E7-4D59-95B8-A1F7F4A667B8}.Release|Win32.Build.0 = Release|Win32
+		{FF5B6302-6F61-455F-B702-D307D601EC2F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FF5B6302-6F61-455F-B702-D307D601EC2F}.Debug|Win32.Build.0 = Debug|Win32
+		{FF5B6302-6F61-455F-B702-D307D601EC2F}.Release|Win32.ActiveCfg = Release|Win32
+		{FF5B6302-6F61-455F-B702-D307D601EC2F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

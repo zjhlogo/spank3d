@@ -19,7 +19,7 @@ public:
 	IRenderInterface() {};
 	virtual ~IRenderInterface() {};
 
-	virtual IShader* CreateShader(const tstring& strVertexShaderFile, const tstring& strFragmentShaderFile) = 0;
+	virtual IShader* CreateShader(const tstring& strShaderFile) = 0;
 
 };
 #endif // __IRENDERINTERFACE_H__
