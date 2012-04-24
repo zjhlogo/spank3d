@@ -34,6 +34,9 @@ public:
 	virtual void StartPerform();
 	virtual void EndPerform();
 
+	virtual int GetWindowWidth() const;
+	virtual int GetWindowHeight() const;
+
 private:
 	bool InternalCreateWindow();
 	void InternalDestroyWindow();

@@ -20,5 +20,9 @@ public:
 
 	virtual void StartPerform() = 0;
 	virtual void EndPerform() = 0;
+
+	virtual int GetWindowWidth() const = 0;
+	virtual int GetWindowHeight() const = 0;
+
 };
 #endif // __IDEVICE_H__

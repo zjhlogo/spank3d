@@ -26,6 +26,11 @@ float Math::Degrees(float radians)
 	return radians*180.0f/PI;
 }
 
+void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, int width, int height, float znear, float zfar)
+{
+	BuildPerspectiveFovMatrix(m, Radians(fovDegree), (float)width/(float)height, znear, zfar);
+}
+
 void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, float znear, float zfar)
 {
 // 	float range = tanf(fovy*0.5f) * znear;
