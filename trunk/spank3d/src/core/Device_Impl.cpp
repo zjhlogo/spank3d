@@ -140,6 +140,16 @@ void Device_Impl::EndPerform()
 	PostQuitMessage(0);
 }
 
+int Device_Impl::GetWindowWidth() const
+{
+	return m_WindowWidth;
+}
+
+int Device_Impl::GetWindowHeight() const
+{
+	return m_WindowHeight;
+}
+
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static short s_nLastMousePosX = 0;

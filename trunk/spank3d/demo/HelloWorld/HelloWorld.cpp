@@ -51,7 +51,7 @@ void HelloWorld::Update(float dt)
 	Math::BuildLookAtMatrix(matView, Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
 
 	Matrix4x4 matProj;
-	Math::BuildPerspectiveFovMatrix(matProj, Math::Radians(45.0f), (float)1024/(float)768, 0.1f, 100.0f);
+	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetWindowWidth(), g_pDevice->GetWindowHeight(), 0.1f, 100.0f);
 
 	Matrix4x4 matWorldViewProj = matProj*matView*matWorld;
 	m_pShader->SetMatrix4x4(matWorldViewProj, "u_matModelViewProj");
