@@ -28,7 +28,7 @@ public:
 	virtual const tstring& GetDefaultDir();
 
 private:
-	IShader* InternalCreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
+	IShader* InternalCreateShader(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
 
 private:
 	tstring m_strDefaultDir;

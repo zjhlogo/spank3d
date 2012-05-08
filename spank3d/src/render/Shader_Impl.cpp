@@ -10,13 +10,14 @@
 #include <util/StringUtil.h>
 #include <util/LogUtil.h>
 
-Shader_Impl::Shader_Impl(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
+Shader_Impl::Shader_Impl(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
 {
 	m_nProgram = 0;
 	m_nVertexShader = 0;
+	m_nGeometryShader = 0;
 	m_nFragmentShader = 0;
 	m_pVertexAttribute = NULL;
-	CreateShader(strVertexShader, strFragmentShader, pVertexAttrItem);
+	CreateShader(strVertexShader, strGeometryShader, strFragmentShader, pVertexAttrItem);
 }
 
 Shader_Impl::~Shader_Impl()
@@ -69,13 +70,15 @@ const VertexAttribute* Shader_Impl::GetVertexAttribute() const
 	return m_pVertexAttribute;
 }
 
-bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
+bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
 {
 	if (!pVertexAttrItem) return false;
 
+	// setup vertex attributes
 	m_pVertexAttribute = new VertexAttribute(pVertexAttrItem);
 	if (!m_pVertexAttribute  || !m_pVertexAttribute->IsOk()) return false;
 
+	// create vertex shader
 	m_nVertexShader = glCreateShader(GL_VERTEX_SHADER);
 	const char* pszVertexShader = StringUtil::tchar2char(strVertexShader.c_str());
 	glShaderSource(m_nVertexShader, 1, &pszVertexShader, NULL);
@@ -86,6 +89,18 @@ bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& st
 		return false;
 	}
 
+	// create geometry shader
+	m_nGeometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+	const char* pszGeometryShader = StringUtil::tchar2char(strGeometryShader.c_str());
+	glShaderSource(m_nGeometryShader, 1, &pszGeometryShader, NULL);
+	glCompileShader(m_nGeometryShader);
+	if (GetShaderErrorLog(m_nGeometryShader))
+	{
+		LOG(_("Compile geometry shader failed with error log %s"), m_strError.c_str());
+		return false;
+	}
+
+	// create fragment shader
 	m_nFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	const char* pszFragmentShader = StringUtil::tchar2char(strFragmentShader.c_str());
 	glShaderSource(m_nFragmentShader, 1, &pszFragmentShader, NULL);
@@ -98,6 +113,7 @@ bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& st
 
 	m_nProgram = glCreateProgram();
 	glAttachShader(m_nProgram, m_nVertexShader);
+ 	glAttachShader(m_nProgram, m_nGeometryShader);
 	glAttachShader(m_nProgram, m_nFragmentShader);
 
 	glLinkProgram(m_nProgram);
@@ -116,6 +132,7 @@ void Shader_Impl::DestroyShader()
 	if (m_nProgram)
 	{
 		glDetachShader(m_nProgram, m_nVertexShader);
+		glDetachShader(m_nProgram, m_nGeometryShader);
 		glDetachShader(m_nProgram, m_nFragmentShader);
 		glDeleteProgram(m_nProgram);
 		m_nProgram = 0;
@@ -125,6 +142,12 @@ void Shader_Impl::DestroyShader()
 	{
 		glDeleteShader(m_nVertexShader);
 		m_nVertexShader = 0;
+	}
+
+	if (m_nGeometryShader)
+	{
+		glDeleteShader(m_nGeometryShader);
+		m_nGeometryShader = 0;
 	}
 
 	if (m_nFragmentShader)

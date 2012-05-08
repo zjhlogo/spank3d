@@ -59,14 +59,18 @@ IShader* RenderInterface_Impl::CreateShader(const tstring& strShaderFile)
 	// vertex shader
 	const char* pszVertexShader = pElmShader->Attribute("vertex_shader");
 	if (!pszVertexShader) return NULL;
-
 	std::string strVertexShaderData;
 	if (!FileUtil::ReadFileIntoString(strVertexShaderData, StringUtil::char2tchar(pszVertexShader))) return NULL;
+
+	// geometry shader
+	const char* pszGeometryShader = pElmShader->Attribute("geometry_shader");
+	if (!pszGeometryShader) return NULL;
+	std::string strGeometryShaderData;
+	if (!FileUtil::ReadFileIntoString(strGeometryShaderData, StringUtil::char2tchar(pszGeometryShader))) return NULL;
 
 	// fragment shader
 	const char* pszFregmentShader = pElmShader->Attribute("fregment_shader");
 	if (!pszFregmentShader) return NULL;
-
 	std::string strFragmentShaderData;
 	if (!FileUtil::ReadFileIntoString(strFragmentShaderData, StringUtil::char2tchar(pszFregmentShader))) return NULL;
 
@@ -102,7 +106,7 @@ IShader* RenderInterface_Impl::CreateShader(const tstring& strShaderFile)
 	attrItems[nAttrIndex].nOffset = 0;
 	attrItems[nAttrIndex].szParamName[0] = '\0';
 
-	return InternalCreateShader(strVertexShaderData, strFragmentShaderData, attrItems);
+	return InternalCreateShader(strVertexShaderData, strGeometryShaderData, strFragmentShaderData, attrItems);
 }
 
 void RenderInterface_Impl::SetDefaultDir(const tstring& strDir)
@@ -115,9 +119,9 @@ const tstring& RenderInterface_Impl::GetDefaultDir()
 	return m_strDefaultDir;
 }
 
-IShader* RenderInterface_Impl::InternalCreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
+IShader* RenderInterface_Impl::InternalCreateShader(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
 {
- 	Shader_Impl* pShader = new Shader_Impl(strVertexShader.c_str(), strFragmentShader.c_str(), pVertexAttrItem);
+ 	Shader_Impl* pShader = new Shader_Impl(strVertexShader.c_str(), strGeometryShader.c_str(), strFragmentShader.c_str(), pVertexAttrItem);
  	if (!pShader || !pShader->IsOk())
  	{
  		SAFE_RELEASE(pShader);
