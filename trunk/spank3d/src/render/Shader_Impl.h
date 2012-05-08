@@ -15,7 +15,7 @@ class Shader_Impl : public IShader
 public:
 	RTTI_DEF(Shader_Impl, IShader);
 
-	Shader_Impl(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
+	Shader_Impl(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
 	virtual ~Shader_Impl();
 
 	virtual bool Commit();
@@ -25,7 +25,7 @@ public:
 	virtual const VertexAttribute* GetVertexAttribute() const;
 
 private:
-	bool CreateShader(const tstring& strVertexShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
+	bool CreateShader(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
 	void DestroyShader();
 
 	bool GetShaderErrorLog(uint nShader);
@@ -33,8 +33,11 @@ private:
 
 private:
 	uint m_nProgram;
+
 	uint m_nVertexShader;
+	uint m_nGeometryShader;
 	uint m_nFragmentShader;
+
 	tstring m_strError;
 
 	const VertexAttribute* m_pVertexAttribute;
