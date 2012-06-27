@@ -62,5 +62,5 @@ void HelloWorld::Update(float dt)
 		m_pShader->DrawTriangleList(pMeshPiece->GetVerts(), pMeshPiece->GetNumVerts(), pMeshPiece->GetIndis(), pMeshPiece->GetNumIndis());
 	}
 
-	m_fRotY += dt;
+	m_fRotY += (dt*0.1f);
 }
