@@ -61,6 +61,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="comctl32.lib rpcrt4.lib core.lib geom.lib maxutil.lib igame.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dle"
 				LinkIncremental="2"
 				ModuleDefinitionFile="ModelExporter.def"
 				GenerateDebugInformation="true"
@@ -135,6 +137,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="comctl32.lib rpcrt4.lib core.lib geom.lib maxutil.lib igame.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dle"
 				LinkIncremental="1"
 				ModuleDefinitionFile="ModelExporter.def"
 				GenerateDebugInformation="true"
@@ -170,67 +174,65 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="math"
 			>
 			<File
-				RelativePath=".\DlgOption.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DllEntry.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ModelExporter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ModelExporter.def"
-				>
-			</File>
-			<File
-				RelativePath=".\ModelExporterDesc.cpp"
+				RelativePath="..\..\src\math\Math.cpp"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			Name="util"
 			>
 			<File
-				RelativePath=".\DlgOption.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DllEntry.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ModelExporter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ModelExporterDesc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\resource.h"
+				RelativePath="..\..\src\util\StringUtil.cpp"
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+		<File
+			RelativePath=".\DlgOption.cpp"
 			>
-			<File
-				RelativePath=".\ModelExporter.rc"
-				>
-			</File>
-		</Filter>
+		</File>
+		<File
+			RelativePath=".\DlgOption.h"
+			>
+		</File>
+		<File
+			RelativePath=".\DllEntry.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\DllEntry.h"
+			>
+		</File>
+		<File
+			RelativePath=".\ModelExporter.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\ModelExporter.def"
+			>
+		</File>
+		<File
+			RelativePath=".\ModelExporter.h"
+			>
+		</File>
+		<File
+			RelativePath=".\ModelExporter.rc"
+			>
+		</File>
+		<File
+			RelativePath=".\ModelExporterDesc.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\ModelExporterDesc.h"
+			>
+		</File>
+		<File
+			RelativePath=".\resource.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

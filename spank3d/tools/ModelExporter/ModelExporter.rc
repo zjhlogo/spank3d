@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Chinese (P.R.C.) resources
+// 中文(中华人民共和国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -52,17 +52,32 @@ END
 // Dialog
 //
 
-IDD_DIALOG1 DIALOGEX 0, 0, 203, 274
+IDD_DIALOG_OPTION DIALOGEX 0, 0, 203, 236
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
+CAPTION "Export Option"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,92,253,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,146,253,50,14
-    GROUPBOX        "Static",IDC_STATIC,7,7,189,126
-    GROUPBOX        "Static",IDC_STATIC,7,134,189,117
-    CONTROL         "Check1",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,21,39,10
-    CONTROL         "Check2",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,148,39,10
+    DEFPUSHBUTTON   "OK",IDOK,92,215,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,146,215,50,14
+    GROUPBOX        "Mesh Option",IDC_STATIC,7,7,189,173
+    GROUPBOX        "Skeleton Option",IDC_STATIC,7,181,189,31
+    CONTROL         "Export Mesh",IDC_EXPORT_MESH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,56,10
+    CONTROL         "Export Skeleton",IDC_EXPORT_SKELETON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,192,67,10
+    CONTROL         "Position (float x, y, z)",IDC_POSITION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,32,85,10
+    CONTROL         "Tex Coord0 (float u0, v0)",IDC_TEXCOORD0,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,42,98,10
+    CONTROL         "Tex Coord1 (float u1, v1)",IDC_TEXCOORD1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,52,98,10
+    CONTROL         "Tex Coord2 (float u2, v2)",IDC_TEXCOORD2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,62,98,10
+    CONTROL         "Tex Coord3 (float u3, v3)",IDC_TEXCOORD3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,72,98,10
+    CONTROL         "Tex Coord4 (float u4, v4)",IDC_TEXCOORD4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,82,98,10
+    CONTROL         "Tex Coord5 (float u5, v5)",IDC_TEXCOORD5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,92,98,10
+    CONTROL         "Tex Coord6 (float u6, v6)",IDC_TEXCOORD6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,102,98,10
+    CONTROL         "Tex Coord7 (float u7, v7)",IDC_TEXCOORD7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,112,98,10
+    CONTROL         "Color (uint color)",IDC_COLOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,122,69,10
+    CONTROL         "Normal (float nx, ny, nz)",IDC_NORMAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,132,95,10
+    CONTROL         "Tangent (float tx, ty, tz)",IDC_TANGENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,142,95,10
+    CONTROL         "Binormal (float bx, by, bz)",IDC_BINORMAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,152,99,10
+    CONTROL         "Skeleton (uchar indices[4]; float weight[4])",IDC_SKELETON,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,162,153,10
 END
 
 
@@ -74,17 +89,17 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO 
 BEGIN
-    IDD_DIALOG1, DIALOG
+    IDD_DIALOG_OPTION, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 196
         TOPMARGIN, 7
-        BOTTOMMARGIN, 267
+        BOTTOMMARGIN, 229
     END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Chinese (P.R.C.) resources
+#endif    // 中文(中华人民共和国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

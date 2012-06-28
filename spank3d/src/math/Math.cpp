@@ -94,6 +94,13 @@ void Math::BuildTranslateMatrix(Matrix4x4& m, float x, float y, float z)
 			x,    y,    z,    1.0f);
 }
 
+void Math::GetMatrixTranslate(Vector3& v, const Matrix4x4& m)
+{
+	v.x = m.e[12];
+	v.y = m.e[13];
+	v.z = m.e[14];
+}
+
 void Math::BuildScaleMatrix(Matrix4x4& m, const Vector3& v)
 {
 	BuildScaleMatrix(m, v.x, v.y, v.z);
@@ -110,6 +117,13 @@ void Math::BuildScaleMatrix(Matrix4x4& m, float x, float y, float z)
 			0.0f, y,    0.0f, 0.0f,
 			0.0f, 0.0f, z,    0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void Math::GetMatrixScale(Vector3& v, const Matrix4x4& m)
+{
+	v.x = sqrtf(m.e[0]*m.e[0] + m.e[1]*m.e[1] + m.e[2]*m.e[2]);
+	v.y = sqrtf(m.e[4]*m.e[4] + m.e[5]*m.e[5] + m.e[6]*m.e[6]);
+	v.z = sqrtf(m.e[8]*m.e[8] + m.e[9]*m.e[9] + m.e[10]*m.e[10]);
 }
 
 void Math::BuildRotationXMatrix(Matrix4x4& m, float r)
@@ -143,4 +157,98 @@ void Math::BuildRotationZMatrix(Matrix4x4& m, float r)
 			-s,   c,    0.0f, 0.0f,
 			0.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void Math::BuildQuaternionFromMatrix(Quaternion& q, const Matrix4x4& m)
+{
+	float fWSquaredMinus1 = m.e[0] + m.e[5] + m.e[10];
+	float fXSquaredMinus1 = m.e[0] - m.e[5] - m.e[10];
+	float fYSquaredMinus1 = m.e[5] - m.e[0] - m.e[10];
+	float fZSquaredMinus1 = m.e[10] - m.e[0] - m.e[5];
+
+	int nBiggestIndex = 0;
+	float fBiggestSquaredMinus1 = fWSquaredMinus1;
+
+	if (fXSquaredMinus1 > fBiggestSquaredMinus1)
+	{
+		fBiggestSquaredMinus1 = fXSquaredMinus1;
+		nBiggestIndex = 1;
+	}
+
+	if (fYSquaredMinus1 > fBiggestSquaredMinus1)
+	{
+		fBiggestSquaredMinus1 = fYSquaredMinus1;
+		nBiggestIndex = 2;
+	}
+
+	if (fZSquaredMinus1 > fBiggestSquaredMinus1)
+	{
+		fBiggestSquaredMinus1 = fZSquaredMinus1;
+		nBiggestIndex = 3;
+	}
+
+	// 
+	float fBiggestValue = sqrt(fBiggestSquaredMinus1 + 1.0f) * 0.5f;
+	float fMult = 0.25f / fBiggestValue;
+
+	// 
+	switch (nBiggestIndex)
+	{
+	case 0:
+		q.w = fBiggestValue;
+		q.x = (m.e[6] - m.e[9]) * fMult;
+		q.y = (m.e[8] - m.e[2]) * fMult;
+		q.z = (m.e[1] - m.e[4]) * fMult;
+		break;
+	case 1:
+		q.x = fBiggestValue;
+		q.w = (m.e[6] - m.e[9]) * fMult;
+		q.y = (m.e[1] + m.e[4]) * fMult;
+		q.z = (m.e[8] + m.e[2]) * fMult;
+		break;
+	case 2:
+		q.y = fBiggestValue;
+		q.w = (m.e[8] - m.e[2]) * fMult;
+		q.x = (m.e[1] + m.e[4]) * fMult;
+		q.z = (m.e[6] + m.e[9]) * fMult;
+		break;
+	case 3:
+		q.z = fBiggestValue;
+		q.w = (m.e[1] - m.e[4]) * fMult;
+		q.x = (m.e[8] + m.e[2]) * fMult;
+		q.y = (m.e[6] + m.e[9]) * fMult;
+		break;
+	}
+}
+
+void Math::BuildQuaternionFromEulerXYZ(Quaternion& q, float x, float y, float z)
+{
+	// from http://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+	// 根据欧拉角计算四元数的变换如下(四元数的连接顺序是从右到左):
+	// q = qz * qy * qx
+
+	// 其中
+	// qz = [ cos(z/2), [0, 0, sin(z/2)] ];
+	// qy = [ cos(y/2), [0, sin(y/2), 0] ];
+	// qx = [ cos(x/2), [sin(x/2), 0, 0] ];
+
+	// 结果
+	// q.w = [ cos(x/2)*cos(y/2)*cos(z/2) + sin(x/2)*sin(y/2)*sin(z/2) ]
+	// q.x = [ sin(x/2)*cos(y/2)*cos(z/2) - cos(x/2)*sin(y/2)*sin(z/2) ]
+	// q.y = [ cos(x/2)*sin(y/2)*cos(z/2) + sin(x/2)*cos(y/2)*sin(z/2) ]
+	// q.z = [ cos(x/2)*cos(y/2)*sin(z/2) - sin(x/2)*sin(y/2)*cos(z/2) ]
+
+	// 计算求四元数时使用到的所有三角值
+	float cx = cosf(x/2.0f);
+	float cy = cosf(y/2.0f);
+	float cz = cosf(z/2.0f);
+	float sx = sinf(x/2.0f);
+	float sy = sinf(y/2.0f);
+	float sz = sinf(z/2.0f);
+
+	//组合这些值,生成四元数的向量和w
+	q.w = cx*cy*cz + sx*sy*sz;
+	q.x = sx*cy*cz - cx*sy*sz;
+	q.y = cx*sy*cz + sx*cy*sz;
+	q.z = cx*cy*sz - sx*sy*cz;
 }
