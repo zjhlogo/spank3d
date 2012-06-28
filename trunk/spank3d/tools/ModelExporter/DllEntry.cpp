@@ -8,17 +8,25 @@
 #include "DllEntry.h"
 #include "ModelExporterDesc.h"
 #include "resource.h"
+#include <type/BaseType.h>
+
+static HINSTANCE g_hInstance = NULL;
 
 static bool Initialize(HINSTANCE hInstDLL)
 {
 	InitCommonControls();
-
+	g_hInstance = hInstDLL;
 	return true;
 }
 
 static void Uninitialize()
 {
-	// TODO: 
+	g_hInstance = NULL;
+}
+
+HINSTANCE GetDllInstance()
+{
+	return g_hInstance;
 }
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -57,7 +65,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 __declspec(dllexport) const TCHAR* LibDescription()
 {
-	return _T("Model Exporter Desc");
+	return _("Model Exporter Desc");
 }
 
 __declspec(dllexport) int LibNumberClasses()

@@ -166,6 +166,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\math\Quaternion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\math\Quaternion.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\math\Vector3.h"
 				>
 			</File>

@@ -30,7 +30,7 @@ void* ModelExporterDesc::Create(BOOL loading /*= FALSE*/)
 
 const TCHAR* ModelExporterDesc::ClassName()
 {
-	return _T("ModelExporterDesc");
+	return _("ModelExporterDesc");
 }
 
 SClass_ID ModelExporterDesc::SuperClassID()
@@ -45,5 +45,5 @@ Class_ID ModelExporterDesc::ClassID()
 
 const TCHAR* ModelExporterDesc::Category()
 {
-	return _T("scene export");
+	return _("scene export");
 }
