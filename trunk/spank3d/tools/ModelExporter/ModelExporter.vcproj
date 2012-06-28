@@ -189,6 +189,22 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="res"
+			>
+			<File
+				RelativePath=".\ModelExporter.def"
+				>
+			</File>
+			<File
+				RelativePath=".\ModelExporter.rc"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\DlgOption.cpp"
 			>
@@ -210,15 +226,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\ModelExporter.def"
-			>
-		</File>
-		<File
 			RelativePath=".\ModelExporter.h"
-			>
-		</File>
-		<File
-			RelativePath=".\ModelExporter.rc"
 			>
 		</File>
 		<File
@@ -227,10 +235,6 @@
 		</File>
 		<File
 			RelativePath=".\ModelExporterDesc.h"
-			>
-		</File>
-		<File
-			RelativePath=".\resource.h"
 			>
 		</File>
 	</Files>
