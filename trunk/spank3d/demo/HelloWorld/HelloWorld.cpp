@@ -28,7 +28,7 @@ bool HelloWorld::Initialize()
 	m_pShader = g_pRenderInterface->CreateShader("default_shader.xml");
 	if (!m_pShader) return false;
 
-	m_pMesh = g_pResMgr->CreateMesh("box.mesh");
+	m_pMesh = g_pResMgr->CreateMesh("teapot.mesh");
 	if (!m_pMesh) return false;
 
 	return true;
@@ -48,7 +48,7 @@ void HelloWorld::Update(float dt)
 	Math::BuildRotationYMatrix(matWorld, m_fRotY);
 
 	Matrix4x4 matView;
-	Math::BuildLookAtMatrix(matView, Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
+	Math::BuildLookAtMatrix(matView, Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
 
 	Matrix4x4 matProj;
 	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetWindowWidth(), g_pDevice->GetWindowHeight(), 0.1f, 100.0f);

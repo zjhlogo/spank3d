@@ -1597,15 +1597,15 @@ void ModelExporter::MaxQuat2SpankQuat(Quaternion& qOut, const Quat& qIn)
 void ModelExporter::MaxVec2SpankVec(Vector3& vOut, const Point3& vIn)
 {
 	vOut.x = vIn.x;
-	vOut.y = vIn.y;
-	vOut.z = vIn.z;
+	vOut.y = vIn.z;
+	vOut.z = -vIn.y;
 }
 
 void ModelExporter::MaxVec2SpankVec(float* fOut3, const Point3& vIn)
 {
 	fOut3[0] = vIn.x;
-	fOut3[1] = vIn.y;
-	fOut3[2] = vIn.z;
+	fOut3[1] = vIn.z;
+	fOut3[2] = -vIn.y;
 }
 
 void ModelExporter::MaxEular2SpankEular(Vector3& vOut, const Point3& vIn)
