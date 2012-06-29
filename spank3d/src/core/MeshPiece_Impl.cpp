@@ -41,7 +41,7 @@ const tstring& MeshPiece_Impl::GetName() const
 	return m_strName;
 }
 
-int MeshPiece_Impl::GetMaterialID() const
+int MeshPiece_Impl::GetMaterialId() const
 {
 	return m_nMaterialId;
 }
@@ -79,9 +79,9 @@ bool MeshPiece_Impl::Create(const FmtMesh::MESH_PIECE& meshPiece, IFile* pFile)
 	m_nVertexAttributes = meshPiece.nVertexAttributes;
 
 	m_nVerts = meshPiece.nNumVerts;
-	m_pVerts = (void*)new uchar[meshPiece.nOffIndis - meshPiece.nOffVerts];
+	m_pVerts = (void*)new uchar[meshPiece.nSizeOfVerts];
 	pFile->Seek(meshPiece.nOffVerts);
-	pFile->Read(m_pVerts, meshPiece.nOffIndis - meshPiece.nOffVerts);
+	pFile->Read(m_pVerts, meshPiece.nSizeOfVerts);
 
 	m_nIndis = meshPiece.nNumIndis;
 	m_pIndis = new ushort[m_nIndis];

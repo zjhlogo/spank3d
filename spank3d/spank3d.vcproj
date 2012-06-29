@@ -353,6 +353,10 @@
 				RelativePath=".\inc\type\FmtMesh.h"
 				>
 			</File>
+			<File
+				RelativePath=".\inc\type\FmtSkeleton.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="event"

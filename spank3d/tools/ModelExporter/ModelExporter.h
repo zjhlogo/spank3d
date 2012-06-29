@@ -47,8 +47,8 @@ public:
 
 	enum MATERIAL_TEXTURE_TYPE
 	{
-		MTT_DIFFUSE = 0,
-		MTT_NORMAL,
+		MTT_TEXTURE0 = 0,
+		MTT_TEXTURE1,
 		MTT_TEXTURE2,
 		MTT_TEXTURE3,
 		MTT_TEXTURE4,
@@ -202,51 +202,45 @@ private:
 
 	bool SaveMeshFile(const tstring& strFileName, uint vertAttrs);
 	bool SaveSkeletonFile(const tstring& strFileName);
-	bool SaveMaterialsFile(const tstring& strFileName, const tstring& strMeshFile, const tstring& strSkeletonFile);
+	bool SaveMaterialsFile(const tstring& strFileName, const tstring& strMeshFile, const tstring& strSkeletonFile, uint vertAttrs);
 	const tstring& GetTextureKey(MATERIAL_TEXTURE_TYPE eType);
 
-	bool DumpMesh(MESH_DATA& MeshDataOut, IGameNode* pGameNode);
-	bool DumpSkin(MESH_DATA& MeshDataOut, IGameSkin* pGameSkin);
+	bool DumpMesh(MESH_DATA& meshDataOut, IGameNode* pGameNode);
+	bool DumpSkin(MESH_DATA& meshDataOut, IGameSkin* pGameSkin);
 
-	bool DumpController(BONE_INFO& BoneInfo, IGameNode* pGameNode);
-	bool DumpPositionController(BONE_INFO& BoneInfo, IGameControl* pGameControl);
-	bool DumpRotationController(BONE_INFO& BoneInfo, IGameControl* pGameControl);
-	bool DumpScaleController(BONE_INFO& BoneInfo, IGameControl* pGameControl);
+	bool DumpController(BONE_INFO& boneInfo, IGameNode* pGameNode);
+	bool DumpPositionController(BONE_INFO& boneInfo, IGameControl* pGameControl);
+	bool DumpRotationController(BONE_INFO& boneInfo, IGameControl* pGameControl);
+	bool DumpScaleController(BONE_INFO& boneInfo, IGameControl* pGameControl);
 
-	bool DumpMaxStdPosKey(BONE_INFO& BoneInfo, IGameControl* pGameControl);
-	bool DumpIndependentPosKey(BONE_INFO& BoneInfo, IGameControl* pGameControl);
+	bool DumpMaxStdPosKey(BONE_INFO& boneInfo, IGameControl* pGameControl);
+	bool DumpIndependentPosKey(BONE_INFO& boneInfo, IGameControl* pGameControl);
 
-	bool DumpMaxStdRotKey(BONE_INFO& BoneInfo, IGameControl* pGameControl);
-	bool DumpEulerRotKey(BONE_INFO& BoneInfo, IGameControl* pGameControl);
+	bool DumpMaxStdRotKey(BONE_INFO& boneInfo, IGameControl* pGameControl);
+	bool DumpEulerRotKey(BONE_INFO& boneInfo, IGameControl* pGameControl);
 
-	bool DumpMaxStdScaleKey(BONE_INFO& BoneInfo, IGameControl* pGameControl);
+	bool DumpMaxStdScaleKey(BONE_INFO& boneInfo, IGameControl* pGameControl);
 
-	bool DumpConstraintKey(BONE_INFO& BoneInfo, IGameControl* pGameControl);
-	bool DumpListKey(BONE_INFO& BoneInfo, IGameControl* pGameControl);
-	bool DumpSampleKey(BONE_INFO& BoneInfo, IGameControl* pGameControl, IGameControlType eType);
+	bool DumpConstraintKey(BONE_INFO& boneInfo, IGameControl* pGameControl);
+	bool DumpListKey(BONE_INFO& boneInfo, IGameControl* pGameControl);
+	bool DumpSampleKey(BONE_INFO& boneInfo, IGameControl* pGameControl, IGameControlType eType);
 
-	KEYFRAME_POS* GetKeyFrame(TM_KEYFRAME_POS& FramePos, TimeValue time);
-	KEYFRAME_SCALE* GetKeyFrame(TM_KEYFRAME_SCALE& FrameScale, TimeValue time);
-	KEYFRAME_ROT* GetKeyFrame(TM_KEYFRAME_ROT& FrameRot, TimeValue time);
+	KEYFRAME_POS* GetKeyFrame(TM_KEYFRAME_POS& framePos, TimeValue time);
+	KEYFRAME_SCALE* GetKeyFrame(TM_KEYFRAME_SCALE& frameScale, TimeValue time);
+	KEYFRAME_ROT* GetKeyFrame(TM_KEYFRAME_ROT& frameRot, TimeValue time);
 
-	bool InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAME_MASK eMask, float fValue);
-	bool InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAME_MASK eMask, const Point3& vValue);
-	bool InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, const Quat& qValue);
-	bool InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, const GMatrix& matValue);
+	bool InsertKeyFrame(BONE_INFO& boneInfo, TimeValue time, KEY_FRAME_MASK eMask, float fValue);
+	bool InsertKeyFrame(BONE_INFO& boneInfo, TimeValue time, KEY_FRAME_MASK eMask, const Point3& vValue);
+	bool InsertKeyFrame(BONE_INFO& boneInfo, TimeValue time, const Quat& qValue);
+	bool InsertKeyFrame(BONE_INFO& boneInfo, TimeValue time, const GMatrix& matValue);
 
 	void MaxMat2SpankMat(Matrix4x4& matOut, const GMatrix& matIn);
-	void SpankMat2MaxMat(GMatrix& matOut, const Matrix4x4& matIn);
-
 	void MaxQuat2SpankQuat(Quaternion& qOut, const Quat& qIn);
-	void SpankQuat2MaxQuat(Quat& qOut, const Quaternion& qIn);
-
 	void MaxVec2SpankVec(Vector3& vOut, const Point3& vIn);
-	void SpankVec2MaxVec(Point3& vOut, const Vector3& vIn);
-
+	void MaxVec2SpankVec(float* fOut3, const Point3& vIn);
 	void MaxEular2SpankEular(Vector3& vOut, const Point3& vIn);
-	void SpankEular2MaxEular(Point3& vOut, const Vector3& vIn);
-
-	void SortSkin(TV_SKIN& vSkin);
+	void MaxUV2SpankUV(float* fOut2, const Point2& uv);
+	void MaxFaceIndex2SpankFaceIndex(ushort* nOut3, const int* indis);
 
 private:
 	TV_NODE_INFO m_vMeshNode;
@@ -255,8 +249,8 @@ private:
 	TV_BONE_INFO m_vBoneInfo;
 	TM_BONE_INFO m_vBoneInfoMap;
 	TV_MATERIAL m_vMaterial;
-	Vector3 m_vBoundingBoxMin;
-	Vector3 m_vBoundingBoxMax;
+	Point3 m_vBoundingBoxMin;
+	Point3 m_vBoundingBoxMax;
 	Interface* m_pInterface;
 
 };

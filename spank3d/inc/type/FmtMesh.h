@@ -69,10 +69,12 @@ public:
 		int nMaterialId;				// see material id
 
 		int nNumVerts;
-		uint nOffVerts;					// sizeof(VERTEX)*nNumVerts
+		uint nOffVerts;
+		uint nSizeOfVerts;				// = sizeof(VERTEX)*nNumVerts
 
 		int nNumIndis;
-		uint nOffIndis;					// sizeof(ushort)*nNumIndis*3;
+		uint nOffIndis;
+		uint nSizeOfIndis;				// = sizeof(ushort)*nNumIndis*3
 	} MESH_PIECE;
 };
 
