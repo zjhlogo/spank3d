@@ -8,6 +8,8 @@
 #include "ModelExporter.h"
 #include "DlgOption.h"
 #include <util/StringUtil.h>
+#include <tinyxml-2.6.2/tinyxml.h>
+#include <algorithm>
 
 DWORD WINAPI DummyFunc(LPVOID arg)
 {
@@ -97,7 +99,6 @@ int ModelExporter::DoExport(const TCHAR* name, ExpInterface* ei, Interface* i, B
 	m_pInterface->ProgressStart(_("Initialize IGame interfaces"), TRUE, DummyFunc, NULL);
 	IGameScene* pIGame = GetIGameInterface();
 	IGameConversionManager* pGameConvMgr = GetConversionManager();
-	//pGameConvMgr->SetCoordSystem(IGameConversionManager::IGAME_MAX);
 	pIGame->InitialiseIGame();
 
 	// collect usefull nodes
@@ -127,7 +128,7 @@ int ModelExporter::DoExport(const TCHAR* name, ExpInterface* ei, Interface* i, B
 	StringUtil::GetFileNameWithoutExt(strFile, name);
 	if (dlgOption.IsExportMesh()) SaveMeshFile(strFile + _(".mesh"), dlgOption.GetVertexAttributes());
 	if (dlgOption.IsExportSkeleton()) SaveSkeletonFile(strFile + _(".skel"));
-	SaveMaterialsFile(strFile + _(".xml"), strFile + _(".mesh"), strFile + _(".skel"));
+	SaveMaterialsFile(strFile + _(".xml"), strFile + _(".mesh"), strFile + _(".skel"), dlgOption.GetVertexAttributes());
 
 	pIGame->ReleaseIGame();
 	pIGame = NULL;
@@ -144,8 +145,10 @@ void ModelExporter::Cleanup()
 	m_vBoneInfo.clear();
 	m_vBoneInfoMap.clear();
 	m_vMaterial.clear();
-	m_vBoundingBoxMin.Reset(Math::FLOAT_MAX, Math::FLOAT_MAX, Math::FLOAT_MAX);
-	m_vBoundingBoxMax.Reset(Math::FLOAT_MIN, Math::FLOAT_MIN, Math::FLOAT_MIN);
+
+	m_vBoundingBoxMin.Set(Math::FLOAT_MAX, Math::FLOAT_MAX, Math::FLOAT_MAX);
+	m_vBoundingBoxMax.Set(Math::FLOAT_MIN, Math::FLOAT_MIN, Math::FLOAT_MIN);
+
 	m_pInterface = NULL;
 }
 
@@ -158,18 +161,18 @@ bool ModelExporter::CollectNodes(IGameNode* pGameNode, IGameNode* pParentGameNod
 	{
 	case IGameObject::IGAME_MESH:
 		{
-			NODE_INFO NodeInfo;
-			NodeInfo.pGameNode = pGameNode;
-			NodeInfo.pParentGameNode = pParentGameNode;
-			m_vMeshNode.push_back(NodeInfo);
+			NODE_INFO nodeInfo;
+			nodeInfo.pGameNode = pGameNode;
+			nodeInfo.pParentGameNode = pParentGameNode;
+			m_vMeshNode.push_back(nodeInfo);
 		}
 		break;
 	case IGameObject::IGAME_BONE:
 		{
-			NODE_INFO NodeInfo;
-			NodeInfo.pGameNode = pGameNode;
-			NodeInfo.pParentGameNode = pParentGameNode;
-			m_vBoneNode.push_back(NodeInfo);
+			NODE_INFO nodeInfo;
+			nodeInfo.pGameNode = pGameNode;
+			nodeInfo.pParentGameNode = pParentGameNode;
+			m_vBoneNode.push_back(nodeInfo);
 		}
 		break;
 	}
@@ -193,37 +196,37 @@ bool ModelExporter::BuildBonesInfo()
 	{
 		m_pInterface->ProgressUpdate(i*100/nBoneCount);
 
-		NODE_INFO& NodeInfo = m_vBoneNode[i];
+		NODE_INFO& nodeInfo = m_vBoneNode[i];
 
-		BONE_INFO BoneInfo;
-		BoneInfo.strName = NodeInfo.pGameNode->GetName();
-		BoneInfo.pNode = NodeInfo.pGameNode;
-		BoneInfo.pParentNode = NodeInfo.pParentGameNode;
-		BoneInfo.nId = (int)m_vBoneInfo.size();
-		BoneInfo.nParentBoneId = FmtSkeleton::INVALID_BONE_ID;
-		MaxMat2SpankMat(BoneInfo.matLocal, NodeInfo.pGameNode->GetLocalTM());
-		bool bOK = DumpController(BoneInfo, NodeInfo.pGameNode);
+		BONE_INFO boneInfo;
+		boneInfo.strName = nodeInfo.pGameNode->GetName();
+		boneInfo.pNode = nodeInfo.pGameNode;
+		boneInfo.pParentNode = nodeInfo.pParentGameNode;
+		boneInfo.nId = (int)m_vBoneInfo.size();
+		boneInfo.nParentBoneId = FmtSkeleton::INVALID_BONE_ID;
+		MaxMat2SpankMat(boneInfo.matLocal, nodeInfo.pGameNode->GetLocalTM());
+		bool bOK = DumpController(boneInfo, nodeInfo.pGameNode);
 		assert(bOK);
 		// TODO: check bOK
-		m_vBoneInfo.push_back(BoneInfo);
-		m_vBoneInfoMap.insert(std::make_pair(BoneInfo.pNode, BoneInfo.nId));
+		m_vBoneInfo.push_back(boneInfo);
+		m_vBoneInfoMap.insert(std::make_pair(boneInfo.pNode, boneInfo.nId));
 	}
 
 	int nBoneInfoCount = m_vBoneInfo.size();
 	for (int i = 0; i < nBoneInfoCount; ++i)
 	{
-		BONE_INFO& BoneInfo = m_vBoneInfo[i];
-		if (BoneInfo.pParentNode == NULL) continue;
+		BONE_INFO& boneInfo = m_vBoneInfo[i];
+		if (boneInfo.pParentNode == NULL) continue;
 
-		TM_BONE_INFO::iterator itfound = m_vBoneInfoMap.find(BoneInfo.pParentNode);
+		TM_BONE_INFO::iterator itfound = m_vBoneInfoMap.find(boneInfo.pParentNode);
 		if (itfound != m_vBoneInfoMap.end())
 		{
-			BoneInfo.nParentBoneId = itfound->second;
+			boneInfo.nParentBoneId = itfound->second;
 		}
 		else
 		{
 			assert(false);
-			tstring strNodeName = BoneInfo.pNode->GetName();
+			tstring strNodeName = boneInfo.pNode->GetName();
 		}
 	}
 
@@ -237,17 +240,17 @@ bool ModelExporter::BuildMeshsInfo()
 	{
 		m_pInterface->ProgressUpdate(i*100/nMeshCount);
 
-		NODE_INFO& NodeInfo = m_vMeshNode[i];
-		MESH_DATA MeshData;
-		MeshData.strName = NodeInfo.pGameNode->GetName();
-		MeshData.matLocal = NodeInfo.pGameNode->GetLocalTM();
-		MeshData.pMaterial = NULL;
-		MeshData.nMaterialId = -1;
+		NODE_INFO& nodeInfo = m_vMeshNode[i];
+		MESH_DATA meshData;
+		meshData.strName = nodeInfo.pGameNode->GetName();
+		meshData.matLocal = nodeInfo.pGameNode->GetLocalTM();
+		meshData.pMaterial = NULL;
+		meshData.nMaterialId = -1;
 
-		bool bOK = DumpMesh(MeshData, NodeInfo.pGameNode);
+		bool bOK = DumpMesh(meshData, nodeInfo.pGameNode);
 		assert(bOK);
 		// TODO: check bOK
-		m_vMeshData.push_back(MeshData);
+		m_vMeshData.push_back(meshData);
 	}
 
 	return true;
@@ -257,24 +260,24 @@ bool ModelExporter::BuildMaterialsInfo()
 {
 	for (TV_MESH_DATA::iterator it = m_vMeshData.begin(); it != m_vMeshData.end(); ++it)
 	{
-		MESH_DATA& MeshData = (*it);
-		IGameMaterial* pMaterial = MeshData.pMaterial;
+		MESH_DATA& meshData = (*it);
+		IGameMaterial* pMaterial = meshData.pMaterial;
 		if (!pMaterial) continue;
 		if (FindMaterial(pMaterial)) continue;
 
-		MATERIAL Material;
-		Material.pMaterial = pMaterial;
-		Material.nId = m_vMaterial.size();
+		MATERIAL material;
+		material.pMaterial = pMaterial;
+		material.nId = m_vMaterial.size();
 		int nNumTexture = pMaterial->GetNumberOfTextureMaps();
 		for (int i = 0; i < nNumTexture; ++i)
 		{
 			IGameTextureMap* pMap = pMaterial->GetIGameTextureMap(i);
 			tstring strMapFile = pMap->GetBitmapFileName();
-			Material.vTextureMap.push_back(strMapFile);
+			material.vTextureMap.push_back(strMapFile);
 		}
 
-		m_vMaterial.push_back(Material);
-		MeshData.nMaterialId = Material.nId;
+		m_vMaterial.push_back(material);
+		meshData.nMaterialId = material.nId;
 	}
 
 	return true;
@@ -284,8 +287,8 @@ bool ModelExporter::FindMaterial(IGameMaterial* pMaterial)
 {
 	for (TV_MATERIAL::iterator it = m_vMaterial.begin(); it != m_vMaterial.end(); ++it)
 	{
-		MATERIAL& Material = (*it);
-		if (pMaterial == Material.pMaterial) return true;
+		MATERIAL& material = (*it);
+		if (pMaterial == material.pMaterial) return true;
 	}
 
 	return false;
@@ -298,98 +301,97 @@ bool ModelExporter::SaveMeshFile(const tstring& strFileName, uint vertAttrs)
 	if (!pFile) return false;
 
 	// write header
-	FmtMesh::FILE_HEADER Header;
-	Header.nMagicNumber = FmtMesh::MAGIC_NUMBER;
-	Header.nVersion = FmtMesh::CURRENT_VERSION;
+	FmtMesh::FILE_HEADER header;
+	header.nMagicNumber = FmtMesh::MAGIC_NUMBER;
+	header.nVersion = FmtMesh::CURRENT_VERSION;
 
-	// 左右手坐标转化
-	Header.fBoundingBoxMin[0] = m_vBoundingBoxMin.x;
-	Header.fBoundingBoxMin[1] = m_vBoundingBoxMin.z;
-	Header.fBoundingBoxMin[2] = m_vBoundingBoxMin.y;
-	Header.fBoundingBoxMax[0] = m_vBoundingBoxMax.x;
-	Header.fBoundingBoxMax[1] = m_vBoundingBoxMax.z;
-	Header.fBoundingBoxMax[2] = m_vBoundingBoxMax.y;
+	MaxVec2SpankVec(header.fBoundingBoxMin, m_vBoundingBoxMin);
+	MaxVec2SpankVec(header.fBoundingBoxMin, m_vBoundingBoxMax);
 
-	Header.nNumPieces = (int)m_vMeshData.size();
-	fwrite(&Header, sizeof(Header), 1, pFile);
+	header.nNumPieces = (int)m_vMeshData.size();
+	fwrite(&header, sizeof(header), 1, pFile);
 
 	// make room for piece list
 	uint nPieceListPos = ftell(pFile);
 	std::vector<FmtMesh::MESH_PIECE> vPiece;
-	if (Header.nNumPieces > 0)
+	if (header.nNumPieces > 0)
 	{
-		vPiece.resize(Header.nNumPieces);
-		memset(&vPiece[0], 0, sizeof(FmtMesh::MESH_PIECE)*Header.nNumPieces);
-		fwrite(&vPiece[0], sizeof(FmtMesh::MESH_PIECE), Header.nNumPieces, pFile);
+		vPiece.resize(header.nNumPieces);
+		memset(&vPiece[0], 0, sizeof(FmtMesh::MESH_PIECE)*header.nNumPieces);
+		fwrite(&vPiece[0], sizeof(FmtMesh::MESH_PIECE), header.nNumPieces, pFile);
 	}
 
 	// write mesh
 	m_pInterface->ProgressStart(_("Save mesh data"), TRUE, DummyFunc, NULL);
-	for (int i = 0; i < Header.nNumPieces; ++i)
+	for (int i = 0; i < header.nNumPieces; ++i)
 	{
-		m_pInterface->ProgressUpdate(i*100/Header.nNumPieces);
+		m_pInterface->ProgressUpdate(i*100/header.nNumPieces);
 
-		FmtMesh::MESH_PIECE& Piece = vPiece[i];
-		MESH_DATA& MeshData = m_vMeshData[i];
+		FmtMesh::MESH_PIECE& piece = vPiece[i];
+		MESH_DATA& meshData = m_vMeshData[i];
 
 		std::string strName;
-		StringUtil::tchar2char(strName, MeshData.strName.c_str());
-		strncpy_s(Piece.szName, FmtMesh::PIECE_NAME_SIZE, strName.c_str(), _TRUNCATE);
+		StringUtil::tchar2char(strName, meshData.strName.c_str());
+		strncpy_s(piece.szName, FmtMesh::PIECE_NAME_SIZE, strName.c_str(), _TRUNCATE);
 
-		Piece.nPieceMask = FmtMesh::PM_VISIBLE;
-		Piece.nVertexAttributes = vertAttrs;
-		Piece.nMaterialId = MeshData.nMaterialId;
+		piece.nPieceMask = FmtMesh::PM_VISIBLE;
+		piece.nVertexAttributes = vertAttrs;
+		piece.nMaterialId = meshData.nMaterialId;
 
 		// write vertex data offset
-		Piece.nNumVerts = (int)MeshData.vVertSlots.size();
-		Piece.nOffVerts = ftell(pFile);
+		piece.nNumVerts = (int)meshData.vVertSlots.size();
+		piece.nOffVerts = ftell(pFile);
 
 		// write vertex data
-		int nNumVerts = (int)MeshData.vVertSlots.size();
+		int nNumVerts = (int)meshData.vVertSlots.size();
 		for (int j = 0; j < nNumVerts; ++j)
 		{
-			VERTEX_SLOT& VertSlot = MeshData.vVertSlots[j];
+			VERTEX_SLOT& vertSlot = meshData.vVertSlots[j];
 
-			if (Piece.nVertexAttributes & FmtMesh::VA_POSITION)
+			if (piece.nVertexAttributes & FmtMesh::VA_POSITION)
 			{
-				// position 左右手坐标转化
-				float pfPos[3] = {VertSlot.pos.x, VertSlot.pos.z, VertSlot.pos.y};
+				// position
+				float pfPos[3];
+				MaxVec2SpankVec(pfPos, vertSlot.pos);
 				fwrite(pfPos, sizeof(pfPos), 1, pFile);
 			}
 
-			if (Piece.nVertexAttributes & FmtMesh::VA_TEXCOORD0)
+			if (piece.nVertexAttributes & FmtMesh::VA_TEXCOORD0)
 			{
 				// uv
-				float pfUV[2] = {VertSlot.tex.x, 1.0f - VertSlot.tex.y};
+				float pfUV[2];
+				MaxUV2SpankUV(pfUV, vertSlot.tex);
 				fwrite(pfUV, sizeof(pfUV), 1, pFile);
 			}
 
-			if (Piece.nVertexAttributes & FmtMesh::VA_NORMAL)
+			if (piece.nVertexAttributes & FmtMesh::VA_NORMAL)
 			{
-				// normal 左右手坐标转化
-				float pfNormal[3] = {VertSlot.normal.x, VertSlot.normal.z, VertSlot.normal.y};
+				// normal
+				float pfNormal[3];
+				MaxVec2SpankVec(pfNormal, vertSlot.normal);
 				fwrite(pfNormal, sizeof(pfNormal), 1, pFile);
 			}
 
-			if (Piece.nVertexAttributes & FmtMesh::VA_TANGENT)
+			if (piece.nVertexAttributes & FmtMesh::VA_TANGENT)
 			{
-				// tangent 左右手坐标转化
-				float pfTangent[3] = {VertSlot.tangent.x, VertSlot.tangent.z, VertSlot.tangent.y};
+				// tangent
+				float pfTangent[3];
+				MaxVec2SpankVec(pfTangent, vertSlot.tangent);
 				fwrite(pfTangent, sizeof(pfTangent), 1, pFile);
 			}
 
-			if (Piece.nVertexAttributes & FmtMesh::VA_SKELETON)
+			if (piece.nVertexAttributes & FmtMesh::VA_SKELETON)
 			{
 				uchar uchIndex[4] = {0};
 				float pfWeight[4] = {0.0f};
 
 				// bone weight, index
-				int nSkinCount = (int)VertSlot.Skins.size();
+				int nSkinCount = (int)vertSlot.Skins.size();
 				if (nSkinCount > 4) nSkinCount = 4;
 				for (int k = 0; k < nSkinCount; ++k)
 				{
-					uchIndex[k] = VertSlot.Skins[k].nBoneIndex;
-					pfWeight[k] = VertSlot.Skins[k].fWeight;
+					uchIndex[k] = vertSlot.Skins[k].nBoneIndex;
+					pfWeight[k] = vertSlot.Skins[k].fWeight;
 				}
 
 				fwrite(uchIndex, sizeof(uchIndex), 1, pFile);
@@ -398,27 +400,28 @@ bool ModelExporter::SaveMeshFile(const tstring& strFileName, uint vertAttrs)
 		}
 
 		// write index data offset
-		Piece.nNumIndis = (int)MeshData.vFaces.size()*3;
-		Piece.nOffIndis = ftell(pFile);
+		piece.nNumIndis = (int)meshData.vFaces.size()*3;
+		piece.nOffIndis = ftell(pFile);
 
 		// write index data
-		int nNumFaces = (int)MeshData.vFaces.size();
+		int nNumFaces = (int)meshData.vFaces.size();
 		for (int j = 0; j < nNumFaces; ++j)
 		{
-			//  左右手坐标转化
 			ushort nIndex[3];
-			nIndex[0] = (ushort)MeshData.vFaces[j].nVertIndex[0];
-			nIndex[1] = (ushort)MeshData.vFaces[j].nVertIndex[2];
-			nIndex[2] = (ushort)MeshData.vFaces[j].nVertIndex[1];
+			MaxFaceIndex2SpankFaceIndex(nIndex, meshData.vFaces[j].nVertIndex);
 			fwrite(nIndex, sizeof(nIndex), 1, pFile);
 		}
+
+		// set size info
+		piece.nSizeOfVerts = piece.nOffIndis - piece.nOffVerts;
+		piece.nSizeOfIndis = piece.nNumIndis * sizeof(ushort);
 	}
 
 	// really write piece list
 	fseek(pFile, nPieceListPos, SEEK_SET);
-	if (Header.nNumPieces > 0)
+	if (header.nNumPieces > 0)
 	{
-		fwrite(&vPiece[0], sizeof(FmtMesh::MESH_PIECE), Header.nNumPieces, pFile);
+		fwrite(&vPiece[0], sizeof(FmtMesh::MESH_PIECE), header.nNumPieces, pFile);
 	}
 
 	fclose(pFile);
@@ -432,153 +435,139 @@ bool ModelExporter::SaveSkeletonFile(const tstring& strFileName)
 	if (!pFile) return false;
 
 	// write header
-	FmtSkeleton::FILE_HEADER Header;
-	Header.nMagicNumber = FmtSkeleton::MAGIC_NUMBER;
-	Header.nVersion = FmtSkeleton::CURRENT_VERSION;
-	Header.nNumBones = (int)m_vBoneInfo.size();
-	fwrite(&Header, sizeof(Header), 1, pFile);
+	FmtSkeleton::FILE_HEADER header;
+	header.nMagicNumber = FmtSkeleton::MAGIC_NUMBER;
+	header.nVersion = FmtSkeleton::CURRENT_VERSION;
+	header.nNumBones = (int)m_vBoneInfo.size();
+	fwrite(&header, sizeof(header), 1, pFile);
 
 	// make room for bone list
 	uint nBoneListPos = ftell(pFile);
 	std::vector<FmtSkeleton::BONE> vBone;
-	if (Header.nNumBones > 0)
+	if (header.nNumBones > 0)
 	{
-		vBone.resize(Header.nNumBones);
-		memset(&vBone[0], 0, sizeof(FmtSkeleton::BONE)*Header.nNumBones);
-		fwrite(&vBone[0], sizeof(FmtSkeleton::BONE), Header.nNumBones, pFile);
+		vBone.resize(header.nNumBones);
+		memset(&vBone[0], 0, sizeof(FmtSkeleton::BONE)*header.nNumBones);
+		fwrite(&vBone[0], sizeof(FmtSkeleton::BONE), header.nNumBones, pFile);
 	}
 
 	// write bone data
 	m_pInterface->ProgressStart(_("Save bone data"), TRUE, DummyFunc, NULL);
-	for (int i = 0; i < Header.nNumBones; ++i)
+	for (int i = 0; i < header.nNumBones; ++i)
 	{
-		m_pInterface->ProgressUpdate(i*100/Header.nNumBones);
+		m_pInterface->ProgressUpdate(i*100/header.nNumBones);
 
-		FmtSkeleton::BONE& Bone = vBone[i];
-		BONE_INFO& BoneInfo = m_vBoneInfo[i];
+		FmtSkeleton::BONE& bone = vBone[i];
+		BONE_INFO& boneInfo = m_vBoneInfo[i];
 
 		// bone list info
 		std::string strName;
-		StringUtil::tchar2char(strName, BoneInfo.strName.c_str());
-		strncpy_s(Bone.szName, FmtSkeleton::BONE_NAME_SIZE, strName.c_str(), _TRUNCATE);
-		Bone.nParentIndex = BoneInfo.nParentBoneId;
-		memcpy(Bone.matLocal, BoneInfo.matLocal.e, sizeof(float)*16);
+		StringUtil::tchar2char(strName, boneInfo.strName.c_str());
+		strncpy_s(bone.szName, FmtSkeleton::BONE_NAME_SIZE, strName.c_str(), _TRUNCATE);
+		bone.nParentIndex = boneInfo.nParentBoneId;
+		memcpy(bone.matLocal, boneInfo.matLocal.e, sizeof(float)*16);
 
-		Bone.fTimeLength = 0.0f;
-		Bone.nNumFrameRot = (int)BoneInfo.mapFrameRot.size();
-		Bone.nNumFramePos = (int)BoneInfo.mapFramePos.size();
-		Bone.nNumFrameScale = (int)BoneInfo.mapFrameScale.size();
+		bone.fTimeLength = 0.0f;
+		bone.nNumFrameRot = (int)boneInfo.mapFrameRot.size();
+		bone.nNumFramePos = (int)boneInfo.mapFramePos.size();
+		bone.nNumFrameScale = (int)boneInfo.mapFrameScale.size();
 
 		// frame rot
-		Bone.nOffFrameRot = ftell(pFile);
-		for (TM_KEYFRAME_ROT::iterator it = BoneInfo.mapFrameRot.begin(); it != BoneInfo.mapFrameRot.end(); ++it)
+		bone.nOffFrameRot = ftell(pFile);
+		for (TM_KEYFRAME_ROT::iterator it = boneInfo.mapFrameRot.begin(); it != boneInfo.mapFrameRot.end(); ++it)
 		{
-			KEYFRAME_ROT& FrameRot = it->second;
+			KEYFRAME_ROT& frameRot = it->second;
 
-			FmtSkeleton::FRAME_ROT Frame;
-			Frame.fTime = TicksToSec(FrameRot.time);
-			Frame.qRot[0] = FrameRot.qRot.x;
-			Frame.qRot[1] = FrameRot.qRot.y;
-			Frame.qRot[2] = FrameRot.qRot.z;
-			Frame.qRot[3] = FrameRot.qRot.w;
-			fwrite(&Frame, sizeof(Frame), 1, pFile);
+			FmtSkeleton::FRAME_ROT frame;
+			frame.fTime = TicksToSec(frameRot.time);
+			frame.qRot[0] = frameRot.qRot.x;
+			frame.qRot[1] = frameRot.qRot.y;
+			frame.qRot[2] = frameRot.qRot.z;
+			frame.qRot[3] = frameRot.qRot.w;
+			fwrite(&frame, sizeof(frame), 1, pFile);
 
-			if (Bone.fTimeLength < Frame.fTime) Bone.fTimeLength = Frame.fTime;
+			if (bone.fTimeLength < frame.fTime) bone.fTimeLength = frame.fTime;
 		}
 
 		// frame pos
-		Bone.nOffFramePos = ftell(pFile);
-		for (TM_KEYFRAME_POS::iterator it = BoneInfo.mapFramePos.begin(); it != BoneInfo.mapFramePos.end(); ++it)
+		bone.nOffFramePos = ftell(pFile);
+		for (TM_KEYFRAME_POS::iterator it = boneInfo.mapFramePos.begin(); it != boneInfo.mapFramePos.end(); ++it)
 		{
-			KEYFRAME_POS& FramePos = it->second;
+			KEYFRAME_POS& framePos = it->second;
 
-			FmtSkeleton::FRAME_POS Frame;
-			Frame.fTime = TicksToSec(FramePos.time);
-			Frame.vPos[0] = FramePos.vPos.x;
-			Frame.vPos[1] = FramePos.vPos.y;
-			Frame.vPos[2] = FramePos.vPos.z;
-			fwrite(&Frame, sizeof(Frame), 1, pFile);
+			FmtSkeleton::FRAME_POS frame;
+			frame.fTime = TicksToSec(framePos.time);
+			frame.vPos[0] = framePos.vPos.x;
+			frame.vPos[1] = framePos.vPos.y;
+			frame.vPos[2] = framePos.vPos.z;
+			fwrite(&frame, sizeof(frame), 1, pFile);
 
-			if (Bone.fTimeLength < Frame.fTime) Bone.fTimeLength = Frame.fTime;
+			if (bone.fTimeLength < frame.fTime) bone.fTimeLength = frame.fTime;
 		}
 
 		// frame scale
-		Bone.nOffFrameScale = ftell(pFile);
-		for (TM_KEYFRAME_SCALE::iterator it = BoneInfo.mapFrameScale.begin(); it != BoneInfo.mapFrameScale.end(); ++it)
+		bone.nOffFrameScale = ftell(pFile);
+		for (TM_KEYFRAME_SCALE::iterator it = boneInfo.mapFrameScale.begin(); it != boneInfo.mapFrameScale.end(); ++it)
 		{
-			KEYFRAME_SCALE& FrameScale = it->second;
+			KEYFRAME_SCALE& frameScale = it->second;
 
-			FmtSkeleton::FRAME_SCALE Frame;
-			Frame.fTime = TicksToSec(FrameScale.time);
-			Frame.vScale[0] = FrameScale.vScale.x;
-			Frame.vScale[1] = FrameScale.vScale.y;
-			Frame.vScale[2] = FrameScale.vScale.z;
-			fwrite(&Frame, sizeof(Frame), 1, pFile);
+			FmtSkeleton::FRAME_SCALE frame;
+			frame.fTime = TicksToSec(frameScale.time);
+			frame.vScale[0] = frameScale.vScale.x;
+			frame.vScale[1] = frameScale.vScale.y;
+			frame.vScale[2] = frameScale.vScale.z;
+			fwrite(&frame, sizeof(frame), 1, pFile);
 
-			if (Bone.fTimeLength < Frame.fTime) Bone.fTimeLength = Frame.fTime;
+			if (bone.fTimeLength < frame.fTime) bone.fTimeLength = frame.fTime;
 		}
 	}
 
 	// really write bone list
 	fseek(pFile, nBoneListPos, SEEK_SET);
-	if (Header.nNumBones > 0)
+	if (header.nNumBones > 0)
 	{
-		fwrite(&vBone[0], sizeof(FmtSkeleton::BONE), Header.nNumBones, pFile);
+		fwrite(&vBone[0], sizeof(FmtSkeleton::BONE), header.nNumBones, pFile);
 	}
 
 	fclose(pFile);
 	return true;
 }
 
-bool ModelExporter::SaveMaterialsFile(const tstring& strFileName, const tstring& strMeshFile, const tstring& strSkeletonFile)
+bool ModelExporter::SaveMaterialsFile(const tstring& strFileName, const tstring& strMeshFile, const tstring& strSkeletonFile, uint vertAttrs)
 {
-// 	IOEXmlDocument* pXmlDocument = g_pOEXmlMgr->CreateDocument();
-// 	if (!pXmlDocument) return false;
-// 
-// 	IOEXmlNode* pXmlModel = pXmlDocument->InsertRootNode(TS("Model"));
-// 	IOEXmlNode* pXmlRenderData = pXmlModel->InsertChild(TS("RenderData"));
-// 
-// 	if (m_pDlgModelExpOption->IsExportMesh())
-// 	{
-// 		IOEXmlNode* pXmlMesh = pXmlRenderData->InsertChild(TS("Mesh"));
-// 		tstring strName;
-// 		COEOS::GetFileNameWithExt(strName, strMeshFile);
-// 		pXmlMesh->SetText(strName);
-// 	}
-// 
-// 	if (m_pDlgModelExpOption->IsExportSkelecton())
-// 	{
-// 		IOEXmlNode* pXmlSkeleton = pXmlRenderData->InsertChild(TS("Skeleton"));
-// 		tstring strName;
-// 		COEOS::GetFileNameWithExt(strName, strSkeletonFile);
-// 		pXmlSkeleton->SetText(strName);
-// 	}
-// 
-// 	IOEXmlNode* pXmlMaterials = pXmlRenderData->InsertChild(TS("Materials"));
-// 	pXmlMaterials->SetAttribute(TS("count"), (int)m_vMaterial.size());
-// 	for (TV_MATERIAL::iterator it = m_vMaterial.begin(); it != m_vMaterial.end(); ++it)
-// 	{
-// 		MATERIAL& Material = (*it);
-// 		IOEXmlNode* pXmlMaterial = pXmlMaterials->InsertChild(TS("Material"));
-// 		pXmlMaterial->SetAttribute(TS("id"), Material.nID);
-// 		pXmlMaterial->SetAttribute(TS("vertdecl"), m_pDlgModelExpOption->GetVertexFlag());
-// 		pXmlMaterial->SetAttribute(TS("shader"), EMPTY_STRING);
-// 
-// 		int nTexIndex = 0;
-// 		for (TV_STRING::iterator ittex = Material.vTextureMap.begin(); ittex != Material.vTextureMap.end(); ++ittex)
-// 		{
-// 			tstring& strMap = (*ittex);
-// 			tstring strName;
-// 			COEOS::GetFileNameWithExt(strName, strMap);
-// 
-// 			const tstring& strKey = GetTextureKey((MATERIAL_TEXTURE_TYPE)nTexIndex);
-// 			pXmlMaterial->SetAttribute(strKey, strName);
-// 			++nTexIndex;
-// 		}
-// 	}
-// 
-// 	pXmlDocument->SaveFile(strFileName);
-// 	SAFE_RELEASE(pXmlDocument);
+	TiXmlDocument doc;
+
+	TiXmlDeclaration* pXmlDecl = new TiXmlDeclaration(_("1.0"), _("utf-8"), _("yes"));
+	doc.LinkEndChild(pXmlDecl);
+
+	TiXmlElement* pXmlMaterials = new TiXmlElement(_("Materials"));
+	doc.LinkEndChild(pXmlMaterials);
+
+	pXmlMaterials->SetAttribute(_("count"), (int)m_vMaterial.size());
+	for (TV_MATERIAL::iterator it = m_vMaterial.begin(); it != m_vMaterial.end(); ++it)
+	{
+		MATERIAL& material = (*it);
+
+		TiXmlElement* pXmlMaterial = new TiXmlElement(_("Material"));
+		pXmlMaterials->LinkEndChild(pXmlMaterial);
+
+		pXmlMaterial->SetAttribute(_("id"), material.nId);
+		pXmlMaterial->SetAttribute(_("vertattr"), vertAttrs);
+
+		int nTexIndex = 0;
+		for (TV_STRING::iterator ittex = material.vTextureMap.begin(); ittex != material.vTextureMap.end(); ++ittex)
+		{
+			tstring& strMap = (*ittex);
+			tstring strName;
+			StringUtil::GetFileNameWithExt(strName, strMap);
+
+			const tstring& strKey = GetTextureKey((MATERIAL_TEXTURE_TYPE)nTexIndex);
+			pXmlMaterial->SetAttribute(strKey.c_str(), strName.c_str());
+			++nTexIndex;
+		}
+	}
+
+	doc.SaveFile(strFileName.c_str());
 
 	return true;
 }
@@ -588,21 +577,20 @@ const tstring& ModelExporter::GetTextureKey(MATERIAL_TEXTURE_TYPE eType)
 	static const tstring s_EmptyTexture;
 	static const tstring s_TextureKey[MTT_NUM] =
 	{
-		_("texdiffuse"),
-		_("texnormal"),
+		_("texture0"),
+		_("texture1"),
 		_("texture2"),
 		_("texture3"),
 		_("texture4"),
 		_("texture5"),
 		_("texture6"),
-		_("texture7"),
+		_("texture7")
 	};
-	assert(MTT_NUM == 8);
 	if (eType < 0 || eType >= MTT_NUM) return s_EmptyTexture;
 	return s_TextureKey[eType];
 }
 
-bool ModelExporter::DumpMesh(MESH_DATA& MeshDataOut, IGameNode* pGameNode)
+bool ModelExporter::DumpMesh(MESH_DATA& meshDataOut, IGameNode* pGameNode)
 {
 	IGameObject* pGameObject = pGameNode->GetIGameObject();
 	if (pGameObject->GetIGameType() != IGameObject::IGAME_MESH)
@@ -621,19 +609,19 @@ bool ModelExporter::DumpMesh(MESH_DATA& MeshDataOut, IGameNode* pGameNode)
 
 	// init vertex slots
 	int nNumVerts = pGameMesh->GetNumberOfVerts();
-	VERTEX_SLOT EmptySlot;
-	EmptySlot.bUsed = false;
-	EmptySlot.nVertIndex = 0;
-	EmptySlot.nTexIndex = 0;
-	EmptySlot.vClone.clear();
-	EmptySlot.pos.Set(0.0f, 0.0f, 0.0f);
-	EmptySlot.tex.Set(0.0f, 0.0f);
-	EmptySlot.Skins.clear();
+	VERTEX_SLOT emptySlot;
+	emptySlot.bUsed = false;
+	emptySlot.nVertIndex = 0;
+	emptySlot.nTexIndex = 0;
+	emptySlot.vClone.clear();
+	emptySlot.pos.Set(0.0f, 0.0f, 0.0f);
+	emptySlot.tex.Set(0.0f, 0.0f);
+	emptySlot.Skins.clear();
 
 	// make room for verts
 	for (int i = 0; i < nNumVerts; ++i)
 	{
-		MeshDataOut.vVertSlots.push_back(EmptySlot);
+		meshDataOut.vVertSlots.push_back(emptySlot);
 	}
 
 	// faces
@@ -641,33 +629,33 @@ bool ModelExporter::DumpMesh(MESH_DATA& MeshDataOut, IGameNode* pGameNode)
 	if (nNumFaces > 0)
 	{
 		FaceEx* pFace = pGameMesh->GetFace(0);
-		MeshDataOut.pMaterial = pGameMesh->GetMaterialFromFace(pFace);
+		meshDataOut.pMaterial = pGameMesh->GetMaterialFromFace(pFace);
 	}
 
 	for (int i = 0; i < nNumFaces; ++i)
 	{
 		FaceEx* pFace = pGameMesh->GetFace(i);
 
-		FACE Face;
+		FACE face;
 
 		for (int j = 0; j < 3; ++j)
 		{
 			uint nVertIndex = pFace->vert[j];
 			uint nTexIndex = pFace->texCoord[j];
 
-			if (MeshDataOut.vVertSlots[nVertIndex].bUsed)
+			if (meshDataOut.vVertSlots[nVertIndex].bUsed)
 			{
 				bool bAddNew = true;
-				if (MeshDataOut.vVertSlots[nVertIndex].nTexIndex == nTexIndex)
+				if (meshDataOut.vVertSlots[nVertIndex].nTexIndex == nTexIndex)
 				{
 					bAddNew = false;
 				}
 				else
 				{
-					TV_INT& vClone = MeshDataOut.vVertSlots[nVertIndex].vClone;
+					TV_INT& vClone = meshDataOut.vVertSlots[nVertIndex].vClone;
 					for (TV_INT::iterator it = vClone.begin(); it != vClone.end(); ++it)
 					{
-						if (MeshDataOut.vVertSlots[*it].nTexIndex == nTexIndex)
+						if (meshDataOut.vVertSlots[*it].nTexIndex == nTexIndex)
 						{
 							bAddNew = false;
 							nVertIndex = (*it);
@@ -676,95 +664,95 @@ bool ModelExporter::DumpMesh(MESH_DATA& MeshDataOut, IGameNode* pGameNode)
 					}
 				}
 
-				MeshDataOut.vVertSlots[nVertIndex].vNormalIndex.insert(pFace->norm[j]);
+				meshDataOut.vVertSlots[nVertIndex].vNormalIndex.insert(pFace->norm[j]);
 				int nTangentIndex = pGameMesh->GetFaceVertexTangentBinormal(i, j);
-				MeshDataOut.vVertSlots[nVertIndex].vTangentIndex.insert(nTangentIndex);
+				meshDataOut.vVertSlots[nVertIndex].vTangentIndex.insert(nTangentIndex);
 
 				if (bAddNew)
 				{
 					// add new slot
-					int nNewVertIndex = MeshDataOut.vVertSlots.size();
-					MeshDataOut.vVertSlots.push_back(EmptySlot);
-					MeshDataOut.vVertSlots[nNewVertIndex].bUsed = true;
-					MeshDataOut.vVertSlots[nNewVertIndex].nVertIndex = nVertIndex;
-					MeshDataOut.vVertSlots[nNewVertIndex].nTexIndex = nTexIndex;
+					int nNewVertIndex = meshDataOut.vVertSlots.size();
+					meshDataOut.vVertSlots.push_back(emptySlot);
+					meshDataOut.vVertSlots[nNewVertIndex].bUsed = true;
+					meshDataOut.vVertSlots[nNewVertIndex].nVertIndex = nVertIndex;
+					meshDataOut.vVertSlots[nNewVertIndex].nTexIndex = nTexIndex;
 
-					MeshDataOut.vVertSlots[nVertIndex].vClone.push_back(nNewVertIndex);
+					meshDataOut.vVertSlots[nVertIndex].vClone.push_back(nNewVertIndex);
 					nVertIndex = nNewVertIndex;
 				}
 			}
 			else
 			{
-				MeshDataOut.vVertSlots[nVertIndex].vNormalIndex.insert(pFace->norm[j]);
+				meshDataOut.vVertSlots[nVertIndex].vNormalIndex.insert(pFace->norm[j]);
 				int nTangentIndex = pGameMesh->GetFaceVertexTangentBinormal(i, j);
-				MeshDataOut.vVertSlots[nVertIndex].vTangentIndex.insert(nTangentIndex);
+				meshDataOut.vVertSlots[nVertIndex].vTangentIndex.insert(nTangentIndex);
 
 				// set this slot
-				MeshDataOut.vVertSlots[nVertIndex].bUsed = true;
-				MeshDataOut.vVertSlots[nVertIndex].nVertIndex = nVertIndex;
-				MeshDataOut.vVertSlots[nVertIndex].nTexIndex = nTexIndex;
+				meshDataOut.vVertSlots[nVertIndex].bUsed = true;
+				meshDataOut.vVertSlots[nVertIndex].nVertIndex = nVertIndex;
+				meshDataOut.vVertSlots[nVertIndex].nTexIndex = nTexIndex;
 			}
 
-			Face.nVertIndex[j] = nVertIndex;
+			face.nVertIndex[j] = nVertIndex;
 		}
 
-		MeshDataOut.vFaces.push_back(Face);
+		meshDataOut.vFaces.push_back(face);
 	}
 
 	// setup vertex data
 	for (int i = 0; i < nNumVerts; ++i)
 	{
-		VERTEX_SLOT& LocalSlot = MeshDataOut.vVertSlots[i];
+		VERTEX_SLOT& localSlot = meshDataOut.vVertSlots[i];
 
 		int nNumNormal = 0;
 		Point3 vNormal(0.0f, 0.0f, 0.0f);
-		for (TS_INT::iterator it = LocalSlot.vNormalIndex.begin(); it != LocalSlot.vNormalIndex.end(); ++it)
+		for (TS_INT::iterator it = localSlot.vNormalIndex.begin(); it != localSlot.vNormalIndex.end(); ++it)
 		{
 			vNormal += pGameMesh->GetNormal(*it, false);
 			++nNumNormal;
 		}
 
 		assert(nNumNormal);
-		LocalSlot.normal = vNormal.Normalize();
+		localSlot.normal = vNormal.Normalize();
 
 		int nNumTangent = 0;
 		Point3 vTangent(0.0f, 0.0f, 0.0f);
-		for (TS_INT::iterator it = LocalSlot.vTangentIndex.begin(); it != LocalSlot.vTangentIndex.end(); ++it)
+		for (TS_INT::iterator it = localSlot.vTangentIndex.begin(); it != localSlot.vTangentIndex.end(); ++it)
 		{
 			vTangent += pGameMesh->GetTangent(*it);
 			++nNumTangent;
 		}
 
 		assert(nNumTangent);
-		LocalSlot.tangent = vTangent.Normalize();
+		localSlot.tangent = vTangent.Normalize();
 	}
 
-	int nNewNumVerts = MeshDataOut.vVertSlots.size();
+	int nNewNumVerts = meshDataOut.vVertSlots.size();
 	for (int i = 0; i < nNewNumVerts; ++i)
 	{
-		VERTEX_SLOT& LocalSlot = MeshDataOut.vVertSlots[i];
+		VERTEX_SLOT& localSlot = meshDataOut.vVertSlots[i];
 
 		// get position
-		pGameMesh->GetVertex(LocalSlot.nVertIndex, LocalSlot.pos, false);
+		pGameMesh->GetVertex(localSlot.nVertIndex, localSlot.pos, false);
 
-		if (LocalSlot.pos.x < m_vBoundingBoxMin.x) m_vBoundingBoxMin.x = LocalSlot.pos.x;
-		if (LocalSlot.pos.x > m_vBoundingBoxMax.x) m_vBoundingBoxMax.x = LocalSlot.pos.x;
+		if (localSlot.pos.x < m_vBoundingBoxMin.x) m_vBoundingBoxMin.x = localSlot.pos.x;
+		if (localSlot.pos.x > m_vBoundingBoxMax.x) m_vBoundingBoxMax.x = localSlot.pos.x;
 
-		if (LocalSlot.pos.y < m_vBoundingBoxMin.y) m_vBoundingBoxMin.y = LocalSlot.pos.y;
-		if (LocalSlot.pos.y > m_vBoundingBoxMax.y) m_vBoundingBoxMax.y = LocalSlot.pos.y;
+		if (localSlot.pos.y < m_vBoundingBoxMin.y) m_vBoundingBoxMin.y = localSlot.pos.y;
+		if (localSlot.pos.y > m_vBoundingBoxMax.y) m_vBoundingBoxMax.y = localSlot.pos.y;
 
-		if (LocalSlot.pos.z < m_vBoundingBoxMin.z) m_vBoundingBoxMin.z = LocalSlot.pos.z;
-		if (LocalSlot.pos.z > m_vBoundingBoxMax.z) m_vBoundingBoxMax.z = LocalSlot.pos.z;
+		if (localSlot.pos.z < m_vBoundingBoxMin.z) m_vBoundingBoxMin.z = localSlot.pos.z;
+		if (localSlot.pos.z > m_vBoundingBoxMax.z) m_vBoundingBoxMax.z = localSlot.pos.z;
 
 		// get normal and tangent
-		if (i != LocalSlot.nVertIndex)
+		if (i != localSlot.nVertIndex)
 		{
-			LocalSlot.normal = MeshDataOut.vVertSlots[LocalSlot.nVertIndex].normal;
-			LocalSlot.tangent = MeshDataOut.vVertSlots[LocalSlot.nVertIndex].tangent;
+			localSlot.normal = meshDataOut.vVertSlots[localSlot.nVertIndex].normal;
+			localSlot.tangent = meshDataOut.vVertSlots[localSlot.nVertIndex].tangent;
 		}
 
 		// get uv
-		pGameMesh->GetTexVertex(LocalSlot.nTexIndex, LocalSlot.tex);
+		pGameMesh->GetTexVertex(localSlot.nTexIndex, localSlot.tex);
 	}
 
 	// skins
@@ -775,7 +763,7 @@ bool ModelExporter::DumpMesh(MESH_DATA& MeshDataOut, IGameNode* pGameNode)
 		if (!pGameModifier->IsSkin()) continue;
 		IGameSkin* pGameSkin = (IGameSkin*)pGameModifier;
 
-		bool bOK = DumpSkin(MeshDataOut, pGameSkin);
+		bool bOK = DumpSkin(meshDataOut, pGameSkin);
 		assert(bOK);
 		// TODO: check bOK
 	}
@@ -783,7 +771,12 @@ bool ModelExporter::DumpMesh(MESH_DATA& MeshDataOut, IGameNode* pGameNode)
 	return true;
 }
 
-bool ModelExporter::DumpSkin(MESH_DATA& MeshDataOut, IGameSkin* pGameSkin)
+bool SkinComparator(const ModelExporter::SKIN& a, const ModelExporter::SKIN& b)
+{
+	return b.fWeight > a.fWeight;
+}
+
+bool ModelExporter::DumpSkin(MESH_DATA& meshDataOut, IGameSkin* pGameSkin)
 {
 	int nNumSkinVerts = pGameSkin->GetNumOfSkinnedVerts();
 
@@ -800,26 +793,26 @@ bool ModelExporter::DumpSkin(MESH_DATA& MeshDataOut, IGameSkin* pGameSkin)
 				continue;
 			}
 
-			SKIN Skin;
-			Skin.nBoneIndex = it->second;
-			Skin.fWeight = pGameSkin->GetWeight(i, j);
-			MeshDataOut.vVertSlots[i].Skins.push_back(Skin);
+			SKIN skin;
+			skin.nBoneIndex = it->second;
+			skin.fWeight = pGameSkin->GetWeight(i, j);
+			meshDataOut.vVertSlots[i].Skins.push_back(skin);
 		}
 
-		SortSkin(MeshDataOut.vVertSlots[i].Skins);
+		std::sort(meshDataOut.vVertSlots[i].Skins.begin(), meshDataOut.vVertSlots[i].Skins.end(), SkinComparator);
 	}
 
-	int nNumAdditionVerts = MeshDataOut.vVertSlots.size();
+	int nNumAdditionVerts = meshDataOut.vVertSlots.size();
 	for (int i = nNumSkinVerts; i < nNumAdditionVerts; ++i)
 	{
-		int nOldIndex = MeshDataOut.vVertSlots[i].nVertIndex;
-		MeshDataOut.vVertSlots[i].Skins = MeshDataOut.vVertSlots[nOldIndex].Skins;
+		int nOldIndex = meshDataOut.vVertSlots[i].nVertIndex;
+		meshDataOut.vVertSlots[i].Skins = meshDataOut.vVertSlots[nOldIndex].Skins;
 	}
 
 	return true;
 }
 
-bool ModelExporter::DumpController(BONE_INFO& BoneInfo, IGameNode* pGameNode)
+bool ModelExporter::DumpController(BONE_INFO& boneInfo, IGameNode* pGameNode)
 {
 	IGameControl* pGameControl = pGameNode->GetIGameControl();
 
@@ -831,12 +824,12 @@ bool ModelExporter::DumpController(BONE_INFO& BoneInfo, IGameNode* pGameNode)
 		if (pGameControl->GetControlType(IGAME_POS) == IGameControl::IGAME_BIPED)
 		{
 			// dump sample keys
-			DumpSampleKey(BoneInfo, pGameControl, IGAME_TM);
+			DumpSampleKey(boneInfo, pGameControl, IGAME_TM);
 			bBiped = true;
 		}
 		else
 		{
-			DumpPositionController(BoneInfo, pGameControl);
+			DumpPositionController(boneInfo, pGameControl);
 		}
 	}
 
@@ -848,13 +841,13 @@ bool ModelExporter::DumpController(BONE_INFO& BoneInfo, IGameNode* pGameNode)
 			if (!bBiped)
 			{
 				// dump sample keys
-				DumpSampleKey(BoneInfo, pGameControl, IGAME_TM);
+				DumpSampleKey(boneInfo, pGameControl, IGAME_TM);
 				bBiped = true;
 			}
 		}
 		else
 		{
-			DumpRotationController(BoneInfo, pGameControl);
+			DumpRotationController(boneInfo, pGameControl);
 		}
 	}
 
@@ -866,33 +859,33 @@ bool ModelExporter::DumpController(BONE_INFO& BoneInfo, IGameNode* pGameNode)
 			if (!bBiped)
 			{
 				// dump sample keys
-				DumpSampleKey(BoneInfo, pGameControl, IGAME_TM);
+				DumpSampleKey(boneInfo, pGameControl, IGAME_TM);
 				bBiped = true;
 			}
 		}
 		else
 		{
-			DumpScaleController(BoneInfo, pGameControl);
+			DumpScaleController(boneInfo, pGameControl);
 		}
 	}
 
-	for (TM_KEYFRAME_ROT::iterator it = BoneInfo.mapFrameRot.begin(); it != BoneInfo.mapFrameRot.end(); ++it)
+	for (TM_KEYFRAME_ROT::iterator it = boneInfo.mapFrameRot.begin(); it != boneInfo.mapFrameRot.end(); ++it)
 	{
-		KEYFRAME_ROT& KeyFrame = it->second;
+		KEYFRAME_ROT& keyFrame = it->second;
 
-		if (KeyFrame.nMask & KFM_ROT)
+		if (keyFrame.nMask & KFM_ROT)
 		{
-			if (KeyFrame.nMask & KFM_QUAT)
+			if (keyFrame.nMask & KFM_QUAT)
 			{
 				// TODO: logout
 				assert(false);
 			}
 
-			Math::BuildQuaternionFromEulerXYZ(KeyFrame.qRot, KeyFrame.vRot.x, KeyFrame.vRot.y, KeyFrame.vRot.z);
+			Math::BuildQuaternionFromEulerXYZ(keyFrame.qRot, keyFrame.vRot.x, keyFrame.vRot.y, keyFrame.vRot.z);
 		}
-		else if (KeyFrame.nMask & KFM_QUAT)
+		else if (keyFrame.nMask & KFM_QUAT)
 		{
-			if (KeyFrame.nMask & KFM_ROT)
+			if (keyFrame.nMask & KFM_ROT)
 			{
 				// TODO: logout
 				assert(false);
@@ -903,7 +896,7 @@ bool ModelExporter::DumpController(BONE_INFO& BoneInfo, IGameNode* pGameNode)
 	return true;
 }
 
-bool ModelExporter::DumpPositionController(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpPositionController(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
 	IGameControl::MaxControlType eControlType = pGameControl->GetControlType(IGAME_POS);
 	switch (eControlType)
@@ -911,25 +904,25 @@ bool ModelExporter::DumpPositionController(BONE_INFO& BoneInfo, IGameControl* pG
 	case IGameControl::IGAME_MAXSTD:
 		{
 			// export std pos key
-			DumpMaxStdPosKey(BoneInfo, pGameControl);
+			DumpMaxStdPosKey(boneInfo, pGameControl);
 		}
 		break;
 	case IGameControl::IGAME_POS_CONSTRAINT:
 		{
 			// export constraint controller
-			DumpConstraintKey(BoneInfo, pGameControl);
+			DumpConstraintKey(boneInfo, pGameControl);
 		}
 		break;
 	case IGameControl::IGAME_LIST:
 		{
 			// export list controller
-			DumpListKey(BoneInfo, pGameControl);
+			DumpListKey(boneInfo, pGameControl);
 		}
 		break;
 	case IGameControl::IGAME_INDEPENDENT_POS:
 		{
 			// export independent controller
-			DumpIndependentPosKey(BoneInfo, pGameControl);
+			DumpIndependentPosKey(boneInfo, pGameControl);
 		}
 		break;
 	default:
@@ -944,7 +937,7 @@ bool ModelExporter::DumpPositionController(BONE_INFO& BoneInfo, IGameControl* pG
 	return true;
 }
 
-bool ModelExporter::DumpRotationController(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpRotationController(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
 	IGameControl::MaxControlType eControlType = pGameControl->GetControlType(IGAME_ROT);
 	switch (eControlType)
@@ -952,25 +945,25 @@ bool ModelExporter::DumpRotationController(BONE_INFO& BoneInfo, IGameControl* pG
 	case IGameControl::IGAME_MAXSTD:
 		{
 			// export std rot key
-			DumpMaxStdRotKey(BoneInfo, pGameControl);
+			DumpMaxStdRotKey(boneInfo, pGameControl);
 		}
 		break;
 	case IGameControl::IGAME_EULER:
 		{
 			// export Euler controller
-			DumpEulerRotKey(BoneInfo, pGameControl);
+			DumpEulerRotKey(boneInfo, pGameControl);
 		}
 		break;
 	case IGameControl::IGAME_ROT_CONSTRAINT:
 		{
 			// export constraint controller
-			DumpConstraintKey(BoneInfo, pGameControl);
+			DumpConstraintKey(boneInfo, pGameControl);
 		}
 		break;
 	case IGameControl::IGAME_LIST:
 		{
 			// export list controller
-			DumpListKey(BoneInfo, pGameControl);
+			DumpListKey(boneInfo, pGameControl);
 		}
 		break;
 	default:
@@ -985,7 +978,7 @@ bool ModelExporter::DumpRotationController(BONE_INFO& BoneInfo, IGameControl* pG
 	return true;
 }
 
-bool ModelExporter::DumpScaleController(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpScaleController(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
 	IGameControl::MaxControlType eControlType = pGameControl->GetControlType(IGAME_SCALE);
 
@@ -994,7 +987,7 @@ bool ModelExporter::DumpScaleController(BONE_INFO& BoneInfo, IGameControl* pGame
 	case IGameControl::IGAME_MAXSTD:
 		{
 			// export scale key
-			DumpMaxStdScaleKey(BoneInfo, pGameControl);
+			DumpMaxStdScaleKey(boneInfo, pGameControl);
 		}
 		break;
 	default:
@@ -1009,164 +1002,164 @@ bool ModelExporter::DumpScaleController(BONE_INFO& BoneInfo, IGameControl* pGame
 	return true;
 }
 
-bool ModelExporter::DumpMaxStdPosKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpMaxStdPosKey(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
-	IGameKeyTab PosKey;
-	if (pGameControl->GetBezierKeys(PosKey, IGAME_POS))
+	IGameKeyTab posKey;
+	if (pGameControl->GetBezierKeys(posKey, IGAME_POS))
 	{
-		for (int i = 0; i < PosKey.Count(); ++i)
+		for (int i = 0; i < posKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, PosKey[i].t, KFM_POS, PosKey[i].bezierKey.pval);
+			InsertKeyFrame(boneInfo, posKey[i].t, KFM_POS, posKey[i].bezierKey.pval);
 		}
 	}
-	else if (pGameControl->GetLinearKeys(PosKey, IGAME_POS))
+	else if (pGameControl->GetLinearKeys(posKey, IGAME_POS))
 	{
-		for (int i = 0; i < PosKey.Count(); ++i)
+		for (int i = 0; i < posKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, PosKey[i].t, KFM_POS, PosKey[i].linearKey.pval);
+			InsertKeyFrame(boneInfo, posKey[i].t, KFM_POS, posKey[i].linearKey.pval);
 		}
 	}
 
 	return true;
 }
 
-bool ModelExporter::DumpIndependentPosKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpIndependentPosKey(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
-	IGameKeyTab PosKey;
-	if (pGameControl->GetBezierKeys(PosKey, IGAME_POS_X))
+	IGameKeyTab posKey;
+	if (pGameControl->GetBezierKeys(posKey, IGAME_POS_X))
 	{
-		for (int i = 0; i < PosKey.Count(); ++i)
+		for (int i = 0; i < posKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, PosKey[i].t, KFM_POS_X, PosKey[i].bezierKey.fval);
+			InsertKeyFrame(boneInfo, posKey[i].t, KFM_POS_X, posKey[i].bezierKey.fval);
 		}
 	}
 
-	if (pGameControl->GetLinearKeys(PosKey, IGAME_POS_X))
+	if (pGameControl->GetLinearKeys(posKey, IGAME_POS_X))
 	{
-		for (int i = 0; i < PosKey.Count(); ++i)
+		for (int i = 0; i < posKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, PosKey[i].t, KFM_POS_X, PosKey[i].linearKey.fval);
+			InsertKeyFrame(boneInfo, posKey[i].t, KFM_POS_X, posKey[i].linearKey.fval);
 		}
 	}
 
-	if (pGameControl->GetBezierKeys(PosKey, IGAME_POS_Y))
+	if (pGameControl->GetBezierKeys(posKey, IGAME_POS_Y))
 	{
-		for (int i = 0; i < PosKey.Count(); ++i)
+		for (int i = 0; i < posKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, PosKey[i].t, KFM_POS_Y, PosKey[i].bezierKey.fval);
+			InsertKeyFrame(boneInfo, posKey[i].t, KFM_POS_Y, posKey[i].bezierKey.fval);
 		}
 	}
 
-	if (pGameControl->GetLinearKeys(PosKey, IGAME_POS_Y))
+	if (pGameControl->GetLinearKeys(posKey, IGAME_POS_Y))
 	{
-		for (int i = 0; i < PosKey.Count(); ++i)
+		for (int i = 0; i < posKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, PosKey[i].t, KFM_POS_Y, PosKey[i].linearKey.fval);
+			InsertKeyFrame(boneInfo, posKey[i].t, KFM_POS_Y, posKey[i].linearKey.fval);
 		}
 	}
 
-	if (pGameControl->GetBezierKeys(PosKey, IGAME_POS_Z))
+	if (pGameControl->GetBezierKeys(posKey, IGAME_POS_Z))
 	{
-		for (int i = 0; i < PosKey.Count(); ++i)
+		for (int i = 0; i < posKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, PosKey[i].t, KFM_POS_Z, PosKey[i].bezierKey.fval);
+			InsertKeyFrame(boneInfo, posKey[i].t, KFM_POS_Z, posKey[i].bezierKey.fval);
 		}
 	}
 
-	if (pGameControl->GetLinearKeys(PosKey, IGAME_POS_Z))
+	if (pGameControl->GetLinearKeys(posKey, IGAME_POS_Z))
 	{
-		int nCount = PosKey.Count();
+		int nCount = posKey.Count();
 
-		for (int i = 0; i < PosKey.Count(); ++i)
+		for (int i = 0; i < posKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, PosKey[i].t, KFM_POS_Z, PosKey[i].linearKey.fval);
+			InsertKeyFrame(boneInfo, posKey[i].t, KFM_POS_Z, posKey[i].linearKey.fval);
 		}
 	}
 
 	return true;
 }
 
-bool ModelExporter::DumpMaxStdRotKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpMaxStdRotKey(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
-	IGameKeyTab RotKey;
-	if (pGameControl->GetBezierKeys(RotKey, IGAME_ROT))
+	IGameKeyTab rotKey;
+	if (pGameControl->GetBezierKeys(rotKey, IGAME_ROT))
 	{
 		// export Bezier Keys
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, RotKey[i].t, RotKey[i].bezierKey.qval);
+			InsertKeyFrame(boneInfo, rotKey[i].t, rotKey[i].bezierKey.qval);
 		}
 	}
-	else if (pGameControl->GetLinearKeys(RotKey, IGAME_ROT))
+	else if (pGameControl->GetLinearKeys(rotKey, IGAME_ROT))
 	{
 		// export Linear Keys
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, RotKey[i].t, RotKey[i].linearKey.qval);
+			InsertKeyFrame(boneInfo, rotKey[i].t, rotKey[i].linearKey.qval);
 		}
 	}
-	else if (pGameControl->GetTCBKeys(RotKey, IGAME_ROT))
+	else if (pGameControl->GetTCBKeys(rotKey, IGAME_ROT))
 	{
 		// export TCB Keys
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			Quat qValue = QFromAngAxis(RotKey[i].tcbKey.aval.angle, RotKey[i].tcbKey.aval.axis);
-			InsertKeyFrame(BoneInfo, RotKey[i].t, qValue);
+			Quat qValue = QFromAngAxis(rotKey[i].tcbKey.aval.angle, rotKey[i].tcbKey.aval.axis);
+			InsertKeyFrame(boneInfo, rotKey[i].t, qValue);
 		}
 	}
 
 	return true;
 }
 
-bool ModelExporter::DumpEulerRotKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpEulerRotKey(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
-	IGameKeyTab RotKey;
+	IGameKeyTab rotKey;
 
-	if (pGameControl->GetBezierKeys(RotKey, IGAME_EULER_X))
+	if (pGameControl->GetBezierKeys(rotKey, IGAME_EULER_X))
 	{
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, RotKey[i].t, KFM_ROT_X, RotKey[i].bezierKey.fval);
+			InsertKeyFrame(boneInfo, rotKey[i].t, KFM_ROT_X, rotKey[i].bezierKey.fval);
 		}
 	}
 
-	if (pGameControl->GetLinearKeys(RotKey, IGAME_EULER_X))
+	if (pGameControl->GetLinearKeys(rotKey, IGAME_EULER_X))
 	{
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, RotKey[i].t, KFM_ROT_X, RotKey[i].linearKey.fval);
+			InsertKeyFrame(boneInfo, rotKey[i].t, KFM_ROT_X, rotKey[i].linearKey.fval);
 		}
 	}
 
-	if (pGameControl->GetBezierKeys(RotKey, IGAME_EULER_Y))
+	if (pGameControl->GetBezierKeys(rotKey, IGAME_EULER_Y))
 	{
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, RotKey[i].t, KFM_ROT_Y, RotKey[i].bezierKey.fval);
+			InsertKeyFrame(boneInfo, rotKey[i].t, KFM_ROT_Y, rotKey[i].bezierKey.fval);
 		}
 	}
 
-	if (pGameControl->GetLinearKeys(RotKey, IGAME_EULER_Y))
+	if (pGameControl->GetLinearKeys(rotKey, IGAME_EULER_Y))
 	{
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, RotKey[i].t, KFM_ROT_Y, RotKey[i].linearKey.fval);
+			InsertKeyFrame(boneInfo, rotKey[i].t, KFM_ROT_Y, rotKey[i].linearKey.fval);
 		}
 	}
 
-	if (pGameControl->GetBezierKeys(RotKey, IGAME_EULER_Z))
+	if (pGameControl->GetBezierKeys(rotKey, IGAME_EULER_Z))
 	{
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, RotKey[i].t, KFM_ROT_Z, RotKey[i].bezierKey.fval);
+			InsertKeyFrame(boneInfo, rotKey[i].t, KFM_ROT_Z, rotKey[i].bezierKey.fval);
 		}
 	}
 
-	if (pGameControl->GetLinearKeys(RotKey, IGAME_EULER_Z))
+	if (pGameControl->GetLinearKeys(rotKey, IGAME_EULER_Z))
 	{
-		for (int i = 0; i < RotKey.Count(); ++i)
+		for (int i = 0; i < rotKey.Count(); ++i)
 		{
-			InsertKeyFrame(BoneInfo, RotKey[i].t, KFM_ROT_Z, RotKey[i].linearKey.fval);
+			InsertKeyFrame(boneInfo, rotKey[i].t, KFM_ROT_Z, rotKey[i].linearKey.fval);
 		}
 	}
 
@@ -1187,40 +1180,40 @@ bool ModelExporter::DumpMaxStdScaleKey(BONE_INFO& BoneInfo, IGameControl* pGameC
 	return true;
 }
 
-bool ModelExporter::DumpConstraintKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpConstraintKey(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
 	// TODO: 
 	assert(false);
 
-	//IGameConstraint* pGameConstraint = pGameControl->GetConstraint(IGAME_POS);
-
-	//int nConstraintCount = pGameConstraint->NumberOfConstraintNodes();
-	//for(int i = 0; i < nConstraintCount; ++i)
-	//{
-	//	float fWeight = pGameConstraint->GetConstraintWeight(i);
-	//	int nNodeID = pGameConstraint->GetConstraintNodes(i)->GetNodeID();
-
-	//	// TODO: export constraint
-	//}
-
-	//IPropertyContainer* pPropertyContainer = pGameConstraint->GetIPropertyContainer();
-	//int nPropertyCount = pPropertyContainer->GetNumberOfProperties();
-
-	//for(int i = 0; i < nPropertyCount; ++i)
-	//{
-	//	// TODO: dump property
-	//}
+// 	IGameConstraint* pGameConstraint = pGameControl->GetConstraint(IGAME_POS);
+// 
+// 	int nConstraintCount = pGameConstraint->NumberOfConstraintNodes();
+// 	for(int i = 0; i < nConstraintCount; ++i)
+// 	{
+// 		float fWeight = pGameConstraint->GetConstraintWeight(i);
+// 		int nNodeID = pGameConstraint->GetConstraintNodes(i)->GetNodeID();
+// 
+// 		// TODO: export constraint
+// 	}
+// 
+// 	IPropertyContainer* pPropertyContainer = pGameConstraint->GetIPropertyContainer();
+// 	int nPropertyCount = pPropertyContainer->GetNumberOfProperties();
+// 
+// 	for(int i = 0; i < nPropertyCount; ++i)
+// 	{
+// 		// TODO: dump property
+// 	}
 
 	return true;
 }
 
-bool ModelExporter::DumpListKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
+bool ModelExporter::DumpListKey(BONE_INFO& boneInfo, IGameControl* pGameControl)
 {
 	int nCount = pGameControl->GetNumOfListSubControls(IGAME_POS);
 	for (int i = 0; i < nCount; ++i)
 	{
 		IGameControl* pSubGameControl = pGameControl->GetListSubControl(i, IGAME_POS);
-		bool bOK = DumpPositionController(BoneInfo, pSubGameControl);
+		bool bOK = DumpPositionController(boneInfo, pSubGameControl);
 		assert(bOK);
 		// TODO: check bOK
 	}
@@ -1229,7 +1222,7 @@ bool ModelExporter::DumpListKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
 	for (int i = 0; i < nCount; ++i)
 	{
 		IGameControl* pSubGameControl = pGameControl->GetListSubControl(i, IGAME_ROT);
-		bool bOK = DumpRotationController(BoneInfo, pSubGameControl);
+		bool bOK = DumpRotationController(boneInfo, pSubGameControl);
 		assert(bOK);
 		// TODO: check bOK
 	}
@@ -1238,7 +1231,7 @@ bool ModelExporter::DumpListKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
 	for (int i = 0; i < nCount; ++i)
 	{
 		IGameControl* pSubGameControl = pGameControl->GetListSubControl(i, IGAME_SCALE);
-		bool bOK = DumpScaleController(BoneInfo, pSubGameControl);
+		bool bOK = DumpScaleController(boneInfo, pSubGameControl);
 		assert(bOK);
 		// TODO: check bOK
 	}
@@ -1246,18 +1239,18 @@ bool ModelExporter::DumpListKey(BONE_INFO& BoneInfo, IGameControl* pGameControl)
 	return true;
 }
 
-bool ModelExporter::DumpSampleKey(BONE_INFO& BoneInfo, IGameControl* pGameControl, IGameControlType eType)
+bool ModelExporter::DumpSampleKey(BONE_INFO& boneInfo, IGameControl* pGameControl, IGameControlType eType)
 {
-	IGameKeyTab Keys;
-	if (pGameControl->GetFullSampledKeys(Keys, 1, eType, true))
+	IGameKeyTab keys;
+	if (pGameControl->GetFullSampledKeys(keys, 1, eType, true))
 	{
-		for (int i = 0; i < Keys.Count(); ++i)
+		for (int i = 0; i < keys.Count(); ++i)
 		{
 			switch (eType)
 			{
 			case IGAME_TM:
 				{
-					InsertKeyFrame(BoneInfo, Keys[i].t, Keys[i].sampleKey.gval);
+					InsertKeyFrame(boneInfo, keys[i].t, keys[i].sampleKey.gval);
 				}
 				break;
 			default:
@@ -1274,86 +1267,86 @@ bool ModelExporter::DumpSampleKey(BONE_INFO& BoneInfo, IGameControl* pGameContro
 	return false;
 }
 
-ModelExporter::KEYFRAME_POS* ModelExporter::GetKeyFrame(TM_KEYFRAME_POS& FramePos, TimeValue time)
+ModelExporter::KEYFRAME_POS* ModelExporter::GetKeyFrame(TM_KEYFRAME_POS& framePos, TimeValue time)
 {
 	KEYFRAME_POS* pKeyFrame = NULL;
 
-	TM_KEYFRAME_POS::iterator itfound = FramePos.find(time);
-	if (itfound != FramePos.end())
+	TM_KEYFRAME_POS::iterator itfound = framePos.find(time);
+	if (itfound != framePos.end())
 	{
 		pKeyFrame = &itfound->second;
 	}
 	else
 	{
-		KEYFRAME_POS EmptyKeyFrame;
-		EmptyKeyFrame.time = time;
-		EmptyKeyFrame.nMask = KFM_UNKNOWN;
-		FramePos.insert(std::make_pair(EmptyKeyFrame.time, EmptyKeyFrame));
+		KEYFRAME_POS emptyKeyFrame;
+		emptyKeyFrame.time = time;
+		emptyKeyFrame.nMask = KFM_UNKNOWN;
+		framePos.insert(std::make_pair(emptyKeyFrame.time, emptyKeyFrame));
 
-		itfound = FramePos.find(time);
-		assert(itfound != FramePos.end());
+		itfound = framePos.find(time);
+		assert(itfound != framePos.end());
 		pKeyFrame = &itfound->second;
 	}
 
 	return pKeyFrame;
 }
 
-ModelExporter::KEYFRAME_SCALE* ModelExporter::GetKeyFrame(TM_KEYFRAME_SCALE& FrameScale, TimeValue time)
+ModelExporter::KEYFRAME_SCALE* ModelExporter::GetKeyFrame(TM_KEYFRAME_SCALE& frameScale, TimeValue time)
 {
 	KEYFRAME_SCALE* pKeyFrame = NULL;
 
-	TM_KEYFRAME_SCALE::iterator itfound = FrameScale.find(time);
-	if (itfound != FrameScale.end())
+	TM_KEYFRAME_SCALE::iterator itfound = frameScale.find(time);
+	if (itfound != frameScale.end())
 	{
 		pKeyFrame = &itfound->second;
 	}
 	else
 	{
-		KEYFRAME_SCALE EmptyKeyFrame;
-		EmptyKeyFrame.time = time;
-		EmptyKeyFrame.nMask = KFM_UNKNOWN;
-		EmptyKeyFrame.vScale.Reset(1.0f, 1.0f, 1.0f);
-		FrameScale.insert(std::make_pair(EmptyKeyFrame.time, EmptyKeyFrame));
+		KEYFRAME_SCALE emptyKeyFrame;
+		emptyKeyFrame.time = time;
+		emptyKeyFrame.nMask = KFM_UNKNOWN;
+		emptyKeyFrame.vScale.Reset(1.0f, 1.0f, 1.0f);
+		frameScale.insert(std::make_pair(emptyKeyFrame.time, emptyKeyFrame));
 
-		itfound = FrameScale.find(time);
-		assert(itfound != FrameScale.end());
+		itfound = frameScale.find(time);
+		assert(itfound != frameScale.end());
 		pKeyFrame = &itfound->second;
 	}
 
 	return pKeyFrame;
 }
 
-ModelExporter::KEYFRAME_ROT* ModelExporter::GetKeyFrame(TM_KEYFRAME_ROT& FrameRot, TimeValue time)
+ModelExporter::KEYFRAME_ROT* ModelExporter::GetKeyFrame(TM_KEYFRAME_ROT& frameRot, TimeValue time)
 {
 	KEYFRAME_ROT* pKeyFrame = NULL;
 
-	TM_KEYFRAME_ROT::iterator itfound = FrameRot.find(time);
-	if (itfound != FrameRot.end())
+	TM_KEYFRAME_ROT::iterator itfound = frameRot.find(time);
+	if (itfound != frameRot.end())
 	{
 		pKeyFrame = &itfound->second;
 	}
 	else
 	{
-		KEYFRAME_ROT EmptyKeyFrame;
-		EmptyKeyFrame.time = time;
-		EmptyKeyFrame.nMask = KFM_UNKNOWN;
-		FrameRot.insert(std::make_pair(EmptyKeyFrame.time, EmptyKeyFrame));
+		KEYFRAME_ROT emptyKeyFrame;
+		emptyKeyFrame.time = time;
+		emptyKeyFrame.nMask = KFM_UNKNOWN;
+		frameRot.insert(std::make_pair(emptyKeyFrame.time, emptyKeyFrame));
 
-		itfound = FrameRot.find(time);
-		assert(itfound != FrameRot.end());
+		itfound = frameRot.find(time);
+		assert(itfound != frameRot.end());
 		pKeyFrame = &itfound->second;
 	}
 
 	return pKeyFrame;
 }
 
-bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAME_MASK eMask, float fValue)
+bool ModelExporter::InsertKeyFrame(BONE_INFO& boneInfo, TimeValue time, KEY_FRAME_MASK eMask, float fValue)
 {
 	switch (eMask)
 	{
 	case KFM_POS_X:
 		{
-			KEYFRAME_POS* pKeyFrame = GetKeyFrame(BoneInfo.mapFramePos, time);
+			KEYFRAME_POS* pKeyFrame = GetKeyFrame(boneInfo.mapFramePos, time);
 			if (pKeyFrame->nMask & eMask)
 			{
 				// TODO: logout
@@ -1365,7 +1358,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_POS_Y:
 		{
-			KEYFRAME_POS* pKeyFrame = GetKeyFrame(BoneInfo.mapFramePos, time);
+			KEYFRAME_POS* pKeyFrame = GetKeyFrame(boneInfo.mapFramePos, time);
 			if (pKeyFrame->nMask & eMask)
 			{
 				// TODO: logout
@@ -1377,7 +1370,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_POS_Z:
 		{
-			KEYFRAME_POS* pKeyFrame = GetKeyFrame(BoneInfo.mapFramePos, time);
+			KEYFRAME_POS* pKeyFrame = GetKeyFrame(boneInfo.mapFramePos, time);
 			if (pKeyFrame->nMask & eMask)
 			{
 				// TODO: logout
@@ -1389,7 +1382,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_SCALE_X:
 		{
-			KEYFRAME_SCALE* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameScale, time);
+			KEYFRAME_SCALE* pKeyFrame = GetKeyFrame(boneInfo.mapFrameScale, time);
 			if (pKeyFrame->nMask & eMask)
 			{
 				// TODO: logout
@@ -1401,7 +1394,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_SCALE_Y:
 		{
-			KEYFRAME_SCALE* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameScale, time);
+			KEYFRAME_SCALE* pKeyFrame = GetKeyFrame(boneInfo.mapFrameScale, time);
 			if (pKeyFrame->nMask & eMask)
 			{
 				// TODO: logout
@@ -1413,7 +1406,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_SCALE_Z:
 		{
-			KEYFRAME_SCALE* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameScale, time);
+			KEYFRAME_SCALE* pKeyFrame = GetKeyFrame(boneInfo.mapFrameScale, time);
 			if (pKeyFrame->nMask & eMask)
 			{
 				// TODO: logout
@@ -1425,7 +1418,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_ROT_X:
 		{
-			KEYFRAME_ROT* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameRot, time);
+			KEYFRAME_ROT* pKeyFrame = GetKeyFrame(boneInfo.mapFrameRot, time);
 			if (pKeyFrame->nMask & (eMask | KFM_QUAT))
 			{
 				// TODO: logout
@@ -1437,7 +1430,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_ROT_Y:
 		{
-			KEYFRAME_ROT* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameRot, time);
+			KEYFRAME_ROT* pKeyFrame = GetKeyFrame(boneInfo.mapFrameRot, time);
 			if (pKeyFrame->nMask & (eMask | KFM_QUAT))
 			{
 				// TODO: logout
@@ -1449,7 +1442,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_ROT_Z:
 		{
-			KEYFRAME_ROT* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameRot, time);
+			KEYFRAME_ROT* pKeyFrame = GetKeyFrame(boneInfo.mapFrameRot, time);
 			if (pKeyFrame->nMask & (eMask | KFM_QUAT))
 			{
 				// TODO: logout
@@ -1470,13 +1463,13 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 	return true;
 }
 
-bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAME_MASK eMask, const Point3& vValue)
+bool ModelExporter::InsertKeyFrame(BONE_INFO& boneInfo, TimeValue time, KEY_FRAME_MASK eMask, const Point3& vValue)
 {
 	switch (eMask)
 	{
 	case KFM_POS:
 		{
-			KEYFRAME_POS* pKeyFrame = GetKeyFrame(BoneInfo.mapFramePos, time);
+			KEYFRAME_POS* pKeyFrame = GetKeyFrame(boneInfo.mapFramePos, time);
 			if (pKeyFrame->nMask & eMask)
 			{
 				// TODO: logout
@@ -1488,7 +1481,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_SCALE:
 		{
-			KEYFRAME_SCALE* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameScale, time);
+			KEYFRAME_SCALE* pKeyFrame = GetKeyFrame(boneInfo.mapFrameScale, time);
 			if (pKeyFrame->nMask & eMask)
 			{
 				// TODO: logout
@@ -1500,7 +1493,7 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 		break;
 	case KFM_ROT:
 		{
-			KEYFRAME_ROT* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameRot, time);
+			KEYFRAME_ROT* pKeyFrame = GetKeyFrame(boneInfo.mapFrameRot, time);
 			if (pKeyFrame->nMask & (eMask | KFM_QUAT))
 			{
 				// TODO: logout
@@ -1521,9 +1514,9 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, KEY_FRAM
 	return true;
 }
 
-bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, const Quat& qValue)
+bool ModelExporter::InsertKeyFrame(BONE_INFO& boneInfo, TimeValue time, const Quat& qValue)
 {
-	KEYFRAME_ROT* pKeyFrame = GetKeyFrame(BoneInfo.mapFrameRot, time);
+	KEYFRAME_ROT* pKeyFrame = GetKeyFrame(boneInfo.mapFrameRot, time);
 	if (pKeyFrame->nMask & KFM_ROT)
 	{
 		// TODO: logout
@@ -1536,23 +1529,23 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, const Qu
 	return true;
 }
 
-bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, const GMatrix& matValue)
+bool ModelExporter::InsertKeyFrame(BONE_INFO& boneInfo, TimeValue time, const GMatrix& matValue)
 {
-	KEYFRAME_POS* pKeyFramePos = GetKeyFrame(BoneInfo.mapFramePos, time);
+	KEYFRAME_POS* pKeyFramePos = GetKeyFrame(boneInfo.mapFramePos, time);
 	if (pKeyFramePos->nMask & KFM_POS)
 	{
 		// TODO: logout
 		assert(false);
 	}
 
-	KEYFRAME_SCALE* pKeyFrameScale = GetKeyFrame(BoneInfo.mapFrameScale, time);
+	KEYFRAME_SCALE* pKeyFrameScale = GetKeyFrame(boneInfo.mapFrameScale, time);
 	if (pKeyFrameScale->nMask & KFM_SCALE)
 	{
 		// TODO: logout
 		assert(false);
 	}
 
-	KEYFRAME_ROT* pKeyFrameRot = GetKeyFrame(BoneInfo.mapFrameRot, time);
+	KEYFRAME_ROT* pKeyFrameRot = GetKeyFrame(boneInfo.mapFrameRot, time);
 	if (pKeyFrameRot->nMask & (KFM_ROT | KFM_QUAT))
 	{
 		// TODO: logout
@@ -1573,110 +1566,64 @@ bool ModelExporter::InsertKeyFrame(BONE_INFO& BoneInfo, TimeValue time, const GM
 void ModelExporter::MaxMat2SpankMat(Matrix4x4& matOut, const GMatrix& matIn)
 {
 	matOut.e[0] = matIn[0][0];
-	matOut.e[1] = matIn[0][2];
-	matOut.e[2] = matIn[0][1];
-	matOut.e[3] = 0.0f;
+	matOut.e[1] = matIn[0][1];
+	matOut.e[2] = matIn[0][2];
+	matOut.e[3] = matIn[0][3];
 
-	matOut.e[4] = matIn[2][0];
-	matOut.e[5] = matIn[2][2];
-	matOut.e[6] = matIn[2][1];
-	matOut.e[7] = 0.0f;
+	matOut.e[4] = matIn[1][0];
+	matOut.e[5] = matIn[1][1];
+	matOut.e[6] = matIn[1][2];
+	matOut.e[7] = matIn[1][3];
 
-	matOut.e[8] = matIn[1][0];
-	matOut.e[9] = matIn[1][2];
-	matOut.e[10] = matIn[1][1];
-	matOut.e[11] = 0.0f;
+	matOut.e[8] = matIn[2][0];
+	matOut.e[9] = matIn[2][1];
+	matOut.e[10] = matIn[2][2];
+	matOut.e[11] = matIn[2][3];
 
 	matOut.e[12] = matIn[3][0];
-	matOut.e[13] = matIn[3][2];
-	matOut.e[14] = matIn[3][1];
-	matOut.e[15] = 1.0f;
-}
-
-void ModelExporter::SpankMat2MaxMat(GMatrix& matOut, const Matrix4x4& matIn)
-{
-	matOut[0][0] = matIn.e[0];
-	matOut[0][1] = matIn.e[2];
-	matOut[0][2] = matIn.e[1];
-	matOut[0][3] = 0.0f;
-
-	matOut[1][0] = matIn.e[8];
-	matOut[1][1] = matIn.e[10];
-	matOut[1][2] = matIn.e[9];
-	matOut[1][3] = 0.0f;
-
-	matOut[2][0] = matIn.e[4];
-	matOut[2][1] = matIn.e[6];
-	matOut[2][2] = matIn.e[5];
-	matOut[2][3] = 0.0f;
-
-	matOut[3][0] = matIn.e[12];
-	matOut[3][1] = matIn.e[14];
-	matOut[3][2] = matIn.e[13];
-	matOut[3][3] = 1.0f;
+	matOut.e[13] = matIn[3][1];
+	matOut.e[14] = matIn[3][2];
+	matOut.e[15] = matIn[3][3];
 }
 
 void ModelExporter::MaxQuat2SpankQuat(Quaternion& qOut, const Quat& qIn)
 {
-	qOut.x = -qIn.x;
-	qOut.y = -qIn.z;
-	qOut.z = -qIn.y;
-	qOut.w = qIn.w;
-}
-
-void ModelExporter::SpankQuat2MaxQuat(Quat& qOut, const Quaternion& qIn)
-{
-	qOut.x = -qIn.x;
-	qOut.y = -qIn.z;
-	qOut.z = -qIn.y;
+	qOut.x = qIn.x;
+	qOut.y = qIn.y;
+	qOut.z = qIn.z;
 	qOut.w = qIn.w;
 }
 
 void ModelExporter::MaxVec2SpankVec(Vector3& vOut, const Point3& vIn)
 {
 	vOut.x = vIn.x;
-	vOut.y = vIn.z;
-	vOut.z = vIn.y;
+	vOut.y = vIn.y;
+	vOut.z = vIn.z;
 }
 
-void ModelExporter::SpankVec2MaxVec(Point3& vOut, const Vector3& vIn)
+void ModelExporter::MaxVec2SpankVec(float* fOut3, const Point3& vIn)
 {
-	vOut.x = vIn.x;
-	vOut.y = vIn.z;
-	vOut.z = vIn.y;
+	fOut3[0] = vIn.x;
+	fOut3[1] = vIn.y;
+	fOut3[2] = vIn.z;
 }
 
 void ModelExporter::MaxEular2SpankEular(Vector3& vOut, const Point3& vIn)
 {
-	vOut.x = -vIn.x;
-	vOut.y = vIn.z;
-	vOut.z = vIn.y;
+	vOut.x = vIn.x;
+	vOut.y = vIn.y;
+	vOut.z = vIn.z;
 }
 
-void ModelExporter::SpankEular2MaxEular(Point3& vOut, const Vector3& vIn)
+void ModelExporter::MaxUV2SpankUV(float* fOut2, const Point2& uv)
 {
-	vOut.x = -vIn.x;
-	vOut.y = vIn.z;
-	vOut.z = vIn.y;
+	fOut2[0] = uv.x;
+	fOut2[1] = uv.y;
 }
 
-void ModelExporter::SortSkin(TV_SKIN& vSkin)
+void ModelExporter::MaxFaceIndex2SpankFaceIndex(ushort* nOut3, const int* indis)
 {
-	int nNumSkins = vSkin.size();
-
-	for (int i = 0; i < nNumSkins-1; ++i)
-	{
-		int nChoose = i;
-		for (int j = i+1; j < nNumSkins; ++j)
-		{
-			if (vSkin[j].fWeight > vSkin[nChoose].fWeight) nChoose = j;
-		}
-
-		if (nChoose != i)
-		{
-			SKIN Skin = vSkin[i];
-			vSkin[i] = vSkin[nChoose];
-			vSkin[nChoose] = Skin;
-		}
-	}
+	nOut3[0] = (ushort)indis[0];
+	nOut3[1] = (ushort)indis[1];
+	nOut3[2] = (ushort)indis[2];
 }

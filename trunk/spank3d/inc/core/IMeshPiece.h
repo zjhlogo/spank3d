@@ -20,7 +20,7 @@ public:
 
 	virtual const tstring& GetName() const = 0;
 
-	virtual int GetMaterialID() const = 0;
+	virtual int GetMaterialId() const = 0;
 	virtual int GetVertDeclMask() const = 0;
 
 	virtual int GetNumVerts() const = 0;

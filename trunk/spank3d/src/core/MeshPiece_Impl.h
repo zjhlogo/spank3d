@@ -22,7 +22,7 @@ public:
 
 	virtual const tstring& GetName() const;
 
-	virtual int GetMaterialID() const;
+	virtual int GetMaterialId() const;
 	virtual int GetVertDeclMask() const;
 
 	virtual int GetNumVerts() const;
