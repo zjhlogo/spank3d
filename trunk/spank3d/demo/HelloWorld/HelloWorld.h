@@ -9,6 +9,7 @@
 #define __HELLOWORLD_H__
 
 #include <Spank3D.h>
+#include <core/camera/TargetCamera.h>
 
 class HelloWorld : public IApp
 {
@@ -28,6 +29,7 @@ private:
 
 	IShader* m_pShader;
 	IMesh* m_pMesh;
+	TargetCamera m_Camera;
 
 };
 #endif // __HELLOWORLD_H__

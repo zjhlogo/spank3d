@@ -7,11 +7,10 @@
  */
 #include <event/MouseEvent.h>
 
-MouseEvent::MouseEvent(uint nId, IEventDispatcher* pDispatcher)
-:IEvent(nId, pDispatcher)
+MouseEvent::MouseEvent(MOUSE_EVENT_TYPE eEventType, IEventDispatcher* pDispatcher)
+:IEvent(EID_MOUSE_EVENT, pDispatcher)
 {
-	m_Position.x = 0;
-	m_Position.y = 0;
+	m_eMouseEventType = eEventType;
 	m_nWheelDetail = 0;
 }
 
@@ -20,15 +19,25 @@ MouseEvent::~MouseEvent()
 	// TODO: 
 }
 
-void MouseEvent::SetPosition(int x, int y)
+MouseEvent::MOUSE_EVENT_TYPE MouseEvent::GetMouseEventType() const
 {
-	m_Position.x = x;
-	m_Position.y = y;
+	return m_eMouseEventType;
 }
 
-const MouseEvent::POSITION& MouseEvent::GetPosition() const
+void MouseEvent::SetPosition(const Vector2i& pos)
 {
-	return m_Position;
+	SetPosition(pos.x, pos.y);
+}
+
+void MouseEvent::SetPosition(int x, int y)
+{
+	m_vPosition.x = x;
+	m_vPosition.y = y;
+}
+
+const Vector2i& MouseEvent::GetPosition() const
+{
+	return m_vPosition;
 }
 
 void MouseEvent::SetWheelDetail(int nWheel)

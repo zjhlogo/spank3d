@@ -165,7 +165,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent event(EID_LBUTTON_DOWN, g_pDevice);
+			MouseEvent event(MouseEvent::MET_LBUTTON_DOWN, g_pDevice);
 			event.SetPosition(x, y);
 			g_pDevice->DispatchEvent(event);
 		}
@@ -176,7 +176,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent event(EID_LBUTTON_UP, g_pDevice);
+			MouseEvent event(MouseEvent::MET_LBUTTON_UP, g_pDevice);
 			event.SetPosition(x, y);
 			g_pDevice->DispatchEvent(event);
 
@@ -189,7 +189,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent event(EID_MOUSE_MOVE, g_pDevice);
+			MouseEvent event(MouseEvent::MET_MOUSE_MOVE, g_pDevice);
 			event.SetPosition(x, y);
 			event.SetPosition((int)x-s_nLastMousePosX, (int)y-s_nLastMousePosY);
 			g_pDevice->DispatchEvent(event);
@@ -201,7 +201,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		{
 			// dispatch event
-			KeyboardEvent event(EID_KEY_DOWN, g_pDevice);
+			KeyboardEvent event(KeyboardEvent::KET_KEY_DOWN, g_pDevice);
 			event.SetKeyCode(wParam);
 			g_pDevice->DispatchEvent(event);
 		}
@@ -209,7 +209,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYUP:
 		{
 			// dispatch event
-			KeyboardEvent event(EID_KEY_UP, g_pDevice);
+			KeyboardEvent event(KeyboardEvent::KET_KEY_UP, g_pDevice);
 			event.SetKeyCode(wParam);
 			g_pDevice->DispatchEvent(event);
 		}
@@ -383,11 +383,25 @@ void Device_Impl::InitializeOGL()
 {
 	glewInit();
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);				// Black Background
-	glClearDepth(1.0f);									// Depth Buffer Setup
-	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
-	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
+	// Black Background
+	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 
-	glViewport(0, 0, m_WindowWidth, m_WindowHeight);	// Reset The Current Viewport
+	// Depth Buffer Setup
+	glClearDepth(1.0f);
+
+	// enable Depth Testing
+	glEnable(GL_DEPTH_TEST);
+
+	// enable cull mode
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	// The Type Of Depth Testing To Do
+	glDepthFunc(GL_LEQUAL);
+
+	// Really Nice Perspective Calculations
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+	// Reset The Current Viewport
+	glViewport(0, 0, m_WindowWidth, m_WindowHeight);
 }

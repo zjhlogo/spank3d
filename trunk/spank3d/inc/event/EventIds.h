@@ -12,18 +12,8 @@ enum EVENT_ID_DEF
 {
 	EID_UNKNOWN = 0,
 
-	EID_LBUTTON_DOWN,				// MouseEvent
-	EID_LBUTTON_UP,					// MouseEvent
-	EID_MBUTTON_DOWN,				// MouseEvent
-	EID_MBUTTON_UP,					// MouseEvent
-	EID_RBUTTON_DOWN,				// MouseEvent
-	EID_RBUTTON_UP,					// MouseEvent
-	EID_MOUSE_MOVE,					// MouseEvent
-	EID_MOUSE_WHEEL,				// MouseEvent
-
-	EID_KEY_DOWN,					// KeyboardEvent
-	EID_KEY_UP,						// KeyboardEvent
-	EID_CHAR,						// KeyboardEvent
+	EID_MOUSE_EVENT,				// MouseEvent
+	EID_KEYBOARD_EVENT,				// KeyboardEvent
 
 	EID_START_PERFORM,				// IEvent
 
