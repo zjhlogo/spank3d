@@ -39,6 +39,7 @@ DlgOption::~DlgOption()
 bool DlgOption::Initialize(HWND hWndThis)
 {
 	m_hWndThis = hWndThis;
+	CenterWindow(m_hWndThis);
 	UpdateView();
 	return true;
 }
@@ -263,4 +264,37 @@ void DlgOption::UpdateData()
 	if (SendDlgItemMessage(m_hWndThis, IDC_TANGENT, BM_GETCHECK, 0, 0) == BST_CHECKED) m_dwVertexAttrs |= FmtMesh::VA_TANGENT;
 	if (SendDlgItemMessage(m_hWndThis, IDC_BINORMAL, BM_GETCHECK, 0, 0) == BST_CHECKED) m_dwVertexAttrs |= FmtMesh::VA_BINORMAL;
 	if (SendDlgItemMessage(m_hWndThis, IDC_SKELETON, BM_GETCHECK, 0, 0) == BST_CHECKED) m_dwVertexAttrs |= FmtMesh::VA_SKELETON;
+}
+
+void DlgOption::CenterWindow(HWND hWnd)
+{
+	// get window rect
+	RECT rectWindow;
+	GetWindowRect(hWnd, &rectWindow);
+
+	// get parent window rect
+	RECT rectParent;
+	HWND hWndParent = GetParent(hWnd);
+
+	if (hWndParent)
+	{
+		GetWindowRect(hWndParent, &rectParent);
+	}
+	else
+	{
+		rectParent.left = 0;
+		rectParent.top = 0;
+		rectParent.right = GetSystemMetrics(SM_CXSCREEN);
+		rectParent.bottom = GetSystemMetrics(SM_CYSCREEN);
+	}
+
+	// calculate new position
+	int nWidth = rectWindow.right - rectWindow.left;
+	int nHeight = rectWindow.bottom - rectWindow.top;
+
+	int nX = ((rectParent.right - rectParent.left) - nWidth) / 2 + rectParent.left;
+	int nY = ((rectParent.bottom - rectParent.top) - nHeight) / 2 + rectParent.top;
+
+	// set new position
+	MoveWindow(hWnd, nX, nY, nWidth, nHeight, FALSE);
 }

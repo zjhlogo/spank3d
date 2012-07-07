@@ -174,6 +174,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\math\Vector2i.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\math\Vector2i.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\math\Vector3.h"
 				>
 			</File>
@@ -293,6 +301,42 @@
 				RelativePath=".\inc\core\Rtti.h"
 				>
 			</File>
+			<Filter
+				Name="camera"
+				>
+				<File
+					RelativePath=".\src\core\camera\ICamera.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\core\camera\ICamera.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\core\camera\ICameraControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\core\camera\ICameraControl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\core\camera\TargetCamera.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\core\camera\TargetCamera.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\core\camera\TargetCameraControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\core\camera\TargetCameraControl.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="util"

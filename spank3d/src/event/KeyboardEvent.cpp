@@ -7,15 +7,21 @@
  */
 #include <event/KeyboardEvent.h>
 
-KeyboardEvent::KeyboardEvent(uint nId, IEventDispatcher* pDispatcher)
-:IEvent(nId, pDispatcher)
+KeyboardEvent::KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType, IEventDispatcher* pDispatcher)
+:IEvent(EID_KEYBOARD_EVENT, pDispatcher)
 {
+	m_eKeyboardEventType = eEventType;
 	m_nKeyCode = 0;
 }
 
 KeyboardEvent::~KeyboardEvent()
 {
 	// TODO: 
+}
+
+KeyboardEvent::KEYBOARD_EVENT_TYPE KeyboardEvent::GetKeyboardEventType() const
+{
+	return m_eKeyboardEventType;
 }
 
 void KeyboardEvent::SetKeyCode(uint nKeyCode)

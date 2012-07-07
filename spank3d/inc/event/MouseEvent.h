@@ -9,29 +9,42 @@
 #define __MOUSEEVENT_H__
 
 #include "../core/IEvent.h"
+#include "EventIds.h"
+#include "../math/Vector2i.h"
 
 class MouseEvent : public IEvent
 {
 public:
-	typedef struct POSITION_tag
+	enum MOUSE_EVENT_TYPE
 	{
-		int x, y;
-	} POSITION;
+		MET_LBUTTON_DOWN,				// MouseEvent
+		MET_LBUTTON_UP,					// MouseEvent
+		MET_MBUTTON_DOWN,				// MouseEvent
+		MET_MBUTTON_UP,					// MouseEvent
+		MET_RBUTTON_DOWN,				// MouseEvent
+		MET_RBUTTON_UP,					// MouseEvent
+		MET_MOUSE_MOVE,					// MouseEvent
+		MET_MOUSE_WHEEL					// MouseEvent
+	};
 
 public:
 	RTTI_DEF(MouseEvent, IEvent);
 
-	MouseEvent(uint nId, IEventDispatcher* pDispatcher);
+	MouseEvent(MOUSE_EVENT_TYPE eEventType, IEventDispatcher* pDispatcher);
 	virtual ~MouseEvent();
 
+	MOUSE_EVENT_TYPE GetMouseEventType() const;
+
+	void SetPosition(const Vector2i& pos);
 	void SetPosition(int x, int y);
-	const POSITION& GetPosition() const;
+	const Vector2i& GetPosition() const;
 
 	void SetWheelDetail(int nWheel);
 	int GetWheelDetail() const;
 
 private:
-	POSITION m_Position;
+	MOUSE_EVENT_TYPE m_eMouseEventType;
+	Vector2i m_vPosition;
 	int m_nWheelDetail;
 
 };

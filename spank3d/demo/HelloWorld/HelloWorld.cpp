@@ -7,7 +7,7 @@
  */
 #include "HelloWorld.h"
 #include <util/AppUtil.h>
-#include <gl/glew.h>
+#include <event/EventIds.h>
 
 IMPLEMENT_APP(HelloWorld);
 
@@ -47,8 +47,9 @@ void HelloWorld::Update(float dt)
 	Matrix4x4 matWorld;
 	Math::BuildRotationYMatrix(matWorld, m_fRotY);
 
-	Matrix4x4 matView;
-	Math::BuildLookAtMatrix(matView, Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
+	m_Camera.SetPosition(Vector3(0.0f, 0.0f, 5.0f));
+	m_Camera.SetTargetPosition(Vector3(0.0f, 0.0f, 0.0f));
+	const Matrix4x4& matView = m_Camera.GetViewMatrix();
 
 	Matrix4x4 matProj;
 	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetWindowWidth(), g_pDevice->GetWindowHeight(), 0.1f, 100.0f);

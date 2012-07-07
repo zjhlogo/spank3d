@@ -33,6 +33,7 @@ private:
 	void UpdateView();
 	void UpdateData();
 
+	void CenterWindow(HWND hWnd);
 	static BOOL CALLBACK DlgOptionProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:

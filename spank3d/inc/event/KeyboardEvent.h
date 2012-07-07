@@ -13,15 +13,25 @@
 class KeyboardEvent : public IEvent
 {
 public:
+	enum KEYBOARD_EVENT_TYPE
+	{
+		KET_KEY_DOWN,					// KeyboardEvent
+		KET_KEY_UP,						// KeyboardEvent
+		KET_CHAR						// KeyboardEvent
+	};
+public:
 	RTTI_DEF(KeyboardEvent, IEvent);
 
-	KeyboardEvent(uint nId, IEventDispatcher* pDispatcher);
+	KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType, IEventDispatcher* pDispatcher);
 	virtual ~KeyboardEvent();
+
+	KEYBOARD_EVENT_TYPE GetKeyboardEventType() const;
 
 	void SetKeyCode(uint nKeyCode);
 	uint GetKeyCode() const;
 
 private:
+	KEYBOARD_EVENT_TYPE m_eKeyboardEventType;
 	uint m_nKeyCode;
 
 };
