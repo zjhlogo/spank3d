@@ -24,7 +24,7 @@ public:
 	IEventDispatcher* GetDispatcher() const;
 
 private:
-	uint nId;
+	uint m_nId;
 	IEventDispatcher* m_pDispatcher;
 
 };

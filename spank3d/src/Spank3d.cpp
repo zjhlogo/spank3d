@@ -1,11 +1,11 @@
 /*!
- * \file Spank3D.cpp
+ * \file Spank3d.cpp
  * \date 4-15-2012 11:54:30
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <Spank3D.h>
+#include <Spank3d.h>
 
 Core* g_pCore = NULL;
 IResMgr* g_pResMgr = NULL;

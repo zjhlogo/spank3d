@@ -19,17 +19,10 @@ public:
 	ICamera();
 	virtual ~ICamera();
 
-	void InvalidMatrix();
-	void ClearMatrixInvalid();
-	bool IsMatrixInvalid() const;
-
+	void SetViewMatrix(const Matrix4x4& m);
 	const Matrix4x4& GetViewMatrix();
 
-protected:
-	virtual void UpdateViewMatrix(Matrix4x4& matView) = 0;
-
 private:
-	bool m_IsMatrixInvalid;
 	Matrix4x4 m_matView;
 
 };

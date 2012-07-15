@@ -321,14 +321,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\core\camera\TargetCamera.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\inc\core\camera\TargetCamera.h"
-					>
-				</File>
-				<File
 					RelativePath=".\src\core\camera\TargetCameraControl.cpp"
 					>
 				</File>
@@ -467,11 +459,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\src\Spank3D.cpp"
+			RelativePath=".\src\Spank3d.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\inc\Spank3D.h"
+			RelativePath=".\inc\Spank3d.h"
 			>
 		</File>
 	</Files>

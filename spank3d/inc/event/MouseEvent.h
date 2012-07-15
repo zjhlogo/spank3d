@@ -39,12 +39,17 @@ public:
 	void SetPosition(int x, int y);
 	const Vector2i& GetPosition() const;
 
+	void SetOffset(const Vector2i& offset);
+	void SetOffset(int x, int y);
+	const Vector2i& GetOffset() const;
+
 	void SetWheelDetail(int nWheel);
 	int GetWheelDetail() const;
 
 private:
 	MOUSE_EVENT_TYPE m_eMouseEventType;
 	Vector2i m_vPosition;
+	Vector2i m_vOffset;
 	int m_nWheelDetail;
 
 };

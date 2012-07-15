@@ -37,6 +37,8 @@ public:
 	static void BuildRotationYMatrix(Matrix4x4& m, float r);
 	static void BuildRotationZMatrix(Matrix4x4& m, float r);
 
+	static void BuildMatrixFromEulerXYZ(Matrix4x4& m, float x, float y, float z);
+
 	static void BuildQuaternionFromMatrix(Quaternion& q, const Matrix4x4& m);
 	static void BuildQuaternionFromEulerXYZ(Quaternion& q, float x, float y, float z);
 

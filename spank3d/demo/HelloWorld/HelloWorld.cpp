@@ -13,9 +13,10 @@ IMPLEMENT_APP(HelloWorld);
 
 HelloWorld::HelloWorld()
 {
-	m_fRotY = 0.0f;
 	m_pShader = NULL;
 	m_pMesh = NULL;
+	m_pCamera = NULL;
+	m_pTargetCameraCtrl = NULL;
 }
 
 HelloWorld::~HelloWorld()
@@ -31,30 +32,32 @@ bool HelloWorld::Initialize()
 	m_pMesh = g_pResMgr->CreateMesh("teapot.mesh");
 	if (!m_pMesh) return false;
 
+	m_pCamera = new ICamera();
+	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera);
+
+	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&HelloWorld::OnMouseEvent));
+
 	return true;
 }
 
 void HelloWorld::Terminate()
 {
-	SAFE_RELEASE(m_pShader);
+	SAFE_DELETE(m_pTargetCameraCtrl);
+	SAFE_DELETE(m_pCamera);
 	SAFE_RELEASE(m_pMesh);
+	SAFE_RELEASE(m_pShader);
 }
 
 void HelloWorld::Update(float dt)
 {
  	m_pShader->Commit();
 
-	Matrix4x4 matWorld;
-	Math::BuildRotationYMatrix(matWorld, m_fRotY);
-
-	m_Camera.SetPosition(Vector3(0.0f, 0.0f, 5.0f));
-	m_Camera.SetTargetPosition(Vector3(0.0f, 0.0f, 0.0f));
-	const Matrix4x4& matView = m_Camera.GetViewMatrix();
+	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
 
 	Matrix4x4 matProj;
 	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetWindowWidth(), g_pDevice->GetWindowHeight(), 0.1f, 100.0f);
 
-	Matrix4x4 matWorldViewProj = matProj*matView*matWorld;
+	Matrix4x4 matWorldViewProj = matProj*matView;
 	m_pShader->SetMatrix4x4(matWorldViewProj, "u_matModelViewProj");
 
 	for (int i = 0; i < m_pMesh->GetNumPieces(); ++i)
@@ -62,6 +65,9 @@ void HelloWorld::Update(float dt)
 		IMeshPiece* pMeshPiece = m_pMesh->GetPiece(i);
 		m_pShader->DrawTriangleList(pMeshPiece->GetVerts(), pMeshPiece->GetNumVerts(), pMeshPiece->GetIndis(), pMeshPiece->GetNumIndis());
 	}
+}
 
-	m_fRotY += (dt*0.1f);
+bool HelloWorld::OnMouseEvent(MouseEvent& mouseEvent)
+{
+	return m_pTargetCameraCtrl->HandleMouseEvent(mouseEvent);
 }

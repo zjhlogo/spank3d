@@ -8,8 +8,8 @@
 #ifndef __HELLOWORLD_H__
 #define __HELLOWORLD_H__
 
-#include <Spank3D.h>
-#include <core/camera/TargetCamera.h>
+#include <Spank3d.h>
+#include <core/camera/TargetCameraControl.h>
 
 class HelloWorld : public IApp
 {
@@ -25,11 +25,13 @@ public:
 	virtual void Update(float dt);
 
 private:
-	float m_fRotY;
+	bool OnMouseEvent(MouseEvent& mouseEvent);
 
+private:
 	IShader* m_pShader;
 	IMesh* m_pMesh;
-	TargetCamera m_Camera;
+	ICamera* m_pCamera;
+	TargetCameraControl* m_pTargetCameraCtrl;
 
 };
 #endif // __HELLOWORLD_H__

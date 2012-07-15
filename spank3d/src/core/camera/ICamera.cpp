@@ -9,7 +9,7 @@
 
 ICamera::ICamera()
 {
-	m_IsMatrixInvalid = true;
+	// TODO: 
 }
 
 ICamera::~ICamera()
@@ -17,27 +17,12 @@ ICamera::~ICamera()
 	// TODO: 
 }
 
-void ICamera::InvalidMatrix()
+void ICamera::SetViewMatrix(const Matrix4x4& m)
 {
-	m_IsMatrixInvalid = true;
-}
-
-void ICamera::ClearMatrixInvalid()
-{
-	m_IsMatrixInvalid = false;
-}
-
-bool ICamera::IsMatrixInvalid() const
-{
-	return m_IsMatrixInvalid;
+	m_matView = m;
 }
 
 const Matrix4x4& ICamera::GetViewMatrix()
 {
-	if (IsMatrixInvalid())
-	{
-		UpdateViewMatrix(m_matView);
-		ClearMatrixInvalid();
-	}
 	return m_matView;
 }
