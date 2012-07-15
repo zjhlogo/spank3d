@@ -161,6 +161,42 @@ void Math::BuildRotationZMatrix(Matrix4x4& m, float r)
 			0.0f, 0.0f, 0.0f, 1.0f);
 }
 
+void Math::BuildMatrixFromEulerXYZ(Matrix4x4& m, float x, float y, float z)
+{
+	// formula
+	//     [ cos(x)*cos(z)-cos(y)*sin(x)*sin(z),     -cos(y)*cos(z)*sin(x)-cos(x)*sin(z),      sin(x)*sin(y),     0 ]
+	// R = [ cos(z)*sin(x)+cos(x)*cos(y)*sin(z),      cos(x)*cos(y)*cos(z)-sin(x)*sin(z),     -cos(x)*sin(y),     0 ]
+	//     [-sin(y)*sin(z),                           cos(z)*sin(y),                           cos(y),            0 ]
+	//     [ 0,                                       0,                                       0,                 1 ]
+
+	float cx = cosf(x);
+	float cy = cosf(y);
+	float cz = cosf(z);
+	float sx = sinf(x);
+	float sy = sinf(y);
+	float sz = sinf(z);
+
+	m.e[0] = cx*cz-cy*sx*sz;
+	m.e[1] = -cy*cz*sx-cx*sz;
+	m.e[2] = sx*sy;
+	m.e[3] = 0.0f;
+
+	m.e[4] = cz*sx+cx*cy*sz;
+	m.e[5] = cx*cy*cz-sx*sz;
+	m.e[6] = -cx*sy;
+	m.e[7] = 0.0f;
+
+	m.e[8] = -sy*sz;
+	m.e[9] = cz*sy;
+	m.e[10] = cy;
+	m.e[11] = 0.0f;
+
+	m.e[12] = 0.0f;
+	m.e[13] = 0.0f;
+	m.e[14] = 0.0f;
+	m.e[15] = 1.0f;
+}
+
 void Math::BuildQuaternionFromMatrix(Quaternion& q, const Matrix4x4& m)
 {
 	float fWSquaredMinus1 = m.e[0] + m.e[5] + m.e[10];

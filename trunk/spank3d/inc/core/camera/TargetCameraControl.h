@@ -9,19 +9,27 @@
 #define __TARGETCAMERACONTROL_H__
 
 #include "ICameraControl.h"
-#include "TargetCamera.h"
 
 class TargetCameraControl : public ICameraControl
 {
 public:
 	RTTI_DEF(TargetCameraControl, ICameraControl);
 
-	TargetCameraControl(TargetCamera* pCamera);
+	TargetCameraControl(ICamera* pCamera);
 	virtual ~TargetCameraControl();
 
 	virtual void Update(float dt);
 	virtual bool HandleMouseEvent(MouseEvent& mouseEvent);
 	virtual bool HandleKeyboardEvent(KeyboardEvent& keyboardEvent);
+
+private:
+	void DoMouseMove(const Vector2i& offset);
+	void UpdateMatrix();
+
+private:
+	bool m_bMouseDown;
+	float m_fRotX;
+	float m_fRotY;
 
 };
 #endif // __TARGETCAMERACONTROL_H__

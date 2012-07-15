@@ -10,7 +10,7 @@
 
 IEvent::IEvent(uint nId, IEventDispatcher* pDispatcher)
 {
-	nId = nId;
+	m_nId = nId;
 	m_pDispatcher = pDispatcher;
 }
 
@@ -21,7 +21,7 @@ IEvent::~IEvent()
 
 uint IEvent::GetId() const
 {
-	return nId;
+	return m_nId;
 }
 
 IEventDispatcher* IEvent::GetDispatcher() const

@@ -40,6 +40,22 @@ const Vector2i& MouseEvent::GetPosition() const
 	return m_vPosition;
 }
 
+void MouseEvent::SetOffset(const Vector2i& offset)
+{
+	SetOffset(offset.x, offset.y);
+}
+
+void MouseEvent::SetOffset(int x, int y)
+{
+	m_vOffset.x = x;
+	m_vOffset.y = y;
+}
+
+const Vector2i& MouseEvent::GetOffset() const
+{
+	return m_vOffset;
+}
+
 void MouseEvent::SetWheelDetail(int nWheel)
 {
 	m_nWheelDetail = nWheel;

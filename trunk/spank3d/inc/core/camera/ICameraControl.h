@@ -26,7 +26,7 @@ public:
 	virtual bool HandleMouseEvent(MouseEvent& mouseEvent) = 0;
 	virtual bool HandleKeyboardEvent(KeyboardEvent& keyboardEvent) = 0;
 
-private:
+protected:
 	ICamera* m_pCamera;
 
 };

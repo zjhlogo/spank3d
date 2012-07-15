@@ -1,5 +1,5 @@
 /*!
- * \file Spank3D.h
+ * \file Spank3d.h
  * \date 4-15-2012 11:51:02
  * 
  * 
