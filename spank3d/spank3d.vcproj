@@ -270,6 +270,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\core\ITexture.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\core\Mesh_Impl.cpp"
 				>
 			</File>
@@ -299,6 +303,14 @@
 			</File>
 			<File
 				RelativePath=".\inc\core\Rtti.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\Texture_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\Texture_Impl.h"
 				>
 			</File>
 			<Filter
