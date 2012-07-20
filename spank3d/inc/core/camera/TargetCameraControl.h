@@ -15,7 +15,7 @@ class TargetCameraControl : public ICameraControl
 public:
 	RTTI_DEF(TargetCameraControl, ICameraControl);
 
-	TargetCameraControl(ICamera* pCamera);
+	TargetCameraControl(ICamera* pCamera, const Vector3& eye, const Vector3& target);
 	virtual ~TargetCameraControl();
 
 	virtual void Update(float dt);
@@ -24,12 +24,16 @@ public:
 
 private:
 	void DoMouseMove(const Vector2i& offset);
+	void DoMouseWheel(float wheel);
 	void UpdateMatrix();
 
 private:
 	bool m_bMouseDown;
 	float m_fRotX;
 	float m_fRotY;
+
+	Vector3 m_vEye;
+	Vector3 m_vTarget;
 
 };
 #endif // __TARGETCAMERACONTROL_H__
