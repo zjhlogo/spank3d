@@ -165,9 +165,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvnet(MouseEvent::MET_LBUTTON_DOWN, g_pDevice);
-			mouseEvnet.SetPosition(x, y);
-			g_pDevice->DispatchEvent(mouseEvnet);
+			MouseEvent mouseEvent(MouseEvent::MET_LBUTTON_DOWN, g_pDevice);
+			mouseEvent.SetPosition(x, y);
+			g_pDevice->DispatchEvent(mouseEvent);
 
 			s_nLastMousePosX = x;
 			s_nLastMousePosY = y;
@@ -179,9 +179,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvnet(MouseEvent::MET_LBUTTON_UP, g_pDevice);
-			mouseEvnet.SetPosition(x, y);
-			g_pDevice->DispatchEvent(mouseEvnet);
+			MouseEvent mouseEvent(MouseEvent::MET_LBUTTON_UP, g_pDevice);
+			mouseEvent.SetPosition(x, y);
+			g_pDevice->DispatchEvent(mouseEvent);
 
 			ReleaseCapture();
 
@@ -195,13 +195,26 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvnet(MouseEvent::MET_MOUSE_MOVE, g_pDevice);
-			mouseEvnet.SetPosition(x, y);
-			mouseEvnet.SetOffset((int)x-s_nLastMousePosX, (int)y-s_nLastMousePosY);
-			g_pDevice->DispatchEvent(mouseEvnet);
+			MouseEvent mouseEvent(MouseEvent::MET_MOUSE_MOVE, g_pDevice);
+			mouseEvent.SetPosition(x, y);
+			mouseEvent.SetOffset((int)x-s_nLastMousePosX, (int)y-s_nLastMousePosY);
+			g_pDevice->DispatchEvent(mouseEvent);
 
 			s_nLastMousePosX = x;
 			s_nLastMousePosY = y;
+		}
+		break;
+	case WM_MOUSEWHEEL:
+		{
+			short x = LOWORD(lParam);
+			short y = HIWORD(lParam);
+			short wheel = HIWORD(wParam);
+
+			// dispatch event
+			MouseEvent mouseEvent(MouseEvent::MET_MOUSE_WHEEL, g_pDevice);
+			mouseEvent.SetPosition(x, y);
+			mouseEvent.SetWheelDetail(wheel);
+			g_pDevice->DispatchEvent(mouseEvent);
 		}
 		break;
 	case WM_KEYDOWN:

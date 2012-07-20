@@ -7,12 +7,15 @@
  */
 #include <core/camera/TargetCameraControl.h>
 
-TargetCameraControl::TargetCameraControl(ICamera* pCamera)
+TargetCameraControl::TargetCameraControl(ICamera* pCamera, const Vector3& eye, const Vector3& target)
 :ICameraControl(pCamera)
 {
 	m_bMouseDown = false;
 	m_fRotX = 0.0f;
 	m_fRotY = 0.0f;
+	m_vEye = eye;
+	m_vTarget = target;
+
 	UpdateMatrix();
 }
 
@@ -45,6 +48,11 @@ bool TargetCameraControl::HandleMouseEvent(MouseEvent& mouseEvent)
 			m_bMouseDown = false;
 		}
 		break;
+	case MouseEvent::MET_MOUSE_WHEEL:
+		{
+			DoMouseWheel(float(mouseEvent.GetWheelDetail()));
+		}
+		break;
 	default:
 		return false;
 		break;
@@ -66,10 +74,20 @@ void TargetCameraControl::DoMouseMove(const Vector2i& offset)
 	UpdateMatrix();
 }
 
+void TargetCameraControl::DoMouseWheel(float wheel)
+{
+	Vector3 dir = m_vTarget - m_vEye;
+	dir.Normalize();
+
+	m_vEye += (dir*wheel*0.01f);
+
+	UpdateMatrix();
+}
+
 void TargetCameraControl::UpdateMatrix()
 {
 	Matrix4x4 matBase;
-	Math::BuildLookAtMatrix(matBase, Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 0.0f, 0.0f), Math::VEC_UP);
+	Math::BuildLookAtMatrix(matBase, m_vEye, m_vTarget, Math::VEC_UP);
 
 	Matrix4x4 matRot;
 	Math::BuildMatrixFromEulerXYZ(matRot, m_fRotX, m_fRotY, 0.0f);

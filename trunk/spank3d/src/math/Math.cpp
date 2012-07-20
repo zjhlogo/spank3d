@@ -16,6 +16,7 @@ const float Math::TOL = 1E-5f;							// float type tolerance
 const float Math::FLOAT_MIN = 1.175494351e-38F;			// 1.175494351e-38F
 const float Math::FLOAT_MAX = 3.402823466e+38F;			// 3.402823466e+38F
 
+const Vector3 Math::VEC_ZERO = Vector3(0.0f, 0.0f, 0.0f);
 const Vector3 Math::VEC_UP = Vector3(0.0f, 1.0f, 0.0f);
 
 float Math::Radians(float degrees)

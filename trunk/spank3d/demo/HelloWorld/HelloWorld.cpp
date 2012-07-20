@@ -33,7 +33,7 @@ bool HelloWorld::Initialize()
 	if (!m_pMesh) return false;
 
 	m_pCamera = new ICamera();
-	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera);
+	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC_ZERO);
 
 	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&HelloWorld::OnMouseEvent));
 
@@ -50,7 +50,7 @@ void HelloWorld::Terminate()
 
 void HelloWorld::Update(float dt)
 {
- 	m_pShader->Commit();
+	m_pShader->Commit();
 
 	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
 

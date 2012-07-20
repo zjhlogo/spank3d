@@ -52,6 +52,7 @@ public:
 	static const float FLOAT_MIN;	// 1.175494351e-38F
 	static const float FLOAT_MAX;	// 3.402823466e+38F
 
+	static const Vector3 VEC_ZERO;
 	static const Vector3 VEC_UP;
 };
 #endif // __MATH_H__
