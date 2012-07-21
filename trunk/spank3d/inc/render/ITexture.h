@@ -8,8 +8,7 @@
 #ifndef __ITEXTURE_H__
 #define __ITEXTURE_H__
 
-#include "IObject.h"
-#include "../math/Vector2i.h"
+#include "../core/IObject.h"
 
 class ITexture : public IObject
 {
@@ -19,7 +18,8 @@ public:
 	ITexture() {};
 	virtual ~ITexture() {};
 
-	virtual const Vector2i& GetSize() const = 0;
+	virtual uint GetWidth() const = 0;
+	virtual uint GetHeight() const = 0;
 
 };
 #endif // __ITEXTURE_H__

@@ -10,6 +10,8 @@
 
 #include "ISingleton.h"
 #include "IMesh.h"
+#include "IBitmapData.h"
+#include "../render/ITexture.h"
 
 class IResMgr : public ISingleton
 {
@@ -19,9 +21,16 @@ public:
 	IResMgr() {};
 	virtual ~IResMgr() {};
 
-	virtual IMesh* CreateMesh(const tstring& strFile) = 0;
 	virtual void SetDefaultDir(const tstring& strDir) = 0;
 	virtual const tstring& GetDefaultDir() = 0;
+
+	virtual IMesh* CreateMesh(const tstring& strFile) = 0;
+
+	virtual IBitmapData* CreateBitmapData(uint width, uint height, uint bpp = 32) = 0;
+	virtual IBitmapData* CreateBitmapData(const tstring& strFile) = 0;
+
+	virtual ITexture* CreateTexture(const IBitmapData* pBitmapData) = 0;
+	virtual ITexture* CreateTexture(const tstring& strFile) = 0;
 };
 
 #endif // __IRESMGR_H__

@@ -8,8 +8,8 @@
 #ifndef __ICAMERA_H__
 #define __ICAMERA_H__
 
-#include "../../math/Math.h"
-#include "../IObject.h"
+#include "../math/Math.h"
+#include "../core/IObject.h"
 
 class ICamera : public IObject
 {
