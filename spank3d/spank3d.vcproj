@@ -202,6 +202,14 @@
 			Name="core"
 			>
 			<File
+				RelativePath=".\src\core\BitmapData_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\BitmapData_Impl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\core\Core.cpp"
 				>
 			</File>
@@ -223,6 +231,10 @@
 			</File>
 			<File
 				RelativePath=".\inc\core\IApp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\core\IBitmapData.h"
 				>
 			</File>
 			<File
@@ -270,10 +282,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\inc\core\ITexture.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\core\Mesh_Impl.cpp"
 				>
 			</File>
@@ -305,42 +313,6 @@
 				RelativePath=".\inc\core\Rtti.h"
 				>
 			</File>
-			<File
-				RelativePath=".\src\core\Texture_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\core\Texture_Impl.h"
-				>
-			</File>
-			<Filter
-				Name="camera"
-				>
-				<File
-					RelativePath=".\src\core\camera\ICamera.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\inc\core\camera\ICamera.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\core\camera\ICameraControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\inc\core\camera\ICameraControl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\core\camera\TargetCameraControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\inc\core\camera\TargetCameraControl.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="util"
@@ -442,6 +414,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\render\ITexture.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\render\RenderInterface_Impl.cpp"
 				>
 			</File>
@@ -458,11 +434,47 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\render\Texture_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\Texture_Impl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\render\VertexAttribute.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\inc\render\VertexAttribute.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="camera"
+			>
+			<File
+				RelativePath=".\src\camera\ICamera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\camera\ICamera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\camera\ICameraControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\camera\ICameraControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\camera\TargetCameraControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\camera\TargetCameraControl.h"
 				>
 			</File>
 		</Filter>

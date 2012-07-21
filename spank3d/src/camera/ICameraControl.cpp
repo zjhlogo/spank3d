@@ -5,7 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <core/camera/ICameraControl.h>
+#include <camera/ICameraControl.h>
 
 ICameraControl::ICameraControl(ICamera* pCamera)
 {

@@ -9,8 +9,8 @@
 #define __ICAMERACONTROL_H__
 
 #include "ICamera.h"
-#include "../../event/MouseEvent.h"
-#include "../../event/KeyboardEvent.h"
+#include "../event/MouseEvent.h"
+#include "../event/KeyboardEvent.h"
 
 class ICameraControl : public IObject
 {

@@ -5,7 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <core/camera/ICamera.h>
+#include <camera/ICamera.h>
 
 ICamera::ICamera()
 {

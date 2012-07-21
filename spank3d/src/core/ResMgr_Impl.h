@@ -28,9 +28,16 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
-	virtual IMesh* CreateMesh(const tstring& strFile);
 	virtual void SetDefaultDir(const tstring& strDir);
 	virtual const tstring& GetDefaultDir();
+
+	virtual IMesh* CreateMesh(const tstring& strFile);
+
+	virtual IBitmapData* CreateBitmapData(uint width, uint height, uint bpp = 32);
+	virtual IBitmapData* CreateBitmapData(const tstring& strFile);
+
+	virtual ITexture* CreateTexture(const IBitmapData* pBitmapData);
+	virtual ITexture* CreateTexture(const tstring& strFile);
 
 private:
 	TM_MESH m_MeshMap;

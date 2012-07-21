@@ -5,7 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <core/camera/TargetCameraControl.h>
+#include <camera/TargetCameraControl.h>
 
 TargetCameraControl::TargetCameraControl(ICamera* pCamera, const Vector3& eye, const Vector3& target)
 :ICameraControl(pCamera)
