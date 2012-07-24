@@ -10,7 +10,6 @@
 
 #include <render/ITexture.h>
 #include <core/IBitmapData.h>
-#include <gl/glew.h>
 
 class Texture_Impl : public ITexture
 {
@@ -25,6 +24,8 @@ public:
 
 	bool LoadFromBitmapData(const IBitmapData* pBitmapData);
 
+	uint GetTextureId();
+
 private:
 	bool CreateTexture(const IBitmapData* pBitmapData);
 	void FreeTexture();
@@ -33,7 +34,7 @@ private:
 private:
 	uint m_nWidth;
 	uint m_nHeight;
-	GLuint m_nTextureId;
+	uint m_nTextureId;
 
 };
 #endif // __TEXTURE_IMPL_H__

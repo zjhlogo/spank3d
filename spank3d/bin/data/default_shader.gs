@@ -3,7 +3,12 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices=3) out;
 
+in vec2 v2g_texCoord[3];
+in vec3 v2g_normal[3];
+
 out vec3 g2f_dist;
+out vec2 g2f_texCoord;
+out vec3 g2f_normal;
 
 void main()
 {
@@ -19,14 +24,20 @@ void main()
 
 	g2f_dist = vec3(area / length(v0), 0, 0);
 	gl_Position = gl_in[0].gl_Position;
+	g2f_texCoord = v2g_texCoord[0];
+	g2f_normal = v2g_normal[0];
 	EmitVertex();
 
 	g2f_dist = vec3(0, area / length(v1), 0);
 	gl_Position = gl_in[1].gl_Position;
+	g2f_texCoord = v2g_texCoord[1];
+	g2f_normal = v2g_normal[1];
 	EmitVertex();
 
 	g2f_dist = vec3(0, 0, area / length(v2));
 	gl_Position = gl_in[2].gl_Position;
+	g2f_texCoord = v2g_texCoord[2];
+	g2f_normal = v2g_normal[2];
 	EmitVertex();
 
 	EndPrimitive();

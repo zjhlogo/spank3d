@@ -40,6 +40,9 @@ public:
 	virtual ITexture* CreateTexture(const tstring& strFile);
 
 private:
+	IBitmapData* InternalCreateBitmapData(const tstring& strFile);
+
+private:
 	TM_MESH m_MeshMap;
 	tstring m_strDefaultDir;
 

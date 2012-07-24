@@ -15,6 +15,7 @@ HelloWorld::HelloWorld()
 {
 	m_pShader = NULL;
 	m_pMesh = NULL;
+	m_pTexture = NULL;
 	m_pCamera = NULL;
 	m_pTargetCameraCtrl = NULL;
 }
@@ -29,8 +30,11 @@ bool HelloWorld::Initialize()
 	m_pShader = g_pRenderInterface->CreateShader("default_shader.xml");
 	if (!m_pShader) return false;
 
-	m_pMesh = g_pResMgr->CreateMesh("teapot.mesh");
+	m_pMesh = g_pResMgr->CreateMesh("teapot_ptn.mesh");
 	if (!m_pMesh) return false;
+
+	m_pTexture = g_pResMgr->CreateTexture("grid16.png");
+	if (!m_pTexture) return false;
 
 	m_pCamera = new ICamera();
 	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC_ZERO);
@@ -44,6 +48,7 @@ void HelloWorld::Terminate()
 {
 	SAFE_DELETE(m_pTargetCameraCtrl);
 	SAFE_DELETE(m_pCamera);
+	SAFE_RELEASE(m_pTexture);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pShader);
 }
@@ -59,6 +64,8 @@ void HelloWorld::Update(float dt)
 
 	Matrix4x4 matWorldViewProj = matProj*matView;
 	m_pShader->SetMatrix4x4(matWorldViewProj, "u_matModelViewProj");
+
+	m_pShader->SetTexture(m_pTexture, "u_texture");
 
 	for (int i = 0; i < m_pMesh->GetNumPieces(); ++i)
 	{

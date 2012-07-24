@@ -7,6 +7,7 @@
  */
 #include "Texture_Impl.h"
 #include <util/LogUtil.h>
+#include <gl/glew.h>
 
 Texture_Impl::Texture_Impl()
 {
@@ -34,6 +35,11 @@ bool Texture_Impl::LoadFromBitmapData(const IBitmapData* pBitmapData)
 {
 	SetOk(CreateTexture(pBitmapData));
 	return IsOk();
+}
+
+GLuint Texture_Impl::GetTextureId()
+{
+	return m_nTextureId;
 }
 
 bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData)
