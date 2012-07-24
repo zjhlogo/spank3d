@@ -104,6 +104,43 @@ static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_
 
 IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& strFile)
 {
+	// get file path
+	tstring strFilePath;
+	if (!StringUtil::GetFileFullPath(strFilePath, m_strDefaultDir, strFile)) return NULL;
+	return InternalCreateBitmapData(strFilePath);
+}
+
+ITexture* ResMgr_Impl::CreateTexture(const IBitmapData* pBitmapData)
+{
+	Texture_Impl* pTexture = new Texture_Impl();
+	if (!pTexture->LoadFromBitmapData(pBitmapData))
+	{
+		SAFE_DELETE(pTexture);
+		return NULL;
+	}
+
+	return pTexture;
+}
+
+ITexture* ResMgr_Impl::CreateTexture(const tstring& strFile)
+{
+	// get file path
+	tstring strFilePath;
+	if (!StringUtil::GetFileFullPath(strFilePath, m_strDefaultDir, strFile)) return NULL;
+
+	// TODO: check texture is exist in the cache
+
+	IBitmapData* pBitmapData = InternalCreateBitmapData(strFilePath);
+	if (!pBitmapData) return NULL;
+
+	ITexture* pTexture = CreateTexture(pBitmapData);
+	// TODO: cache the texture res
+
+	return pTexture;
+}
+
+IBitmapData* ResMgr_Impl::InternalCreateBitmapData(const tstring& strFile)
+{
 	IFile* pFile = FileUtil::LoadFile(strFile.c_str());
 	if (!pFile) return NULL;
 
@@ -152,7 +189,7 @@ IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& strFile)
 	if(png_get_valid(pPngStruct, pPngInfo, PNG_INFO_tRNS)) png_set_tRNS_to_alpha(pPngStruct);
 
 	// create bitmap data
-	IBitmapData* pBitmapData = CreateBitmapData(width, height, bpp);
+	IBitmapData* pBitmapData = CreateBitmapData(width, height);
 	if (!pBitmapData)
 	{
 		png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
@@ -176,29 +213,4 @@ IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& strFile)
 	SAFE_DELETE_ARRAY(pRowPointers);
 
 	return pBitmapData;
-}
-
-ITexture* ResMgr_Impl::CreateTexture(const IBitmapData* pBitmapData)
-{
-	Texture_Impl* pTexture = new Texture_Impl();
-	if (!pTexture->LoadFromBitmapData(pBitmapData))
-	{
-		SAFE_DELETE(pTexture);
-		return NULL;
-	}
-
-	return pTexture;
-}
-
-ITexture* ResMgr_Impl::CreateTexture(const tstring& strFile)
-{
-	// TODO: check texture is exist in the cache
-
-	IBitmapData* pBitmapData = CreateBitmapData(strFile);
-	if (!pBitmapData) return NULL;
-
-	ITexture* pTexture = CreateTexture(pBitmapData);
-	// TODO: cache the texture res
-
-	return pTexture;
 }
