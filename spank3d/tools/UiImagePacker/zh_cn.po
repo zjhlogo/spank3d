@@ -1,0 +1,919 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: UiImagePacker\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-05-08 10:24+0800\n"
+"PO-Revision-Date: 2012-05-08 10:25+0800\n"
+"Last-Translator: zjhlogo <zjhlogo@gmail.com>\n"
+"Language-Team: zjhlogo <zjhlogo@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: F:\\code\\spank\\tools\\UiImagePacker\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Config.cpp:12
+msgid ""
+"UiImagePacker version 1.1.0\n"
+"author: zjhlogo\n"
+"contact: zjhlogo@gmail.com\n"
+"\n"
+"special thanks to:\n"
+"QingzhongZhang (artist, give me some advices and offer some icons)\n"
+"BaoqingWu (programmer, assist me codeing some models)"
+msgstr ""
+"UI资源编辑器 版本 1.1.0\n"
+"作者: zjhlogo\n"
+"联系: zjhlogo@gmail.com\n"
+"\n"
+"特别感谢:\n"
+"张庆忠 (艺术家, 提供一些建议并设计所有图标)\n"
+"吴保情 (开发者, 帮助我实现相关模块)"
+
+#: ImagePackerFrame.cpp:111
+msgid "Ui Image Packer"
+msgstr "Ui资源编辑器"
+
+#: ImagePackerFrame.cpp:193
+msgid "&Open Project...\tCtrl+O"
+msgstr "打开项目(&O)...\tCtrl+O"
+
+#: ImagePackerFrame.cpp:199
+msgid "&Save Project\tCtrl+S"
+msgstr "保存项目(&S)\tCtrl+S"
+
+#: ImagePackerFrame.cpp:206
+msgid "E&xit\tAlt+F4"
+msgstr "退出(&X)\tAlt+F4"
+
+#: ImagePackerFrame.cpp:207
+msgid "&File"
+msgstr "文件(&F)"
+
+#: ImagePackerFrame.cpp:211
+msgid "&Undo\tCtrl+Z"
+msgstr "撤销(&U)\tCtrl+Z"
+
+#: ImagePackerFrame.cpp:212
+msgid "&Redo\tCtrl+Y"
+msgstr "重做(&R)\tCtrl+Y"
+
+#: ImagePackerFrame.cpp:214
+msgid "&Copy\tCtrl+C"
+msgstr "复制(&C)\tCtrl+C"
+
+#: ImagePackerFrame.cpp:215
+msgid "Cu&t\tCtrl+X"
+msgstr "剪切(&T)\tCtrl+X"
+
+#: ImagePackerFrame.cpp:216
+msgid "&Past\tCtrl+V"
+msgstr "粘帖(&P)\tCtrl+V"
+
+#: ImagePackerFrame.cpp:217
+msgid "&Delete"
+msgstr "删除(&D)"
+
+#: ImagePackerFrame.cpp:218
+msgid "&Edit"
+msgstr "编辑(&E)"
+
+#: ImagePackerFrame.cpp:223
+msgid "Add &Piece..."
+msgstr "添加切片(&P)..."
+
+#: ImagePackerFrame.cpp:229
+msgid "Add New &Bitmap Style"
+msgstr "添加位图样式(&B)"
+
+#: ImagePackerFrame.cpp:235
+msgid "Add New 9-&Grid Style"
+msgstr "添加9宫格样式(&G)"
+
+#: ImagePackerFrame.cpp:241
+msgid "Add New &Color Style"
+msgstr "添加颜色样式(&C)"
+
+#: ImagePackerFrame.cpp:247
+msgid "Add New C&lip Bitmap Style"
+msgstr "添加可裁剪的位图样式(&L)"
+
+#: ImagePackerFrame.cpp:254
+msgid "&Replace Pieces..."
+msgstr "替换切片(&R)..."
+
+#: ImagePackerFrame.cpp:260
+msgid "&Move Pieces..."
+msgstr "移动切片(&M)..."
+
+#: ImagePackerFrame.cpp:263
+msgid "E&lement"
+msgstr "元素(&L)"
+
+#: ImagePackerFrame.cpp:267
+msgid "Show &Grid\tCtrl+G"
+msgstr "显示网格(&G)\tCtrl+G"
+
+#: ImagePackerFrame.cpp:271
+msgid "Zoom &100%\tCtrl+1"
+msgstr "原始大小100%(&1)\tCtrl+1"
+
+#: ImagePackerFrame.cpp:277
+msgid "Zoom &In\tCtrl++"
+msgstr "放大(&I)\tCtrl++"
+
+#: ImagePackerFrame.cpp:283
+msgid "Zoom &Out\tCtrl+-"
+msgstr "缩小(&O)\tCtrl+-"
+
+#: ImagePackerFrame.cpp:288
+msgid "&View"
+msgstr "视图(&V)"
+
+#: ImagePackerFrame.cpp:292
+msgid "&Extract Image Pieces..."
+msgstr "解压缩切片到(&E)..."
+
+#: ImagePackerFrame.cpp:293
+msgid "&Preferences..."
+msgstr "选项(&P)..."
+
+#: ImagePackerFrame.cpp:294
+msgid "&Tools"
+msgstr "工具(&T)"
+
+#: ImagePackerFrame.cpp:298
+msgid "&Support"
+msgstr "支持(&S)"
+
+#: ImagePackerFrame.cpp:300
+msgid "&About\tF1"
+msgstr "关于(&A)\tF1"
+
+#: ImagePackerFrame.cpp:301
+msgid "&Help"
+msgstr "帮助(&H)"
+
+#: ImagePackerFrame.cpp:313
+msgid "open project file ( Ctrl+O )"
+msgstr "打开项目 ( Ctrl+O )"
+
+#: ImagePackerFrame.cpp:319
+msgid "save project file ( Ctrl+S )"
+msgstr "保存项目 ( Ctrl+S )"
+
+#: ImagePackerFrame.cpp:327
+msgid "add new piece"
+msgstr "添加切片"
+
+#: ImagePackerFrame.cpp:333
+msgid "add new bitmap style"
+msgstr "添加位图样式"
+
+#: ImagePackerFrame.cpp:339
+msgid "add new 9-grid style"
+msgstr "添加9宫格样式"
+
+#: ImagePackerFrame.cpp:345
+msgid "add new color style"
+msgstr "添加颜色样式"
+
+#: ImagePackerFrame.cpp:351
+msgid "add new clip bitmap style"
+msgstr "添加可裁剪的位图样式"
+
+#: ImagePackerFrame.cpp:359
+msgid "replace pieces"
+msgstr "替换切片"
+
+#: ImagePackerFrame.cpp:367
+msgid "zoom 100% ( Ctrl+1 )"
+msgstr "原始大小100% ( Ctrl+1 )"
+
+#: ImagePackerFrame.cpp:373
+msgid "zoom in ( Ctrl++ )"
+msgstr "放大 ( Ctrl++ )"
+
+#: ImagePackerFrame.cpp:379
+msgid "zoom out ( Ctrl+- )"
+msgstr "缩小 ( Ctrl+- )"
+
+#: ImagePackerFrame.cpp:385
+msgid "Toolbar"
+msgstr "工具栏"
+
+#: ImagePackerFrame.cpp:402
+#: ImagePackerFrame.cpp:403
+msgid "Property"
+msgstr "属性"
+
+#: ImagePackerFrame.cpp:419
+#: ImagePackerFrame.cpp:420
+msgid "List"
+msgstr "列表"
+
+#: ImagePackerFrame.cpp:434
+msgid "Images"
+msgstr "图片"
+
+#: ImagePackerFrame.cpp:439
+msgid "Pieces"
+msgstr "切片"
+
+#: ImagePackerFrame.cpp:444
+msgid "Bitmap Styles"
+msgstr "位图样式"
+
+#: ImagePackerFrame.cpp:449
+msgid "9-Grid Styles"
+msgstr "9宫格样式"
+
+#: ImagePackerFrame.cpp:454
+msgid "Color Styles"
+msgstr "颜色样式"
+
+#: ImagePackerFrame.cpp:459
+msgid "Clip Bitmap Styles"
+msgstr "可裁剪的位图样式"
+
+#: ImagePackerFrame.cpp:467
+#: ImagePackerFrame.cpp:468
+msgid "Editor"
+msgstr "编辑器"
+
+#: ImagePackerFrame.cpp:479
+msgid "Pieces Editor"
+msgstr "切片编辑器"
+
+#: ImagePackerFrame.cpp:484
+msgid "Bitmap Style Editor"
+msgstr "位图样式编辑器"
+
+#: ImagePackerFrame.cpp:489
+msgid "Nine Grid Style Editor"
+msgstr "9宫格样式编辑器"
+
+#: ImagePackerFrame.cpp:494
+msgid "Color Style Editor"
+msgstr "颜色样式编辑器"
+
+#: ImagePackerFrame.cpp:499
+msgid "Clip Bitmap Style Editor"
+msgstr "可裁剪的位图样式编辑器"
+
+#: ImagePackerFrame.cpp:506
+msgid "This is output view\n"
+msgstr "这是一个输出窗口\n"
+
+#: ImagePackerFrame.cpp:507
+msgid "line 1\n"
+msgstr "行1\n"
+
+#: ImagePackerFrame.cpp:508
+msgid "line 2\n"
+msgstr "行2\n"
+
+#: ImagePackerFrame.cpp:511
+#: ImagePackerFrame.cpp:512
+msgid "Output"
+msgstr "输出"
+
+#: ImagePackerFrame.cpp:527
+#: ImagePackerFrame.cpp:601
+msgid "Do you want to save the Project ?"
+msgstr "是否保存项目?"
+
+#: ImagePackerFrame.cpp:527
+#: ImagePackerFrame.cpp:601
+msgid "Save Project"
+msgstr "保存项目"
+
+#: ImagePackerFrame.cpp:548
+#: dialog/DialogAddPiece.cpp:186
+#: dialog/DialogReplacePiece.cpp:153
+msgid "Choose a file"
+msgstr "选择文件"
+
+#: ImagePackerFrame.cpp:548
+msgid "Project files (*.ipproj)|*.ipproj"
+msgstr "项目文件 (*.ipproj)|*.ipproj"
+
+#: ImagePackerFrame.cpp:642
+#: ImagePackerFrame.cpp:912
+#: ImagePackerFrame.cpp:934
+#: ImagePackerFrame.cpp:949
+#: ImagePackerFrame.cpp:964
+#: ImagePackerFrame.cpp:979
+msgid "Please open a project first"
+msgstr "请先打开项目文件"
+
+#: ImagePackerFrame.cpp:743
+#: ImagePackerFrame.cpp:804
+msgid "also delete bitmap styles:"
+msgstr "同时也删除位图样式:"
+
+#: ImagePackerFrame.cpp:744
+#: ImagePackerFrame.cpp:805
+msgid "also delete 9-grid styles:"
+msgstr "同时也删除9宫格样式:"
+
+#: ImagePackerFrame.cpp:745
+#: ImagePackerFrame.cpp:806
+msgid "also delete clip bitmap styles:"
+msgstr "同时也删除可裁剪的位图样式:"
+
+#: ImagePackerFrame.cpp:748
+#, c-format
+msgid "Do you want to delete the piece: %s ?%s"
+msgstr "是否要删除切片: %s ?%s"
+
+#: ImagePackerFrame.cpp:749
+msgid "Delete Piece"
+msgstr "删除切片"
+
+#: ImagePackerFrame.cpp:803
+msgid "also delete pieces:"
+msgstr "同时也删除切片:"
+
+#: ImagePackerFrame.cpp:809
+#, c-format
+msgid "Do you want to delete the image: %s ?%s"
+msgstr "是否要删除图片: %s ?%s"
+
+#: ImagePackerFrame.cpp:810
+msgid "Delete Image"
+msgstr "删除图片"
+
+#: ImagePackerFrame.cpp:851
+#, c-format
+msgid "Do you want to delete the bitmap style: %s"
+msgstr "是否要删除位图样式: %s"
+
+#: ImagePackerFrame.cpp:852
+msgid "Delete Bitmap Style"
+msgstr "删除位图样式"
+
+#: ImagePackerFrame.cpp:866
+#, c-format
+msgid "Do you want to delete the 9-grid style: %s"
+msgstr "是否要删除9宫格样式: %s"
+
+#: ImagePackerFrame.cpp:867
+msgid "Delete 9-Grid Style"
+msgstr "删除9宫格样式"
+
+#: ImagePackerFrame.cpp:881
+#, c-format
+msgid "Do you want to delete the color style: %s"
+msgstr "是否要删除颜色样式: %s"
+
+#: ImagePackerFrame.cpp:882
+msgid "Delete Color Style"
+msgstr "删除颜色样式"
+
+#: ImagePackerFrame.cpp:896
+#, c-format
+msgid "Do you want to delete the clip bitmap style: %s"
+msgstr "是否要删除可裁剪的位图样式: %s"
+
+#: ImagePackerFrame.cpp:897
+msgid "Delete Clip Bitmap Style"
+msgstr "删除可裁剪的位图样式"
+
+#: ImagePackerFrame.cpp:995
+#: ImagePackerFrame.cpp:1018
+msgid "Please select a image first"
+msgstr "请先选择图片"
+
+#: ImagePackerFrame.cpp:1026
+msgid "Please select pieces to move to"
+msgstr "请先选择将要移动的图片"
+
+#: ImagePackerFrame.cpp:1082
+msgid "Please selected a image or pieces"
+msgstr "请先选择图片或切片"
+
+#: ImagePackerFrame.cpp:1088
+msgid "About"
+msgstr "关于"
+
+#: ImagePackerFrame.cpp:1212
+msgid "Choose a directory to extract"
+msgstr "选择解压缩到目录"
+
+#: dialog/DialogAddPiece.cpp:53
+#: dialog/DialogAddPiece.cpp:98
+msgid "Add Piece"
+msgstr "添加切片"
+
+#: dialog/DialogAddPiece.cpp:105
+#: dialog/DialogReplacePiece.cpp:99
+msgid "+"
+msgstr "+"
+
+#: dialog/DialogAddPiece.cpp:108
+#: dialog/DialogReplacePiece.cpp:102
+msgid "-"
+msgstr "-"
+
+#: dialog/DialogAddPiece.cpp:119
+msgid "Add Image"
+msgstr "添加图片"
+
+#: dialog/DialogAddPiece.cpp:126
+msgid "Add Existing"
+msgstr "添加已存在图片"
+
+#: dialog/DialogAddPiece.cpp:134
+msgid "Create New"
+msgstr "新建"
+
+#: dialog/DialogAddPiece.cpp:142
+#: dialog/DialogMovePiece.cpp:108
+#: dialog/DialogReplacePiece.cpp:110
+msgid "Image Info"
+msgstr "图片信息"
+
+#: dialog/DialogAddPiece.cpp:149
+#: dialog/DialogMovePiece.cpp:129
+#: dialog/DialogReplacePiece.cpp:124
+msgid "Width"
+msgstr "宽"
+
+#: dialog/DialogAddPiece.cpp:155
+#: dialog/DialogMovePiece.cpp:135
+#: dialog/DialogReplacePiece.cpp:130
+msgid "Height"
+msgstr "高"
+
+#: dialog/DialogAddPiece.cpp:164
+#: dialog/DialogMovePiece.cpp:146
+#: dialog/DialogReplacePiece.cpp:141
+msgid "&OK"
+msgstr "确定(&O)"
+
+#: dialog/DialogAddPiece.cpp:167
+#: dialog/DialogMovePiece.cpp:149
+#: dialog/DialogReplacePiece.cpp:144
+msgid "&Cancel"
+msgstr "取消(&C)"
+
+#: dialog/DialogAddPiece.cpp:189
+#: dialog/DialogReplacePiece.cpp:156
+msgid "Image files (*.png;*.jpg)|*.png;*.jpg"
+msgstr "图片文件 (*.png;*.jpg)|*.png;*.jpg"
+
+#: dialog/DialogAddPiece.cpp:307
+#: dialog/DialogMovePiece.cpp:206
+#: dialog/DialogReplacePiece.cpp:201
+msgid "width and height must greater than 0"
+msgstr "宽度与高度必须大于0"
+
+#: dialog/DialogAddPiece.cpp:307
+#: dialog/DialogMovePiece.cpp:206
+#: dialog/DialogReplacePiece.cpp:201
+msgid "Error"
+msgstr "错误"
+
+#: dialog/DialogAddPiece.cpp:321
+msgid "Save to file"
+msgstr "保存到文件"
+
+#: dialog/DialogAddPiece.cpp:323
+msgid "Untitled.png"
+msgstr "未命名.png"
+
+#: dialog/DialogAddPiece.cpp:324
+msgid "Image files (*.png)|*.png"
+msgstr "图片文件 (*.png)|*.png"
+
+#: dialog/DialogAddPiece.cpp:574
+#: dialog/DialogMovePiece.cpp:378
+#: dialog/DialogReplacePiece.cpp:382
+#, c-format
+msgid "Not enough space to pack sub bitmaps %s"
+msgstr "没有足够的空间打包子位图 %s"
+
+#: dialog/DialogAddPiece.cpp:597
+#: dialog/DialogReplacePiece.cpp:414
+#, c-format
+msgid "Load Bimap Failed: %s"
+msgstr "加载位图失败: %s"
+
+#: dialog/DialogMovePiece.cpp:48
+msgid "Move Piece"
+msgstr "移动切片"
+
+#: dialog/DialogMovePiece.cpp:100
+msgid "Pieces to move"
+msgstr "将要移动的切片"
+
+#: dialog/DialogMovePiece.cpp:115
+msgid "From Image"
+msgstr "从图片"
+
+#: dialog/DialogMovePiece.cpp:122
+msgid "To Image"
+msgstr "到图片"
+
+#: dialog/DialogMovePiece.cpp:325
+#, c-format
+msgid "Can not find piece %s from image %s"
+msgstr "无法找到切片 %s, 在图片 %s 中"
+
+#: dialog/DialogReplacePiece.cpp:50
+#: dialog/DialogReplacePiece.cpp:92
+msgid "Replace Piece"
+msgstr "替换切片"
+
+#: dialog/DialogReplacePiece.cpp:117
+msgid "Image Id"
+msgstr "图片Id"
+
+#: dialog/DialogReplacePiece.cpp:407
+#, c-format
+msgid ""
+"Can not replace piece (%s),\n"
+"can not find piece (%s) under image (%s)"
+msgstr ""
+"无法替换切片 (%s),\n"
+"无法找到切片 (%s) 在图片 (%s) 中"
+
+#: document/BitmapStyle.cpp:94
+#, c-format
+msgid "can not found piece id=%s, for bitmap style id=%s"
+msgstr "无法找到切片Id=%s, 位图样式Id=%s"
+
+#: document/BitmapStyleDocument.cpp:48
+#, c-format
+msgid "load bitmap style failed, id=%s"
+msgstr "加载位图样式失败, Id=%s"
+
+#: document/BitmapStyleDocument.cpp:79
+#, c-format
+msgid "save bitmap style failed, id=%s"
+msgstr "保存位图样式失败, Id=%s"
+
+#: document/ClipBitmapStyle.cpp:95
+#, c-format
+msgid "can not found piece id=%s, for clip bitmap style id=%s"
+msgstr "无法找到切片Id=%s, 裁剪的位图样式Id=%s"
+
+#: document/ClipBitmapStyleDocument.cpp:48
+#, c-format
+msgid "load clip bitmap style failed, id=%s"
+msgstr "加载裁剪的位图样式失败, Id=%s"
+
+#: document/ClipBitmapStyleDocument.cpp:78
+#, c-format
+msgid "save clip bitmap style failed, id=%s"
+msgstr "保存裁剪的位图样式失败, Id=%s"
+
+#: document/ColorStyleDocument.cpp:48
+#, c-format
+msgid "load color style failed, id=%s"
+msgstr "加载颜色样式失败, Id=%s"
+
+#: document/ColorStyleDocument.cpp:78
+#, c-format
+msgid "save color style failed, id=%s"
+msgstr "保存颜色样式失败, Id=%s"
+
+#: document/ImageInfo.cpp:57
+#, c-format
+msgid "save image bitmap failed, path=%s"
+msgstr "保存图片失败, 路径=%s"
+
+#: document/ImageInfo.cpp:118
+#, c-format
+msgid "can not open file: %s"
+msgstr "无法打开文件: %s"
+
+#: document/ImagePieceDocument.cpp:46
+#, c-format
+msgid "load image failed, id=%s"
+msgstr "加载图片失败, Id=%s"
+
+#: document/ImagePieceDocument.cpp:69
+#, c-format
+msgid "load piece failed, id=%s"
+msgstr "加载切片失败, Id=%s"
+
+#: document/NineGridStyle.cpp:91
+#, c-format
+msgid "can not found piece id=%s, for 9-grid style id=%s"
+msgstr "无法找到切片 Id=%s, 9宫格样式 Id=%s"
+
+#: document/NineGridStyleDocument.cpp:48
+#, c-format
+msgid "load 9-grid style failed, id=%s"
+msgstr "加载9宫格样式失败, Id=%s"
+
+#: document/NineGridStyleDocument.cpp:77
+#, c-format
+msgid "save 9-grid style failed, id=%s"
+msgstr "保存9宫格样式失败, Id=%s"
+
+#: transformer/BitmapStyleTransformer.cpp:62
+#: transformer/ClipBitmapStyleTransformer.cpp:62
+#: transformer/ColorStyleTransformer.cpp:61
+#: transformer/ImageListTransformer.cpp:60
+#: transformer/NineGridStyleTransformer.cpp:62
+#: transformer/PieceListTransformer.cpp:60
+msgid "id"
+msgstr "Id"
+
+#: transformer/BitmapStyleTransformer.cpp:63
+#: transformer/ClipBitmapStyleTransformer.cpp:63
+#: transformer/NineGridStyleTransformer.cpp:63
+msgid "auto gen bitmap"
+msgstr "自动生成状态图片"
+
+#: transformer/BitmapStyleTransformer.cpp:70
+#: transformer/ClipBitmapStyleTransformer.cpp:70
+#: transformer/ColorStyleTransformer.cpp:65
+#: transformer/NineGridStyleTransformer.cpp:69
+msgid "normal"
+msgstr "默认"
+
+#: transformer/BitmapStyleTransformer.cpp:72
+#: transformer/ClipBitmapStyleTransformer.cpp:72
+#: transformer/ColorStyleTransformer.cpp:67
+#: transformer/NineGridStyleTransformer.cpp:77
+msgid "down"
+msgstr "按下"
+
+#: transformer/BitmapStyleTransformer.cpp:74
+#: transformer/ClipBitmapStyleTransformer.cpp:74
+#: transformer/ColorStyleTransformer.cpp:69
+#: transformer/NineGridStyleTransformer.cpp:85
+msgid "hover"
+msgstr "鼠标经过"
+
+#: transformer/BitmapStyleTransformer.cpp:76
+#: transformer/ClipBitmapStyleTransformer.cpp:76
+#: transformer/ColorStyleTransformer.cpp:71
+#: transformer/NineGridStyleTransformer.cpp:93
+msgid "disabled"
+msgstr "禁用"
+
+#: transformer/ImageListTransformer.cpp:61
+msgid "path"
+msgstr "路径"
+
+#: transformer/ImageListTransformer.cpp:64
+#: transformer/PieceListTransformer.cpp:67
+msgid "size"
+msgstr "大小"
+
+#: transformer/ImageListTransformer.cpp:65
+#: transformer/PieceListTransformer.cpp:68
+msgid "width"
+msgstr "宽度"
+
+#: transformer/ImageListTransformer.cpp:66
+#: transformer/PieceListTransformer.cpp:69
+msgid "height"
+msgstr "高度"
+
+#: transformer/NineGridStyleTransformer.cpp:71
+#: transformer/NineGridStyleTransformer.cpp:79
+#: transformer/NineGridStyleTransformer.cpp:87
+#: transformer/NineGridStyleTransformer.cpp:95
+msgid "piece_id"
+msgstr "切片Id"
+
+#: transformer/NineGridStyleTransformer.cpp:72
+#: transformer/NineGridStyleTransformer.cpp:80
+#: transformer/NineGridStyleTransformer.cpp:88
+#: transformer/NineGridStyleTransformer.cpp:96
+msgid "min_x"
+msgstr "左上角X"
+
+#: transformer/NineGridStyleTransformer.cpp:73
+#: transformer/NineGridStyleTransformer.cpp:81
+#: transformer/NineGridStyleTransformer.cpp:89
+#: transformer/NineGridStyleTransformer.cpp:97
+msgid "min_y"
+msgstr "左上角Y"
+
+#: transformer/NineGridStyleTransformer.cpp:74
+#: transformer/NineGridStyleTransformer.cpp:82
+#: transformer/NineGridStyleTransformer.cpp:90
+#: transformer/NineGridStyleTransformer.cpp:98
+msgid "max_x"
+msgstr "右下角X"
+
+#: transformer/NineGridStyleTransformer.cpp:75
+#: transformer/NineGridStyleTransformer.cpp:83
+#: transformer/NineGridStyleTransformer.cpp:91
+#: transformer/NineGridStyleTransformer.cpp:99
+msgid "max_y"
+msgstr "右下角Y"
+
+#: transformer/PieceListTransformer.cpp:61
+msgid "image_id"
+msgstr "图片Id"
+
+#: transformer/PieceListTransformer.cpp:63
+msgid "position"
+msgstr "坐标"
+
+#: transformer/PieceListTransformer.cpp:64
+msgid "x"
+msgstr "X坐标"
+
+#: transformer/PieceListTransformer.cpp:65
+msgid "y"
+msgstr "Y坐标"
+
+#~ msgid "%d"
+#~ msgstr "%d"
+
+#~ msgid "/"
+#~ msgstr "/"
+
+#~ msgid "BitmapStyle"
+#~ msgstr "位图样式"
+
+#~ msgid "BitmapStyleList"
+#~ msgstr "位图样式列表"
+
+#~ msgid "1.0"
+#~ msgstr "1.0"
+
+#~ msgid "utf-8"
+#~ msgstr "utf-8"
+
+#~ msgid "yes"
+#~ msgstr "yes"
+
+#~ msgid "%s%d"
+#~ msgstr "%s%d"
+
+#~ msgid "ClipBitmapStyle"
+#~ msgstr "可裁剪的位图样式"
+
+#~ msgid "ClipBitmapStyleList"
+#~ msgstr "可裁剪的位图样式列表"
+
+#~ msgid "ColorStyle"
+#~ msgstr "颜色样式"
+
+#~ msgid "0x%X"
+#~ msgstr "0x%X"
+
+#~ msgid "value"
+#~ msgstr "值"
+
+#~ msgid "%x"
+#~ msgstr "%x"
+
+#~ msgid "ColorStyleList"
+#~ msgstr "颜色样式列表"
+
+#~ msgid "ImagePiece"
+#~ msgstr "图片切片"
+
+#~ msgid "ImageList"
+#~ msgstr "图片列表"
+
+#~ msgid "PieceList"
+#~ msgstr "切片列表"
+
+#~ msgid "null"
+#~ msgstr "null"
+
+#~ msgid "NineGridStyle"
+#~ msgstr "9宫格样式"
+
+#~ msgid "NineGridStyleList"
+#~ msgstr "9宫格样式列表"
+
+#~ msgid "ip_project"
+#~ msgstr "ip项目"
+
+#~ msgid "root_dir"
+#~ msgstr "根目录"
+
+#~ msgid "image_piece"
+#~ msgstr "图片切片"
+
+#~ msgid "bitmap_style"
+#~ msgstr "位图样式"
+
+#~ msgid "nine_grid_style"
+#~ msgstr "9宫格样式"
+
+#~ msgid "color_style"
+#~ msgstr "颜色样式"
+
+#~ msgid "clip_bitmap_style"
+#~ msgstr "可裁剪的位图样式"
+
+#~ msgid "."
+#~ msgstr "."
+
+#~ msgid "zh_cn"
+#~ msgstr "zh_cn"
+
+#~ msgid " *"
+#~ msgstr " *"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "%s\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "%s\n"
+
+#~ msgid "\"%s\" "
+#~ msgstr "\"%s\" "
+
+#~ msgid "bs_bitmap_style"
+#~ msgstr "bs_位图样式"
+
+#~ msgid "ngs_nine_grid_style"
+#~ msgstr "ngs_9宫格样式"
+
+#~ msgid "cs_color_style"
+#~ msgstr "cs_颜色样式"
+
+#~ msgid "cbs_clip_bitmap_style"
+#~ msgstr "cbs_可裁剪的位图样式"
+
+#~ msgid ".png"
+#~ msgstr ".png"
+
+#~ msgid "normal_piece_id"
+#~ msgstr "默认切片Id"
+
+#~ msgid "normal_min_x"
+#~ msgstr "左上角X"
+
+#~ msgid "normal_min_y"
+#~ msgstr "左上角Y"
+
+#~ msgid "normal_max_x"
+#~ msgstr "右下角X"
+
+#~ msgid "normal_max_y"
+#~ msgstr "右下角Y"
+
+#~ msgid "down_piece_id"
+#~ msgstr "按下切片Id"
+
+#~ msgid "down_min_x"
+#~ msgstr "左上角X"
+
+#~ msgid "down_min_y"
+#~ msgstr "左上角Y"
+
+#~ msgid "down_max_x"
+#~ msgstr "右下角X"
+
+#~ msgid "down_max_y"
+#~ msgstr "右下角Y"
+
+#~ msgid "hover_piece_id"
+#~ msgstr "鼠标经过切片Id"
+
+#~ msgid "hover_min_x"
+#~ msgstr "左上角X"
+
+#~ msgid "hover_min_y"
+#~ msgstr "左上角Y"
+
+#~ msgid "hover_max_x"
+#~ msgstr "右下角X"
+
+#~ msgid "hover_max_y"
+#~ msgstr "右下角Y"
+
+#~ msgid "disabled_piece_id"
+#~ msgstr "禁用切片Id"
+
+#~ msgid "disabled_min_x"
+#~ msgstr "左上角X"
+
+#~ msgid "disabled_min_y"
+#~ msgstr "左上角Y"
+
+#~ msgid "disabled_max_x"
+#~ msgstr "右下角X"
+
+#~ msgid "disabled_max_y"
+#~ msgstr "右下角Y"
+
+#~ msgid "\\"
+#~ msgstr "\\"
