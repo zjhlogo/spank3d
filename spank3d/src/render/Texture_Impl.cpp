@@ -59,7 +59,7 @@ bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData)
 	}
 
 	glBindTexture(GL_TEXTURE_2D, m_nTextureId);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_nWidth, m_nHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pBitmapData->GetData());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_nWidth, m_nHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, pBitmapData->GetData());
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 

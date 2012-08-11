@@ -11,6 +11,11 @@
 #include "../math/Math.h"
 #include "../core/IObject.h"
 
+/*
+ * ICamera
+ *
+ * camera interface
+ */
 class ICamera : public IObject
 {
 public:
@@ -19,7 +24,17 @@ public:
 	ICamera();
 	virtual ~ICamera();
 
+	/*!
+	 * \brief set view matrix
+	 * \param m
+	 * \return 
+	 */
 	void SetViewMatrix(const Matrix4x4& m);
+	
+	/*!
+	 * \brief get view matrix
+	 * \return 
+	 */
 	const Matrix4x4& GetViewMatrix();
 
 private:

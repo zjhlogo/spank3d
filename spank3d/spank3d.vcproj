@@ -346,6 +346,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\util\PngUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\util\PngUtil.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\util\StringUtil.cpp"
 				>
 			</File>
