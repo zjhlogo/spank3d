@@ -12,6 +12,11 @@
 #include "../event/MouseEvent.h"
 #include "../event/KeyboardEvent.h"
 
+/*
+ * ICameraControl
+ *
+ * camera control interface
+ */
 class ICameraControl : public IObject
 {
 public:
@@ -20,10 +25,31 @@ public:
 	ICameraControl(ICamera* pCamera);
 	virtual ~ICameraControl();
 
+	/*!
+	 * \brief get camera instance
+	 * \return 
+	 */
 	ICamera* GetCamera() const;
 
+	/*!
+	 * \brief update camera
+	 * \param dt
+	 * \return 
+	 */
 	virtual void Update(float dt) = 0;
+	
+	/*!
+	 * \brief handle mouse event
+	 * \param mouseEvent
+	 * \return 
+	 */
 	virtual bool HandleMouseEvent(MouseEvent& mouseEvent) = 0;
+	
+	/*!
+	 * \brief handle keyboard event
+	 * \param keyboardEvent
+	 * \return 
+	 */
 	virtual bool HandleKeyboardEvent(KeyboardEvent& keyboardEvent) = 0;
 
 protected:

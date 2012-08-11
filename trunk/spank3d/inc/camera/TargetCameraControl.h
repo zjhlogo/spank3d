@@ -10,6 +10,11 @@
 
 #include "ICameraControl.h"
 
+/*
+ * TargetCameraControl
+ *
+ * target camera control, make camera lock target at an object
+ */
 class TargetCameraControl : public ICameraControl
 {
 public:
@@ -18,8 +23,25 @@ public:
 	TargetCameraControl(ICamera* pCamera, const Vector3& eye, const Vector3& target);
 	virtual ~TargetCameraControl();
 
+	/*!
+	 * \brief update camera control
+	 * \param dt
+	 * \return 
+	 */
 	virtual void Update(float dt);
+	
+	/*!
+	 * \brief 
+	 * \param mouseEvent
+	 * \return 
+	 */
 	virtual bool HandleMouseEvent(MouseEvent& mouseEvent);
+	
+	/*!
+	 * \brief 
+	 * \param keyboardEvent
+	 * \return 
+	 */
 	virtual bool HandleKeyboardEvent(KeyboardEvent& keyboardEvent);
 
 private:
