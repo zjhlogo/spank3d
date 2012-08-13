@@ -39,8 +39,11 @@ public:
 	virtual ITexture* CreateTexture(const IBitmapData* pBitmapData);
 	virtual ITexture* CreateTexture(const tstring& strFile);
 
+	virtual IShader* CreateShader(const tstring& strShaderFile);
+
 private:
 	IBitmapData* InternalCreateBitmapData(const tstring& strFile);
+	IShader* InternalCreateShader(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
 
 private:
 	TM_MESH m_MeshMap;

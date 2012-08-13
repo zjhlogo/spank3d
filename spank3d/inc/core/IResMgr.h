@@ -12,6 +12,7 @@
 #include "IMesh.h"
 #include "IBitmapData.h"
 #include "../render/ITexture.h"
+#include "../render/IShader.h"
 
 class IResMgr : public ISingleton
 {
@@ -31,6 +32,9 @@ public:
 
 	virtual ITexture* CreateTexture(const IBitmapData* pBitmapData) = 0;
 	virtual ITexture* CreateTexture(const tstring& strFile) = 0;
+
+	virtual IShader* CreateShader(const tstring& strShaderFile) = 0;
+
 };
 
 #endif // __IRESMGR_H__

@@ -414,23 +414,11 @@
 			Name="render"
 			>
 			<File
-				RelativePath=".\inc\render\IRenderInterface.h"
-				>
-			</File>
-			<File
 				RelativePath=".\inc\render\IShader.h"
 				>
 			</File>
 			<File
 				RelativePath=".\inc\render\ITexture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\render\RenderInterface_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\render\RenderInterface_Impl.h"
 				>
 			</File>
 			<File
