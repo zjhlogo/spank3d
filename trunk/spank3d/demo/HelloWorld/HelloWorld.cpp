@@ -27,7 +27,7 @@ HelloWorld::~HelloWorld()
 
 bool HelloWorld::Initialize()
 {
-	m_pShader = g_pRenderInterface->CreateShader("default_shader.xml");
+	m_pShader = g_pResMgr->CreateShader("default_shader.xml");
 	if (!m_pShader) return false;
 
 	m_pMesh = g_pResMgr->CreateMesh("teapot_ptn.mesh");

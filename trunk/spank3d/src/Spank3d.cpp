@@ -10,5 +10,4 @@
 Core* g_pCore = NULL;
 IResMgr* g_pResMgr = NULL;
 IDevice* g_pDevice = NULL;
-IRenderInterface* g_pRenderInterface = NULL;
 IApp* g_pApp = NULL;
