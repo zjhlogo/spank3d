@@ -23,9 +23,6 @@ public:
 public:
 	RTTI_DEF(Device_Impl, IDevice);
 
-	Device_Impl();
-	virtual ~Device_Impl();
-
 	static Device_Impl& GetInstance();
 
 	bool Initialize();
@@ -36,6 +33,10 @@ public:
 
 	virtual int GetWindowWidth() const;
 	virtual int GetWindowHeight() const;
+
+protected:
+	Device_Impl();
+	virtual ~Device_Impl();
 
 private:
 	bool InternalCreateWindow();

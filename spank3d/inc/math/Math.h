@@ -54,5 +54,8 @@ public:
 
 	static const Vector3 VEC_ZERO;
 	static const Vector3 VEC_UP;
+
+	static const Matrix4x4 MAT_IDENTITY;
+
 };
 #endif // __MATH_H__
