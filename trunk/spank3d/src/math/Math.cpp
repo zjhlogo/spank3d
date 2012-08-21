@@ -19,6 +19,11 @@ const float Math::FLOAT_MAX = 3.402823466e+38F;			// 3.402823466e+38F
 const Vector3 Math::VEC_ZERO = Vector3(0.0f, 0.0f, 0.0f);
 const Vector3 Math::VEC_UP = Vector3(0.0f, 1.0f, 0.0f);
 
+const Matrix4x4 Math::MAT_IDENTITY = Matrix4x4(1.0f, 0.0f, 0.0f, 0.0f,
+											   0.0f, 1.0f, 0.0f, 0.0f,
+											   0.0f, 0.0f, 1.0f, 0.0f,
+											   0.0f, 0.0f, 0.0f, 1.0f);
+
 float Math::Radians(float degrees)
 {
 	return PI/180.0f*degrees;

@@ -27,3 +27,8 @@ void SystemUtil::TimeLocal(LOCAL_TIME& LocalTime, uint64 nTimeStamp)
 	LocalTime.nMinute = tmLocal.tm_min;
 	LocalTime.nSecond = tmLocal.tm_sec;
 }
+
+void SystemUtil::ZeroMemory(void* pBuffer, int nSize)
+{
+	memset(pBuffer, 0, nSize);
+}

@@ -8,8 +8,6 @@
 #ifndef __VECTOR2I_H__
 #define __VECTOR2I_H__
 
-#include <math.h>
-
 class Vector2i
 {
 public:

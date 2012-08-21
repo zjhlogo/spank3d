@@ -174,6 +174,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\math\Rect.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\math\Rect.inl"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\math\Vector2.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\math\Vector2.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\math\Vector2i.h"
 				>
 			</File>
@@ -411,6 +427,58 @@
 			</File>
 		</Filter>
 		<Filter
+			Name="camera"
+			>
+			<File
+				RelativePath=".\src\camera\ICamera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\camera\ICamera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\camera\ICameraControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\camera\ICameraControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\camera\TargetCameraControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\camera\TargetCameraControl.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="ui"
+			>
+			<File
+				RelativePath=".\inc\ui\IRendererUi.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\RendererUi_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\RendererUi_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\VertexCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\VertexCache.h"
+				>
+			</File>
+		</Filter>
+		<Filter
 			Name="render"
 			>
 			<File
@@ -443,34 +511,6 @@
 			</File>
 			<File
 				RelativePath=".\inc\render\VertexAttribute.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="camera"
-			>
-			<File
-				RelativePath=".\src\camera\ICamera.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\camera\ICamera.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\camera\ICameraControl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\camera\ICameraControl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\camera\TargetCameraControl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\camera\TargetCameraControl.h"
 				>
 			</File>
 		</Filter>
