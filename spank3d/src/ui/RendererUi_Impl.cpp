@@ -41,6 +41,7 @@ bool RendererUi_Impl::Initialize()
 		if (!m_pVertexCaches[i] || !m_pVertexCaches[i]->IsOk()) return false;
 	}
 
+	Math::BuildOrthoMatrix(m_matMVP, float(g_pDevice->GetWindowWidth()), float(g_pDevice->GetWindowHeight()), 1.0, 100.0);
 	return true;
 }
 
@@ -65,7 +66,29 @@ void RendererUi_Impl::DrawRect(const Vector2& pos, const Vector2& size, ITexture
 
 void RendererUi_Impl::DrawRect(float x, float y, float width, float height, ITexture* pTexture)
 {
-	// TODO: 
+	static VATTR_XYUV s_Verts[4] =
+	{
+		{-0.5f, -0.5f, 0.0f, 0.0f},
+		{-0.5f, +0.5f, 0.0f, 1.0f},
+		{+0.5f, -0.5f, 1.0f, 0.0f},
+		{+0.5f, +0.5f, 1.0f, 1.0f},
+	};
+
+	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
+
+	float halfWidth = width*0.5f;
+	float halfHeight = height*0.5f;
+
+	s_Verts[0].x = x - halfWidth;
+	s_Verts[0].y = y - halfHeight;
+	s_Verts[1].x = x - halfWidth;
+	s_Verts[1].y = y + halfHeight;
+	s_Verts[2].x = x + halfWidth;
+	s_Verts[2].y = y - halfHeight;
+	s_Verts[3].x = x + halfWidth;
+	s_Verts[3].y = y + halfHeight;
+
+	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, s_Verts, 4, s_Indis, 6);
 }
 
 void RendererUi_Impl::FlushAll()
@@ -83,8 +106,9 @@ void RendererUi_Impl::FlushCache(VertexCache* pVertexCache)
 	ITexture* pTexture = pVertexCache->GetTexture();
 	IShader* pShader = pVertexCache->GetShader();
 
+	pShader->Commit();
 	if (pTexture) pShader->SetTexture(pTexture, "u_texture");
-	pShader->SetMatrix4x4(Math::MAT_IDENTITY, "u_matModelViewProj");
+	pShader->SetMatrix4x4(m_matMVP, "u_matModelViewProj");
 
 	pShader->DrawTriangleList(pVertexCache->GetVerts(), pVertexCache->GetNumVerts(), pVertexCache->GetIndis(), pVertexCache->GetNumIndis());
 	pVertexCache->Reset();

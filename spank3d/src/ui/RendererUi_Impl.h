@@ -20,6 +20,12 @@ public:
 		NUM_PRIM_PER_CACHE = 128,
 	};
 
+	typedef struct VATTR_XYUV_tag
+	{
+		float x, y;
+		float u, v;
+	} VATTR_XYUV;
+
 public:
 	RTTI_DEF(RendererUi_Impl, IRendererUi);
 
@@ -45,6 +51,7 @@ private:
 private:
 	VertexCache* m_pVertexCaches[NUM_CACHE];
 	IShader* m_pShader;
+	Matrix4x4 m_matMVP;
 
 };
 #endif // __RENDERERUI_IMPL_H__
