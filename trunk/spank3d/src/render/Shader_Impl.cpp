@@ -51,8 +51,23 @@ bool Shader_Impl::SetTexture(ITexture* pTexture, const tstring& strName, uint nI
 	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName.c_str()));
 	if (nLoc < 0) return false;
 
-	// active texture	Texture_Impl* pTexture_Impl = (Texture_Impl*)pTexture;	glActiveTexture(GL_TEXTURE0+nIndex);	uint eError = glGetError();	if (eError != GL_NO_ERROR) LOG("glActiveTexture error code: 0x%04x", eError);	// bind texture	glBindTexture(GL_TEXTURE_2D, pTexture_Impl->GetTextureId());	eError = glGetError();	if (eError != GL_NO_ERROR) LOG("glBindTexture error code: 0x%04x", eError);	glUniform1i(nLoc, nIndex);	eError = glGetError();	if (eError != GL_NO_ERROR) LOG("glUniform1i error code: 0x%04x", eError);
-	return true;}
+	// active texture
+	Texture_Impl* pTexture_Impl = (Texture_Impl*)pTexture;
+	glActiveTexture(GL_TEXTURE0+nIndex);
+	uint eError = glGetError();
+	if (eError != GL_NO_ERROR) LOG("glActiveTexture error code: 0x%04x", eError);
+
+	// bind texture
+	glBindTexture(GL_TEXTURE_2D, pTexture_Impl->GetTextureId());
+	eError = glGetError();
+	if (eError != GL_NO_ERROR) LOG("glBindTexture error code: 0x%04x", eError);
+
+	glUniform1i(nLoc, nIndex);
+	eError = glGetError();
+	if (eError != GL_NO_ERROR) LOG("glUniform1i error code: 0x%04x", eError);
+
+	return true;
+}
 
 bool Shader_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
 {

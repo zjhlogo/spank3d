@@ -21,6 +21,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng1.5.12", "..\vendor\l
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib1.2.7", "..\vendor\zlib1.2.7\zlib1.2.7.vcproj", "{119338BD-EC67-459E-82AF-F414B5A59D20}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ui", "Ui\Ui.vcproj", "{4C1FFF7F-17BC-4A3B-8525-F6EEFFEED32D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5AE704FB-10E7-4D59-95B8-A1F7F4A667B8} = {5AE704FB-10E7-4D59-95B8-A1F7F4A667B8}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -47,6 +52,10 @@ Global
 		{119338BD-EC67-459E-82AF-F414B5A59D20}.Debug|Win32.Build.0 = Debug|Win32
 		{119338BD-EC67-459E-82AF-F414B5A59D20}.Release|Win32.ActiveCfg = Release|Win32
 		{119338BD-EC67-459E-82AF-F414B5A59D20}.Release|Win32.Build.0 = Release|Win32
+		{4C1FFF7F-17BC-4A3B-8525-F6EEFFEED32D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4C1FFF7F-17BC-4A3B-8525-F6EEFFEED32D}.Debug|Win32.Build.0 = Debug|Win32
+		{4C1FFF7F-17BC-4A3B-8525-F6EEFFEED32D}.Release|Win32.ActiveCfg = Release|Win32
+		{4C1FFF7F-17BC-4A3B-8525-F6EEFFEED32D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

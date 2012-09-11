@@ -9,6 +9,6 @@ out vec2 v2g_texCoord;
 
 void main()
 {
-	gl_Position = u_matModelViewProj * vec4(p2v_position, 1.0);
+	gl_Position = u_matModelViewProj * vec4(p2v_position, -10.0, 1.0);
 	v2g_texCoord = p2v_texCoord;
 }
