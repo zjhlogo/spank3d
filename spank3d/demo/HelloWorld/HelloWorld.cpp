@@ -30,7 +30,7 @@ bool HelloWorld::Initialize()
 	m_pShader = g_pResMgr->CreateShader("default_shader.xml");
 	if (!m_pShader) return false;
 
-	m_pMesh = g_pResMgr->CreateMesh("teapot_ptn.mesh");
+	m_pMesh = g_pResMgr->CreateMesh("teapot.mesh");
 	if (!m_pMesh) return false;
 
 	m_pTexture = g_pResMgr->CreateTexture("grid16.png");
@@ -57,13 +57,16 @@ void HelloWorld::Update(float dt)
 {
 	m_pShader->Commit();
 
-	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
+//	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
+	Matrix4x4 matView;
+	Math::BuildLookAtMatrix(matView, Vector3(0.0f, 0.0f, 10.0f), Math::VEC_ZERO, Math::VEC_UP);
 
 	Matrix4x4 matProj;
-	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetWindowWidth(), g_pDevice->GetWindowHeight(), 0.1f, 100.0f);
+// 	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetWindowWidth(), g_pDevice->GetWindowHeight(), 0.1f, 100.0f);
+	Math::BuildOrthoMatrix(matProj, g_pDevice->GetWindowWidth(), g_pDevice->GetWindowHeight(), -100.0f, 100.0f);
 
 	Matrix4x4 matWorldViewProj = matProj*matView;
-	m_pShader->SetMatrix4x4(matWorldViewProj, "u_matModelViewProj");
+	m_pShader->SetMatrix4x4(matProj, "u_matModelViewProj");
 
 	m_pShader->SetTexture(m_pTexture, "u_texture");
 
