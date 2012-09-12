@@ -41,16 +41,6 @@ void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, int width, i
 
 void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, float znear, float zfar)
 {
-// 	float range = tanf(fovy*0.5f) * znear;
-// 	float left = -range * aspect;
-// 	float right = range * aspect;
-// 	float bottom = -range;
-// 	float top = range;
-// 
-// 	m.Reset((2.0f*znear)/(right-left),        0.0f,        0.0f,                    0.0f,
-// 			0.0f,     (2.0f*znear)/(top-bottom),           0.0f,                    0.0f,
-// 			0.0f,     0.0f,        -(zfar+znear)/(zfar-znear),          -1.0f,
-// 			0.0f,     0.0f,        -(2.0f*zfar*znear)/(zfar-znear),    0.0f);
 	float y = 1.0f / tanf(fovy * 0.5f);
 	float x = y / aspect;
 	float zdist = (znear - zfar);
@@ -64,13 +54,10 @@ void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, flo
 
 void Math::BuildOrthoMatrix(Matrix4x4& m, float w, float h, float znear, float zfar)
 {
-	const float dz = (znear - zfar);
-	const float dzi = 1.0f/dz;
-
-	m.Reset(2.0f/w,     0.0f,       0.0f,       0.0f,
-			0.0f,       2.0f/h,     0.0f,       0.0f,
-			0.0f,       0.0f,       dzi,        0.0f,
-			0.0f,       0.0f,       znear*dzi,  1.0f);
+	m.Reset(2.0f/w,     0.0f,       0.0f,                           0.0f,
+			0.0f,       2.0f/h,     0.0f,                           0.0f,
+			0.0f,       0.0f,       -2.0f/(zfar-znear),             0.0f,
+			0.0f,       0.0f,       -(zfar+znear)/(zfar-znear),     1.0f);
 }
 
 void Math::BuildLookAtMatrix(Matrix4x4& m, const Vector3& eye, const Vector3& at, const Vector3& up)
