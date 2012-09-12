@@ -34,7 +34,7 @@ static IBitmapData* CreateBitmapData(png_struct* pPngStruct, png_info* pPngInfo,
 	std::vector<uchar*> vRowPointers;
 	for (uint y = 0; y < height; ++y)
 	{
-		vRowPointers.push_back(pData + (y*width*nBytesPerPixel));		//each pixel nBytesPerPixel bytes
+		vRowPointers.push_back(pData + ((height-y-1)*width*nBytesPerPixel));		//each pixel nBytesPerPixel bytes
 	}
 
 	png_read_image(pPngStruct, &vRowPointers[0]);
@@ -77,7 +77,7 @@ static IBitmapData* CreatePaletteBitmapData(png_struct* pPngStruct, png_info* pP
 			for (uint x = 0; x < width; ++x)
 			{
 				uint nRGBAIndex = y*width*4 + x*4;
-				uint nPaletteIndex = vRowPointers[y][x];
+				uint nPaletteIndex = vRowPointers[height-y-1][x];
 				pData[nRGBAIndex+0] = pPalette[nPaletteIndex].red;
 				pData[nRGBAIndex+1] = pPalette[nPaletteIndex].green;
 				pData[nRGBAIndex+2] = pPalette[nPaletteIndex].blue;
@@ -116,7 +116,7 @@ static IBitmapData* CreatePaletteBitmapData(png_struct* pPngStruct, png_info* pP
 			for (uint x = 0; x < width; ++x)
 			{
 				uint nRGBAIndex = y*width*3 + x*3;
-				uint nPaletteIndex = vRowPointers[y][x];
+				uint nPaletteIndex = vRowPointers[height-y-1][x];
 				pData[nRGBAIndex+0] = pPalette[nPaletteIndex].red;
 				pData[nRGBAIndex+1] = pPalette[nPaletteIndex].green;
 				pData[nRGBAIndex+2] = pPalette[nPaletteIndex].blue;
@@ -153,7 +153,7 @@ IBitmapData* PngUtil::DecodePngFromFile(const tstring& strFile)
 	uint bpp = png_get_bit_depth(pPngStruct, pPngInfo);
 
 	IBitmapData* pBitmapData = NULL;
-	if (bpp == 8)			// not support other bpp
+	if (bpp == 8)			// noly support bpp of 8
 	{
 		switch (colorType)
 		{

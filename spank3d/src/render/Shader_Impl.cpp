@@ -18,7 +18,7 @@ Shader_Impl::Shader_Impl(const tstring& strVertexShader, const tstring& strGeome
 	m_nGeometryShader = 0;
 	m_nFragmentShader = 0;
 	m_pVertexAttribute = NULL;
-	CreateShader(strVertexShader, strGeometryShader, strFragmentShader, pVertexAttrItem);
+	SetOk(CreateShader(strVertexShader, strGeometryShader, strFragmentShader, pVertexAttrItem));
 }
 
 Shader_Impl::~Shader_Impl()
@@ -104,43 +104,20 @@ bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& st
 	m_pVertexAttribute = new VertexAttribute(pVertexAttrItem);
 	if (!m_pVertexAttribute  || !m_pVertexAttribute->IsOk()) return false;
 
+	m_nProgram = glCreateProgram();
+	if (m_nProgram == 0) return false;
+
 	// create vertex shader
-	m_nVertexShader = glCreateShader(GL_VERTEX_SHADER);
-	const char* pszVertexShader = StringUtil::tchar2char(strVertexShader.c_str());
-	glShaderSource(m_nVertexShader, 1, &pszVertexShader, NULL);
-	glCompileShader(m_nVertexShader);
-	if (GetShaderErrorLog(m_nVertexShader))
-	{
-		LOG(_("Compile vertex shader failed with error log %s"), m_strError.c_str());
-		return false;
-	}
+	m_nVertexShader = CompileShader(GL_VERTEX_SHADER, strVertexShader);
+	if (m_nVertexShader != 0) glAttachShader(m_nProgram, m_nVertexShader);
 
 	// create geometry shader
-	m_nGeometryShader = glCreateShader(GL_GEOMETRY_SHADER);
-	const char* pszGeometryShader = StringUtil::tchar2char(strGeometryShader.c_str());
-	glShaderSource(m_nGeometryShader, 1, &pszGeometryShader, NULL);
-	glCompileShader(m_nGeometryShader);
-	if (GetShaderErrorLog(m_nGeometryShader))
-	{
-		LOG(_("Compile geometry shader failed with error log %s"), m_strError.c_str());
-		return false;
-	}
+	m_nGeometryShader = CompileShader(GL_GEOMETRY_SHADER, strGeometryShader);
+	if (m_nGeometryShader != 0) glAttachShader(m_nProgram, m_nGeometryShader);
 
 	// create fragment shader
-	m_nFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	const char* pszFragmentShader = StringUtil::tchar2char(strFragmentShader.c_str());
-	glShaderSource(m_nFragmentShader, 1, &pszFragmentShader, NULL);
-	glCompileShader(m_nFragmentShader);
-	if (GetShaderErrorLog(m_nFragmentShader))
-	{
-		LOG(_("Compile fragment shader failed with error log %s"), m_strError.c_str());
-		return false;
-	}
-
-	m_nProgram = glCreateProgram();
-	glAttachShader(m_nProgram, m_nVertexShader);
- 	glAttachShader(m_nProgram, m_nGeometryShader);
-	glAttachShader(m_nProgram, m_nFragmentShader);
+	m_nFragmentShader = CompileShader(GL_FRAGMENT_SHADER, strFragmentShader);
+	if (m_nFragmentShader != 0) glAttachShader(m_nProgram, m_nFragmentShader);
 
 	glLinkProgram(m_nProgram);
 	if (GetProgramErrorLog(m_nProgram))
@@ -149,13 +126,12 @@ bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& st
 		return false;
 	}
 
-	SetOk(true);
 	return true;
 }
 
 void Shader_Impl::DestroyShader()
 {
-	if (m_nProgram)
+	if (m_nProgram != 0)
 	{
 		glDetachShader(m_nProgram, m_nVertexShader);
 		glDetachShader(m_nProgram, m_nGeometryShader);
@@ -164,25 +140,45 @@ void Shader_Impl::DestroyShader()
 		m_nProgram = 0;
 	}
 
-	if (m_nVertexShader)
+	if (m_nVertexShader != 0)
 	{
 		glDeleteShader(m_nVertexShader);
 		m_nVertexShader = 0;
 	}
 
-	if (m_nGeometryShader)
+	if (m_nGeometryShader != 0)
 	{
 		glDeleteShader(m_nGeometryShader);
 		m_nGeometryShader = 0;
 	}
 
-	if (m_nFragmentShader)
+	if (m_nFragmentShader != 0)
 	{
 		glDeleteShader(m_nFragmentShader);
 		m_nFragmentShader = 0;
 	}
 
 	SAFE_DELETE(m_pVertexAttribute);
+}
+
+uint Shader_Impl::CompileShader(uint nShaderType, const tstring& strShader)
+{
+	if (strShader.length() <= 0) return 0;
+
+	uint nShaderId = glCreateShader(nShaderType);
+	if (nShaderId == 0) return 0;
+
+	const char* pszShader = StringUtil::tchar2char(strShader.c_str());
+	glShaderSource(nShaderId, 1, &pszShader, NULL);
+	glCompileShader(nShaderId);
+	if (GetShaderErrorLog(nShaderId))
+	{
+		LOG(_("Compile shader failed with error log %s"), m_strError.c_str());
+		glDeleteShader(nShaderId);
+		return 0;
+	}
+
+	return nShaderId;
 }
 
 bool Shader_Impl::GetShaderErrorLog(uint nShader)

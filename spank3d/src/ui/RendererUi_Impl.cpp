@@ -74,7 +74,7 @@ void RendererUi_Impl::DrawRect(float x, float y, float width, float height, ITex
 		{+0.5f, +0.5f, 1.0f, 1.0f},
 	};
 
-	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
+	static const ushort s_Indis[6] = {0, 2, 1, 1, 2, 3};
 
 	float halfWidth = width*0.5f;
 	float halfHeight = height*0.5f;
