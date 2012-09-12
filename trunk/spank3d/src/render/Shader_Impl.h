@@ -31,6 +31,7 @@ private:
 	bool CreateShader(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem);
 	void DestroyShader();
 
+	uint CompileShader(uint nShaderType, const tstring& strShader);
 	bool GetShaderErrorLog(uint nShader);
 	bool GetProgramErrorLog(uint nProgram);
 

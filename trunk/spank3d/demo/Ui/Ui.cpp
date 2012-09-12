@@ -23,7 +23,7 @@ Ui::~Ui()
 
 bool Ui::Initialize()
 {
-	m_pTexture = g_pResMgr->CreateTexture(_("common0.png"));
+	m_pTexture = g_pResMgr->CreateTexture(_("grid16.png"));
 	if (!m_pTexture) return false;
 
 	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&Ui::OnMouseEvent));
@@ -38,7 +38,7 @@ void Ui::Terminate()
 
 void Ui::Update(float dt)
 {
-	g_pRendererUi->DrawRect(10.0f, 10.0f, 200.0f, 200.0f, m_pTexture);
+	g_pRendererUi->DrawRect(0.0f, 0.0f, float(m_pTexture->GetWidth()), float(m_pTexture->GetHeight()), m_pTexture);
 	g_pRendererUi->FlushAll();
 }
 

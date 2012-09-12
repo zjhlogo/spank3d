@@ -52,6 +52,25 @@ bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData)
 	m_nWidth = pBitmapData->GetWidth();
 	m_nHeight = pBitmapData->GetHeight();
 
+	uint nColorFormat = GL_RGBA;
+	switch (pBitmapData->GetBPP())
+	{
+	case 8:
+		nColorFormat = GL_RED;
+		break;
+	case 16:
+		nColorFormat = GL_RG;
+		break;
+	case 24:
+		nColorFormat = GL_RGB;
+		break;
+	case 32:
+		nColorFormat = GL_RGBA;
+		break;
+	default:
+		return false;
+	}
+
 	if (!IsValidTextureSize(m_nWidth, m_nHeight))
 	{
 		LOG("invalid texture size: %dx%d", m_nWidth, m_nHeight);
@@ -59,7 +78,7 @@ bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData)
 	}
 
 	glBindTexture(GL_TEXTURE_2D, m_nTextureId);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_nWidth, m_nHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, pBitmapData->GetData());
+	glTexImage2D(GL_TEXTURE_2D, 0, nColorFormat, m_nWidth, m_nHeight, 0, nColorFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 

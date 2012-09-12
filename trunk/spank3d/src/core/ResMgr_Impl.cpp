@@ -148,22 +148,19 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strShaderFile)
 	if (!pElmShader) return NULL;
 
 	// vertex shader
-	const char* pszVertexShader = pElmShader->Attribute("vertex_shader");
-	if (!pszVertexShader) return NULL;
 	std::string strVertexShaderData;
-	if (!FileUtil::ReadFileIntoString(strVertexShaderData, StringUtil::char2tchar(pszVertexShader))) return NULL;
+	const char* pszVertexShader = pElmShader->Attribute("vertex_shader");
+	if (pszVertexShader) FileUtil::ReadFileIntoString(strVertexShaderData, StringUtil::char2tchar(pszVertexShader));
 
 	// geometry shader
-	const char* pszGeometryShader = pElmShader->Attribute("geometry_shader");
-	if (!pszGeometryShader) return NULL;
 	std::string strGeometryShaderData;
-	if (!FileUtil::ReadFileIntoString(strGeometryShaderData, StringUtil::char2tchar(pszGeometryShader))) return NULL;
+	const char* pszGeometryShader = pElmShader->Attribute("geometry_shader");
+	if (pszGeometryShader) FileUtil::ReadFileIntoString(strGeometryShaderData, StringUtil::char2tchar(pszGeometryShader));
 
 	// fragment shader
-	const char* pszFregmentShader = pElmShader->Attribute("fregment_shader");
-	if (!pszFregmentShader) return NULL;
 	std::string strFragmentShaderData;
-	if (!FileUtil::ReadFileIntoString(strFragmentShaderData, StringUtil::char2tchar(pszFregmentShader))) return NULL;
+	const char* pszFregmentShader = pElmShader->Attribute("fregment_shader");
+	if (pszFregmentShader) FileUtil::ReadFileIntoString(strFragmentShaderData, StringUtil::char2tchar(pszFregmentShader));
 
 	// vertex attribute
 	TiXmlElement* pElmAttrs = pElmShader->FirstChildElement("attributes");
