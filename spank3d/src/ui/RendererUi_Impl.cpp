@@ -63,15 +63,20 @@ void RendererUi_Impl::Terminate()
 
 void RendererUi_Impl::DrawRect(const Rect& rect, ITexture* pTexture)
 {
-	// TODO: 
+	DrawRect(rect.x, rect.y, rect.width, rect.height, 0.0f, 0.0f, 1.0f, 1.0f, pTexture);
 }
 
 void RendererUi_Impl::DrawRect(const Vector2& pos, const Vector2& size, ITexture* pTexture)
 {
-	// TODO: 
+	DrawRect(pos.x, pos.y, size.x, size.y, 0.0f, 0.0f, 1.0f, 1.0f, pTexture);
 }
 
 void RendererUi_Impl::DrawRect(float x, float y, float width, float height, ITexture* pTexture)
+{
+	DrawRect(x, y, width, height, 0.0f, 0.0f, 1.0f, 1.0f, pTexture);
+}
+
+void RendererUi_Impl::DrawRect(float x, float y, float width, float height, float u, float v, float du, float dv, ITexture* pTexture)
 {
 	static VATTR_XYUV s_Verts[4] =
 	{
@@ -85,12 +90,20 @@ void RendererUi_Impl::DrawRect(float x, float y, float width, float height, ITex
 
 	s_Verts[0].x = x;
 	s_Verts[0].y = y;
+	s_Verts[0].u = u;
+	s_Verts[0].v = v + dv;
 	s_Verts[1].x = x;
 	s_Verts[1].y = y + height;
+	s_Verts[1].u = u;
+	s_Verts[1].v = v;
 	s_Verts[2].x = x + width;
 	s_Verts[2].y = y;
+	s_Verts[2].u = u + du;
+	s_Verts[2].v = v + dv;
 	s_Verts[3].x = x + width;
 	s_Verts[3].y = y + height;
+	s_Verts[3].u = u + du;
+	s_Verts[3].v = v;
 
 	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, s_Verts, 4, s_Indis, 6);
 }

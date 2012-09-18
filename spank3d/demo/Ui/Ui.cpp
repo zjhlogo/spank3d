@@ -23,10 +23,11 @@ Ui::~Ui()
 
 bool Ui::Initialize()
 {
-	m_pTexture = g_pResMgr->CreateTexture(_("grid16.png"));
+	m_pTexture = g_pResMgr->CreateTexture(_("sun.png"));
 	if (!m_pTexture) return false;
 
-	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&Ui::OnMouseEvent));
+	m_Size.Reset(float(m_pTexture->GetWidth()), float(m_pTexture->GetHeight()));
+	m_Speed.Reset(Math::Random(150.0f, 200.0f), Math::Random(150.0f, 200.0f));
 
 	return true;
 }
@@ -38,11 +39,39 @@ void Ui::Terminate()
 
 void Ui::Update(float dt)
 {
-	g_pRendererUi->DrawRect(0.0f, 0.0f, float(m_pTexture->GetWidth()), float(m_pTexture->GetHeight()), m_pTexture);
+	UpdatePosition(dt);
+	g_pRendererUi->DrawRect(m_Position, m_Size, m_pTexture);
 	g_pRendererUi->FlushAll();
 }
 
-bool Ui::OnMouseEvent(MouseEvent& mouseEvent)
+void Ui::UpdatePosition(float dt)
 {
-	return true;
+	m_Position += m_Speed*dt;
+
+	float windowWidth = float(g_pDevice->GetWindowWidth());
+	float windowHeight = float(g_pDevice->GetWindowHeight());
+
+	if (m_Position.x < 0.0f)
+	{
+		m_Position.x = 0.0f;
+		m_Speed.x = -m_Speed.x;
+	}
+
+	if (m_Position.x + m_Size.x > windowWidth)
+	{
+		m_Position.x = windowWidth - m_Size.x;
+		m_Speed.x = -m_Speed.x;
+	}
+
+	if (m_Position.y < 0.0f)
+	{
+		m_Position.y = 0.0f;
+		m_Speed.y = -m_Speed.y;
+	}
+
+	if (m_Position.y + m_Size.y > windowHeight)
+	{
+		m_Position.y = windowHeight - m_Size.y;
+		m_Speed.y = -m_Speed.y;
+	}
 }

@@ -6,6 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "math/Math.h"
+#include <cstdlib>
+#include <ctime>
 
 const float Math::PI_2 = 1.570796325f;
 const float Math::PI = 3.14159265f;
@@ -32,6 +34,24 @@ float Math::Radians(float degrees)
 float Math::Degrees(float radians)
 {
 	return radians*180.0f/PI;
+}
+
+static bool InitSeed()
+{
+	srand((unsigned)time(NULL)*18374);
+	return true;
+}
+
+float Math::Random()
+{
+	static bool s_InitSeed = InitSeed();
+
+	return float(rand()) / RAND_MAX;
+}
+
+float Math::Random(float min, float max)
+{
+	return min+Random()*(max-min);
 }
 
 void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, int width, int height, float znear, float zfar)
