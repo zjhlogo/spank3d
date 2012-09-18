@@ -24,6 +24,7 @@ public:
 	virtual void DrawRect(const Rect& rect, ITexture* pTexture) = 0;
 	virtual void DrawRect(const Vector2& pos, const Vector2& size, ITexture* pTexture) = 0;
 	virtual void DrawRect(float x, float y, float width, float height, ITexture* pTexture) = 0;
+	virtual void DrawRect(float x, float y, float width, float height, float u, float v, float du, float dv, ITexture* pTexture) = 0;
 
 	virtual void FlushAll() = 0;
 

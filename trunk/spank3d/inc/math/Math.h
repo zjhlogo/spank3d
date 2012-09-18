@@ -18,6 +18,8 @@ class Math
 public:
 	static float Radians(float degrees);
 	static float Degrees(float radians);
+	static float Random();
+	static float Random(float min, float max);
 
 	static void BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, int width, int height, float znear, float zfar);
 	static void BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, float znear, float zfar);

@@ -25,10 +25,14 @@ public:
 	virtual void Update(float dt);
 
 private:
-	bool OnMouseEvent(MouseEvent& mouseEvent);
+	void UpdatePosition(float dt);
 
 private:
 	ITexture* m_pTexture;
+
+	Vector2 m_Speed;
+	Vector2 m_Position;
+	Vector2 m_Size;
 
 };
 #endif // __UI_H__
