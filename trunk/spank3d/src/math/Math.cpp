@@ -54,10 +54,15 @@ void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, flo
 
 void Math::BuildOrthoMatrix(Matrix4x4& m, float w, float h, float znear, float zfar)
 {
-	m.Reset(2.0f/w,     0.0f,       0.0f,                           0.0f,
-			0.0f,       2.0f/h,     0.0f,                           0.0f,
-			0.0f,       0.0f,       -2.0f/(zfar-znear),             0.0f,
-			0.0f,       0.0f,       -(zfar+znear)/(zfar-znear),     1.0f);
+	BuildOrthoMatrix(m, -w/2.0f, w/2.0f, -h/2.0f, h/2.0f, znear, zfar);
+}
+
+void Math::BuildOrthoMatrix(Matrix4x4& m, float left, float right, float bottom, float top, float znear, float zfar)
+{
+	m.Reset(2.0f/(right-left),                 0.0f,                            0.0f,                           0.0f,
+			0.0f,                              2.0f/(top-bottom),               0.0f,                           0.0f,
+			0.0f,                              0.0f,                            -2.0f/(zfar-znear),             0.0f,
+			-(right+left)/(right-left),        -(top+bottom)/(top-bottom),      -(zfar+znear)/(zfar-znear),     1.0f);
 }
 
 void Math::BuildLookAtMatrix(Matrix4x4& m, const Vector3& eye, const Vector3& at, const Vector3& up)

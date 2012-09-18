@@ -22,6 +22,7 @@ public:
 	static void BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, int width, int height, float znear, float zfar);
 	static void BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, float znear, float zfar);
 	static void BuildOrthoMatrix(Matrix4x4& m, float w, float h, float znear, float zfar);
+	static void BuildOrthoMatrix(Matrix4x4& m, float left, float right, float bottom, float top, float znear, float zfar);
 	static void BuildLookAtMatrix(Matrix4x4& m, const Vector3& eye, const Vector3& at, const Vector3& up);
 
 	static void BuildTranslateMatrix(Matrix4x4& m, const Vector3& v);

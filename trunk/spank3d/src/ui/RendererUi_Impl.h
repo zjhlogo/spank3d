@@ -51,7 +51,7 @@ private:
 private:
 	VertexCache* m_pVertexCaches[NUM_CACHE];
 	IShader* m_pShader;
-	Matrix4x4 m_matMVP;
+	Matrix4x4 m_matModelViewProj;
 
 };
 #endif // __RENDERERUI_IMPL_H__

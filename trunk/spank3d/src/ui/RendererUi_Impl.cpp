@@ -41,7 +41,14 @@ bool RendererUi_Impl::Initialize()
 		if (!m_pVertexCaches[i] || !m_pVertexCaches[i]->IsOk()) return false;
 	}
 
-	Math::BuildOrthoMatrix(m_matMVP, float(g_pDevice->GetWindowWidth()), float(g_pDevice->GetWindowHeight()), 1.0, 100.0);
+	Matrix4x4 matOrtho;
+	Math::BuildOrthoMatrix(matOrtho, 0.0f, float(g_pDevice->GetWindowWidth()), 0.0f, float(g_pDevice->GetWindowHeight()), -100.0f, 100.0f);
+
+	Matrix4x4 matModelView;
+	Math::BuildTranslateMatrix(matModelView, 0.0f, float(g_pDevice->GetWindowHeight()), 0.0f);
+	matModelView.e[5] = -1.0f;
+
+	m_matModelViewProj = matOrtho*matModelView;
 	return true;
 }
 
@@ -68,25 +75,22 @@ void RendererUi_Impl::DrawRect(float x, float y, float width, float height, ITex
 {
 	static VATTR_XYUV s_Verts[4] =
 	{
-		{-0.5f, -0.5f, 0.0f, 0.0f},
-		{-0.5f, +0.5f, 0.0f, 1.0f},
-		{+0.5f, -0.5f, 1.0f, 0.0f},
-		{+0.5f, +0.5f, 1.0f, 1.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f},
+		{0.0f, 1.0f, 0.0f, 0.0f},
+		{1.0f, 0.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f, 0.0f},
 	};
 
-	static const ushort s_Indis[6] = {0, 2, 1, 1, 2, 3};
+	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
 
-	float halfWidth = width*0.5f;
-	float halfHeight = height*0.5f;
-
-	s_Verts[0].x = x - halfWidth;
-	s_Verts[0].y = y - halfHeight;
-	s_Verts[1].x = x - halfWidth;
-	s_Verts[1].y = y + halfHeight;
-	s_Verts[2].x = x + halfWidth;
-	s_Verts[2].y = y - halfHeight;
-	s_Verts[3].x = x + halfWidth;
-	s_Verts[3].y = y + halfHeight;
+	s_Verts[0].x = x;
+	s_Verts[0].y = y;
+	s_Verts[1].x = x;
+	s_Verts[1].y = y + height;
+	s_Verts[2].x = x + width;
+	s_Verts[2].y = y;
+	s_Verts[3].x = x + width;
+	s_Verts[3].y = y + height;
 
 	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, s_Verts, 4, s_Indis, 6);
 }
@@ -108,7 +112,7 @@ void RendererUi_Impl::FlushCache(VertexCache* pVertexCache)
 
 	pShader->Commit();
 	if (pTexture) pShader->SetTexture(pTexture, "u_texture");
-	pShader->SetMatrix4x4(m_matMVP, "u_matModelViewProj");
+	pShader->SetMatrix4x4(m_matModelViewProj, "u_matModelViewProj");
 
 	pShader->DrawTriangleList(pVertexCache->GetVerts(), pVertexCache->GetNumVerts(), pVertexCache->GetIndis(), pVertexCache->GetNumIndis());
 	pVertexCache->Reset();
