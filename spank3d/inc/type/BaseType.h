@@ -10,6 +10,7 @@
 
 #include <string>
 #include <cassert>
+#include <climits>
 
 //typedef bool						bool;
 
@@ -37,8 +38,8 @@ typedef unsigned __int64			uint64;
 
 typedef std::basic_string<tchar>	tstring;
 
-#define SAFE_DELETE(x) if (x) {delete (x); (x) = NULL;}
-#define SAFE_DELETE_ARRAY(x) if (x) {delete[] (x); (x) = NULL;}
-#define SAFE_RELEASE(x) if (x) {(x)->Release(); (x) = NULL;}
+#define SAFE_DELETE(x)				if (x) {delete (x); (x) = NULL;}
+#define SAFE_DELETE_ARRAY(x)		if (x) {delete[] (x); (x) = NULL;}
+#define SAFE_RELEASE(x)				if (x) {(x)->Release(); (x) = NULL;}
 
 #endif // __BASETYPE_H__

@@ -477,6 +477,30 @@
 				RelativePath=".\src\ui\VertexCache.h"
 				>
 			</File>
+			<Filter
+				Name="controls"
+				>
+				<File
+					RelativePath=".\src\ui\controls\IWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\controls\IWindow.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="style"
+				>
+				<File
+					RelativePath=".\src\ui\style\IStyle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\style\IStyle.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="render"
