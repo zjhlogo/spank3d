@@ -493,11 +493,43 @@
 				Name="style"
 				>
 				<File
+					RelativePath=".\src\ui\style\BitmapStyle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\style\BitmapStyle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ui\style\ColorStyle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\style\ColorStyle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ui\style\IGraphicsStyle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\style\IGraphicsStyle.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ui\style\IStyle.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\inc\ui\style\IStyle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ui\style\NinePatchStyle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\style\NinePatchStyle.h"
 					>
 				</File>
 			</Filter>
