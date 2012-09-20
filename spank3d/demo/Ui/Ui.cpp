@@ -46,6 +46,9 @@ void Ui::Update(float dt)
 	NinePatchStyle* pNinePatchStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
 	pNinePatchStyle->Render(Vector2(50.0f, 50.0f), Vector2(200.0f, 200.0f), UiState::STATE_DEFAULT);
 
+// 	const PieceInfo* pPieceInfo = g_pUiResMgr->FindPieceInfo(_("piece_default"));
+// 	g_pRendererUi->DrawRect(50.0f, 50.0f, pPieceInfo->width, pPieceInfo->height, pPieceInfo->u, pPieceInfo->v, pPieceInfo->du, pPieceInfo->dv, pPieceInfo->pTexture);
+
 	g_pRendererUi->FlushAll();
 }
 
