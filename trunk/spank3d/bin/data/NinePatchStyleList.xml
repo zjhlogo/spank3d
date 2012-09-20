@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NinePatchStyleList>
+  <NinePatchStyle id="nps_default" minW="" minH="" maxW="" maxH="" bestW="" bestH="" paddingL="" paddingT="" paddingR="" paddingB="">
+    <State id="STATE_DEFAULT" piece="piece_default" />
+  </NinePatchStyle>
+</NinePatchStyleList>

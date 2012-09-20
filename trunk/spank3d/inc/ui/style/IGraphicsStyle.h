@@ -9,20 +9,57 @@
 #define __IGRAPHICSSTYLE_H__
 
 #include "IStyle.h"
+#include "../../math/Rect.h"
+#include "../../math/Vector2.h"
+#include "PieceInfo.h"
+#include <vector>
 
 class IGraphicsStyle : public IStyle
 {
+public:
+	typedef struct STATE_INFO_tag
+	{
+		uint nState;
+		PieceInfo* pPieceInfo;
+	} STATE_INFO;
+
+	typedef std::vector<STATE_INFO> TV_STATE_INFO;
+
 public:
 	RTTI_DEF(IGraphicsStyle, IStyle);
 
 	IGraphicsStyle(const tstring& id);
 	virtual ~IGraphicsStyle();
 
-	void SetClientRect(const Rect& rect);
-	void SetClientRect(const Vector2& pos, const Vector2& size);
-	void SetClientRect(float x, float y, float width, float height);
-	const Rect& GetClientRect() const;
+	void SetPaddingLT(const Vector2& paddingLT);
+	void SetPaddingLT(float paddingL, float paddingT);
+	const Vector2& GetPaddingLT() const;
+
+	void SetPaddingRB(const Vector2& paddingRB);
+	void SetPaddingRB(float paddingR, float paddingB);
+	const Vector2& GetPaddingRB() const;
+
+	void SetMinSize(const Vector2& minSize);
+	void SetMinSize(float width, float height);
+	const Vector2& GetMinSize() const;
+
+	void SetMaxSize(const Vector2& maxSize);
+	void SetMaxSize(float width, float height);
+	const Vector2& GetMaxSize() const;
+
+	void SetBestSize(const Vector2& bestSize);
+	void SetBestSize(float width, float height);
+	const Vector2& GetBestSize() const;
 
 	virtual bool Render(const Vector2& pos, const Vector2& size) = 0;
+
+private:
+	Vector2 m_PaddingLT;
+	Vector2 m_PaddingRB;
+
+	Vector2 m_MinSize;
+	Vector2 m_MaxSize;
+	Vector2 m_BestSize;
+
 };
 #endif // __IGRAPHICSSTYLE_H__

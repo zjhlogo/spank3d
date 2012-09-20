@@ -9,6 +9,7 @@
 #define __STRINGUTIL_H__
 
 #include "../type/BaseType.h"
+#include <vector>
 
 class StringUtil
 {
@@ -29,6 +30,9 @@ public:
 	static bool strformat(tstring& strOut, const tchar* strFormat, ...);
 	static void toupper(tstring& strOut, const tstring& strIn);
 	static void tolower(tstring& strOut, const tstring& strIn);
+
+	static int splitString(std::vector<tstring>& arrOut, const tstring& strIn, const tstring& strSplit);
+	static tstring joinString(const std::vector<tstring>& arrIn, const tstring& strSplit);
 
 	static void GetFileNameWithoutExt(tstring& strOut, const tstring& strIn);
 	static void GetFileNameWithExt(tstring& strOut, const tstring& strIn);

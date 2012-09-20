@@ -130,6 +130,48 @@ void StringUtil::tolower(tstring& strOut, const tstring& strIn)
 	std::transform(strOut.begin(), strOut.end(), strOut.begin(), ::tolower);
 }
 
+int StringUtil::splitString(std::vector<tstring>& arrOut, const tstring& strIn, const tstring& strSplit)
+{
+	int totalSplit = 0;
+	size_t startIndex = 0;
+	size_t endIndex = 0;
+
+	endIndex = strIn.find(strSplit.c_str(), startIndex);
+	while (endIndex != tstring::npos)
+	{
+		arrOut.push_back(strIn.substr(startIndex, endIndex-startIndex));
+		totalSplit++;
+
+		startIndex += strSplit.length();
+		endIndex = strIn.find(strSplit.c_str(), startIndex);
+	}
+
+	if (startIndex >= strIn.length()-1) return totalSplit;
+
+	arrOut.push_back(strIn.substr(startIndex));
+	totalSplit++;
+
+	return totalSplit;
+}
+
+tstring StringUtil::joinString(const std::vector<tstring>& arrIn, const tstring& strSplit)
+{
+	tstring strOut;
+
+	int nLength = int(arrIn.size());
+	if (nLength <= 0) return strOut;
+
+	strOut += arrIn[0];
+
+	for (int i = 1; i < nLength; ++i)
+	{
+		strOut += strSplit;
+		strOut += arrIn[i];
+	}
+
+	return strOut;
+}
+
 void StringUtil::GetFileNameWithoutExt(tstring& strOut, const tstring& strIn)
 {
 	size_t nPosBegin = strIn.rfind(_('\\'));
