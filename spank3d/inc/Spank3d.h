@@ -13,11 +13,13 @@
 #include "core/IDevice.h"
 #include "core/IApp.h"
 #include "ui/IRendererUi.h"
+#include "ui/IUiResMgr.h"
 
 extern Core* g_pCore;
 extern IResMgr* g_pResMgr;
 extern IDevice* g_pDevice;
 extern IApp* g_pApp;
 extern IRendererUi* g_pRendererUi;
+extern IUiResMgr* g_pUiResMgr;
 
 #endif // __SPANK3D_H__

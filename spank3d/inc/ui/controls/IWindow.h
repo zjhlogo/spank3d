@@ -9,6 +9,7 @@
 #define __IWINDOW_H__
 
 #include "../../core/IObject.h"
+#include "../../math/Vector2.h"
 #include <vector>
 
 class IWindow : public IObject
