@@ -14,16 +14,31 @@
 class NinePatchStyle : public IGraphicsStyle
 {
 public:
+	typedef struct NINE_PATCH_PIECE_INFO_tag
+	{
+		uint nState;
+		const PieceInfo* pPieceInfo;
+		Vector2 patchSize[3];
+		Vector2 uv[3];
+		Vector2 dudv[3];
+	} NINE_PATCH_PIECE_INFO;
+
+	typedef std::vector<NINE_PATCH_PIECE_INFO> TV_NINE_PATCH_PIECE_INFO;
+
+public:
 	RTTI_DEF(NinePatchStyle, IGraphicsStyle);
 
 	NinePatchStyle(const tstring& id);
 	virtual ~NinePatchStyle();
 
-	virtual bool Render(const Vector2& pos, const Vector2& size);
+	virtual bool Render(const Vector2& pos, const Vector2& size, uint state);
 	bool LoadFromXml(TiXmlElement* pXmlNinePatchStyle);
 
 private:
-	TV_STATE_INFO m_vStateInfo;
+	bool RenderNinePatchPiece(const NINE_PATCH_PIECE_INFO& stateInfo, const Vector2& pos, const Vector2& size);
+
+private:
+	TV_NINE_PATCH_PIECE_INFO m_vNinePatchPieceInfo;
 
 };
 #endif // __NINEPATCHSTYLE_H__

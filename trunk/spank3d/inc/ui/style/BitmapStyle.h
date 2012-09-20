@@ -19,7 +19,7 @@ public:
 	BitmapStyle(const tstring& id);
 	virtual ~BitmapStyle();
 
-	virtual bool Render(const Vector2& pos, const Vector2& size);
+	virtual bool Render(const Vector2& pos, const Vector2& size, uint state);
 	bool LoadFromXml(TiXmlElement* pXmlBitmapStyle);
 
 private:
