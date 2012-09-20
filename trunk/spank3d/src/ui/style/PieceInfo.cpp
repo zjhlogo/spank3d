@@ -48,6 +48,7 @@ bool PieceInfo::LoadFromXml(TiXmlElement* pXmlPieceInfo)
 
 	u = float(x) / pTexture->GetWidth();
 	v = float(y) / pTexture->GetHeight();
+
 	du = float(width) / pTexture->GetWidth();
 	dv = float(height) / pTexture->GetHeight();
 

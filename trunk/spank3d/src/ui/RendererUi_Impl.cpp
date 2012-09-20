@@ -91,19 +91,22 @@ void RendererUi_Impl::DrawRect(float x, float y, float width, float height, floa
 	s_Verts[0].x = x;
 	s_Verts[0].y = y;
 	s_Verts[0].u = u;
-	s_Verts[0].v = v + dv;
+	s_Verts[0].v = 1.0f - v;
+
 	s_Verts[1].x = x;
 	s_Verts[1].y = y + height;
 	s_Verts[1].u = u;
-	s_Verts[1].v = v;
+	s_Verts[1].v = 1.0f - v - dv;
+
 	s_Verts[2].x = x + width;
 	s_Verts[2].y = y;
 	s_Verts[2].u = u + du;
-	s_Verts[2].v = v + dv;
+	s_Verts[2].v = 1.0f - v;
+
 	s_Verts[3].x = x + width;
 	s_Verts[3].y = y + height;
 	s_Verts[3].u = u + du;
-	s_Verts[3].v = v;
+	s_Verts[3].v = 1.0f - v - dv;
 
 	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, s_Verts, 4, s_Indis, 6);
 }

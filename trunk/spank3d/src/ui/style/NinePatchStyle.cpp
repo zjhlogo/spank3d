@@ -116,7 +116,7 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 		stateInfo.dudv[1].Reset(du*(stateInfo.patchSize[1].x/pieceWidth), dv*(stateInfo.patchSize[1].y/pieceHeight));
 
 		stateInfo.uv[2].Reset(stateInfo.uv[1].x+stateInfo.dudv[1].x, stateInfo.uv[1].y+stateInfo.dudv[1].y);
-		stateInfo.dudv[2].Reset(du*(stateInfo.patchSize[2].x/pieceWidth), du*(stateInfo.patchSize[2].y/pieceHeight));
+		stateInfo.dudv[2].Reset(du*(stateInfo.patchSize[2].x/pieceWidth), dv*(stateInfo.patchSize[2].y/pieceHeight));
 
 		m_vNinePatchPieceInfo.push_back(stateInfo);
 	}
