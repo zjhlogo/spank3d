@@ -77,13 +77,13 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 	NINE_PATCH_PIECE_INFO stateInfo;
 	for (TiXmlElement* pXmlState = pXmlNinePatchStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
-		const char* pszId = pXmlState->Attribute(_("id"));
+		const tchar* pszId = pXmlState->Attribute(_("id"));
 		if (!pszId) continue;
 
 		stateInfo.nState = UiState::GetStateValue(pszId);
 		if (stateInfo.nState == 0) continue;
 
-		const char* pszPieceId = pXmlState->Attribute(_("piece"));
+		const tchar* pszPieceId = pXmlState->Attribute(_("piece"));
 		if (!pszPieceId) continue;
 
 		stateInfo.pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);

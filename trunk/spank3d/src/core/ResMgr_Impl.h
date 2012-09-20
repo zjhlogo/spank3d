@@ -20,9 +20,6 @@ public:
 public:
 	RTTI_DEF(ResMgr_Impl, IResMgr);
 
-	ResMgr_Impl();
-	virtual ~ResMgr_Impl();
-
 	static ResMgr_Impl& GetInstance();
 
 	virtual bool Initialize();
@@ -39,7 +36,13 @@ public:
 	virtual ITexture* CreateTexture(const IBitmapData* pBitmapData);
 	virtual ITexture* CreateTexture(const tstring& strFile);
 
-	virtual IShader* CreateShader(const tstring& strShaderFile);
+	virtual IShader* CreateShader(const tstring& strFile);
+
+	virtual bool ReadStringFile(tstring& strOut, const tstring& strFile);
+
+private:
+	ResMgr_Impl();
+	virtual ~ResMgr_Impl();
 
 private:
 	IBitmapData* InternalCreateBitmapData(const tstring& strFile);

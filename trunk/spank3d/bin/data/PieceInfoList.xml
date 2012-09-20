@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PieceInfoList>
+  <PieceInfo id="piece_default" texture="common3.png" x="238" y="50" width="58" height="58" />
+</PieceInfoList>

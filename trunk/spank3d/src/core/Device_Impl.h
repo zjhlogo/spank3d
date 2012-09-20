@@ -34,7 +34,7 @@ public:
 	virtual int GetWindowWidth() const;
 	virtual int GetWindowHeight() const;
 
-protected:
+private:
 	Device_Impl();
 	virtual ~Device_Impl();
 

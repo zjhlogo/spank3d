@@ -15,9 +15,6 @@ class Core : public ISingleton
 public:
 	RTTI_DEF(Core, ISingleton);
 
-	Core();
-	virtual ~Core();
-
 	static Core& GetInstance();
 
 	virtual bool Initialize();
@@ -25,6 +22,10 @@ public:
 
 	void Run();
 	void End();
+
+private:
+	Core();
+	virtual ~Core();
 
 };
 #endif // __CORE_H__

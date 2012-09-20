@@ -33,8 +33,9 @@ public:
 	virtual ITexture* CreateTexture(const IBitmapData* pBitmapData) = 0;
 	virtual ITexture* CreateTexture(const tstring& strFile) = 0;
 
-	virtual IShader* CreateShader(const tstring& strShaderFile) = 0;
+	virtual IShader* CreateShader(const tstring& strFile) = 0;
 
+	virtual bool ReadStringFile(tstring& strOut, const tstring& strFile) = 0;
 };
 
 #endif // __IRESMGR_H__
