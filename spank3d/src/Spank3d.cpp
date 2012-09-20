@@ -12,3 +12,4 @@ IResMgr* g_pResMgr = NULL;
 IDevice* g_pDevice = NULL;
 IApp* g_pApp = NULL;
 IRendererUi* g_pRendererUi = NULL;
+IUiResMgr* g_pUiResMgr = NULL;

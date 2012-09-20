@@ -6,13 +6,50 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/style/PieceInfo.h>
+#include <Spank3d.h>
 
-PieceInfo::PieceInfo()
+PieceInfo::PieceInfo(const tstring& id)
 {
-	// TODO: 
+	strId = id;
+
+	x = 0;
+	y = 0;
+	width = 0;
+	height = 0;
+	u = 0.0f;
+	v = 0.0f;
+	du = 0.0f;
+	dv = 0.0f;
+	pTexture = NULL;
 }
 
 PieceInfo::~PieceInfo()
 {
-	// TODO: 
+	SAFE_RELEASE(pTexture);
+}
+
+const tstring& PieceInfo::GetId() const
+{
+	return strId;
+}
+
+bool PieceInfo::LoadFromXml(TiXmlElement* pXmlPieceInfo)
+{
+	const tchar* pszTexture = pXmlPieceInfo->Attribute(_("texture"));
+	if (!pszTexture) return false;
+
+	pTexture = g_pResMgr->CreateTexture(pszTexture);
+	if (!pTexture) return false;
+
+	pXmlPieceInfo->Attribute(_("x"), &x);
+	pXmlPieceInfo->Attribute(_("y"), &y);
+	pXmlPieceInfo->Attribute(_("width"), &width);
+	pXmlPieceInfo->Attribute(_("height"), &height);
+
+	u = float(x) / pTexture->GetWidth();
+	v = float(y) / pTexture->GetHeight();
+	du = float(width) / pTexture->GetWidth();
+	dv = float(height) / pTexture->GetHeight();
+
+	return true;
 }

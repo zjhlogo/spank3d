@@ -130,53 +130,53 @@ ITexture* ResMgr_Impl::CreateTexture(const tstring& strFile)
 	return pTexture;
 }
 
-IShader* ResMgr_Impl::CreateShader(const tstring& strShaderFile)
+IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 {
-	// get file path
-	tstring strShaderFilePath;
-	if (!StringUtil::GetFileFullPath(strShaderFilePath, m_strDefaultDir, strShaderFile)) return NULL;
+	// get full path
+	tstring strFullPath;
+	if (!StringUtil::GetFileFullPath(strFullPath, m_strDefaultDir, strFile)) return NULL;
 
 	std::string strXmlFile;
-	if (!FileUtil::ReadFileIntoString(strXmlFile, strShaderFilePath)) return NULL;
+	if (!FileUtil::ReadFileIntoString(strXmlFile, strFullPath)) return NULL;
 
 	TiXmlDocument doc;
 	doc.Parse(strXmlFile.c_str());
 	if (doc.Error()) return NULL;
 
 	// parse the xml files
-	TiXmlElement* pElmShader = doc.RootElement();
-	if (!pElmShader) return NULL;
+	TiXmlElement* pXmlShader = doc.RootElement();
+	if (!pXmlShader) return NULL;
 
 	// vertex shader
 	std::string strVertexShaderData;
-	const char* pszVertexShader = pElmShader->Attribute("vertex_shader");
+	const char* pszVertexShader = pXmlShader->Attribute("vertex_shader");
 	if (pszVertexShader) FileUtil::ReadFileIntoString(strVertexShaderData, StringUtil::char2tchar(pszVertexShader));
 
 	// geometry shader
 	std::string strGeometryShaderData;
-	const char* pszGeometryShader = pElmShader->Attribute("geometry_shader");
+	const char* pszGeometryShader = pXmlShader->Attribute("geometry_shader");
 	if (pszGeometryShader) FileUtil::ReadFileIntoString(strGeometryShaderData, StringUtil::char2tchar(pszGeometryShader));
 
 	// fragment shader
 	std::string strFragmentShaderData;
-	const char* pszFregmentShader = pElmShader->Attribute("fregment_shader");
+	const char* pszFregmentShader = pXmlShader->Attribute("fregment_shader");
 	if (pszFregmentShader) FileUtil::ReadFileIntoString(strFragmentShaderData, StringUtil::char2tchar(pszFregmentShader));
 
 	// vertex attribute
-	TiXmlElement* pElmAttrs = pElmShader->FirstChildElement("attributes");
+	TiXmlElement* pElmAttrs = pXmlShader->FirstChildElement("attributes");
 	if (!pElmAttrs) return NULL;
 
 	VertexAttribute::ATTRIBUTE_ITEM attrItems[VertexAttribute::MAX_ATTRIBUTE_ITEMS+1];
 	int nAttrIndex = 0;
 
-	TiXmlElement* pElmAttr = pElmAttrs->FirstChildElement("attribute");
-	while (pElmAttr)
+	TiXmlElement* pXmlVertexAttribute = pElmAttrs->FirstChildElement("attribute");
+	while (pXmlVertexAttribute)
 	{
 		int nSize = 0;
-		pElmAttr->Attribute("size", &nSize);
+		pXmlVertexAttribute->Attribute("size", &nSize);
 		if (nSize <= 0) return NULL;
 
-		const char* pszAttrName = pElmAttr->Attribute("name");
+		const char* pszAttrName = pXmlVertexAttribute->Attribute("name");
 		if (!pszAttrName) return NULL;
 
 		attrItems[nAttrIndex].nSize = nSize;
@@ -184,7 +184,7 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strShaderFile)
 		strncpy_s(attrItems[nAttrIndex].szParamName, pszAttrName, VertexAttribute::MAX_ATTRIBUTE_NAME_LENGTH);
 
 		++nAttrIndex;
-		pElmAttr = pElmAttr->NextSiblingElement("attribute");
+		pXmlVertexAttribute = pXmlVertexAttribute->NextSiblingElement("attribute");
 	}
 
 	if (nAttrIndex <= 0 || nAttrIndex > VertexAttribute::MAX_ATTRIBUTE_ITEMS) return NULL;
@@ -195,6 +195,15 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strShaderFile)
 	attrItems[nAttrIndex].szParamName[0] = '\0';
 
 	return InternalCreateShader(strVertexShaderData, strGeometryShaderData, strFragmentShaderData, attrItems);
+}
+
+bool ResMgr_Impl::ReadStringFile(tstring& strOut, const tstring& strFile)
+{
+	// get full path
+	tstring strFullPath;
+	if (!StringUtil::GetFileFullPath(strFullPath, m_strDefaultDir, strFile)) return false;
+
+	return FileUtil::ReadFileIntoString(strOut, strFullPath);
 }
 
 IBitmapData* ResMgr_Impl::InternalCreateBitmapData(const tstring& strFile)

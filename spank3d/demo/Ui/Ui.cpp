@@ -8,6 +8,7 @@
 #include "Ui.h"
 #include <util/AppUtil.h>
 #include <event/EventIds.h>
+#include <ui/UiState.h>
 
 IMPLEMENT_APP(Ui);
 
@@ -41,6 +42,10 @@ void Ui::Update(float dt)
 {
 	UpdatePosition(dt);
 	g_pRendererUi->DrawRect(m_Position, m_Size, m_pTexture);
+
+	NinePatchStyle* pNinePatchStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
+	pNinePatchStyle->Render(Vector2(50.0f, 50.0f), Vector2(200.0f, 200.0f), UiState::STATE_DEFAULT);
+
 	g_pRendererUi->FlushAll();
 }
 

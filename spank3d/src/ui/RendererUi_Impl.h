@@ -41,7 +41,7 @@ public:
 
 	virtual void FlushAll();
 
-protected:
+private:
 	RendererUi_Impl();
 	virtual ~RendererUi_Impl();
 

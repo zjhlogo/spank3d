@@ -10,18 +10,23 @@
 
 #include "../../type/BaseType.h"
 #include "../../render/ITexture.h"
+#include <tinyxml-2.6.2/tinyxml.h>
 
 class PieceInfo
 {
 public:
-	PieceInfo();
+	PieceInfo(const tstring& id);
 	~PieceInfo();
 
+	const tstring& GetId() const;
+
+	bool LoadFromXml(TiXmlElement* pXmlPieceInfo);
+
 public:
-	uint x;
-	uint y;
-	uint width;
-	uint height;
+	int x;
+	int y;
+	int width;
+	int height;
 
 	float u;
 	float v;
@@ -29,5 +34,9 @@ public:
 	float dv;
 
 	ITexture* pTexture;
+
+private:
+	tstring strId;
+
 };
 #endif // __PIECEINFO_H__
