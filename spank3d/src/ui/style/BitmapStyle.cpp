@@ -18,9 +18,8 @@ BitmapStyle::~BitmapStyle()
 	// TODO: 
 }
 
-bool BitmapStyle::Render(const Vector2& pos, const Vector2& size)
+bool BitmapStyle::Render(const Vector2& pos, const Vector2& size, uint state)
 {
-	// TODO: throw std::exception("The method or operation is not implemented.");
 	return true;
 }
 

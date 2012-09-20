@@ -20,9 +20,17 @@ NinePatchStyle::~NinePatchStyle()
 	// TODO: 
 }
 
-bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size)
+bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size, uint state)
 {
-	// TODO: 
+	for (TV_NINE_PATCH_PIECE_INFO::const_iterator it = m_vNinePatchPieceInfo.begin(); it != m_vNinePatchPieceInfo.end(); ++it)
+	{
+		const NINE_PATCH_PIECE_INFO& stateInfo = (*it);
+		if ((stateInfo.nState & state) == stateInfo.nState)
+		{
+			return RenderNinePatchPiece(stateInfo, pos, size);
+		}
+	}
+
 	return true;
 }
 
@@ -66,22 +74,73 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 	SetPaddingLT(float(paddingL), float(paddingT));
 	SetPaddingLT(float(paddingR), float(paddingB));
 
-	STATE_INFO stateInfo;
-	TiXmlElement* pXmlState = pXmlNinePatchStyle->FirstChildElement(_("State"));
-	while (pXmlState)
+	NINE_PATCH_PIECE_INFO stateInfo;
+	for (TiXmlElement* pXmlState = pXmlNinePatchStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
 		const char* pszId = pXmlState->Attribute(_("id"));
+		if (!pszId) continue;
+
+		stateInfo.nState = UiState::GetStateValue(pszId);
+		if (stateInfo.nState == 0) continue;
+
 		const char* pszPieceId = pXmlState->Attribute(_("piece"));
+		if (!pszPieceId) continue;
 
-		if (pszId && pszPieceId)
-		{
-			stateInfo.nState = UiState::GetStateValue(pszId);
-			stateInfo.pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);
-			m_vStateInfo.push_back(stateInfo);
-		}
+		stateInfo.pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);
+		if (!stateInfo.pPieceInfo) continue;
 
-		pXmlState = pXmlState->NextSiblingElement(_("State"));
+		int minX = 0;
+		int minY = 0;
+		int maxX = 0;
+		int maxY = 0;
+
+		pXmlState->Attribute(_("minX"), &minX);
+		pXmlState->Attribute(_("minY"), &minY);
+		pXmlState->Attribute(_("maxX"), &maxX);
+		pXmlState->Attribute(_("maxY"), &maxY);
+
+		float pieceWidth = float(stateInfo.pPieceInfo->width);
+		float pieceHeight = float(stateInfo.pPieceInfo->height);
+
+		stateInfo.patchSize[0].Reset(float(minX), float(minY));
+		stateInfo.patchSize[1].Reset(float(maxX-minX), float(maxY-minY));
+		stateInfo.patchSize[2].Reset(float(pieceWidth-maxX), float(pieceHeight-maxY));
+
+		float du = stateInfo.pPieceInfo->du;
+		float dv = stateInfo.pPieceInfo->dv;
+
+		stateInfo.uv[0].Reset(stateInfo.pPieceInfo->u, stateInfo.pPieceInfo->v);
+		stateInfo.dudv[0].Reset(du*(stateInfo.patchSize[0].x/pieceWidth), dv*(stateInfo.patchSize[0].y/pieceHeight));
+
+		stateInfo.uv[1].Reset(stateInfo.uv[0].x+stateInfo.dudv[0].x, stateInfo.uv[0].y+stateInfo.dudv[0].y);
+		stateInfo.dudv[1].Reset(du*(stateInfo.patchSize[1].x/pieceWidth), dv*(stateInfo.patchSize[1].y/pieceHeight));
+
+		stateInfo.uv[2].Reset(stateInfo.uv[1].x+stateInfo.dudv[1].x, stateInfo.uv[1].y+stateInfo.dudv[1].y);
+		stateInfo.dudv[2].Reset(du*(stateInfo.patchSize[2].x/pieceWidth), du*(stateInfo.patchSize[2].y/pieceHeight));
+
+		m_vNinePatchPieceInfo.push_back(stateInfo);
 	}
 
 	return true;
+}
+
+bool NinePatchStyle::RenderNinePatchPiece(const NINE_PATCH_PIECE_INFO& stateInfo, const Vector2& pos, const Vector2& size)
+{
+	Vector2 size0(stateInfo.patchSize[0].x, stateInfo.patchSize[0].y);
+	Vector2 size1(size.x-stateInfo.patchSize[0].x-stateInfo.patchSize[2].x, size.y-stateInfo.patchSize[0].y-stateInfo.patchSize[2].y);
+	Vector2 size2(stateInfo.patchSize[2].x, stateInfo.patchSize[2].y);
+
+	g_pRendererUi->DrawRect(pos.x,					pos.y,					size0.x, size0.y, stateInfo.uv[0].x, stateInfo.uv[0].y, stateInfo.dudv[0].x, stateInfo.dudv[0].y, stateInfo.pPieceInfo->pTexture);
+	g_pRendererUi->DrawRect(pos.x+size0.x,			pos.y,					size1.x, size0.y, stateInfo.uv[1].x, stateInfo.uv[0].y, stateInfo.dudv[1].x, stateInfo.dudv[0].y, stateInfo.pPieceInfo->pTexture);
+	g_pRendererUi->DrawRect(pos.x+size0.x+size1.x,	pos.y,					size2.x, size0.y, stateInfo.uv[2].x, stateInfo.uv[0].y, stateInfo.dudv[2].x, stateInfo.dudv[0].y, stateInfo.pPieceInfo->pTexture);
+
+	g_pRendererUi->DrawRect(pos.x,					pos.y+size0.y,			size0.x, size1.y, stateInfo.uv[0].x, stateInfo.uv[1].y, stateInfo.dudv[0].x, stateInfo.dudv[1].y, stateInfo.pPieceInfo->pTexture);
+	g_pRendererUi->DrawRect(pos.x+size0.x,			pos.y+size0.y,			size1.x, size1.y, stateInfo.uv[1].x, stateInfo.uv[1].y, stateInfo.dudv[1].x, stateInfo.dudv[1].y, stateInfo.pPieceInfo->pTexture);
+	g_pRendererUi->DrawRect(pos.x+size0.x+size1.x,	pos.y+size0.y,			size2.x, size1.y, stateInfo.uv[2].x, stateInfo.uv[1].y, stateInfo.dudv[2].x, stateInfo.dudv[1].y, stateInfo.pPieceInfo->pTexture);
+
+	g_pRendererUi->DrawRect(pos.x,					pos.y+size0.y+size1.y,	size0.x, size2.y, stateInfo.uv[0].x, stateInfo.uv[2].y, stateInfo.dudv[0].x, stateInfo.dudv[2].y, stateInfo.pPieceInfo->pTexture);
+	g_pRendererUi->DrawRect(pos.x+size0.x,			pos.y+size0.y+size1.y,	size1.x, size2.y, stateInfo.uv[1].x, stateInfo.uv[2].y, stateInfo.dudv[1].x, stateInfo.dudv[2].y, stateInfo.pPieceInfo->pTexture);
+	g_pRendererUi->DrawRect(pos.x+size0.x+size1.x,	pos.y+size0.y+size1.y,	size2.x, size2.y, stateInfo.uv[2].x, stateInfo.uv[2].y, stateInfo.dudv[2].x, stateInfo.dudv[2].y, stateInfo.pPieceInfo->pTexture);
+
+	return false;
 }

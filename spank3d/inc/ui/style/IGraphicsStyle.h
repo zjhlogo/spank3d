@@ -17,15 +17,6 @@
 class IGraphicsStyle : public IStyle
 {
 public:
-	typedef struct STATE_INFO_tag
-	{
-		uint nState;
-		PieceInfo* pPieceInfo;
-	} STATE_INFO;
-
-	typedef std::vector<STATE_INFO> TV_STATE_INFO;
-
-public:
 	RTTI_DEF(IGraphicsStyle, IStyle);
 
 	IGraphicsStyle(const tstring& id);
@@ -51,7 +42,7 @@ public:
 	void SetBestSize(float width, float height);
 	const Vector2& GetBestSize() const;
 
-	virtual bool Render(const Vector2& pos, const Vector2& size) = 0;
+	virtual bool Render(const Vector2& pos, const Vector2& size, uint state) = 0;
 
 private:
 	Vector2 m_PaddingLT;
