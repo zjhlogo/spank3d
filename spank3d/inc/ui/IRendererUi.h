@@ -26,6 +26,8 @@ public:
 	virtual void DrawRect(float x, float y, float width, float height, ITexture* pTexture) = 0;
 	virtual void DrawRect(float x, float y, float width, float height, float u, float v, float du, float dv, ITexture* pTexture) = 0;
 
+	virtual void DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis, ITexture* pTexture) = 0;
+
 	virtual void FlushAll() = 0;
 
 };

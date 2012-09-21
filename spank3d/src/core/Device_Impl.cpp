@@ -25,8 +25,7 @@ Device_Impl::Device_Impl()
 	m_fCurrTime = 0.0f;
 	m_fDetailTime = 0.0f;
 	m_fFPS = DEFAULT_FPS;
-	m_WindowWidth = DEFAULT_WINDOW_WIDTH;
-	m_WindowHeight = DEFAULT_WINDOW_HEIGHT;
+	m_WindowSize.Reset(float(DEFAULT_WINDOW_WIDTH), float(DEFAULT_WINDOW_HEIGHT));
 
 	g_pDevice = this;
 }
@@ -140,14 +139,9 @@ void Device_Impl::EndPerform()
 	PostQuitMessage(0);
 }
 
-int Device_Impl::GetWindowWidth() const
+const Vector2& Device_Impl::GetSize() const
 {
-	return m_WindowWidth;
-}
-
-int Device_Impl::GetWindowHeight() const
-{
-	return m_WindowHeight;
+	return m_WindowSize;
 }
 
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -273,7 +267,7 @@ bool Device_Impl::InternalCreateWindow()
 	uint nScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
-	RECT rc = {0, 0, m_WindowWidth, m_WindowHeight};
+	RECT rc = {0, 0, int(m_WindowSize.x), int(m_WindowSize.y)};
 	AdjustWindowRect(&rc, dwStyle, FALSE);
 	uint nAdjustWidth = rc.right - rc.left;
 	uint nAdjustHeight = rc.bottom - rc.top;
@@ -426,5 +420,5 @@ void Device_Impl::InitializeOGL()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 	// Reset The Current Viewport
-	glViewport(0, 0, m_WindowWidth, m_WindowHeight);
+	glViewport(0, 0, int(m_WindowSize.x), int(m_WindowSize.y));
 }

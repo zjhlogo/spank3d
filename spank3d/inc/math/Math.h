@@ -21,7 +21,7 @@ public:
 	static float Random();
 	static float Random(float min, float max);
 
-	static void BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, int width, int height, float znear, float zfar);
+	static void BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, float width, float height, float znear, float zfar);
 	static void BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, float znear, float zfar);
 	static void BuildOrthoMatrix(Matrix4x4& m, float w, float h, float znear, float zfar);
 	static void BuildOrthoMatrix(Matrix4x4& m, float left, float right, float bottom, float top, float znear, float zfar);

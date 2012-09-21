@@ -46,11 +46,12 @@ bool PieceInfo::LoadFromXml(TiXmlElement* pXmlPieceInfo)
 	pXmlPieceInfo->Attribute(_("width"), &width);
 	pXmlPieceInfo->Attribute(_("height"), &height);
 
-	u = float(x) / pTexture->GetWidth();
-	v = float(y) / pTexture->GetHeight();
+	const Vector2& size = pTexture->GetSize();
 
-	du = float(width) / pTexture->GetWidth();
-	dv = float(height) / pTexture->GetHeight();
+	u = x / size.x;
+	v = y / size.y;
+	du = width / size.x;
+	dv = height / size.y;
 
 	return true;
 }

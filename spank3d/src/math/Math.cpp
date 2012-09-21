@@ -54,9 +54,9 @@ float Math::Random(float min, float max)
 	return min+Random()*(max-min);
 }
 
-void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, int width, int height, float znear, float zfar)
+void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovDegree, float width, float height, float znear, float zfar)
 {
-	BuildPerspectiveFovMatrix(m, Radians(fovDegree), (float)width/(float)height, znear, zfar);
+	BuildPerspectiveFovMatrix(m, Radians(fovDegree), width/height, znear, zfar);
 }
 
 void Math::BuildPerspectiveFovMatrix(Matrix4x4& m, float fovy, float aspect, float znear, float zfar)
