@@ -13,7 +13,7 @@
 class PngUtil
 {
 public:
-	static IBitmapData* DecodePngFromFile(const tstring& strFile);
+	static IBitmapData* DecodePngFromFile(const tstring& strFullPath);
 
 };
 #endif // __PNGUTIL_H__

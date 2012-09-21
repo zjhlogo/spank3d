@@ -10,7 +10,7 @@
 IObject::IObject()
 {
 	m_bOk = false;
-	m_nReference = 1;
+	m_nRef = 1;
 }
 
 IObject::~IObject()
@@ -28,22 +28,22 @@ bool IObject::IsOk() const
 	return m_bOk;
 }
 
-int IObject::IncReference()
+int IObject::IncRef()
 {
-	return ++m_nReference;
+	return ++m_nRef;
 }
 
-int IObject::DecReference()
+int IObject::DecRef()
 {
-	return --m_nReference;
+	return --m_nRef;
 }
 
-int IObject::GetReference() const
+int IObject::GetRef() const
 {
-	return m_nReference;
+	return m_nRef;
 }
 
 void IObject::Release()
 {
-	if (DecReference() <= 0) delete this;
+	if (DecRef() <= 0) delete this;
 }

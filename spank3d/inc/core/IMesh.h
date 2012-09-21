@@ -19,6 +19,8 @@ public:
 	IMesh() {};
 	virtual ~IMesh() {};
 
+	virtual const tstring& GetId() const = 0;
+
 	virtual int GetNumPieces() const = 0;
 	virtual IMeshPiece* GetPiece(int nIndex) const = 0;
 	virtual IMeshPiece* FindPiece(const tstring& strName) const = 0;

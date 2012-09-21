@@ -15,8 +15,10 @@ class BitmapData_Impl : public IBitmapData
 public:
 	RTTI_DEF(BitmapData_Impl, IBitmapData);
 
-	BitmapData_Impl(uint width, uint height, uint bpp = 32);
+	BitmapData_Impl(const tstring& id, uint width, uint height, uint bpp = 32);
 	virtual ~BitmapData_Impl();
+
+	virtual const tstring& GetId() const;
 
 	virtual uint GetWidth() const;
 	virtual uint GetHeight() const;
@@ -30,6 +32,7 @@ private:
 	void FreeData();
 
 private:
+	tstring m_strId;
 	uint m_nWidth;
 	uint m_nHeight;
 	uint m_nBpp;

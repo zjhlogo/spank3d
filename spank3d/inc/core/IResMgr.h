@@ -27,11 +27,11 @@ public:
 
 	virtual IMesh* CreateMesh(const tstring& strFile) = 0;
 
-	virtual IBitmapData* CreateBitmapData(uint width, uint height, uint bpp = 32) = 0;
+	virtual IBitmapData* CreateBitmapData(const tstring& id, uint width, uint height, uint bpp = 32) = 0;
 	virtual IBitmapData* CreateBitmapData(const tstring& strFile) = 0;
 
-	virtual ITexture* CreateTexture(const IBitmapData* pBitmapData) = 0;
-	virtual ITexture* CreateTexture(const tstring& strFile) = 0;
+	virtual ITexture* CreateTexture(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample = ITexture::TS_LINEAR) = 0;
+	virtual ITexture* CreateTexture(const tstring& strFile, ITexture::TEXTURE_SAMPLE eSample = ITexture::TS_LINEAR) = 0;
 
 	virtual IShader* CreateShader(const tstring& strFile) = 0;
 

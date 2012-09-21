@@ -8,15 +8,23 @@
 #include "Texture_Impl.h"
 #include <util/LogUtil.h>
 #include <gl/glew.h>
+#include <event/EventIds.h>
 
-Texture_Impl::Texture_Impl()
+Texture_Impl::Texture_Impl(const tstring& id)
 {
+	m_strId = id;
 	m_nTextureId = 0;
 }
 
 Texture_Impl::~Texture_Impl()
 {
 	FreeTexture();
+	DispatchEvent(IEvent(EID_OBJECT_DESTROYED, this));
+}
+
+const tstring& Texture_Impl::GetId() const
+{
+	return m_strId;
 }
 
 const Vector2& Texture_Impl::GetSize() const
@@ -24,9 +32,9 @@ const Vector2& Texture_Impl::GetSize() const
 	return m_Size;
 }
 
-bool Texture_Impl::LoadFromBitmapData(const IBitmapData* pBitmapData)
+bool Texture_Impl::LoadFromBitmapData(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample)
 {
-	SetOk(CreateTexture(pBitmapData));
+	SetOk(CreateTexture(pBitmapData, eSample));
 	return IsOk();
 }
 
@@ -35,7 +43,7 @@ GLuint Texture_Impl::GetTextureId()
 	return m_nTextureId;
 }
 
-bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData)
+bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample)
 {
 	FreeTexture();
 
@@ -73,8 +81,12 @@ bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData)
 
 	glBindTexture(GL_TEXTURE_2D, m_nTextureId);
 	glTexImage2D(GL_TEXTURE_2D, 0, nColorFormat, width, height, 0, nColorFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	uint texSample = GL_LINEAR;
+	if (eSample == TS_NEAREST) texSample = GL_NEAREST;
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texSample);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texSample);
 
 	return true;
 }

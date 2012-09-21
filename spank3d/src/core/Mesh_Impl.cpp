@@ -7,16 +7,19 @@
  */
 #include "Mesh_Impl.h"
 #include <util/FileUtil.h>
+#include <event/EventIds.h>
 
-Mesh_Impl::Mesh_Impl(const tstring& strFile)
+Mesh_Impl::Mesh_Impl(const tstring& strFullPath)
 {
 	Init();
-	CreatePieces(strFile);
+	m_strId = strFullPath;
+	CreatePieces(strFullPath);
 }
 
 Mesh_Impl::~Mesh_Impl()
 {
 	Destroy();
+	DispatchEvent(IEvent(EID_OBJECT_DESTROYED, this));
 }
 
 void Mesh_Impl::Init()
@@ -28,6 +31,11 @@ void Mesh_Impl::Init()
 void Mesh_Impl::Destroy()
 {
 	DestroyPieces();
+}
+
+const tstring& Mesh_Impl::GetId() const
+{
+	return m_strId;
 }
 
 int Mesh_Impl::GetNumPieces() const
@@ -61,11 +69,11 @@ const Vector3& Mesh_Impl::GetBoundingBoxMax() const
 	return m_vBoundingBoxMax;
 }
 
-bool Mesh_Impl::CreatePieces(const tstring& strFile)
+bool Mesh_Impl::CreatePieces(const tstring& strFullPath)
 {
 	DestroyPieces();
 
-	IFile* pFile = FileUtil::LoadFile(strFile);
+	IFile* pFile = FileUtil::LoadFile(strFullPath);
 	if (!pFile) return false;
 
 	FmtMesh::FILE_HEADER header;

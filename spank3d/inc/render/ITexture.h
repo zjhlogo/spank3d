@@ -14,11 +14,19 @@
 class ITexture : public IObject
 {
 public:
+	enum TEXTURE_SAMPLE
+	{
+		TS_NEAREST = 1,
+		TS_LINEAR,
+	};
+
+public:
 	RTTI_DEF(ITexture, IObject);
 
 	ITexture() {};
 	virtual ~ITexture() {};
 
+	virtual const tstring& GetId() const = 0;
 	virtual const Vector2& GetSize() const = 0;
 
 };

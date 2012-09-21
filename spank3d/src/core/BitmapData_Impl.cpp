@@ -6,20 +6,27 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "BitmapData_Impl.h"
+#include <event/EventIds.h>
 
-BitmapData_Impl::BitmapData_Impl(uint width, uint height, uint bpp /*= 32*/)
+BitmapData_Impl::BitmapData_Impl(const tstring& id, uint width, uint height, uint bpp /* = 32 */)
 {
+	m_strId = id;
 	m_nWidth = 0;
 	m_nHeight = 0;
 	m_nBpp = 0;
 	m_pData = NULL;
-
 	SetOk(CreateData(width, height, bpp));
 }
 
 BitmapData_Impl::~BitmapData_Impl()
 {
 	FreeData();
+	DispatchEvent(IEvent(EID_OBJECT_DESTROYED, this));
+}
+
+const tstring& BitmapData_Impl::GetId() const
+{
+	return m_strId;
 }
 
 uint BitmapData_Impl::GetWidth() const

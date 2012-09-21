@@ -21,15 +21,15 @@ public:
 	void SetOk(bool bOk);
 	bool IsOk() const;
 
-	int IncReference();
-	int DecReference();
-	int GetReference() const;
+	int IncRef();
+	int DecRef();
+	int GetRef() const;
 
 	virtual void Release();
 
 private:
 	bool m_bOk;
-	int m_nReference;
+	int m_nRef;
 
 };
 #endif // __IOBJECT_H__
