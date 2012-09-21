@@ -20,8 +20,10 @@ public:
 public:
 	RTTI_DEF(Mesh_Impl, IObject);
 
-	Mesh_Impl(const tstring& strFile);
+	Mesh_Impl(const tstring& strFullPath);
 	virtual ~Mesh_Impl();
+
+	virtual const tstring& GetId() const;
 
 	virtual int GetNumPieces() const;
 	virtual IMeshPiece* GetPiece(int nIndex) const;
@@ -34,10 +36,11 @@ private:
 	void Init();
 	void Destroy();
 
-	bool CreatePieces(const tstring& strFile);
+	bool CreatePieces(const tstring& strFullPath);
 	void DestroyPieces();
 
 private:
+	tstring m_strId;
 	TV_MESH_PIECE m_vMeshPiece;
 	Vector3 m_vBoundingBoxMin;
 	Vector3 m_vBoundingBoxMax;

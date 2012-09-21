@@ -10,9 +10,11 @@
 #include <util/StringUtil.h>
 #include <util/LogUtil.h>
 #include "Texture_Impl.h"
+#include <event/EventIds.h>
 
-Shader_Impl::Shader_Impl(const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
+Shader_Impl::Shader_Impl(const tstring& id, const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
 {
+	m_strId = id;
 	m_nProgram = 0;
 	m_nVertexShader = 0;
 	m_nGeometryShader = 0;
@@ -24,6 +26,12 @@ Shader_Impl::Shader_Impl(const tstring& strVertexShader, const tstring& strGeome
 Shader_Impl::~Shader_Impl()
 {
 	DestroyShader();
+	DispatchEvent(IEvent(EID_OBJECT_DESTROYED, this));
+}
+
+const tstring& Shader_Impl::GetId() const
+{
+	return m_strId;
 }
 
 bool Shader_Impl::Commit()

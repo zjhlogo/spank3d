@@ -21,10 +21,10 @@ static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_
 	}
 }
 
-static IBitmapData* CreateBitmapData(png_struct* pPngStruct, png_info* pPngInfo, uint width, uint height, uint bpp)
+static IBitmapData* CreateBitmapData(png_struct* pPngStruct, png_info* pPngInfo, const tstring& id, uint width, uint height, uint bpp)
 {
 	// create bitmap data
-	IBitmapData* pBitmapData = g_pResMgr->CreateBitmapData(width, height, bpp);
+	IBitmapData* pBitmapData = g_pResMgr->CreateBitmapData(id, width, height, bpp);
 	if (!pBitmapData) return NULL;
 
 	uint nBytesPerPixel = bpp / 8;
@@ -41,7 +41,7 @@ static IBitmapData* CreateBitmapData(png_struct* pPngStruct, png_info* pPngInfo,
 	return pBitmapData;
 }
 
-static IBitmapData* CreatePaletteBitmapData(png_struct* pPngStruct, png_info* pPngInfo, uint width, uint height)
+static IBitmapData* CreatePaletteBitmapData(png_struct* pPngStruct, png_info* pPngInfo, const tstring& id, uint width, uint height)
 {
 	// get palette
 	png_color* pPalette = NULL;
@@ -59,7 +59,7 @@ static IBitmapData* CreatePaletteBitmapData(png_struct* pPngStruct, png_info* pP
 
 	if (pTrans)
 	{
-		pBitmapData = g_pResMgr->CreateBitmapData(width, height, 32);
+		pBitmapData = g_pResMgr->CreateBitmapData(id, width, height, 32);
 		if (!pBitmapData) return NULL;
 
 		uchar* pData = (uchar*)pBitmapData->GetData();
@@ -98,7 +98,7 @@ static IBitmapData* CreatePaletteBitmapData(png_struct* pPngStruct, png_info* pP
 	}
 	else
 	{
-		pBitmapData = g_pResMgr->CreateBitmapData(width, height, 24);
+		pBitmapData = g_pResMgr->CreateBitmapData(id, width, height, 24);
 		if (!pBitmapData) return NULL;
 
 		uchar* pData = (uchar*)pBitmapData->GetData();
@@ -134,9 +134,9 @@ static IBitmapData* CreatePaletteBitmapData(png_struct* pPngStruct, png_info* pP
 	return pBitmapData;
 }
 
-IBitmapData* PngUtil::DecodePngFromFile(const tstring& strFile)
+IBitmapData* PngUtil::DecodePngFromFile(const tstring& strFullPath)
 {
-	IFile* pFile = FileUtil::LoadFile(strFile.c_str());
+	IFile* pFile = FileUtil::LoadFile(strFullPath.c_str());
 	if (!pFile) return NULL;
 
 	png_struct* pPngStruct = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
@@ -159,27 +159,27 @@ IBitmapData* PngUtil::DecodePngFromFile(const tstring& strFile)
 		{
 		case PNG_COLOR_TYPE_GRAY:
 			{
-				pBitmapData = CreateBitmapData(pPngStruct, pPngInfo, width, height, 8);
+				pBitmapData = CreateBitmapData(pPngStruct, pPngInfo, strFullPath, width, height, 8);
 			}
 			break;
 		case PNG_COLOR_TYPE_GRAY_ALPHA:
 			{
-				pBitmapData = CreateBitmapData(pPngStruct, pPngInfo, width, height, 16);
+				pBitmapData = CreateBitmapData(pPngStruct, pPngInfo, strFullPath, width, height, 16);
 			}
 			break;
 		case PNG_COLOR_TYPE_PALETTE:
 			{
-				pBitmapData = CreatePaletteBitmapData(pPngStruct, pPngInfo, width, height);
+				pBitmapData = CreatePaletteBitmapData(pPngStruct, pPngInfo, strFullPath, width, height);
 			}
 			break;
 		case PNG_COLOR_TYPE_RGB:
 			{
-				pBitmapData = CreateBitmapData(pPngStruct, pPngInfo, width, height, 24);
+				pBitmapData = CreateBitmapData(pPngStruct, pPngInfo, strFullPath, width, height, 24);
 			}
 			break;
 		case PNG_COLOR_TYPE_RGB_ALPHA:
 			{
-				pBitmapData = CreateBitmapData(pPngStruct, pPngInfo, width, height, 32);
+				pBitmapData = CreateBitmapData(pPngStruct, pPngInfo, strFullPath, width, height, 32);
 			}
 			break;
 		}

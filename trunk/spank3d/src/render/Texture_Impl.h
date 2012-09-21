@@ -16,21 +16,23 @@ class Texture_Impl : public ITexture
 public:
 	RTTI_DEF(Texture_Impl, ITexture);
 
-	Texture_Impl();
+	Texture_Impl(const tstring& id);
 	virtual ~Texture_Impl();
 
+	virtual const tstring& GetId() const;
 	virtual const Vector2& GetSize() const;
 
-	bool LoadFromBitmapData(const IBitmapData* pBitmapData);
+	bool LoadFromBitmapData(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample);
 
 	uint GetTextureId();
 
 private:
-	bool CreateTexture(const IBitmapData* pBitmapData);
+	bool CreateTexture(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample);
 	void FreeTexture();
 	bool IsValidTextureSize(uint width, uint height);
 
 private:
+	tstring m_strId;
 	Vector2 m_Size;
 	uint m_nTextureId;
 

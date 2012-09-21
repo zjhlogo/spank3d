@@ -12,6 +12,8 @@ enum EVENT_ID_DEF
 {
 	EID_UNKNOWN = 0,
 
+	EID_OBJECT_DESTROYED,			// IEvent
+
 	EID_MOUSE_EVENT,				// MouseEvent
 	EID_KEYBOARD_EVENT,				// KeyboardEvent
 
