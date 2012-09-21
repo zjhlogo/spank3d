@@ -9,6 +9,7 @@
 #define __IDEVICE_H__
 
 #include "ISingleton.h"
+#include "../math/Vector2.h"
 
 class IDevice : public ISingleton
 {
@@ -21,8 +22,6 @@ public:
 	virtual void StartPerform() = 0;
 	virtual void EndPerform() = 0;
 
-	virtual int GetWindowWidth() const = 0;
-	virtual int GetWindowHeight() const = 0;
-
+	virtual const Vector2& GetSize() const = 0;
 };
 #endif // __IDEVICE_H__

@@ -19,8 +19,7 @@ public:
 	Texture_Impl();
 	virtual ~Texture_Impl();
 
-	virtual uint GetWidth() const;
-	virtual uint GetHeight() const;
+	virtual const Vector2& GetSize() const;
 
 	bool LoadFromBitmapData(const IBitmapData* pBitmapData);
 
@@ -32,8 +31,7 @@ private:
 	bool IsValidTextureSize(uint width, uint height);
 
 private:
-	uint m_nWidth;
-	uint m_nHeight;
+	Vector2 m_Size;
 	uint m_nTextureId;
 
 };

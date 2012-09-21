@@ -26,13 +26,17 @@ public:
 
 private:
 	void UpdatePosition(float dt);
+	void UpdatePatchSize(float dt);
 
 private:
-	ITexture* m_pTexture;
+	ITexture* m_pTexSun;
+	Vector2 m_sunSpeed;
+	Vector2 m_sunPosition;
 
-	Vector2 m_Speed;
-	Vector2 m_Position;
-	Vector2 m_Size;
+	NinePatchStyle* m_pNinePatchStyle;
+	Vector2 m_patchSpeed;
+	Vector2 m_patchPos;
+	Vector2 m_patchSize;
 
 };
 #endif // __UI_H__

@@ -11,8 +11,6 @@
 
 Texture_Impl::Texture_Impl()
 {
-	m_nWidth = 0;
-	m_nHeight = 0;
 	m_nTextureId = 0;
 }
 
@@ -21,14 +19,9 @@ Texture_Impl::~Texture_Impl()
 	FreeTexture();
 }
 
-uint Texture_Impl::GetWidth() const
+const Vector2& Texture_Impl::GetSize() const
 {
-	return m_nWidth;
-}
-
-uint Texture_Impl::GetHeight() const
-{
-	return m_nHeight;
+	return m_Size;
 }
 
 bool Texture_Impl::LoadFromBitmapData(const IBitmapData* pBitmapData)
@@ -49,9 +42,6 @@ bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData)
 	glGenTextures(1, &m_nTextureId);
 	if (m_nTextureId == 0) return false;
 
-	m_nWidth = pBitmapData->GetWidth();
-	m_nHeight = pBitmapData->GetHeight();
-
 	uint nColorFormat = GL_RGBA;
 	switch (pBitmapData->GetBPP())
 	{
@@ -71,14 +61,18 @@ bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData)
 		return false;
 	}
 
-	if (!IsValidTextureSize(m_nWidth, m_nHeight))
+	int width = pBitmapData->GetWidth();
+	int height = pBitmapData->GetHeight();
+	if (!IsValidTextureSize(width, height))
 	{
-		LOG("invalid texture size: %dx%d", m_nWidth, m_nHeight);
+		LOG("invalid texture size: %dx%d", width, height);
 		return false;
 	}
 
+	m_Size.Reset(float(width), float(height));
+
 	glBindTexture(GL_TEXTURE_2D, m_nTextureId);
-	glTexImage2D(GL_TEXTURE_2D, 0, nColorFormat, m_nWidth, m_nHeight, 0, nColorFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
+	glTexImage2D(GL_TEXTURE_2D, 0, nColorFormat, width, height, 0, nColorFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
@@ -92,8 +86,6 @@ void Texture_Impl::FreeTexture()
 		glDeleteTextures(1, &m_nTextureId);
 		m_nTextureId = 0;
 	}
-	m_nWidth = 0;
-	m_nHeight = 0;
 }
 
 bool Texture_Impl::IsValidTextureSize(uint width, uint height)

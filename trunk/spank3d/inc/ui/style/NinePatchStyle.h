@@ -14,16 +14,28 @@
 class NinePatchStyle : public IGraphicsStyle
 {
 public:
-	typedef struct NINE_PATCH_PIECE_INFO_tag
+	enum CONST_DEFINE
+	{
+		NUM_VERTS = 16,
+		NUM_INDIS = 54,
+		NUM_PIECE_SIZE = 3,
+	};
+
+	typedef struct VERTEX_ATTR_tag
+	{
+		float x, y;
+		float u, v;
+	} VERTEX_ATTR;
+
+	typedef struct NINE_PATCH_INFO_tag
 	{
 		uint nState;
 		const PieceInfo* pPieceInfo;
-		Vector2 patchSize[3];
-		Vector2 uv[3];
-		Vector2 dudv[3];
-	} NINE_PATCH_PIECE_INFO;
+		Vector2 pieceSize[NUM_PIECE_SIZE];
+		VERTEX_ATTR verts[NUM_VERTS];
+	} NINE_PATCH_INFO;
 
-	typedef std::vector<NINE_PATCH_PIECE_INFO> TV_NINE_PATCH_PIECE_INFO;
+	typedef std::vector<NINE_PATCH_INFO*> TV_NINE_PATCH_INFO;
 
 public:
 	RTTI_DEF(NinePatchStyle, IGraphicsStyle);
@@ -35,10 +47,11 @@ public:
 	bool LoadFromXml(TiXmlElement* pXmlNinePatchStyle);
 
 private:
-	bool RenderNinePatchPiece(const NINE_PATCH_PIECE_INFO& stateInfo, const Vector2& pos, const Vector2& size);
+	bool RenderNinePatchPiece(NINE_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size);
 
 private:
-	TV_NINE_PATCH_PIECE_INFO m_vNinePatchPieceInfo;
+	TV_NINE_PATCH_INFO m_vNinePatchInfo;
+	static ushort m_Indis[NUM_INDIS];
 
 };
 #endif // __NINEPATCHSTYLE_H__

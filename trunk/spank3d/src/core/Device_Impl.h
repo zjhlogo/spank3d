@@ -31,8 +31,7 @@ public:
 	virtual void StartPerform();
 	virtual void EndPerform();
 
-	virtual int GetWindowWidth() const;
-	virtual int GetWindowHeight() const;
+	virtual const Vector2& GetSize() const;
 
 private:
 	Device_Impl();
@@ -54,8 +53,7 @@ private:
 	float m_fDetailTime;
 	float m_fFPS;
 
-	int m_WindowWidth;
-	int m_WindowHeight;
+	Vector2 m_WindowSize;
 
 };
 #endif // __DEVICE_IMPL_H__

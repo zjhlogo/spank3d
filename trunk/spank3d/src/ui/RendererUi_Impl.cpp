@@ -42,10 +42,10 @@ bool RendererUi_Impl::Initialize()
 	}
 
 	Matrix4x4 matOrtho;
-	Math::BuildOrthoMatrix(matOrtho, 0.0f, float(g_pDevice->GetWindowWidth()), 0.0f, float(g_pDevice->GetWindowHeight()), -100.0f, 100.0f);
+	Math::BuildOrthoMatrix(matOrtho, 0.0f, g_pDevice->GetSize().x, 0.0f, g_pDevice->GetSize().y, -100.0f, 100.0f);
 
 	Matrix4x4 matModelView;
-	Math::BuildTranslateMatrix(matModelView, 0.0f, float(g_pDevice->GetWindowHeight()), 0.0f);
+	Math::BuildTranslateMatrix(matModelView, 0.0f, g_pDevice->GetSize().y, 0.0f);
 	matModelView.e[5] = -1.0f;
 
 	m_matModelViewProj = matOrtho*matModelView;
@@ -80,10 +80,10 @@ void RendererUi_Impl::DrawRect(float x, float y, float width, float height, floa
 {
 	static VATTR_XYUV s_Verts[4] =
 	{
-		{0.0f, 0.0f, 0.0f, 1.0f},
-		{0.0f, 1.0f, 0.0f, 0.0f},
-		{1.0f, 0.0f, 1.0f, 1.0f},
-		{1.0f, 1.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 0.0f, 0.0f},
+		{0.0f, 1.0f, 0.0f, 1.0f},
+		{1.0f, 0.0f, 1.0f, 0.0f},
+		{1.0f, 1.0f, 1.0f, 1.0f},
 	};
 
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
@@ -109,6 +109,11 @@ void RendererUi_Impl::DrawRect(float x, float y, float width, float height, floa
 	s_Verts[3].v = 1.0f - v - dv;
 
 	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, s_Verts, 4, s_Indis, 6);
+}
+
+void RendererUi_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis, ITexture* pTexture)
+{
+	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, pVerts, nVerts, pIndis, nIndis);
 }
 
 void RendererUi_Impl::FlushAll()

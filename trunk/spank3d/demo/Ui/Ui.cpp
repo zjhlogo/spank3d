@@ -14,7 +14,8 @@ IMPLEMENT_APP(Ui);
 
 Ui::Ui()
 {
-	m_pTexture = NULL;
+	m_pTexSun = NULL;
+	m_pNinePatchStyle = NULL;
 }
 
 Ui::~Ui()
@@ -24,62 +25,102 @@ Ui::~Ui()
 
 bool Ui::Initialize()
 {
-	m_pTexture = g_pResMgr->CreateTexture(_("sun.png"));
-	if (!m_pTexture) return false;
+	m_pTexSun = g_pResMgr->CreateTexture(_("sun.png"));
+	if (!m_pTexSun) return false;
 
-	m_Size.Reset(float(m_pTexture->GetWidth()), float(m_pTexture->GetHeight()));
-	m_Speed.Reset(Math::Random(150.0f, 200.0f), Math::Random(150.0f, 200.0f));
+	m_pNinePatchStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
+	if (!m_pNinePatchStyle) return false;
+
+	const Vector2& wndSize = g_pDevice->GetSize();
+	const Vector2& sunSize = m_pTexSun->GetSize();
+
+	m_sunSpeed.Reset(Math::Random(150.0f, 200.0f), Math::Random(150.0f, 200.0f));
+	m_sunPosition.Reset(Math::Random(0.0f, wndSize.x-sunSize.x), Math::Random(0.0f, wndSize.y-sunSize.y));
+
+	const Vector2& minPatchSize = m_pNinePatchStyle->GetMinSize();
+	m_patchSpeed.Reset(Math::Random(150.0f, 200.0f), Math::Random(150.0f, 200.0f));
+	m_patchPos.Reset(Math::Random(0.0f, wndSize.x-minPatchSize.x), Math::Random(0.0f, wndSize.y-minPatchSize.y));
+	m_patchSize.Reset(minPatchSize.x, minPatchSize.y);
 
 	return true;
 }
 
 void Ui::Terminate()
 {
-	SAFE_RELEASE(m_pTexture);
+	SAFE_RELEASE(m_pTexSun);
 }
 
 void Ui::Update(float dt)
 {
+	UpdatePatchSize(dt);
 	UpdatePosition(dt);
-	g_pRendererUi->DrawRect(m_Position, m_Size, m_pTexture);
 
-	NinePatchStyle* pNinePatchStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
-	pNinePatchStyle->Render(Vector2(50.0f, 50.0f), Vector2(200.0f, 200.0f), UiState::STATE_DEFAULT);
-
-// 	const PieceInfo* pPieceInfo = g_pUiResMgr->FindPieceInfo(_("piece_default"));
-// 	g_pRendererUi->DrawRect(50.0f, 50.0f, pPieceInfo->width, pPieceInfo->height, pPieceInfo->u, pPieceInfo->v, pPieceInfo->du, pPieceInfo->dv, pPieceInfo->pTexture);
+	m_pNinePatchStyle->Render(m_patchPos, m_patchSize, UiState::STATE_DEFAULT);
+	g_pRendererUi->DrawRect(m_sunPosition, m_pTexSun->GetSize(), m_pTexSun);
 
 	g_pRendererUi->FlushAll();
 }
 
 void Ui::UpdatePosition(float dt)
 {
-	m_Position += m_Speed*dt;
+	m_sunPosition += m_sunSpeed*dt;
 
-	float windowWidth = float(g_pDevice->GetWindowWidth());
-	float windowHeight = float(g_pDevice->GetWindowHeight());
+	const Vector2& wndSize = g_pDevice->GetSize();
+	const Vector2& sunSize = m_pTexSun->GetSize();
 
-	if (m_Position.x < 0.0f)
+	if (m_sunPosition.x < 0.0f)
 	{
-		m_Position.x = 0.0f;
-		m_Speed.x = -m_Speed.x;
+		m_sunPosition.x = 0.0f;
+		m_sunSpeed.x = -m_sunSpeed.x;
 	}
 
-	if (m_Position.x + m_Size.x > windowWidth)
+	if (m_sunPosition.x + sunSize.x > wndSize.x)
 	{
-		m_Position.x = windowWidth - m_Size.x;
-		m_Speed.x = -m_Speed.x;
+		m_sunPosition.x = wndSize.x - sunSize.x;
+		m_sunSpeed.x = -m_sunSpeed.x;
 	}
 
-	if (m_Position.y < 0.0f)
+	if (m_sunPosition.y < 0.0f)
 	{
-		m_Position.y = 0.0f;
-		m_Speed.y = -m_Speed.y;
+		m_sunPosition.y = 0.0f;
+		m_sunSpeed.y = -m_sunSpeed.y;
 	}
 
-	if (m_Position.y + m_Size.y > windowHeight)
+	if (m_sunPosition.y + sunSize.y > wndSize.y)
 	{
-		m_Position.y = windowHeight - m_Size.y;
-		m_Speed.y = -m_Speed.y;
+		m_sunPosition.y = wndSize.y - sunSize.y;
+		m_sunSpeed.y = -m_sunSpeed.y;
+	}
+}
+
+void Ui::UpdatePatchSize(float dt)
+{
+	m_patchSize += m_patchSpeed*dt;
+
+	const Vector2& wndSize = g_pDevice->GetSize();
+	const Vector2& minPatchSize = m_pNinePatchStyle->GetMinSize();
+
+	if (m_patchSize.x < minPatchSize.x)
+	{
+		m_patchSize.x = minPatchSize.x;
+		m_patchSpeed.x = -m_patchSpeed.x;
+	}
+
+	if (m_patchSize.x + m_patchPos.x > wndSize.x)
+	{
+		m_patchSize.x = wndSize.x - m_patchPos.x;
+		m_patchSpeed.x = -m_patchSpeed.x;
+	}
+
+	if (m_patchSize.y < minPatchSize.y)
+	{
+		m_patchSize.y = minPatchSize.y;
+		m_patchSpeed.y = -m_patchSpeed.y;
+	}
+
+	if (m_patchSize.y + m_patchPos.y > wndSize.y)
+	{
+		m_patchSize.y = wndSize.y - m_patchPos.y;
+		m_patchSpeed.y = -m_patchSpeed.y;
 	}
 }
