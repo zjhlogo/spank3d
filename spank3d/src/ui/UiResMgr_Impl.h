@@ -15,6 +15,7 @@ class UiResMgr_Impl : public IUiResMgr
 {
 public:
 	typedef std::map<tstring, PieceInfo*> TM_PIECE_INFO;
+	typedef std::map<tstring, BitmapStyle*> TM_BITMAP_STYLE;
 	typedef std::map<tstring, NinePatchStyle*> TM_NINE_PATCH_STYLE;
 
 public:
@@ -36,10 +37,12 @@ private:
 	virtual ~UiResMgr_Impl();
 
 	bool LoadPieceInfoList(const tstring& strFile);
+	bool LoadBitmapStyleList(const tstring& strFile);
 	bool LoadNinePatchStyleList(const tstring& strFile);
 
 private:
 	TM_PIECE_INFO m_PieceInfoMap;
+	TM_BITMAP_STYLE m_BitmapStyleMap;
 	TM_NINE_PATCH_STYLE m_NinePatchStyleMap;
 
 };

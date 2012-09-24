@@ -15,6 +15,7 @@ IMPLEMENT_APP(Ui);
 Ui::Ui()
 {
 	m_pTexSun = NULL;
+	m_pBitmapStyle = NULL;
 	m_pNinePatchStyle = NULL;
 }
 
@@ -27,6 +28,9 @@ bool Ui::Initialize()
 {
 	m_pTexSun = g_pResMgr->CreateTexture(_("sun.png"));
 	if (!m_pTexSun) return false;
+
+	m_pBitmapStyle = g_pUiResMgr->FindBitmapStyle(_("bs_default"));
+	if (!m_pBitmapStyle) return false;
 
 	m_pNinePatchStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
 	if (!m_pNinePatchStyle) return false;
@@ -57,6 +61,7 @@ void Ui::Update(float dt)
 
 	m_pNinePatchStyle->Render(m_patchPos, m_patchSize, UiState::STATE_DEFAULT);
 	g_pRendererUi->DrawRect(m_sunPosition, m_pTexSun->GetSize(), m_pTexSun);
+	m_pBitmapStyle->Render(Vector2(0.0f, 0.0f), m_pBitmapStyle->GetMinSize(), UiState::STATE_DEFAULT);
 
 	g_pRendererUi->FlushAll();
 }

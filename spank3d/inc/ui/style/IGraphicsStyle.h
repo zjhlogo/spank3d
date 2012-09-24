@@ -13,6 +13,7 @@
 #include "../../math/Vector2.h"
 #include "PieceInfo.h"
 #include <vector>
+#include <tinyxml-2.6.2/tinyxml.h>
 
 class IGraphicsStyle : public IStyle
 {
@@ -43,6 +44,9 @@ public:
 	const Vector2& GetBestSize() const;
 
 	virtual bool Render(const Vector2& pos, const Vector2& size, uint state) = 0;
+
+protected:
+	bool LoadFromXml(TiXmlElement* pXmlGraphicsStyle);
 
 private:
 	Vector2 m_PaddingLT;

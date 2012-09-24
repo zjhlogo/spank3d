@@ -33,6 +33,8 @@ private:
 	Vector2 m_sunSpeed;
 	Vector2 m_sunPosition;
 
+	BitmapStyle* m_pBitmapStyle;
+
 	NinePatchStyle* m_pNinePatchStyle;
 	Vector2 m_patchSpeed;
 	Vector2 m_patchPos;

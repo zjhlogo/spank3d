@@ -29,6 +29,7 @@ UiResMgr_Impl& UiResMgr_Impl::GetInstance()
 bool UiResMgr_Impl::Initialize()
 {
 	if (!LoadPieceInfoList(_("PieceInfoList.xml"))) return false;
+	if (!LoadBitmapStyleList(_("BitmapStyleList.xml"))) return false;
 	if (!LoadNinePatchStyleList(_("NinePatchStyleList.xml"))) return false;
 	return true;
 }
@@ -47,8 +48,9 @@ const PieceInfo* UiResMgr_Impl::FindPieceInfo(const tstring& strId)
 
 BitmapStyle* UiResMgr_Impl::FindBitmapStyle(const tstring& strId)
 {
-	// TODO: 
-	return NULL;
+	TM_BITMAP_STYLE::iterator itFound = m_BitmapStyleMap.find(strId);
+	if (itFound == m_BitmapStyleMap.end()) return NULL;
+	return itFound->second;
 }
 
 NinePatchStyle* UiResMgr_Impl::FindNinePatchStyle(const tstring& strId)
@@ -102,6 +104,43 @@ bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
 		}
 
 		m_PieceInfoMap.insert(std::make_pair(pPieceInfo->GetId(), pPieceInfo));
+	}
+
+	return true;
+}
+
+bool UiResMgr_Impl::LoadBitmapStyleList(const tstring& strFile)
+{
+	tstring strXmlFile;
+	if (!g_pResMgr->ReadStringFile(strXmlFile, strFile)) return false;
+
+	TiXmlDocument doc;
+	doc.Parse(strXmlFile.c_str());
+	if (doc.Error()) return false;
+
+	// parse the xml files
+	TiXmlElement* pXmlBitmapStyleList = doc.RootElement();
+	if (!pXmlBitmapStyleList) return false;
+
+	for (TiXmlElement* pXmlBitmapStyle = pXmlBitmapStyleList->FirstChildElement(_("BitmapStyle")); pXmlBitmapStyle != NULL; pXmlBitmapStyle = pXmlBitmapStyle->NextSiblingElement(_("BitmapStyle")))
+	{
+		const tchar* pszId = pXmlBitmapStyle->Attribute(_("id"));
+		if (!pszId) continue;
+
+		if (m_BitmapStyleMap.find(pszId) != m_BitmapStyleMap.end())
+		{
+			LOG(_("duplicate bitmap style id %s"), pszId);
+			continue;
+		}
+
+		BitmapStyle* pBitmapStyle = new BitmapStyle(pszId);
+		if (!pBitmapStyle->LoadFromXml(pXmlBitmapStyle))
+		{
+			SAFE_DELETE(pBitmapStyle);
+			continue;
+		}
+
+		m_BitmapStyleMap.insert(std::make_pair(pBitmapStyle->GetId(), pBitmapStyle));
 	}
 
 	return true;

@@ -9,7 +9,6 @@
 #define __NINEPATCHSTYLE_H__
 
 #include "IGraphicsStyle.h"
-#include <tinyxml-2.6.2/tinyxml.h>
 
 class NinePatchStyle : public IGraphicsStyle
 {
