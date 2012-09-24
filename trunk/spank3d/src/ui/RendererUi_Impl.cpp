@@ -111,6 +111,21 @@ void RendererUi_Impl::DrawRect(float x, float y, float width, float height, floa
 	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, s_Verts, 4, s_Indis, 6);
 }
 
+void RendererUi_Impl::DrawRect(const Rect& rect, const PieceInfo* pPieceInfo)
+{
+	DrawRect(rect.x, rect.y, rect.width, rect.height, pPieceInfo);
+}
+
+void RendererUi_Impl::DrawRect(const Vector2& pos, const Vector2& size, const PieceInfo* pPieceInfo)
+{
+	DrawRect(pos.x, pos.y, size.x, size.y, pPieceInfo);
+}
+
+void RendererUi_Impl::DrawRect(float x, float y, float width, float height, const PieceInfo* pPieceInfo)
+{
+	DrawRect(x, y, width, height, pPieceInfo->u, pPieceInfo->v, pPieceInfo->du, pPieceInfo->dv, pPieceInfo->pTexture);
+}
+
 void RendererUi_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis, ITexture* pTexture)
 {
 	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, pVerts, nVerts, pIndis, nIndis);

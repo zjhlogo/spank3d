@@ -14,6 +14,21 @@
 class BitmapStyle : public IGraphicsStyle
 {
 public:
+	typedef struct VERTEX_ATTR_tag
+	{
+		float x, y;
+		float u, v;
+	} VERTEX_ATTR;
+
+	typedef struct BITMAP_INFO_tag
+	{
+		uint nState;
+		const PieceInfo* pPieceInfo;
+	} BITMAP_INFO;
+
+	typedef std::vector<BITMAP_INFO*> TV_BITMAP_INFO;
+
+public:
 	RTTI_DEF(BitmapStyle, IGraphicsStyle);
 
 	BitmapStyle(const tstring& id);
@@ -23,6 +38,10 @@ public:
 	bool LoadFromXml(TiXmlElement* pXmlBitmapStyle);
 
 private:
+	bool RenderBitmapPiece(const BITMAP_INFO& bitmapInfo, const Vector2& pos, const Vector2& size);
+
+private:
+	TV_BITMAP_INFO m_vBitmapInfo;
 
 };
 #endif // __BITMAPSTYLE_H__

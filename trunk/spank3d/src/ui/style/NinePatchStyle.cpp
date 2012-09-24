@@ -24,7 +24,12 @@ NinePatchStyle::NinePatchStyle(const tstring& id)
 
 NinePatchStyle::~NinePatchStyle()
 {
-	// TODO: 
+	for (TV_NINE_PATCH_INFO::iterator it = m_vNinePatchInfo.begin(); it != m_vNinePatchInfo.end(); ++it)
+	{
+		NINE_PATCH_INFO *pNinePatchInfo = (*it);
+		SAFE_DELETE(pNinePatchInfo);
+	}
+	m_vNinePatchInfo.clear();
 }
 
 bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size, uint state)
@@ -43,43 +48,7 @@ bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size, uint state)
 
 bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 {
-	int minW = 0;
-	int minH = 0;
-	if (!pXmlNinePatchStyle->Attribute(_("minW"), &minW) || !pXmlNinePatchStyle->Attribute(_("minH"), &minH)) return false;
-	SetMinSize(float(minW), float(minH));
-
-	int maxW = 0;
-	int maxH = 0;
-	if (pXmlNinePatchStyle->Attribute(_("maxW"), &maxW) && pXmlNinePatchStyle->Attribute(_("maxH"), &maxH))
-	{
-		SetMaxSize(float(maxW), float(maxH));
-	}
-	else
-	{
-		SetMaxSize(float(INT_MAX), float(INT_MAX));
-	}
-
-	int bestW = 0;
-	int bestH = 0;
-	if (pXmlNinePatchStyle->Attribute(_("bestW"), &bestW) && pXmlNinePatchStyle->Attribute(_("bestH"), &bestH))
-	{
-		SetBestSize(float(bestW), float(bestH));
-	}
-	else
-	{
-		SetBestSize(float(minW), float(minH));
-	}
-
-	int paddingL = 0;
-	int paddingT = 0;
-	int paddingR = 0;
-	int paddingB = 0;
-	pXmlNinePatchStyle->Attribute(_("paddingL"), &paddingL);
-	pXmlNinePatchStyle->Attribute(_("paddingT"), &paddingT);
-	pXmlNinePatchStyle->Attribute(_("paddingR"), &paddingR);
-	pXmlNinePatchStyle->Attribute(_("paddingB"), &paddingB);
-	SetPaddingLT(float(paddingL), float(paddingT));
-	SetPaddingLT(float(paddingR), float(paddingB));
+	if (!IGraphicsStyle::LoadFromXml(pXmlNinePatchStyle)) return false;
 
 	for (TiXmlElement* pXmlState = pXmlNinePatchStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
