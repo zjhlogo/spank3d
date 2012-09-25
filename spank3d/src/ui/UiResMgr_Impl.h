@@ -17,6 +17,8 @@ public:
 	typedef std::map<tstring, PieceInfo*> TM_PIECE_INFO;
 	typedef std::map<tstring, BitmapStyle*> TM_BITMAP_STYLE;
 	typedef std::map<tstring, NinePatchStyle*> TM_NINE_PATCH_STYLE;
+	typedef std::map<tstring, HorizontalPatchStyle*> TM_HORIZONTAL_PATCH_STYLE;
+	typedef std::map<tstring, VerticalPatchStyle*> TM_VERTICAL_PATCH_STYLE;
 
 public:
 	RTTI_DEF(UiResMgr_Impl, IUiResMgr);
@@ -39,11 +41,15 @@ private:
 	bool LoadPieceInfoList(const tstring& strFile);
 	bool LoadBitmapStyleList(const tstring& strFile);
 	bool LoadNinePatchStyleList(const tstring& strFile);
+	bool LoadHotizontalPatchStyleList(const tstring& strFile);
+	bool LoadVerticalPatchStyleList(const tstring& strFile);
 
 private:
 	TM_PIECE_INFO m_PieceInfoMap;
 	TM_BITMAP_STYLE m_BitmapStyleMap;
 	TM_NINE_PATCH_STYLE m_NinePatchStyleMap;
+	TM_HORIZONTAL_PATCH_STYLE m_HorizontalPatchStyleMap;
+	TM_VERTICAL_PATCH_STYLE m_VerticalPatchStyleMap;
 
 };
 #endif // __UIRESMGR_IMPL_H__

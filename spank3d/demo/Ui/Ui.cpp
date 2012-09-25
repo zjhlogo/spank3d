@@ -35,6 +35,12 @@ bool Ui::Initialize()
 	m_pNinePatchStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
 	if (!m_pNinePatchStyle) return false;
 
+	m_pHorizontalPatchStyle = g_pUiResMgr->FindHorizontalPatchStyle(_("hps_default"));
+	if (!m_pHorizontalPatchStyle) return false;
+
+	m_pVerticalPatchStyle = g_pUiResMgr->FindVerticalPatchStyle(_("vps_default"));
+	if (!m_pVerticalPatchStyle) return false;
+
 	const Vector2& wndSize = g_pDevice->GetSize();
 	const Vector2& sunSize = m_pTexSun->GetSize();
 
@@ -61,7 +67,10 @@ void Ui::Update(float dt)
 
 	m_pNinePatchStyle->Render(m_patchPos, m_patchSize, UiState::STATE_DEFAULT);
 	g_pRendererUi->DrawRect(m_sunPosition, m_pTexSun->GetSize(), m_pTexSun);
+
 	m_pBitmapStyle->Render(Vector2(0.0f, 0.0f), m_pBitmapStyle->GetMinSize(), UiState::STATE_DEFAULT);
+	m_pHorizontalPatchStyle->Render(Vector2(0.0f, 100.0f), Vector2(200.0f, m_pHorizontalPatchStyle->GetMinSize().y), UiState::STATE_DEFAULT);
+	m_pVerticalPatchStyle->Render(Vector2(0.0f, 200.0f), Vector2(m_pVerticalPatchStyle->GetMinSize().x, 200.0f), UiState::STATE_DEFAULT);
 
 	g_pRendererUi->FlushAll();
 }
