@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HorizontalPatchStyleList>
+  <HorizontalPatchStyle id="hps_default" minW="58" minH="58" paddingL="16" paddingT="16" paddingR="16" paddingB="16">
+    <State id="STATE_DEFAULT" piece="piece_default" minX="19" maxX="39" />
+  </HorizontalPatchStyle>
+</HorizontalPatchStyleList>

@@ -40,5 +40,8 @@ private:
 	Vector2 m_patchPos;
 	Vector2 m_patchSize;
 
+	HorizontalPatchStyle* m_pHorizontalPatchStyle;
+	VerticalPatchStyle* m_pVerticalPatchStyle;
+
 };
 #endif // __UI_H__

@@ -31,6 +31,9 @@ bool UiResMgr_Impl::Initialize()
 	if (!LoadPieceInfoList(_("PieceInfoList.xml"))) return false;
 	if (!LoadBitmapStyleList(_("BitmapStyleList.xml"))) return false;
 	if (!LoadNinePatchStyleList(_("NinePatchStyleList.xml"))) return false;
+	if (!LoadHotizontalPatchStyleList(_("HorizontalPatchStyleList.xml"))) return false;
+	if (!LoadVerticalPatchStyleList(_("VerticalPatchStyleList.xml"))) return false;
+
 	return true;
 }
 
@@ -60,16 +63,18 @@ NinePatchStyle* UiResMgr_Impl::FindNinePatchStyle(const tstring& strId)
 	return itFound->second;
 }
 
-VerticalPatchStyle* UiResMgr_Impl::FindVerticalPatchStyle(const tstring& strId)
-{
-	// TODO: 
-	return NULL;
-}
-
 HorizontalPatchStyle* UiResMgr_Impl::FindHorizontalPatchStyle(const tstring& strId)
 {
-	// TODO: 
-	return NULL;
+	TM_HORIZONTAL_PATCH_STYLE::iterator itFound = m_HorizontalPatchStyleMap.find(strId);
+	if (itFound == m_HorizontalPatchStyleMap.end()) return NULL;
+	return itFound->second;
+}
+
+VerticalPatchStyle* UiResMgr_Impl::FindVerticalPatchStyle(const tstring& strId)
+{
+	TM_VERTICAL_PATCH_STYLE::iterator itFound = m_VerticalPatchStyleMap.find(strId);
+	if (itFound == m_VerticalPatchStyleMap.end()) return NULL;
+	return itFound->second;
 }
 
 bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
@@ -178,6 +183,80 @@ bool UiResMgr_Impl::LoadNinePatchStyleList(const tstring& strFile)
 		}
 
 		m_NinePatchStyleMap.insert(std::make_pair(pNinePatchStyle->GetId(), pNinePatchStyle));
+	}
+
+	return true;
+}
+
+bool UiResMgr_Impl::LoadHotizontalPatchStyleList(const tstring& strFile)
+{
+	tstring strXmlFile;
+	if (!g_pResMgr->ReadStringFile(strXmlFile, strFile)) return false;
+
+	TiXmlDocument doc;
+	doc.Parse(strXmlFile.c_str());
+	if (doc.Error()) return false;
+
+	// parse the xml files
+	TiXmlElement* pXmlHorizontalPatchStyleList = doc.RootElement();
+	if (!pXmlHorizontalPatchStyleList) return false;
+
+	for (TiXmlElement* pXmlHorizontalPatchStyle = pXmlHorizontalPatchStyleList->FirstChildElement(_("HorizontalPatchStyle")); pXmlHorizontalPatchStyle != NULL; pXmlHorizontalPatchStyle = pXmlHorizontalPatchStyle->NextSiblingElement(_("HorizontalPatchStyle")))
+	{
+		const tchar* pszId = pXmlHorizontalPatchStyle->Attribute(_("id"));
+		if (!pszId) continue;
+
+		if (m_HorizontalPatchStyleMap.find(pszId) != m_HorizontalPatchStyleMap.end())
+		{
+			LOG(_("duplicate horizontal patch style id %s"), pszId);
+			continue;
+		}
+
+		HorizontalPatchStyle* pHorizontalPatchStyle = new HorizontalPatchStyle(pszId);
+		if (!pHorizontalPatchStyle->LoadFromXml(pXmlHorizontalPatchStyle))
+		{
+			SAFE_DELETE(pHorizontalPatchStyle);
+			continue;
+		}
+
+		m_HorizontalPatchStyleMap.insert(std::make_pair(pHorizontalPatchStyle->GetId(), pHorizontalPatchStyle));
+	}
+
+	return true;
+}
+
+bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
+{
+	tstring strXmlFile;
+	if (!g_pResMgr->ReadStringFile(strXmlFile, strFile)) return false;
+
+	TiXmlDocument doc;
+	doc.Parse(strXmlFile.c_str());
+	if (doc.Error()) return false;
+
+	// parse the xml files
+	TiXmlElement* pXmlVerticalPatchStyleList = doc.RootElement();
+	if (!pXmlVerticalPatchStyleList) return false;
+
+	for (TiXmlElement* pXmlVerticalPatchStyle = pXmlVerticalPatchStyleList->FirstChildElement(_("VerticalPatchStyle")); pXmlVerticalPatchStyle != NULL; pXmlVerticalPatchStyle = pXmlVerticalPatchStyle->NextSiblingElement(_("VerticalPatchStyle")))
+	{
+		const tchar* pszId = pXmlVerticalPatchStyle->Attribute(_("id"));
+		if (!pszId) continue;
+
+		if (m_VerticalPatchStyleMap.find(pszId) != m_VerticalPatchStyleMap.end())
+		{
+			LOG(_("duplicate vertical patch style id %s"), pszId);
+			continue;
+		}
+
+		VerticalPatchStyle* pVerticalPatchStyle = new VerticalPatchStyle(pszId);
+		if (!pVerticalPatchStyle->LoadFromXml(pXmlVerticalPatchStyle))
+		{
+			SAFE_DELETE(pVerticalPatchStyle);
+			continue;
+		}
+
+		m_VerticalPatchStyleMap.insert(std::make_pair(pVerticalPatchStyle->GetId(), pVerticalPatchStyle));
 	}
 
 	return true;

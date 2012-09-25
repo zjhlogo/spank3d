@@ -82,17 +82,16 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 		pPatchInfo->pieceSize[2].Reset(float(pPieceInfo->width-maxX), float(pPieceInfo->height-maxY));
 
 		float u[4];
-		float v[4];
-
 		u[0] = pPieceInfo->u;
-		v[0] = pPieceInfo->v;
 		u[1] = u[0]+pPieceInfo->du*(pPatchInfo->pieceSize[0].x/pPieceInfo->width);
-		v[1] = v[0]+pPieceInfo->dv*(pPatchInfo->pieceSize[0].y/pPieceInfo->height);
 		u[2] = u[1]+pPieceInfo->du*(pPatchInfo->pieceSize[1].x/pPieceInfo->width);
-		v[2] = v[1]+pPieceInfo->dv*(pPatchInfo->pieceSize[1].y/pPieceInfo->height);
-		u[3] = u[2]+pPieceInfo->du*(pPatchInfo->pieceSize[2].x/pPieceInfo->width);
-		v[3] = v[2]+pPieceInfo->dv*(pPatchInfo->pieceSize[2].y/pPieceInfo->height);
+		u[3] = u[0]+pPieceInfo->du;
 
+		float v[4];
+		v[0] = pPieceInfo->v;
+		v[1] = v[0]+pPieceInfo->dv*(pPatchInfo->pieceSize[0].y/pPieceInfo->height);
+		v[2] = v[1]+pPieceInfo->dv*(pPatchInfo->pieceSize[1].y/pPieceInfo->height);
+		v[3] = v[0]+pPieceInfo->dv;
 		v[0] = 1.0f - v[0];
 		v[1] = 1.0f - v[1];
 		v[2] = 1.0f - v[2];
@@ -143,15 +142,15 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 bool NinePatchStyle::RenderNinePatchPiece(NINE_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size)
 {
 	float px[4];
-	float py[4];
-
 	px[0] = pos.x;
-	py[0] = pos.y;
 	px[1] = px[0]+patchInfo.pieceSize[0].x;
-	py[1] = py[0]+patchInfo.pieceSize[0].y;
-	px[2] = px[1]+size.x-patchInfo.pieceSize[2].x;
-	py[2] = py[1]+size.y-patchInfo.pieceSize[2].y;
+	px[2] = px[1]+(size.x-patchInfo.pieceSize[0].x-patchInfo.pieceSize[2].x);
 	px[3] = px[2]+patchInfo.pieceSize[2].x;
+
+	float py[4];
+	py[0] = pos.y;
+	py[1] = py[0]+patchInfo.pieceSize[0].y;
+	py[2] = py[1]+(size.y-patchInfo.pieceSize[0].y-patchInfo.pieceSize[2].y);
 	py[3] = py[2]+patchInfo.pieceSize[2].y;
 
 	patchInfo.verts[0].x = px[0];
