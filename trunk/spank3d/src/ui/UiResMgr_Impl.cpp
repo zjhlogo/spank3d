@@ -112,11 +112,11 @@ VerticalPatchStyle* UiResMgr_Impl::FindVerticalPatchStyle(const tstring& strId)
 
 bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
 {
-	tstring strXmlFile;
-	if (!g_pResMgr->ReadStringFile(strXmlFile, strFile)) return false;
+	tstring strXmlData;
+	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
 
 	TiXmlDocument doc;
-	doc.Parse(strXmlFile.c_str());
+	doc.Parse(strXmlData.c_str());
 	if (doc.Error()) return false;
 
 	// parse the xml files
@@ -149,11 +149,11 @@ bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
 
 bool UiResMgr_Impl::LoadBitmapStyleList(const tstring& strFile)
 {
-	tstring strXmlFile;
-	if (!g_pResMgr->ReadStringFile(strXmlFile, strFile)) return false;
+	tstring strXmlData;
+	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
 
 	TiXmlDocument doc;
-	doc.Parse(strXmlFile.c_str());
+	doc.Parse(strXmlData.c_str());
 	if (doc.Error()) return false;
 
 	// parse the xml files
@@ -186,11 +186,11 @@ bool UiResMgr_Impl::LoadBitmapStyleList(const tstring& strFile)
 
 bool UiResMgr_Impl::LoadNinePatchStyleList(const tstring& strFile)
 {
-	tstring strXmlFile;
-	if (!g_pResMgr->ReadStringFile(strXmlFile, strFile)) return false;
+	tstring strXmlData;
+	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
 
 	TiXmlDocument doc;
-	doc.Parse(strXmlFile.c_str());
+	doc.Parse(strXmlData.c_str());
 	if (doc.Error()) return false;
 
 	// parse the xml files
@@ -223,11 +223,11 @@ bool UiResMgr_Impl::LoadNinePatchStyleList(const tstring& strFile)
 
 bool UiResMgr_Impl::LoadHotizontalPatchStyleList(const tstring& strFile)
 {
-	tstring strXmlFile;
-	if (!g_pResMgr->ReadStringFile(strXmlFile, strFile)) return false;
+	tstring strXmlData;
+	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
 
 	TiXmlDocument doc;
-	doc.Parse(strXmlFile.c_str());
+	doc.Parse(strXmlData.c_str());
 	if (doc.Error()) return false;
 
 	// parse the xml files
@@ -260,11 +260,11 @@ bool UiResMgr_Impl::LoadHotizontalPatchStyleList(const tstring& strFile)
 
 bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
 {
-	tstring strXmlFile;
-	if (!g_pResMgr->ReadStringFile(strXmlFile, strFile)) return false;
+	tstring strXmlData;
+	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
 
 	TiXmlDocument doc;
-	doc.Parse(strXmlFile.c_str());
+	doc.Parse(strXmlData.c_str());
 	if (doc.Error()) return false;
 
 	// parse the xml files

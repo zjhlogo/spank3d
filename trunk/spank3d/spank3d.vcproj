@@ -521,6 +521,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ui\style\FontStyle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\style\FontStyle.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ui\style\HorizontalPatchStyle.cpp"
 					>
 				</File>
