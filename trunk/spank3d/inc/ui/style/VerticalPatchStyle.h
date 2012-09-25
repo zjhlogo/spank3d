@@ -50,7 +50,6 @@ private:
 
 private:
 	TV_VERTICAL_PATCH_INFO m_vVerticalPatchInfo;
-	static ushort m_Indis[NUM_INDIS];
 
 };
 #endif // __VERTICALPATCHSTYLE_H__

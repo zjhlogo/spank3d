@@ -9,11 +9,6 @@
 #include <ui/UiState.h>
 #include <Spank3d.h>
 
-ushort HorizontalPatchStyle::m_Indis[HorizontalPatchStyle::NUM_INDIS] = 
-{
-	0, 4, 1, 4, 5, 1, 1, 5, 2, 5, 6, 2, 2, 6, 3, 6, 7, 3
-};
-
 HorizontalPatchStyle::HorizontalPatchStyle(const tstring& id)
 :IGraphicsStyle(id)
 {
@@ -113,6 +108,8 @@ bool HorizontalPatchStyle::LoadFromXml(TiXmlElement* pXmlHorizontalPatchStyle)
 
 bool HorizontalPatchStyle::RenderHorizontalPatchPiece(HORIZONTAL_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size)
 {
+	static ushort s_Indis[NUM_INDIS] = {0, 4, 1, 4, 5, 1, 1, 5, 2, 5, 6, 2, 2, 6, 3, 6, 7, 3};
+
 	float px[4];
 	px[0] = pos.x;
 	px[1] = px[0]+patchInfo.pieceWidths[0];
@@ -141,6 +138,6 @@ bool HorizontalPatchStyle::RenderHorizontalPatchPiece(HORIZONTAL_PATCH_INFO& pat
 	patchInfo.verts[7].x = px[3];
 	patchInfo.verts[7].y = py[1];
 
-	g_pRendererUi->DrawTriangleList(patchInfo.verts, NUM_VERTS, m_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
+	g_pRendererUi->DrawTriangleList(patchInfo.verts, NUM_VERTS, s_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
 	return false;
 }

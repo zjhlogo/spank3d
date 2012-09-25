@@ -39,7 +39,40 @@ bool UiResMgr_Impl::Initialize()
 
 void UiResMgr_Impl::Terminate()
 {
-	// TODO: 
+	for (TM_VERTICAL_PATCH_STYLE::iterator it = m_VerticalPatchStyleMap.begin(); it != m_VerticalPatchStyleMap.end(); ++it)
+	{
+		VerticalPatchStyle* pVerticalPatchStyle = it->second;
+		SAFE_DELETE(pVerticalPatchStyle);
+	}
+	m_VerticalPatchStyleMap.clear();
+
+	for (TM_HORIZONTAL_PATCH_STYLE::iterator it = m_HorizontalPatchStyleMap.begin(); it != m_HorizontalPatchStyleMap.end(); ++it)
+	{
+		HorizontalPatchStyle* pHorizontalPatchStyle = it->second;
+		SAFE_DELETE(pHorizontalPatchStyle);
+	}
+	m_HorizontalPatchStyleMap.clear();
+
+	for (TM_NINE_PATCH_STYLE::iterator it = m_NinePatchStyleMap.begin(); it != m_NinePatchStyleMap.end(); ++it)
+	{
+		NinePatchStyle* pNinePatchStyle = it->second;
+		SAFE_DELETE(pNinePatchStyle);
+	}
+	m_NinePatchStyleMap.clear();
+
+	for (TM_BITMAP_STYLE::iterator it = m_BitmapStyleMap.begin(); it != m_BitmapStyleMap.end(); ++it)
+	{
+		BitmapStyle* pBitmapStyle = it->second;
+		SAFE_DELETE(pBitmapStyle);
+	}
+	m_BitmapStyleMap.clear();
+
+	for (TM_PIECE_INFO::iterator it = m_PieceInfoMap.begin(); it != m_PieceInfoMap.end(); ++it)
+	{
+		PieceInfo* pPieceInfo = it->second;
+		SAFE_DELETE(pPieceInfo);
+	}
+	m_PieceInfoMap.clear();
 }
 
 const PieceInfo* UiResMgr_Impl::FindPieceInfo(const tstring& strId)

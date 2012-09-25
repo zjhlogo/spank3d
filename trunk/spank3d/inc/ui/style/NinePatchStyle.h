@@ -50,7 +50,6 @@ private:
 
 private:
 	TV_NINE_PATCH_INFO m_vNinePatchInfo;
-	static ushort m_Indis[NUM_INDIS];
 
 };
 #endif // __NINEPATCHSTYLE_H__
