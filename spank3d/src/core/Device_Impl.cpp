@@ -397,13 +397,14 @@ void Device_Impl::InitializeOGL()
 	glewInit();
 
 	// Black Background
-	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	// Depth Buffer Setup
 	glClearDepth(1.0f);
 
 	// enable Depth Testing
 	glEnable(GL_DEPTH_TEST);
+	// The Type Of Depth Testing To Do
+	glDepthFunc(GL_LEQUAL);
 
 	// enable cull mode
 	glEnable(GL_CULL_FACE);
@@ -412,9 +413,6 @@ void Device_Impl::InitializeOGL()
 	// enable blend
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	// The Type Of Depth Testing To Do
-	glDepthFunc(GL_LEQUAL);
 
 	// Really Nice Perspective Calculations
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
