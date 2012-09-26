@@ -42,6 +42,7 @@ private:
 
 	HorizontalPatchStyle* m_pHorizontalPatchStyle;
 	VerticalPatchStyle* m_pVerticalPatchStyle;
+	IFontStyle* m_pFontStyle;
 
 };
 #endif // __UI_H__
