@@ -74,7 +74,7 @@ void Ui::Update(float dt)
 	m_pBitmapStyle->Render(Vector2(0.0f, 0.0f), m_pBitmapStyle->GetMinSize(), UiState::STATE_DEFAULT);
 	m_pHorizontalPatchStyle->Render(Vector2(0.0f, 100.0f), Vector2(200.0f, m_pHorizontalPatchStyle->GetMinSize().y), UiState::STATE_DEFAULT);
 	m_pVerticalPatchStyle->Render(Vector2(0.0f, 200.0f), Vector2(m_pVerticalPatchStyle->GetMinSize().x, 200.0f), UiState::STATE_DEFAULT);
-	m_pFontStyle->Render(_("This is a test String!"), Vector2(10.0f, 500.0f), Rect(0.0f, 0.0f, 0.0f, 0.0f), UiState::STATE_DEFAULT);
+	m_pFontStyle->Render(_("This is a test String!"), Vector2(500.0f, 300.0f), Rect(0.0f, 0.0f, 0.0f, 0.0f), UiState::STATE_DEFAULT);
 
 	g_pRendererUi->FlushAll();
 }
