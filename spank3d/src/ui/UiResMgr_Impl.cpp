@@ -9,6 +9,7 @@
 #include <Spank3d.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 #include <util/LogUtil.h>
+#include <ui/style/BitmapFontStyle.h>
 
 UiResMgr_Impl::UiResMgr_Impl()
 {
@@ -33,6 +34,7 @@ bool UiResMgr_Impl::Initialize()
 	if (!LoadNinePatchStyleList(_("NinePatchStyleList.xml"))) return false;
 	if (!LoadHotizontalPatchStyleList(_("HorizontalPatchStyleList.xml"))) return false;
 	if (!LoadVerticalPatchStyleList(_("VerticalPatchStyleList.xml"))) return false;
+	if (!LoadBitmapFontStyleList(_("BitmapFontStyleList.xml"))) return false;
 
 	return true;
 }
@@ -100,6 +102,13 @@ HorizontalPatchStyle* UiResMgr_Impl::FindHorizontalPatchStyle(const tstring& str
 {
 	TM_HORIZONTAL_PATCH_STYLE::iterator itFound = m_HorizontalPatchStyleMap.find(strId);
 	if (itFound == m_HorizontalPatchStyleMap.end()) return NULL;
+	return itFound->second;
+}
+
+IFontStyle* UiResMgr_Impl::FindFontStyle(const tstring& strId)
+{
+	TM_FONT_STYLE::iterator itFound = m_FontStyleMap.find(strId);
+	if (itFound == m_FontStyleMap.end()) return NULL;
 	return itFound->second;
 }
 
@@ -290,6 +299,45 @@ bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
 		}
 
 		m_VerticalPatchStyleMap.insert(std::make_pair(pVerticalPatchStyle->GetId(), pVerticalPatchStyle));
+	}
+
+	return true;
+}
+
+bool UiResMgr_Impl::LoadBitmapFontStyleList(const tstring& strFile)
+{
+	tstring strXmlData;
+	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
+
+	TiXmlDocument doc;
+	doc.Parse(strXmlData.c_str());
+	if (doc.Error()) return false;
+
+	// parse the xml files
+	TiXmlElement* pXmlBitmapFontStyleList = doc.RootElement();
+	if (!pXmlBitmapFontStyleList) return false;
+
+	for (TiXmlElement* pXmlBitmapFontStyle = pXmlBitmapFontStyleList->FirstChildElement(_("BitmapFontStyle")); pXmlBitmapFontStyle != NULL; pXmlBitmapFontStyle = pXmlBitmapFontStyle->NextSiblingElement(_("BitmapFontStyle")))
+	{
+		const tchar* pszId = pXmlBitmapFontStyle->Attribute(_("id"));
+		if (!pszId) continue;
+
+		if (m_FontStyleMap.find(pszId) != m_FontStyleMap.end())
+		{
+			LOG(_("duplicate font style id %s"), pszId);
+			continue;
+		}
+
+		BitmapFontStyle* pBitmapFontStyle = new BitmapFontStyle(pszId);
+
+		const tchar* pszFile = pXmlBitmapFontStyle->Attribute(_("file"));
+		if (!pBitmapFontStyle->LoadFontFile(pszFile))
+		{
+			SAFE_DELETE(pBitmapFontStyle);
+			continue;
+		}
+
+		m_FontStyleMap.insert(std::make_pair(pBitmapFontStyle->GetId(), pBitmapFontStyle));
 	}
 
 	return true;

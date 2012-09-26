@@ -513,6 +513,14 @@
 				Name="style"
 				>
 				<File
+					RelativePath=".\src\ui\style\BitmapFontStyle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\style\BitmapFontStyle.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ui\style\BitmapStyle.cpp"
 					>
 				</File>
@@ -521,19 +529,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\ui\style\FontStyle.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\inc\ui\style\FontStyle.h"
-					>
-				</File>
-				<File
 					RelativePath=".\src\ui\style\HorizontalPatchStyle.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\inc\ui\style\HorizontalPatchStyle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\style\IFontStyle.h"
 					>
 				</File>
 				<File

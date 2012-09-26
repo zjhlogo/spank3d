@@ -1,31 +1,54 @@
 /*!
- * \file FontStyle.cpp
+ * \file BitmapFontStyle.cpp
  * \date 9-25-2012 21:20:13
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <ui/style/FontStyle.h>
+#include <ui/style/BitmapFontStyle.h>
 #include <Spank3d.h>
 
-FontStyle::FontStyle(const tstring& id)
-:IStyle(id)
+BitmapFontStyle::BitmapFontStyle(const tstring& id)
+:IFontStyle(id)
 {
 	// TODO: 
 }
 
-FontStyle::~FontStyle()
+BitmapFontStyle::~BitmapFontStyle()
 {
-	// TODO: 
+	DestroyTextures();
+	m_CharInfoMap.clear();
+	m_KerningMap.clear();
 }
 
-bool FontStyle::Render(const tstring& strText, const Vector2& pos, const Vector2& size, uint state)
+bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state)
 {
-	// TODO: 
+	Vector2 currPos(pos.x, pos.y);
+
+	tchar lastChar = 0;
+	for (tstring::const_iterator it = strText.begin(); it != strText.end(); ++it)
+	{
+		const tchar& ch = (*it);
+
+		TM_CHAR_INFO::iterator itChar = m_CharInfoMap.find(int(ch));
+		if (itChar == m_CharInfoMap.end()) continue;
+		const CHAR_INFO& charInfo = itChar->second;
+
+		float kerning = 0.0f;
+		uint hashKey = ((uint(lastChar) << 16) | (uint(ch) & 0x0000FFFF));
+		TM_UINT_FLOAT::iterator itKerning = m_KerningMap.find(hashKey);
+		if (itKerning != m_KerningMap.end()) kerning = itKerning->second;
+
+		g_pRendererUi->DrawRect(currPos.x+charInfo.offset.x+kerning, currPos.y+charInfo.offset.y, float(charInfo.width), float(charInfo.height), charInfo.u, charInfo.v, charInfo.du, charInfo.dv, charInfo.pTexture);
+
+		currPos.x += (charInfo.advance+kerning);
+		lastChar = ch;
+	}
+
 	return true;
 }
 
-bool FontStyle::LoadFontFile(const tstring& strFile)
+bool BitmapFontStyle::LoadFontFile(const tstring& strFile)
 {
 	tstring strXmlData;
 	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
@@ -52,7 +75,7 @@ bool FontStyle::LoadFontFile(const tstring& strFile)
 	return true;
 }
 
-bool FontStyle::ParseCommonInfo(TiXmlElement* pXmlCommon)
+bool BitmapFontStyle::ParseCommonInfo(TiXmlElement* pXmlCommon)
 {
 	if (!pXmlCommon) return false;
 
@@ -61,7 +84,7 @@ bool FontStyle::ParseCommonInfo(TiXmlElement* pXmlCommon)
 	return true;
 }
 
-bool FontStyle::CreateTextures(TiXmlElement* pXmlPages)
+bool BitmapFontStyle::CreateTextures(TiXmlElement* pXmlPages)
 {
 	DestroyTextures();
 
@@ -81,7 +104,7 @@ bool FontStyle::CreateTextures(TiXmlElement* pXmlPages)
 	return true;
 }
 
-void FontStyle::DestroyTextures()
+void BitmapFontStyle::DestroyTextures()
 {
 	for (TV_TEXTURE::iterator it = m_vTextures.begin(); it != m_vTextures.end(); ++it)
 	{
@@ -91,7 +114,7 @@ void FontStyle::DestroyTextures()
 	m_vTextures.clear();
 }
 
-bool FontStyle::CreateCharsInfo(TiXmlElement* pXmlCharsInfo)
+bool BitmapFontStyle::CreateCharsInfo(TiXmlElement* pXmlCharsInfo)
 {
 	m_CharInfoMap.clear();
 	if (!pXmlCharsInfo) return false;
@@ -131,7 +154,7 @@ bool FontStyle::CreateCharsInfo(TiXmlElement* pXmlCharsInfo)
 	return true;
 }
 
-bool FontStyle::CreateKerningsInfo(TiXmlElement* pXmlKerningsInfo)
+bool BitmapFontStyle::CreateKerningsInfo(TiXmlElement* pXmlKerningsInfo)
 {
 	m_KerningMap.clear();
 	if (!pXmlKerningsInfo) return false;
