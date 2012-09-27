@@ -55,12 +55,17 @@ void HelloWorld::Terminate()
 
 void HelloWorld::Update(float dt)
 {
+	// TODO: 
+}
+
+void HelloWorld::Render()
+{
 	m_pShader->Commit();
 
 	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
 
 	Matrix4x4 matProj;
- 	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetSize().x, g_pDevice->GetSize().y, 0.1f, 100.0f);
+	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetSize().x, g_pDevice->GetSize().y, 0.1f, 100.0f);
 
 	Matrix4x4 matWorldViewProj = matProj*matView;
 	m_pShader->SetMatrix4x4(matWorldViewProj, "u_matModelViewProj");

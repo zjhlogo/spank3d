@@ -17,7 +17,7 @@ public:
 	{
 		DEFAULT_WINDOW_WIDTH = 1024,
 		DEFAULT_WINDOW_HEIGHT = 768,
-		DEFAULT_FPS = 60,
+// 		DEFAULT_FPS = 60,
 	};
 
 public:
@@ -48,10 +48,7 @@ private:
 	void InitializeOGL();
 
 private:
-	float m_fPrevTime;
-	float m_fCurrTime;
-	float m_fDetailTime;
-	float m_fFPS;
+	float m_fLastTime;
 
 	Vector2 m_WindowSize;
 
