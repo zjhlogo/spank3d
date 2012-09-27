@@ -23,6 +23,7 @@ public:
 	virtual void Terminate();
 
 	virtual void Update(float dt);
+	virtual void Render();
 
 private:
 	void UpdatePosition(float dt);
@@ -43,6 +44,10 @@ private:
 	HorizontalPatchStyle* m_pHorizontalPatchStyle;
 	VerticalPatchStyle* m_pVerticalPatchStyle;
 	IFontStyle* m_pFontStyle;
+
+	uint m_nFPSFrame;
+	float m_fFPSTime;
+	tstring m_strFPS;
 
 };
 #endif // __UI_H__

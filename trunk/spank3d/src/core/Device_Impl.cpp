@@ -19,12 +19,21 @@ static HWND g_hWnd = NULL;
 static HDC g_hDc = NULL;								// Private GDI Device Context
 static HGLRC g_hRc = NULL;								// Permanent Rendering Context
 
+static float GetTime()
+{
+	static LARGE_INTEGER s_tc, s_t1;
+	static BOOL s_tcInit = QueryPerformanceFrequency(&s_tc);
+	static BOOL s_t1Init = QueryPerformanceCounter(&s_t1);
+
+	LARGE_INTEGER t2;
+	QueryPerformanceCounter(&t2);
+
+	return (float(t2.QuadPart-s_t1.QuadPart)/s_tc.QuadPart);
+}
+
 Device_Impl::Device_Impl()
 {
-	m_fPrevTime = 0.0f;
-	m_fCurrTime = 0.0f;
-	m_fDetailTime = 0.0f;
-	m_fFPS = DEFAULT_FPS;
+	m_fLastTime = 0.0f;
 	m_WindowSize.Reset(float(DEFAULT_WINDOW_WIDTH), float(DEFAULT_WINDOW_HEIGHT));
 
 	g_pDevice = this;
@@ -78,19 +87,8 @@ void Device_Impl::StartPerform()
 	// logout start perform
 	LOG(_("StartPerforming ..."));
 
-	// Create Render signal event
-	HANDLE hTickEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	ResetEvent(hTickEvent);
-
-	// Create time event
-	UINT nDelay = (UINT)(1000.0f/m_fFPS);
-	if (nDelay < 1) nDelay = 1;
-	MMRESULT hEventTimer = timeSetEvent(nDelay, 1, (LPTIMECALLBACK)hTickEvent, 0, TIME_PERIODIC|TIME_CALLBACK_EVENT_SET);
-
 	// reset time
-	m_fPrevTime = (float)timeGetTime()/1000.0f;
-	m_fCurrTime = m_fPrevTime;
-	m_fDetailTime = 0.0f;
+	m_fLastTime = GetTime();
 
 	// notify start perform
 	IEvent event(EID_START_PERFORM, this);
@@ -101,37 +99,62 @@ void Device_Impl::StartPerform()
 
 	while (msg.message != WM_QUIT)
 	{
-		if(WAIT_OBJECT_0 == MsgWaitForMultipleObjects(1, &hTickEvent, FALSE, 1000, QS_ALLINPUT))
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			// calculate time
-			m_fCurrTime = (float)timeGetTime()/1000.0f;
-			m_fDetailTime = m_fCurrTime - m_fPrevTime;
-			PerformOnce(m_fDetailTime);
-			m_fPrevTime = m_fCurrTime;
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 		else
 		{
-			while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) 
-			{
-				if(msg.message == WM_QUIT) break;
-
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
+			float fCurrTime = GetTime();
+			float dt = fCurrTime - m_fLastTime;
+			PerformOnce(dt);
+			m_fLastTime = fCurrTime;
 		}
 	}
 
-	if(hEventTimer)
-	{
-		timeKillEvent(hEventTimer);
-		hEventTimer = NULL;
-	}
-
-	if(hTickEvent)
-	{
-		CloseHandle(hTickEvent);
-		hTickEvent = NULL;
-	}
+// 	// Create Render signal event
+// 	HANDLE hTickEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+// 	ResetEvent(hTickEvent);
+// 
+// 	// Create time event
+// 	UINT nDelay = (UINT)(1000.0f/60.0f);
+// 	if (nDelay < 1) nDelay = 1;
+// 	MMRESULT hEventTimer = timeSetEvent(nDelay, 1, (LPTIMECALLBACK)hTickEvent, 0, TIME_PERIODIC|TIME_CALLBACK_EVENT_SET);
+// 
+// 	while (msg.message != WM_QUIT)
+// 	{
+// 		if(WAIT_OBJECT_0 == MsgWaitForMultipleObjects(1, &hTickEvent, FALSE, 1000, QS_ALLINPUT))
+// 		{
+// 			// calculate time
+// 			float fCurrTime = GetTime();
+// 			float dt = fCurrTime - m_fLastTime;
+// 			PerformOnce(dt);
+// 			m_fLastTime = fCurrTime;
+// 		}
+// 		else
+// 		{
+// 			while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+// 			{
+// 				if(msg.message == WM_QUIT) break;
+// 
+// 				TranslateMessage(&msg);
+// 				DispatchMessage(&msg);
+// 			}
+// 		}
+// 	}
+// 
+// 	if(hEventTimer)
+// 	{
+// 		timeKillEvent(hEventTimer);
+// 		hEventTimer = NULL;
+// 	}
+// 
+// 	if(hTickEvent)
+// 	{
+// 		CloseHandle(hTickEvent);
+// 		hTickEvent = NULL;
+// 	}
 }
 
 void Device_Impl::EndPerform()
@@ -388,7 +411,10 @@ void Device_Impl::InternalDestroyOGL()
 void Device_Impl::PerformOnce(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+
 	g_pApp->Update(dt);
+	g_pApp->Render();
+
 	SwapBuffers(g_hDc);					// Swap Buffers (Double Buffering)
 }
 
@@ -397,7 +423,7 @@ void Device_Impl::InitializeOGL()
 	glewInit();
 
 	// Black Background
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// Depth Buffer Setup
 	glClearDepth(1.0f);
 

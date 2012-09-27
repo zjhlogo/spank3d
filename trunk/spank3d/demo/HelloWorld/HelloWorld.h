@@ -23,6 +23,7 @@ public:
 	virtual void Terminate();
 
 	virtual void Update(float dt);
+	virtual void Render();
 
 private:
 	bool OnMouseEvent(MouseEvent& mouseEvent);
