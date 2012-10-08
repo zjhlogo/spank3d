@@ -29,7 +29,7 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
-	virtual const PieceInfo* FindPieceInfo(const tstring& strId);
+	virtual PieceInfo* FindPieceInfo(const tstring& strId);
 	virtual BitmapStyle* FindBitmapStyle(const tstring& strId);
 	virtual NinePatchStyle* FindNinePatchStyle(const tstring& strId);
 	virtual VerticalPatchStyle* FindVerticalPatchStyle(const tstring& strId);

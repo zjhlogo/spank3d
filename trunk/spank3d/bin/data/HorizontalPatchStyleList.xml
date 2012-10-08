@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <HorizontalPatchStyleList>
-  <HorizontalPatchStyle id="hps_default" minW="58" minH="58" paddingL="16" paddingT="16" paddingR="16" paddingB="16">
-    <State id="STATE_DEFAULT" piece="piece_default" minX="19" maxX="39" />
+  <HorizontalPatchStyle id="hps_default" minW="5" minH="5" paddingL="1" paddingT="1" paddingR="1" paddingB="1">
+    <State id="STATE_DEFAULT" piece="piece_default" minX="1" maxX="4" />
+  </HorizontalPatchStyle>
+  <HorizontalPatchStyle id="hps_default_blue" minW="5" minH="5" bestW="33" bestH="33" paddingL="10" paddingT="1" paddingR="1" paddingB="1">
+    <State id="STATE_DEFAULT" piece="piece_default_blue" minX="1" maxX="4" />
   </HorizontalPatchStyle>
 </HorizontalPatchStyleList>

@@ -24,6 +24,7 @@ public:
 	BitmapFontStyle(const tstring& id);
 	virtual ~BitmapFontStyle();
 
+	virtual float GetLineHeight() const;
 	virtual bool Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state);
 	bool LoadFontFile(const tstring& strFile);
 
@@ -35,7 +36,7 @@ private:
 	bool CreateKerningsInfo(TiXmlElement* pXmlKerningsInfo);
 
 private:
-	int m_nLineHeight;
+	float m_fLineHeight;
 	int m_nNumPages;
 	TV_TEXTURE m_vTextures;
 	TM_CHAR_INFO m_CharInfoMap;

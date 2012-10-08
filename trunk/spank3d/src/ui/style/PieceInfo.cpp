@@ -38,7 +38,7 @@ bool PieceInfo::LoadFromXml(TiXmlElement* pXmlPieceInfo)
 	const tchar* pszTexture = pXmlPieceInfo->Attribute(_("texture"));
 	if (!pszTexture) return false;
 
-	pTexture = g_pResMgr->CreateTexture(pszTexture);
+	pTexture = g_pResMgr->CreateTexture(pszTexture, ITexture::TS_NEAREST);
 	if (!pTexture) return false;
 
 	pXmlPieceInfo->Attribute(_("x"), &x);

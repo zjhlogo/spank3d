@@ -6,10 +6,12 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/controls/IWindow.h>
+#include <Spank3d.h>
 
 IWindow::IWindow(IWindow* pParent)
 {
 	m_pParent = pParent;
+	m_pBgStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
 }
 
 IWindow::~IWindow()
@@ -150,4 +152,24 @@ bool IWindow::FindChild(IWindow* pChild)
 	}
 
 	return false;
+}
+
+void IWindow::SystemUpdate(float dt)
+{
+	Update(dt);
+}
+
+void IWindow::SystemRender(uint state)
+{
+	Render(state);
+}
+
+void IWindow::Update(float dt)
+{
+	// TODO: 
+}
+
+void IWindow::Render(uint state)
+{
+	m_pBgStyle->Render(m_Position, m_Size, state);
 }

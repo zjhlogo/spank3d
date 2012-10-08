@@ -77,7 +77,7 @@ void UiResMgr_Impl::Terminate()
 	m_PieceInfoMap.clear();
 }
 
-const PieceInfo* UiResMgr_Impl::FindPieceInfo(const tstring& strId)
+PieceInfo* UiResMgr_Impl::FindPieceInfo(const tstring& strId)
 {
 	TM_PIECE_INFO::iterator itFound = m_PieceInfoMap.find(strId);
 	if (itFound == m_PieceInfoMap.end()) return NULL;

@@ -508,6 +508,14 @@
 					RelativePath=".\inc\ui\controls\IWindow.h"
 					>
 				</File>
+				<File
+					RelativePath=".\src\ui\controls\TitledWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\controls\TitledWindow.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="style"
@@ -580,6 +588,10 @@
 					RelativePath=".\inc\ui\style\VerticalPatchStyle.h"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="events"
+				>
 			</Filter>
 		</Filter>
 		<Filter
