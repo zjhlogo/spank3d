@@ -136,7 +136,7 @@ bool IGraphicsStyle::LoadFromXml(TiXmlElement* pXmlGraphicsStyle)
 	pXmlGraphicsStyle->Attribute(_("paddingR"), &paddingR);
 	pXmlGraphicsStyle->Attribute(_("paddingB"), &paddingB);
 	SetPaddingLT(float(paddingL), float(paddingT));
-	SetPaddingLT(float(paddingR), float(paddingB));
+	SetPaddingRB(float(paddingR), float(paddingB));
 
 	return true;
 }

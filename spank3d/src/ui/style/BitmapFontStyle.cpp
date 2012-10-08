@@ -11,7 +11,8 @@
 BitmapFontStyle::BitmapFontStyle(const tstring& id)
 :IFontStyle(id)
 {
-	// TODO: 
+	m_fLineHeight = 0.0f;
+	m_nNumPages = 0;
 }
 
 BitmapFontStyle::~BitmapFontStyle()
@@ -19,6 +20,11 @@ BitmapFontStyle::~BitmapFontStyle()
 	DestroyTextures();
 	m_CharInfoMap.clear();
 	m_KerningMap.clear();
+}
+
+float BitmapFontStyle::GetLineHeight() const
+{
+	return m_fLineHeight;
 }
 
 bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state)
@@ -79,7 +85,9 @@ bool BitmapFontStyle::ParseCommonInfo(TiXmlElement* pXmlCommon)
 {
 	if (!pXmlCommon) return false;
 
-	if (!pXmlCommon->Attribute(_("lineHeight"), &m_nLineHeight)) return false;
+	int nLineHeight = 0;
+	if (!pXmlCommon->Attribute(_("lineHeight"), &nLineHeight)) return false;
+	m_fLineHeight = float(nLineHeight);
 
 	return true;
 }

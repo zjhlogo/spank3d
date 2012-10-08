@@ -10,6 +10,7 @@
 
 #include "../../core/IObject.h"
 #include "../../math/Vector2.h"
+#include "../style/IGraphicsStyle.h"
 #include <vector>
 
 class IWindow : public IObject
@@ -46,7 +47,14 @@ public:
 	void RemoveAllChildren();
 	bool FindChild(IWindow* pChild);
 
-private:
+	void SystemUpdate(float dt);
+	void SystemRender(uint state);
+
+protected:
+	virtual void Update(float dt);
+	virtual void Render(uint state);
+
+protected:
 	Vector2 m_Position;
 	Vector2 m_Size;
 	Vector2 m_Scroll;
@@ -54,6 +62,8 @@ private:
 	IWindow* m_pParent;
 	tstring m_strId;
 	TV_WINDOW m_vChildren;
+
+	IGraphicsStyle* m_pBgStyle;
 
 };
 #endif // __IWINDOW_H__

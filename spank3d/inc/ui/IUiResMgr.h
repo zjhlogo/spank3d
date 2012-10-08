@@ -24,7 +24,7 @@ public:
 	IUiResMgr() {};
 	virtual ~IUiResMgr() {};
 
-	virtual const PieceInfo* FindPieceInfo(const tstring& strId) = 0;
+	virtual PieceInfo* FindPieceInfo(const tstring& strId) = 0;
 	virtual BitmapStyle* FindBitmapStyle(const tstring& strId) = 0;
 	virtual NinePatchStyle* FindNinePatchStyle(const tstring& strId) = 0;
 	virtual VerticalPatchStyle* FindVerticalPatchStyle(const tstring& strId) = 0;

@@ -10,6 +10,7 @@
 
 #include <Spank3d.h>
 #include <event/MouseEvent.h>
+#include <ui/controls/TitledWindow.h>
 
 class Ui : public IApp
 {
@@ -30,7 +31,7 @@ private:
 	void UpdatePatchSize(float dt);
 
 private:
-	ITexture* m_pTexSun;
+	PieceInfo* m_pPieceSun;
 	Vector2 m_sunSpeed;
 	Vector2 m_sunPosition;
 
@@ -44,6 +45,8 @@ private:
 	HorizontalPatchStyle* m_pHorizontalPatchStyle;
 	VerticalPatchStyle* m_pVerticalPatchStyle;
 	IFontStyle* m_pFontStyle;
+
+	TitledWindow* m_pWindow;
 
 	uint m_nFPSFrame;
 	float m_fFPSTime;

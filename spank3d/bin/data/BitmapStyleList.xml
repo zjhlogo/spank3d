@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BitmapStyleList>
-  <BitmapStyle id="bs_default" minW="58" minH="58">
+  <BitmapStyle id="bs_default" minW="5" minH="5">
     <State id="STATE_DEFAULT" piece="piece_default" />
   </BitmapStyle>
 </BitmapStyleList>
