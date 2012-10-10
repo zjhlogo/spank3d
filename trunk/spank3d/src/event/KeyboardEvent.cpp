@@ -7,8 +7,8 @@
  */
 #include <event/KeyboardEvent.h>
 
-KeyboardEvent::KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType, IEventDispatcher* pDispatcher)
-:IEvent(EID_KEYBOARD_EVENT, pDispatcher)
+KeyboardEvent::KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType, EventDispatcher* pDispatcher)
+:Event(EID_KEYBOARD_EVENT, pDispatcher)
 {
 	m_eKeyboardEventType = eEventType;
 	m_nKeyCode = 0;

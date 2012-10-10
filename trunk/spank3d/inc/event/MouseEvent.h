@@ -8,11 +8,11 @@
 #ifndef __MOUSEEVENT_H__
 #define __MOUSEEVENT_H__
 
-#include "../core/IEvent.h"
+#include "../core/Event.h"
 #include "EventIds.h"
 #include "../math/Vector2i.h"
 
-class MouseEvent : public IEvent
+class MouseEvent : public Event
 {
 public:
 	enum MOUSE_EVENT_TYPE
@@ -28,9 +28,9 @@ public:
 	};
 
 public:
-	RTTI_DEF(MouseEvent, IEvent);
+	RTTI_DEF(MouseEvent, Event);
 
-	MouseEvent(MOUSE_EVENT_TYPE eEventType, IEventDispatcher* pDispatcher);
+	MouseEvent(MOUSE_EVENT_TYPE eEventType, EventDispatcher* pDispatcher);
 	virtual ~MouseEvent();
 
 	MOUSE_EVENT_TYPE GetMouseEventType() const;

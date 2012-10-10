@@ -11,5 +11,8 @@ Core* g_pCore = NULL;
 IResMgr* g_pResMgr = NULL;
 IDevice* g_pDevice = NULL;
 IApp* g_pApp = NULL;
-IRendererUi* g_pRendererUi = NULL;
+
+IUiRenderer* g_pUiRenderer = NULL;
 IUiResMgr* g_pUiResMgr = NULL;
+IUiSystemMgr* g_pUiSystemMgr = NULL;
+IUiInputMgr* g_pUiInputMgr = NULL;

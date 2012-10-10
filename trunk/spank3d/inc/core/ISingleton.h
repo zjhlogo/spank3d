@@ -8,12 +8,12 @@
 #ifndef __ISINGLETON_H__
 #define __ISINGLETON_H__
 
-#include "IEventDispatcher.h"
+#include "EventDispatcher.h"
 
-class ISingleton : public IEventDispatcher
+class ISingleton : public EventDispatcher
 {
 public:
-	RTTI_DEF(ISingleton, IEventDispatcher);
+	RTTI_DEF(ISingleton, EventDispatcher);
 
 	ISingleton() {};
 	virtual ~ISingleton() {};

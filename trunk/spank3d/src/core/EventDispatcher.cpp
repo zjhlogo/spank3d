@@ -5,19 +5,19 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <core/IEventDispatcher.h>
+#include <core/EventDispatcher.h>
 
-IEventDispatcher::IEventDispatcher()
+EventDispatcher::EventDispatcher()
 {
 	// TODO: 
 }
 
-IEventDispatcher::~IEventDispatcher()
+EventDispatcher::~EventDispatcher()
 {
 	// TODO: 
 }
 
-void IEventDispatcher::RegisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc)
+void EventDispatcher::RegisterEvent(uint nId, EventDispatcher* pHandler, FUNC_HANDLER pFunc)
 {
 	EVENT_HANDLER handler;
 	handler.pHandler = pHandler;
@@ -26,7 +26,7 @@ void IEventDispatcher::RegisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_
 	m_EventMap.insert(std::make_pair(nId, handler));
 }
 
-void IEventDispatcher::UnregisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc)
+void EventDispatcher::UnregisterEvent(uint nId, EventDispatcher* pHandler, FUNC_HANDLER pFunc)
 {
 	TP_EVENT_HANDLER range = m_EventMap.equal_range(nId);
 	if (range.first == range.second) return;
@@ -42,7 +42,7 @@ void IEventDispatcher::UnregisterEvent(uint nId, IEventDispatcher* pHandler, FUN
 	}
 }
 
-bool IEventDispatcher::DispatchEvent(IEvent& event)
+bool EventDispatcher::DispatchEvent(Event& event)
 {
 	TP_EVENT_HANDLER range = m_EventMap.equal_range(event.GetId());
 	if (range.first == range.second) return false;

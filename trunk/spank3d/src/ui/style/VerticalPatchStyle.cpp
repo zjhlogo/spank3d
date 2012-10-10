@@ -144,6 +144,6 @@ bool VerticalPatchStyle::RenderVerticalPatchPiece(VERTICAL_PATCH_INFO& patchInfo
 	patchInfo.verts[7].x = px[1];
 	patchInfo.verts[7].y = py[3];
 
-	g_pRendererUi->DrawTriangleList(patchInfo.verts, NUM_VERTS, s_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
+	g_pUiRenderer->DrawTriangleList(patchInfo.verts, NUM_VERTS, s_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
 	return false;
 }

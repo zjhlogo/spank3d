@@ -8,12 +8,12 @@
 #ifndef __IOBJECT_H__
 #define __IOBJECT_H__
 
-#include "IEventDispatcher.h"
+#include "EventDispatcher.h"
 
-class IObject : public IEventDispatcher
+class IObject : public EventDispatcher
 {
 public:
-	RTTI_DEF(IObject, IEventDispatcher);
+	RTTI_DEF(IObject, EventDispatcher);
 
 	IObject();
 	virtual ~IObject();

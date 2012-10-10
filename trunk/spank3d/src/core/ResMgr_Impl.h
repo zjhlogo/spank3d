@@ -51,10 +51,10 @@ private:
 	ITexture* InternalCreateTexture(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample);
 	IBitmapData* InternalCreateBitmapData(const tstring& id, uint width, uint height, uint bpp);
 
-	bool OnMeshDestroyed(IEvent& event);
-	bool OnBitmapDataDestroyed(IEvent& event);
-	bool OnTextureDestroyed(IEvent& event);
-	bool OnShaderDestroyed(IEvent& event);
+	bool OnMeshDestroyed(Event& event);
+	bool OnBitmapDataDestroyed(Event& event);
+	bool OnTextureDestroyed(Event& event);
+	bool OnShaderDestroyed(Event& event);
 
 private:
 	TM_MESH m_MeshMap;

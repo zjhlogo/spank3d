@@ -19,7 +19,7 @@ Texture_Impl::Texture_Impl(const tstring& id)
 Texture_Impl::~Texture_Impl()
 {
 	FreeTexture();
-	DispatchEvent(IEvent(EID_OBJECT_DESTROYED, this));
+	DispatchEvent(Event(EID_OBJECT_DESTROYED, this));
 }
 
 const tstring& Texture_Impl::GetId() const

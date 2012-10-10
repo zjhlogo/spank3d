@@ -8,9 +8,9 @@
 #ifndef __KEYBOARDEVENT_H__
 #define __KEYBOARDEVENT_H__
 
-#include "../core/IEvent.h"
+#include "../core/Event.h"
 
-class KeyboardEvent : public IEvent
+class KeyboardEvent : public Event
 {
 public:
 	enum KEYBOARD_EVENT_TYPE
@@ -20,9 +20,9 @@ public:
 		KET_CHAR						// KeyboardEvent
 	};
 public:
-	RTTI_DEF(KeyboardEvent, IEvent);
+	RTTI_DEF(KeyboardEvent, Event);
 
-	KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType, IEventDispatcher* pDispatcher);
+	KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType, EventDispatcher* pDispatcher);
 	virtual ~KeyboardEvent();
 
 	KEYBOARD_EVENT_TYPE GetKeyboardEventType() const;
