@@ -10,8 +10,7 @@
 
 #include "ResMgr_Impl.h"
 #include "Device_Impl.h"
-#include "../ui/RendererUi_Impl.h"
-#include "../ui/UiResMgr_Impl.h"
+#include "../ui/UiSystemMgr_Impl.h"
 
 Core::Core()
 {
@@ -33,8 +32,7 @@ bool Core::Initialize()
 {
 	if (!ResMgr_Impl::GetInstance().Initialize()) return false;
 	if (!Device_Impl::GetInstance().Initialize()) return false;
-	if (!RendererUi_Impl::GetInstance().Initialize()) return false;
-	if (!UiResMgr_Impl::GetInstance().Initialize()) return false;
+	if (!UiSystemMgr_Impl::GetInstance().Initialize()) return false;
 	if (!g_pApp->Initialize()) return false;
 
 	return true;
@@ -43,8 +41,7 @@ bool Core::Initialize()
 void Core::Terminate()
 {
 	g_pApp->Terminate();
-	UiResMgr_Impl::GetInstance().Terminate();
-	RendererUi_Impl::GetInstance().Terminate();
+	UiSystemMgr_Impl::GetInstance().Terminate();
 	Device_Impl::GetInstance().Terminate();
 	ResMgr_Impl::GetInstance().Terminate();
 }

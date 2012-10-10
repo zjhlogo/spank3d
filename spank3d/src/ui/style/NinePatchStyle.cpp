@@ -189,6 +189,6 @@ bool NinePatchStyle::RenderNinePatchPiece(NINE_PATCH_INFO& patchInfo, const Vect
 	patchInfo.verts[15].x = px[3];
 	patchInfo.verts[15].y = py[3];
 
-	g_pRendererUi->DrawTriangleList(patchInfo.verts, NUM_VERTS, s_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
+	g_pUiRenderer->DrawTriangleList(patchInfo.verts, NUM_VERTS, s_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
 	return false;
 }

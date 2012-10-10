@@ -12,14 +12,20 @@
 #include "core/IResMgr.h"
 #include "core/IDevice.h"
 #include "core/IApp.h"
-#include "ui/IRendererUi.h"
+
+#include "ui/IUiRenderer.h"
 #include "ui/IUiResMgr.h"
+#include "ui/IUiSystemMgr.h"
+#include "ui/IUiInputMgr.h"
 
 extern Core* g_pCore;
 extern IResMgr* g_pResMgr;
 extern IDevice* g_pDevice;
 extern IApp* g_pApp;
-extern IRendererUi* g_pRendererUi;
+
+extern IUiRenderer* g_pUiRenderer;
 extern IUiResMgr* g_pUiResMgr;
+extern IUiSystemMgr* g_pUiSystemMgr;
+extern IUiInputMgr* g_pUiInputMgr;
 
 #endif // __SPANK3D_H__

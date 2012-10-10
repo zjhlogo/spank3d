@@ -1,12 +1,12 @@
 /*!
- * \file IRendererUi.h
- * \date 8-13-2012 10:42:17
+ * \file IUiRenderer.h
+ * \date 10-10-2012 9:25:18
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __IRENDERERUI_H__
-#define __IRENDERERUI_H__
+#ifndef __IUIRENDERER_H__
+#define __IUIRENDERER_H__
 
 #include "../core/ISingleton.h"
 #include "../math/Vector2.h"
@@ -14,13 +14,13 @@
 #include "../render/ITexture.h"
 #include "style/PieceInfo.h"
 
-class IRendererUi : public ISingleton
+class IUiRenderer : public ISingleton
 {
 public:
-	RTTI_DEF(IRendererUi, ISingleton);
+	RTTI_DEF(IUiRenderer, ISingleton);
 
-	IRendererUi() {};
-	virtual ~IRendererUi() {};
+	IUiRenderer() {};
+	virtual ~IUiRenderer() {};
 
 	virtual void DrawRect(const Rect& rect, ITexture* pTexture) = 0;
 	virtual void DrawRect(const Vector2& pos, const Vector2& size, ITexture* pTexture) = 0;
@@ -36,4 +36,4 @@ public:
 	virtual void FlushAll() = 0;
 
 };
-#endif // __IRENDERERUI_H__
+#endif // __IUIRENDERER_H__

@@ -26,7 +26,7 @@ Shader_Impl::Shader_Impl(const tstring& id, const tstring& strVertexShader, cons
 Shader_Impl::~Shader_Impl()
 {
 	DestroyShader();
-	DispatchEvent(IEvent(EID_OBJECT_DESTROYED, this));
+	DispatchEvent(Event(EID_OBJECT_DESTROYED, this));
 }
 
 const tstring& Shader_Impl::GetId() const

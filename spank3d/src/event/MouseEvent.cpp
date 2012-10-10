@@ -7,8 +7,8 @@
  */
 #include <event/MouseEvent.h>
 
-MouseEvent::MouseEvent(MOUSE_EVENT_TYPE eEventType, IEventDispatcher* pDispatcher)
-:IEvent(EID_MOUSE_EVENT, pDispatcher)
+MouseEvent::MouseEvent(MOUSE_EVENT_TYPE eEventType, EventDispatcher* pDispatcher)
+:Event(EID_MOUSE_EVENT, pDispatcher)
 {
 	m_eMouseEventType = eEventType;
 	m_nWheelDetail = 0;

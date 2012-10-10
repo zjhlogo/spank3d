@@ -8,19 +8,19 @@
 #ifndef __IEVENTDISPATCHER_H__
 #define __IEVENTDISPATCHER_H__
 
-#include "IEvent.h"
+#include "Event.h"
 #include "Rtti.h"
 #include <map>
 
-class IEventDispatcher;
-typedef bool (IEventDispatcher::*FUNC_HANDLER)(IEvent& event);
+class EventDispatcher;
+typedef bool (EventDispatcher::*FUNC_HANDLER)(Event& event);
 
-class IEventDispatcher
+class EventDispatcher
 {
 public:
 	typedef struct EVENT_HANDLER_tag
 	{
-		IEventDispatcher* pHandler;
+		EventDispatcher* pHandler;
 		FUNC_HANDLER pFunc;
 		int nDepth;
 	} EVENT_HANDLER;
@@ -29,14 +29,14 @@ public:
 	typedef std::pair<TM_EVENT_HANDLER::iterator, TM_EVENT_HANDLER::iterator> TP_EVENT_HANDLER;
 
 public:
-	RTTI_DEF(IEventDispatcher, NoRtti);
+	RTTI_DEF(EventDispatcher, NoRtti);
 
-	IEventDispatcher();
-	virtual ~IEventDispatcher();
+	EventDispatcher();
+	virtual ~EventDispatcher();
 
-	void RegisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc);
-	void UnregisterEvent(uint nId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc);
-	bool DispatchEvent(IEvent& event);
+	void RegisterEvent(uint nId, EventDispatcher* pHandler, FUNC_HANDLER pFunc);
+	void UnregisterEvent(uint nId, EventDispatcher* pHandler, FUNC_HANDLER pFunc);
+	bool DispatchEvent(Event& event);
 
 private:
 	TM_EVENT_HANDLER m_EventMap;

@@ -91,7 +91,7 @@ void Device_Impl::StartPerform()
 	m_fLastTime = GetTime();
 
 	// notify start perform
-	IEvent event(EID_START_PERFORM, this);
+	Event event(EID_START_PERFORM, this);
 	DispatchEvent(event);
 
 	MSG msg;

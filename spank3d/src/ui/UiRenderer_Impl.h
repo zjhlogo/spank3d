@@ -1,17 +1,17 @@
 /*!
- * \file RendererUi_Impl.h
- * \date 8-13-2012 10:47:57
+ * \file UiRenderer_Impl.h
+ * \date 10-10-2012 9:26:03
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __RENDERERUI_IMPL_H__
-#define __RENDERERUI_IMPL_H__
+#ifndef __UIRENDERER_IMPL_H__
+#define __UIRENDERER_IMPL_H__
 
-#include <ui/IRendererUi.h>
+#include <ui/IUiRenderer.h>
 #include "VertexCache.h"
 
-class RendererUi_Impl : public IRendererUi
+class UiRenderer_Impl : public IUiRenderer
 {
 public:
 	enum CONST_DEFINE
@@ -27,9 +27,9 @@ public:
 	} VATTR_XYUV;
 
 public:
-	RTTI_DEF(RendererUi_Impl, IRendererUi);
+	RTTI_DEF(UiRenderer_Impl, IUiRenderer);
 
-	static RendererUi_Impl& GetInstance();
+	static UiRenderer_Impl& GetInstance();
 
 	virtual bool Initialize();
 	virtual void Terminate();
@@ -48,8 +48,8 @@ public:
 	virtual void FlushAll();
 
 private:
-	RendererUi_Impl();
-	virtual ~RendererUi_Impl();
+	UiRenderer_Impl();
+	virtual ~UiRenderer_Impl();
 
 private:
 	bool AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, ITexture* pTexture, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
@@ -61,4 +61,4 @@ private:
 	Matrix4x4 m_matModelViewProj;
 
 };
-#endif // __RENDERERUI_IMPL_H__
+#endif // __UIRENDERER_IMPL_H__

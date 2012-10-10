@@ -313,9 +313,9 @@ IBitmapData* ResMgr_Impl::InternalCreateBitmapData(const tstring& id, uint width
 	return pBitmapData;
 }
 
-bool ResMgr_Impl::OnMeshDestroyed(IEvent& event)
+bool ResMgr_Impl::OnMeshDestroyed(Event& event)
 {
-	IMesh* pMesh = (IMesh*)event.GetDispatcher();
+	IMesh* pMesh = (IMesh*)event.GetEventDispatcher();
 	if (!pMesh) return true;
 
 	TM_MESH::iterator itFound = m_MeshMap.find(pMesh->GetId());
@@ -325,9 +325,9 @@ bool ResMgr_Impl::OnMeshDestroyed(IEvent& event)
 	return true;
 }
 
-bool ResMgr_Impl::OnBitmapDataDestroyed(IEvent& event)
+bool ResMgr_Impl::OnBitmapDataDestroyed(Event& event)
 {
-	IBitmapData* pBitmapData = (IBitmapData*)event.GetDispatcher();
+	IBitmapData* pBitmapData = (IBitmapData*)event.GetEventDispatcher();
 	if (!pBitmapData) return true;
 
 	TM_BITMAP_DATA::iterator itFound = m_BitmapDataMap.find(pBitmapData->GetId());
@@ -337,9 +337,9 @@ bool ResMgr_Impl::OnBitmapDataDestroyed(IEvent& event)
 	return true;
 }
 
-bool ResMgr_Impl::OnTextureDestroyed(IEvent& event)
+bool ResMgr_Impl::OnTextureDestroyed(Event& event)
 {
-	ITexture* pTexture = (ITexture*)event.GetDispatcher();
+	ITexture* pTexture = (ITexture*)event.GetEventDispatcher();
 	if (!pTexture) return true;
 
 	TM_TEXTURE::iterator itFound = m_TextureMap.find(pTexture->GetId());
@@ -349,9 +349,9 @@ bool ResMgr_Impl::OnTextureDestroyed(IEvent& event)
 	return true;
 }
 
-bool ResMgr_Impl::OnShaderDestroyed(IEvent& event)
+bool ResMgr_Impl::OnShaderDestroyed(Event& event)
 {
-	IShader* pShader = (IShader*)event.GetDispatcher();
+	IShader* pShader = (IShader*)event.GetEventDispatcher();
 	if (!pShader) return true;
 
 	TM_SHADER::iterator itFound = m_ShaderMap.find(pShader->GetId());

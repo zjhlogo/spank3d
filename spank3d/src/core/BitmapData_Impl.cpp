@@ -21,7 +21,7 @@ BitmapData_Impl::BitmapData_Impl(const tstring& id, uint width, uint height, uin
 BitmapData_Impl::~BitmapData_Impl()
 {
 	FreeData();
-	DispatchEvent(IEvent(EID_OBJECT_DESTROYED, this));
+	DispatchEvent(Event(EID_OBJECT_DESTROYED, this));
 }
 
 const tstring& BitmapData_Impl::GetId() const

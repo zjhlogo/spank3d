@@ -45,7 +45,7 @@ bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const R
 		TM_UINT_FLOAT::iterator itKerning = m_KerningMap.find(hashKey);
 		if (itKerning != m_KerningMap.end()) kerning = itKerning->second;
 
-		g_pRendererUi->DrawRect(currPos.x+charInfo.offset.x+kerning, currPos.y+charInfo.offset.y, float(charInfo.width), float(charInfo.height), charInfo.u, charInfo.v, charInfo.du, charInfo.dv, charInfo.pTexture);
+		g_pUiRenderer->DrawRect(currPos.x+charInfo.offset.x+kerning, currPos.y+charInfo.offset.y, float(charInfo.width), float(charInfo.height), charInfo.u, charInfo.v, charInfo.du, charInfo.dv, charInfo.pTexture);
 
 		currPos.x += (charInfo.advance+kerning);
 		lastChar = ch;

@@ -242,6 +242,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\core\Event.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\core\Event.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\EventDispatcher.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\core\EventDispatcher.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\core\IApp.cpp"
 				>
 			</File>
@@ -255,22 +271,6 @@
 			</File>
 			<File
 				RelativePath=".\inc\core\IDevice.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\core\IEvent.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\core\IEvent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\core\IEventDispatcher.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\core\IEventDispatcher.h"
 				>
 			</File>
 			<File
@@ -458,7 +458,11 @@
 			Name="ui"
 			>
 			<File
-				RelativePath=".\inc\ui\IRendererUi.h"
+				RelativePath=".\inc\ui\IUiInputMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\ui\IUiRenderer.h"
 				>
 			</File>
 			<File
@@ -466,11 +470,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ui\RendererUi_Impl.cpp"
+				RelativePath=".\inc\ui\IUiSystemMgr.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ui\RendererUi_Impl.h"
+				RelativePath=".\src\ui\UiInputMgr_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\UiInputMgr_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\UiRenderer_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\UiRenderer_Impl.h"
 				>
 			</File>
 			<File
@@ -487,6 +503,14 @@
 			</File>
 			<File
 				RelativePath=".\inc\ui\UiState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\UiSystemMgr_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ui\UiSystemMgr_Impl.h"
 				>
 			</File>
 			<File

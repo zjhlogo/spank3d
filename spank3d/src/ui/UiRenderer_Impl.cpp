@@ -1,35 +1,35 @@
 /*!
- * \file RendererUi_Impl.cpp
- * \date 8-13-2012 10:49:45
+ * \file UiRenderer_Impl.cpp
+ * \date 10-10-2012 9:26:27
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "RendererUi_Impl.h"
+#include "UiRenderer_Impl.h"
 #include <util/LogUtil.h>
 #include <util/SystemUtil.h>
 #include <Spank3d.h>
 
-RendererUi_Impl::RendererUi_Impl()
+UiRenderer_Impl::UiRenderer_Impl()
 {
 	SystemUtil::ZeroMemory(m_pVertexCaches, sizeof(m_pVertexCaches));
 	m_pShader = NULL;
 
-	g_pRendererUi = this;
+	g_pUiRenderer = this;
 }
 
-RendererUi_Impl::~RendererUi_Impl()
+UiRenderer_Impl::~UiRenderer_Impl()
 {
-	g_pRendererUi = NULL;
+	g_pUiRenderer = NULL;
 }
 
-RendererUi_Impl& RendererUi_Impl::GetInstance()
+UiRenderer_Impl& UiRenderer_Impl::GetInstance()
 {
-	static RendererUi_Impl s_RendererUi_Impl;
+	static UiRenderer_Impl s_RendererUi_Impl;
 	return s_RendererUi_Impl;
 }
 
-bool RendererUi_Impl::Initialize()
+bool UiRenderer_Impl::Initialize()
 {
 	m_pShader = g_pResMgr->CreateShader("ui_shader.xml");
 	if (!m_pShader) return false;
@@ -52,7 +52,7 @@ bool RendererUi_Impl::Initialize()
 	return true;
 }
 
-void RendererUi_Impl::Terminate()
+void UiRenderer_Impl::Terminate()
 {
 	for (int i = 0; i < NUM_CACHE; ++i)
 	{
@@ -61,22 +61,22 @@ void RendererUi_Impl::Terminate()
 	SAFE_RELEASE(m_pShader);
 }
 
-void RendererUi_Impl::DrawRect(const Rect& rect, ITexture* pTexture)
+void UiRenderer_Impl::DrawRect(const Rect& rect, ITexture* pTexture)
 {
 	DrawRect(rect.x, rect.y, rect.width, rect.height, 0.0f, 0.0f, 1.0f, 1.0f, pTexture);
 }
 
-void RendererUi_Impl::DrawRect(const Vector2& pos, const Vector2& size, ITexture* pTexture)
+void UiRenderer_Impl::DrawRect(const Vector2& pos, const Vector2& size, ITexture* pTexture)
 {
 	DrawRect(pos.x, pos.y, size.x, size.y, 0.0f, 0.0f, 1.0f, 1.0f, pTexture);
 }
 
-void RendererUi_Impl::DrawRect(float x, float y, float width, float height, ITexture* pTexture)
+void UiRenderer_Impl::DrawRect(float x, float y, float width, float height, ITexture* pTexture)
 {
 	DrawRect(x, y, width, height, 0.0f, 0.0f, 1.0f, 1.0f, pTexture);
 }
 
-void RendererUi_Impl::DrawRect(float x, float y, float width, float height, float u, float v, float du, float dv, ITexture* pTexture)
+void UiRenderer_Impl::DrawRect(float x, float y, float width, float height, float u, float v, float du, float dv, ITexture* pTexture)
 {
 	static VATTR_XYUV s_Verts[4] =
 	{
@@ -111,27 +111,27 @@ void RendererUi_Impl::DrawRect(float x, float y, float width, float height, floa
 	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, s_Verts, 4, s_Indis, 6);
 }
 
-void RendererUi_Impl::DrawRect(const Rect& rect, const PieceInfo* pPieceInfo)
+void UiRenderer_Impl::DrawRect(const Rect& rect, const PieceInfo* pPieceInfo)
 {
 	DrawRect(rect.x, rect.y, rect.width, rect.height, pPieceInfo);
 }
 
-void RendererUi_Impl::DrawRect(const Vector2& pos, const Vector2& size, const PieceInfo* pPieceInfo)
+void UiRenderer_Impl::DrawRect(const Vector2& pos, const Vector2& size, const PieceInfo* pPieceInfo)
 {
 	DrawRect(pos.x, pos.y, size.x, size.y, pPieceInfo);
 }
 
-void RendererUi_Impl::DrawRect(float x, float y, float width, float height, const PieceInfo* pPieceInfo)
+void UiRenderer_Impl::DrawRect(float x, float y, float width, float height, const PieceInfo* pPieceInfo)
 {
 	DrawRect(x, y, width, height, pPieceInfo->u, pPieceInfo->v, pPieceInfo->du, pPieceInfo->dv, pPieceInfo->pTexture);
 }
 
-void RendererUi_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis, ITexture* pTexture)
+void UiRenderer_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis, ITexture* pTexture)
 {
 	AddPrimetive(m_pVertexCaches, NUM_CACHE, m_pShader, pTexture, pVerts, nVerts, pIndis, nIndis);
 }
 
-void RendererUi_Impl::FlushAll()
+void UiRenderer_Impl::FlushAll()
 {
 	for (int i = 0; i < NUM_CACHE; ++i)
 	{
@@ -139,7 +139,7 @@ void RendererUi_Impl::FlushAll()
 	}
 }
 
-void RendererUi_Impl::FlushCache(VertexCache* pVertexCache)
+void UiRenderer_Impl::FlushCache(VertexCache* pVertexCache)
 {
 	if (!pVertexCache || pVertexCache->GetNumIndis() <= 0) return;
 
@@ -154,7 +154,7 @@ void RendererUi_Impl::FlushCache(VertexCache* pVertexCache)
 	pVertexCache->Reset();
 }
 
-bool RendererUi_Impl::AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, ITexture* pTexture, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
+bool UiRenderer_Impl::AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, ITexture* pTexture, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
 {
 	VertexCache* pEmptyCache = NULL;
 	VertexCache* pMatchCache = NULL;

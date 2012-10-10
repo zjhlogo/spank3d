@@ -91,7 +91,7 @@ void Ui::Update(float dt)
 void Ui::Render()
 {
 	m_pNinePatchStyle->Render(m_patchPos, m_patchSize, UiState::STATE_DEFAULT);
-	g_pRendererUi->DrawRect(m_sunPosition.x, m_sunPosition.y, float(m_pPieceSun->width), float(m_pPieceSun->height), m_pPieceSun);
+	g_pUiRenderer->DrawRect(m_sunPosition.x, m_sunPosition.y, float(m_pPieceSun->width), float(m_pPieceSun->height), m_pPieceSun);
 
 	m_pBitmapStyle->Render(Vector2(50.0f, 50.0f), m_pBitmapStyle->GetMinSize(), UiState::STATE_DEFAULT);
 	m_pHorizontalPatchStyle->Render(Vector2(50.0f, 100.0f), Vector2(200.0f, m_pHorizontalPatchStyle->GetMinSize().y), UiState::STATE_DEFAULT);
@@ -100,7 +100,7 @@ void Ui::Render()
 
 	m_pWindow->SystemRender(UiState::STATE_DEFAULT);
 
-	g_pRendererUi->FlushAll();
+	g_pUiRenderer->FlushAll();
 }
 
 void Ui::UpdatePosition(float dt)
