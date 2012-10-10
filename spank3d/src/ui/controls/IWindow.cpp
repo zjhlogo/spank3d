@@ -21,13 +21,7 @@ IWindow::~IWindow()
 
 void IWindow::SetPosition(const Vector2& pos)
 {
-	SetPosition(pos.x, pos.y);
-}
-
-void IWindow::SetPosition(float x, float y)
-{
-	m_Position.x = x;
-	m_Position.y = y;
+	m_Position = pos;
 }
 
 const Vector2& IWindow::GetPosition() const
@@ -50,13 +44,7 @@ Vector2 IWindow::GetPositionAbs() const
 
 void IWindow::SetSize(const Vector2& size)
 {
-	SetSize(size.x, size.y);
-}
-
-void IWindow::SetSize(float width, float height)
-{
-	m_Size.x = width;
-	m_Size.y = height;
+	m_Size = size;
 }
 
 const Vector2& IWindow::GetSize() const
@@ -66,13 +54,7 @@ const Vector2& IWindow::GetSize() const
 
 void IWindow::SetScroll(const Vector2& scroll)
 {
-	SetScroll(scroll.x, scroll.y);
-}
-
-void IWindow::SetScroll(float x, float y)
-{
-	m_Scroll.x = x;
-	m_Scroll.y = y;
+	m_Scroll = scroll;
 }
 
 const Vector2& IWindow::GetScroll() const
@@ -85,14 +67,14 @@ IWindow* IWindow::GetParent() const
 	return m_pParent;
 }
 
-void IWindow::SetId(const tstring& id)
+void IWindow::SetTag(const tstring& tag)
 {
-	m_strId = id;
+	m_strTag = tag;
 }
 
-const tstring& IWindow::GetId() const
+const tstring& IWindow::GetTag() const
 {
-	return m_strId;
+	return m_strTag;
 }
 
 bool IWindow::AddChild(IWindow* pChild, uint index /*= UINT_MAX*/)
@@ -154,22 +136,23 @@ bool IWindow::FindChild(IWindow* pChild)
 	return false;
 }
 
-void IWindow::SystemUpdate(float dt)
-{
-	Update(dt);
-}
-
-void IWindow::SystemRender(uint state)
-{
-	Render(state);
-}
-
-void IWindow::Update(float dt)
+bool IWindow::SystemMouseEvent(MouseEvent& event)
 {
 	// TODO: 
+	return true;
 }
 
-void IWindow::Render(uint state)
+bool IWindow::SystemKeyboardEvent(KeyboardEvent& event)
 {
-	m_pBgStyle->Render(m_Position, m_Size, state);
+	// TODO: 
+	return true;
+}
+
+bool IWindow::IsOnMe(const Vector2& pos)
+{
+	if (pos.x < m_Position.x
+		|| pos.y < m_Position.y
+		|| pos.x > m_Position.x+m_Size.x
+		|| pos.y > m_Position.y+m_Size.y) return false;
+	return true;
 }
