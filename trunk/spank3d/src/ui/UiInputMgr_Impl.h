@@ -10,6 +10,7 @@
 
 #include <ui/IUiInputMgr.h>
 #include <event/MouseEvent.h>
+#include <event/KeyboardEvent.h>
 
 class UiInputMgr_Impl : public IUiInputMgr
 {
@@ -26,6 +27,7 @@ public:
 
 private:
 	bool OnMouseEvent(MouseEvent& event);
+	bool OnKeyboardEvent(KeyboardEvent& event);
 
 };
 #endif // __UIINPUTMGR_IMPL_H__

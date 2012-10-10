@@ -533,6 +533,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ui\controls\Screen.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\controls\Screen.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ui\controls\TitledWindow.cpp"
 					>
 				</File>

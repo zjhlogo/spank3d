@@ -62,8 +62,8 @@ bool Ui::Initialize()
 	m_patchSize.Reset(minPatchSize.x, minPatchSize.y);
 
 	m_pWindow = new TitledWindow(NULL);
-	m_pWindow->SetPosition(200.0f, 200.0f);
-	m_pWindow->SetSize(400.0f, 200.0f);
+	m_pWindow->SetPosition(Vector2(200.0f, 200.0f));
+	m_pWindow->SetSize(Vector2(400.0f, 200.0f));
 
 	return true;
 }
@@ -98,7 +98,7 @@ void Ui::Render()
 	m_pVerticalPatchStyle->Render(Vector2(100.0f, 200.0f), Vector2(m_pVerticalPatchStyle->GetMinSize().x, 200.0f), UiState::STATE_DEFAULT);
 	m_pFontStyle->Render(m_strFPS, Vector2(0.0f, 0.0f), Rect(0.0f, 0.0f, 0.0f, 0.0f), UiState::STATE_DEFAULT);
 
-	m_pWindow->SystemRender(UiState::STATE_DEFAULT);
+	m_pWindow->Render(UiState::STATE_DEFAULT);
 
 	g_pUiRenderer->FlushAll();
 }

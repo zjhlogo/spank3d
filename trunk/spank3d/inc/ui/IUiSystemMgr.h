@@ -9,6 +9,7 @@
 #define __IUISYSTEMMGR_H__
 
 #include "../core/ISingleton.h"
+#include "controls/Screen.h"
 
 class IUiSystemMgr : public ISingleton
 {
@@ -17,6 +18,11 @@ public:
 
 	IUiSystemMgr() {};
 	virtual ~IUiSystemMgr() {};
+
+	virtual Screen* CreateScreen() = 0;
+	virtual Screen* GetScreen(uint index) = 0;
+	virtual bool SwitchScreen(uint index) = 0;
+	virtual Screen* GetCurrScreen() = 0;
 
 	virtual void Update(float dt) = 0;
 	virtual void Render() = 0;

@@ -57,13 +57,9 @@ bool EventDispatcher::DispatchEvent(Event& event)
 			assert(false);
 			continue;
 		}
+
 		++handler.nDepth;
-
-		if (!(handler.pHandler->*handler.pFunc)(event))
-		{
-			assert(false);
-		}
-
+		bool bProcessed = (handler.pHandler->*handler.pFunc)(event);
 		--handler.nDepth;
 	}
 

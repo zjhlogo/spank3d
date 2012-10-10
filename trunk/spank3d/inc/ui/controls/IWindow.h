@@ -11,6 +11,8 @@
 #include "../../core/IObject.h"
 #include "../../math/Vector2.h"
 #include "../style/IGraphicsStyle.h"
+#include "../../event/MouseEvent.h"
+#include "../../event/KeyboardEvent.h"
 #include <vector>
 
 class IWindow : public IObject
@@ -25,34 +27,31 @@ public:
 	virtual ~IWindow();
 
 	void SetPosition(const Vector2& pos);
-	void SetPosition(float x, float y);
 	const Vector2& GetPosition() const;
 	Vector2 GetPositionAbs() const;
 
 	void SetSize(const Vector2& size);
-	void SetSize(float width, float height);
 	const Vector2& GetSize() const;
 
 	void SetScroll(const Vector2& scroll);
-	void SetScroll(float x, float y);
 	const Vector2& GetScroll() const;
 
 	IWindow* GetParent() const;
 
-	void SetId(const tstring& id);
-	const tstring& GetId() const;
+	void SetTag(const tstring& tag);
+	const tstring& GetTag() const;
 
 	bool AddChild(IWindow* pChild, uint index = UINT_MAX);
 	bool RemoveChild(IWindow* pChild);
 	void RemoveAllChildren();
 	bool FindChild(IWindow* pChild);
 
-	void SystemUpdate(float dt);
-	void SystemRender(uint state);
+	bool SystemMouseEvent(MouseEvent& event);
+	bool SystemKeyboardEvent(KeyboardEvent& event);
 
-protected:
-	virtual void Update(float dt);
-	virtual void Render(uint state);
+	bool IsOnMe(const Vector2& pos);
+
+	virtual void Render(uint state) = 0;
 
 protected:
 	Vector2 m_Position;
@@ -60,7 +59,7 @@ protected:
 	Vector2 m_Scroll;
 
 	IWindow* m_pParent;
-	tstring m_strId;
+	tstring m_strTag;
 	TV_WINDOW m_vChildren;
 
 	IGraphicsStyle* m_pBgStyle;

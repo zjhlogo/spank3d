@@ -27,16 +27,26 @@ UiInputMgr_Impl& UiInputMgr_Impl::GetInstance()
 bool UiInputMgr_Impl::Initialize()
 {
 	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->RegisterEvent(EID_KEYBOARD_EVENT, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
 	return true;
 }
 
 void UiInputMgr_Impl::Terminate()
 {
-	// TODO: 
+	g_pDevice->UnregisterEvent(EID_MOUSE_EVENT, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->UnregisterEvent(EID_KEYBOARD_EVENT, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
 }
 
 bool UiInputMgr_Impl::OnMouseEvent(MouseEvent& event)
 {
-	// TODO: 
+	Screen* pCurrScreen = g_pUiSystemMgr->GetCurrScreen();
+	pCurrScreen->SystemMouseEvent(event);
+	return true;
+}
+
+bool UiInputMgr_Impl::OnKeyboardEvent(KeyboardEvent& event)
+{
+	Screen* pCurrScreen = g_pUiSystemMgr->GetCurrScreen();
+	pCurrScreen->SystemKeyboardEvent(event);
 	return true;
 }
