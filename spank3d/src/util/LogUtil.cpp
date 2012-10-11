@@ -9,6 +9,7 @@
 #include <util/StringUtil.h>
 #include <util/SystemUtil.h>
 #include <util/FileUtil.h>
+#include <util/DebugUtil.h>
 
 #if (ENABLE_LOG)
 tstring g_strBuffer;
@@ -58,6 +59,7 @@ void LogUtil::Log(const tstring& strMsg)
 	StringUtil::tchar2char(strAnsiText, strText.c_str());
 
 	m_pLogFile->Write(strAnsiText.c_str(), (uint)strAnsiText.length());
+	DebugUtil::DebugOut(strText);
 }
 
 bool LogUtil::CreateLogFile(const tstring& strFile)

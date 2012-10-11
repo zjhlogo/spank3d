@@ -94,9 +94,11 @@ public:
 	bool SetWindowState(uint stateMask, bool set);
 	bool CheckWindowState(uint stateMask);
 
-	virtual void Render(uint state) = 0;
+	void SystemRender(uint state);
 
 protected:
+	virtual void Render(uint state) = 0;
+
 	IWindow* FindChildUnderPoint(const Vector2& pos);
 	bool PreProcessMouseEvent(const MouseEvent& event);
 	bool PostProcessMouseEvent(const MouseEvent& event);

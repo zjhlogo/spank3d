@@ -23,4 +23,5 @@ void IApp::Run()
 	// initialize core
 	if (!Core::GetInstance().Initialize()) return;
 	g_pCore->Run();
+	Core::GetInstance().Terminate();
 }
