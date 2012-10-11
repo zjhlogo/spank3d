@@ -10,9 +10,10 @@
 
 IWindow::IWindow(IWindow* pParent)
 {
-	m_pParent = pParent;
+	m_pParent = NULL;
 	m_pBgStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
 	m_WindowState = WS_DEFAULT;
+	if (pParent) pParent->AddChild(this);
 }
 
 IWindow::~IWindow()
@@ -235,6 +236,17 @@ bool IWindow::SetWindowState(uint stateMask, bool set)
 bool IWindow::CheckWindowState(uint stateMask)
 {
 	return (m_WindowState & stateMask) == stateMask;
+}
+
+void IWindow::SystemRender(uint state)
+{
+	Render(state);
+
+	for (TV_WINDOW::const_iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
+	{
+		IWindow* pChild = (*it);
+		pChild->SystemRender(state);
+	}
 }
 
 IWindow* IWindow::FindChildUnderPoint(const Vector2& pos)

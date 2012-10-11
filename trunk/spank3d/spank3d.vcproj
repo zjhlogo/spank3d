@@ -330,6 +330,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\util\DebugUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\util\DebugUtil.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\util\FileUtil.cpp"
 				>
 			</File>

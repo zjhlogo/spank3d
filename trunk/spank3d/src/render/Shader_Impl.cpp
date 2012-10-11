@@ -63,16 +63,16 @@ bool Shader_Impl::SetTexture(ITexture* pTexture, const tstring& strName, uint nI
 	Texture_Impl* pTexture_Impl = (Texture_Impl*)pTexture;
 	glActiveTexture(GL_TEXTURE0+nIndex);
 	uint eError = glGetError();
-	if (eError != GL_NO_ERROR) LOG("glActiveTexture error code: 0x%04x", eError);
+	if (eError != GL_NO_ERROR) LOG(_("glActiveTexture error code: 0x%04x"), eError);
 
 	// bind texture
 	glBindTexture(GL_TEXTURE_2D, pTexture_Impl->GetTextureId());
 	eError = glGetError();
-	if (eError != GL_NO_ERROR) LOG("glBindTexture error code: 0x%04x", eError);
+	if (eError != GL_NO_ERROR) LOG(_("glBindTexture error code: 0x%04x"), eError);
 
 	glUniform1i(nLoc, nIndex);
 	eError = glGetError();
-	if (eError != GL_NO_ERROR) LOG("glUniform1i error code: 0x%04x", eError);
+	if (eError != GL_NO_ERROR) LOG(_("glUniform1i error code: 0x%04x"), eError);
 
 	return true;
 }

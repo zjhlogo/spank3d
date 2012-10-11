@@ -9,6 +9,7 @@
 #include "UiRenderer_Impl.h"
 #include "UiResMgr_Impl.h"
 #include "UiInputMgr_Impl.h"
+#include <ui/UiState.h>
 #include <Spank3d.h>
 
 UiSystemMgr_Impl::UiSystemMgr_Impl()
@@ -84,7 +85,7 @@ void UiSystemMgr_Impl::Update(float dt)
 
 void UiSystemMgr_Impl::Render()
 {
-	// TODO: 
+	m_pCurrScreen->SystemRender(UiState::STATE_DEFAULT);
 }
 
 void UiSystemMgr_Impl::DestroyScreens()

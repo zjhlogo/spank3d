@@ -61,7 +61,8 @@ bool Ui::Initialize()
 	m_patchPos.Reset(Math::Random(0.0f, wndSize.x-minPatchSize.x), Math::Random(0.0f, wndSize.y-minPatchSize.y));
 	m_patchSize.Reset(minPatchSize.x, minPatchSize.y);
 
-	m_pWindow = new TitledWindow(NULL);
+	Screen* pMainScreen = g_pUiSystemMgr->GetCurrScreen();
+	m_pWindow = new TitledWindow(pMainScreen);
 	m_pWindow->SetPosition(Vector2(200.0f, 200.0f));
 	m_pWindow->SetSize(Vector2(400.0f, 200.0f));
 
@@ -86,6 +87,8 @@ void Ui::Update(float dt)
 		StringUtil::strformat(m_strFPS, _("%d FPS"), m_nFPSFrame);
 		m_nFPSFrame = 0;
 	}
+
+	g_pUiSystemMgr->Update(dt);
 }
 
 void Ui::Render()
@@ -98,7 +101,7 @@ void Ui::Render()
 	m_pVerticalPatchStyle->Render(Vector2(100.0f, 200.0f), Vector2(m_pVerticalPatchStyle->GetMinSize().x, 200.0f), UiState::STATE_DEFAULT);
 	m_pFontStyle->Render(m_strFPS, Vector2(0.0f, 0.0f), Rect(0.0f, 0.0f, 0.0f, 0.0f), UiState::STATE_DEFAULT);
 
-	m_pWindow->Render(UiState::STATE_DEFAULT);
+	g_pUiSystemMgr->Render();
 
 	g_pUiRenderer->FlushAll();
 }

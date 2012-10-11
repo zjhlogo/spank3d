@@ -34,9 +34,7 @@ private:
 
 #if (ENABLE_LOG)
 	extern tstring g_strBuffer;
-	#define LOG(pstrFormat, ...)																\
-		StringUtil::strformat(g_strBuffer, pstrFormat, __VA_ARGS__);							\
-		LogUtil::GetInstance().Log(g_strBuffer)
+	#define LOG(pstrFormat, ...) StringUtil::strformat(g_strBuffer, pstrFormat, __VA_ARGS__), LogUtil::GetInstance().Log(g_strBuffer)
 #else
 	#define LOG(pstrFormat, ...) 0
 #endif
