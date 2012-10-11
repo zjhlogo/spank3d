@@ -91,7 +91,7 @@ void Device_Impl::StartPerform()
 	m_fLastTime = GetTime();
 
 	// notify start perform
-	Event event(EID_START_PERFORM, this);
+	Event event(EID_START_PERFORM);
 	DispatchEvent(event);
 
 	MSG msg;
@@ -182,7 +182,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvent(MouseEvent::MET_LBUTTON_DOWN, g_pDevice);
+			MouseEvent mouseEvent(MouseEvent::MET_LBUTTON_DOWN);
 			mouseEvent.SetPosition(x, y);
 			g_pDevice->DispatchEvent(mouseEvent);
 
@@ -196,7 +196,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvent(MouseEvent::MET_LBUTTON_UP, g_pDevice);
+			MouseEvent mouseEvent(MouseEvent::MET_LBUTTON_UP);
 			mouseEvent.SetPosition(x, y);
 			g_pDevice->DispatchEvent(mouseEvent);
 
@@ -212,9 +212,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvent(MouseEvent::MET_MOUSE_MOVE, g_pDevice);
+			MouseEvent mouseEvent(MouseEvent::MET_MOUSE_MOVE);
 			mouseEvent.SetPosition(x, y);
-			mouseEvent.SetOffset((int)x-s_nLastMousePosX, (int)y-s_nLastMousePosY);
+			mouseEvent.SetOffset(float(x-s_nLastMousePosX), float(y-s_nLastMousePosY));
 			g_pDevice->DispatchEvent(mouseEvent);
 
 			s_nLastMousePosX = x;
@@ -228,7 +228,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short wheel = HIWORD(wParam);
 
 			// dispatch event
-			MouseEvent mouseEvent(MouseEvent::MET_MOUSE_WHEEL, g_pDevice);
+			MouseEvent mouseEvent(MouseEvent::MET_MOUSE_WHEEL);
 			mouseEvent.SetPosition(x, y);
 			mouseEvent.SetWheelDetail(wheel);
 			g_pDevice->DispatchEvent(mouseEvent);
@@ -237,7 +237,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		{
 			// dispatch event
-			KeyboardEvent keyboardEvent(KeyboardEvent::KET_KEY_DOWN, g_pDevice);
+			KeyboardEvent keyboardEvent(KeyboardEvent::KET_KEY_DOWN);
 			keyboardEvent.SetKeyCode(wParam);
 			g_pDevice->DispatchEvent(keyboardEvent);
 		}
@@ -245,7 +245,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYUP:
 		{
 			// dispatch event
-			KeyboardEvent keyboardEvent(KeyboardEvent::KET_KEY_UP, g_pDevice);
+			KeyboardEvent keyboardEvent(KeyboardEvent::KET_KEY_UP);
 			keyboardEvent.SetKeyCode(wParam);
 			g_pDevice->DispatchEvent(keyboardEvent);
 		}

@@ -19,7 +19,7 @@ Mesh_Impl::Mesh_Impl(const tstring& strFullPath)
 Mesh_Impl::~Mesh_Impl()
 {
 	Destroy();
-	DispatchEvent(Event(EID_OBJECT_DESTROYED, this));
+	DispatchEvent(Event(EID_OBJECT_DESTROYED));
 }
 
 void Mesh_Impl::Init()

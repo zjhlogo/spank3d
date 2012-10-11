@@ -47,6 +47,7 @@ bool EventDispatcher::DispatchEvent(Event& event)
 	TP_EVENT_HANDLER range = m_EventMap.equal_range(event.GetId());
 	if (range.first == range.second) return false;
 
+	event.SetEventDispatcher(this);
 	for (TM_EVENT_HANDLER::iterator it = range.first; it != range.second; ++it)
 	{
 		EVENT_HANDLER& handler = it->second;

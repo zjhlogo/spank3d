@@ -190,14 +190,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\inc\math\Vector2i.h"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\math\Vector2i.inl"
-				>
-			</File>
-			<File
 				RelativePath=".\inc\math\Vector3.h"
 				>
 			</File>

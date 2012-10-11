@@ -17,10 +17,12 @@ class Event
 public:
 	RTTI_DEF(Event, NoRtti);
 
-	Event(uint nId, EventDispatcher* pDispatcher);
+	Event(uint nId);
 	virtual ~Event();
 
 	uint GetId() const;
+
+	void SetEventDispatcher(EventDispatcher* pDispatcher);
 	EventDispatcher* GetEventDispatcher() const;
 
 private:

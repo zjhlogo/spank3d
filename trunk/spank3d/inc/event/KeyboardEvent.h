@@ -22,7 +22,8 @@ public:
 public:
 	RTTI_DEF(KeyboardEvent, Event);
 
-	KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType, EventDispatcher* pDispatcher);
+	KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType);
+	KeyboardEvent(uint nId, KEYBOARD_EVENT_TYPE eEventType);
 	virtual ~KeyboardEvent();
 
 	KEYBOARD_EVENT_TYPE GetKeyboardEventType() const;

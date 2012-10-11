@@ -70,7 +70,7 @@ bool Ui::Initialize()
 
 void Ui::Terminate()
 {
-
+	SAFE_DELETE(m_pWindow);
 }
 
 void Ui::Update(float dt)
