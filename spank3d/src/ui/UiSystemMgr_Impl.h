@@ -31,15 +31,30 @@ public:
 	virtual bool SwitchScreen(uint index);
 	virtual Screen* GetCurrScreen();
 
+	virtual void SetWindowDownState(IWindow* pWindow);
+	virtual void SetWindowHoverState(IWindow* pWindow);
+	virtual void SetWindowFocusState(IWindow* pWindow);
+
+	virtual IWindow* GetDownWindow();
+	virtual IWindow* GetHoverWindow();
+	virtual IWindow* GetFocusWindow();
+
 	virtual void Update(float dt);
 	virtual void Render();
 
 private:
 	void DestroyScreens();
+	bool OnDownWindowDestroyed(Event& event);
+	bool OnHoverWindowDestroyed(Event& event);
+	bool OnFocusWindowDestroyed(Event& event);
 
 private:
 	TV_SCREEN m_vScreen;
 	Screen* m_pCurrScreen;
+
+	IWindow* m_pDownWindow;
+	IWindow* m_pHoverWindow;
+	IWindow* m_pFocusWindow;
 
 };
 #endif // __UISYSTEMMGR_IMPL_H__

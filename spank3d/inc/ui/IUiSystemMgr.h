@@ -24,6 +24,14 @@ public:
 	virtual bool SwitchScreen(uint index) = 0;
 	virtual Screen* GetCurrScreen() = 0;
 
+	virtual void SetWindowDownState(IWindow* pWindow) = 0;
+	virtual void SetWindowHoverState(IWindow* pWindow) = 0;
+	virtual void SetWindowFocusState(IWindow* pWindow) = 0;
+
+	virtual IWindow* GetDownWindow() = 0;
+	virtual IWindow* GetHoverWindow() = 0;
+	virtual IWindow* GetFocusWindow() = 0;
+
 	virtual void Update(float dt) = 0;
 	virtual void Render() = 0;
 

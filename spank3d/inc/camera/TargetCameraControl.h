@@ -45,7 +45,7 @@ public:
 	virtual bool HandleKeyboardEvent(KeyboardEvent& keyboardEvent);
 
 private:
-	void DoMouseMove(const Vector2i& offset);
+	void DoMouseMove(const Vector2& offset);
 	void DoMouseWheel(float wheel);
 	void UpdateMatrix();
 

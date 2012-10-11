@@ -66,7 +66,7 @@ bool TargetCameraControl::HandleKeyboardEvent(KeyboardEvent& keyboardEvent)
 	return false;
 }
 
-void TargetCameraControl::DoMouseMove(const Vector2i& offset)
+void TargetCameraControl::DoMouseMove(const Vector2& offset)
 {
 	m_fRotX += offset.x*0.01f;
 	m_fRotY -= offset.y*0.01f;
