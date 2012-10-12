@@ -6,12 +6,13 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/controls/IWindow.h>
+#include <ui/UiState.h>
 #include <Spank3d.h>
 
 IWindow::IWindow(IWindow* pParent)
 {
 	m_pParent = NULL;
-	m_pBgStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_default"));
+	m_pBgStyle = g_pUiResMgr->FindNinePatchStyle(_("nps_border"));
 	m_WindowState = WS_DEFAULT;
 	if (pParent) pParent->AddChild(this);
 }
@@ -217,35 +218,20 @@ bool IWindow::IsOnMe(const Vector2& pos)
 	return true;
 }
 
-bool IWindow::SetWindowState(uint stateMask, bool set)
-{
-	uint oldState = m_WindowState;
-
-	if (set) 
-	{
-		m_WindowState |= stateMask;
-	}
-	else
-	{
-		m_WindowState &= (~stateMask);
-	}
-
-	return (oldState != m_WindowState);
-}
-
-bool IWindow::CheckWindowState(uint stateMask)
-{
-	return (m_WindowState & stateMask) == stateMask;
-}
-
 void IWindow::SystemRender(uint state)
 {
-	Render(state);
+	uint myState = UiState::STATE_DEFAULT;
+	if (!CheckWindowState(WS_ENABLE) || (state & UiState::STATE_DISABLED) == UiState::STATE_DISABLED) myState |= UiState::STATE_DISABLED;
+ 	if (CheckWindowState(WS_MOUSE_HOVER)) myState |= UiState::STATE_HOVER;
+ 	if (CheckWindowState(WS_MOUSE_DOWN)) myState |= UiState::STATE_DOWN;
+	if (CheckWindowState(WS_FOCUS)) myState |= UiState::STATE_FOCUS;
+
+	Render(myState);
 
 	for (TV_WINDOW::const_iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
 	{
 		IWindow* pChild = (*it);
-		pChild->SystemRender(state);
+		pChild->SystemRender(myState);
 	}
 }
 
@@ -277,6 +263,8 @@ bool IWindow::PreProcessMouseEvent(const MouseEvent& event)
 	case MouseEvent::MET_MOUSE_MOVE:
 		// set hover state
 		g_pUiSystemMgr->SetWindowHoverState(this);
+		// set down state
+		if (g_pUiInputMgr->IsLButtonDown()) g_pUiSystemMgr->SetWindowDownState(this);
 		break;
 	}
 

@@ -30,7 +30,7 @@ bool HorizontalPatchStyle::Render(const Vector2& pos, const Vector2& size, uint 
 	for (TV_HORIZONTAL_PATCH_INFO::iterator it = m_vHorizontalPatchInfo.begin(); it != m_vHorizontalPatchInfo.end(); ++it)
 	{
 		HORIZONTAL_PATCH_INFO *pHorizontalPatchInfo = (*it);
-		if ((pHorizontalPatchInfo->nState & state) == pHorizontalPatchInfo->nState)
+		if ((pHorizontalPatchInfo->nState & state) != 0)
 		{
 			return RenderHorizontalPatchPiece(*pHorizontalPatchInfo, pos, size);
 		}

@@ -27,27 +27,9 @@ public:
 	virtual void Render();
 
 private:
-	void UpdatePosition(float dt);
-	void UpdatePatchSize(float dt);
-
-private:
-	PieceInfo* m_pPieceSun;
-	Vector2 m_sunSpeed;
-	Vector2 m_sunPosition;
-
-	BitmapStyle* m_pBitmapStyle;
-
-	NinePatchStyle* m_pNinePatchStyle;
-	Vector2 m_patchSpeed;
-	Vector2 m_patchPos;
-	Vector2 m_patchSize;
-
-	HorizontalPatchStyle* m_pHorizontalPatchStyle;
-	VerticalPatchStyle* m_pVerticalPatchStyle;
-	IFontStyle* m_pFontStyle;
-
 	TitledWindow* m_pWindow;
 
+	IFontStyle* m_pFontStyle;
 	uint m_nFPSFrame;
 	float m_fFPSTime;
 	tstring m_strFPS;

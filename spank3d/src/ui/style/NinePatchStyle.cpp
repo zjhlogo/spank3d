@@ -30,7 +30,7 @@ bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size, uint state)
 	for (TV_NINE_PATCH_INFO::iterator it = m_vNinePatchInfo.begin(); it != m_vNinePatchInfo.end(); ++it)
 	{
 		NINE_PATCH_INFO *pNinePatchInfo = (*it);
-		if ((pNinePatchInfo->nState & state) == pNinePatchInfo->nState)
+		if ((pNinePatchInfo->nState & state) != 0)
 		{
 			return RenderNinePatchPiece(*pNinePatchInfo, pos, size);
 		}

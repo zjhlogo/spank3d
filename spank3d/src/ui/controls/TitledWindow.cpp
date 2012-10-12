@@ -11,7 +11,7 @@
 TitledWindow::TitledWindow(IWindow* parent)
 :IWindow(parent)
 {
-	m_pTitleStyle = g_pUiResMgr->FindHorizontalPatchStyle(_("hps_default_blue"));
+	m_pTitleStyle = g_pUiResMgr->FindHorizontalPatchStyle(_("hps_title"));
 	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
 }
 
