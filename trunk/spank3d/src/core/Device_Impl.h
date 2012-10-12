@@ -15,8 +15,8 @@ class Device_Impl : public IDevice
 public:
 	enum CONST_DEFINE
 	{
-		DEFAULT_WINDOW_WIDTH = 1024,
-		DEFAULT_WINDOW_HEIGHT = 768,
+		DEFAULT_WINDOW_WIDTH = 800,
+		DEFAULT_WINDOW_HEIGHT = 600,
 // 		DEFAULT_FPS = 60,
 	};
 

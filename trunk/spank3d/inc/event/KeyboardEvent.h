@@ -28,12 +28,12 @@ public:
 
 	KEYBOARD_EVENT_TYPE GetKeyboardEventType() const;
 
-	void SetKeyCode(uint nKeyCode);
-	uint GetKeyCode() const;
+	void SetKeyCode(uchar nKeyCode);
+	uchar GetKeyCode() const;
 
 private:
 	KEYBOARD_EVENT_TYPE m_eKeyboardEventType;
-	uint m_nKeyCode;
+	uchar m_nKeyCode;
 
 };
 #endif // __KEYBOARDEVENT_H__

@@ -9,6 +9,7 @@
 #define __IUIINPUTMGR_H__
 
 #include "../core/ISingleton.h"
+#include "../math/Vector2.h"
 
 class IUiInputMgr : public ISingleton
 {
@@ -18,5 +19,11 @@ public:
 	IUiInputMgr() {};
 	virtual ~IUiInputMgr() {};
 
+	virtual bool IsKeyDown(uchar keyCode) const = 0;
+	virtual bool IsLButtonDown() const = 0;
+	virtual bool IsMButtonDown() const = 0;
+	virtual bool IsRButtonDown() const = 0;
+
+	virtual const Vector2& GetMousePos() const = 0;
 };
 #endif // __IUIINPUTMGR_H__

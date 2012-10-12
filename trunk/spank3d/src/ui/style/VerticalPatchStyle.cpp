@@ -30,7 +30,7 @@ bool VerticalPatchStyle::Render(const Vector2& pos, const Vector2& size, uint st
 	for (TV_VERTICAL_PATCH_INFO::iterator it = m_vVerticalPatchInfo.begin(); it != m_vVerticalPatchInfo.end(); ++it)
 	{
 		VERTICAL_PATCH_INFO *pVerticalPatchInfo = (*it);
-		if ((pVerticalPatchInfo->nState & state) == pVerticalPatchInfo->nState)
+		if ((pVerticalPatchInfo->nState & state) != 0)
 		{
 			return RenderVerticalPatchPiece(*pVerticalPatchInfo, pos, size);
 		}

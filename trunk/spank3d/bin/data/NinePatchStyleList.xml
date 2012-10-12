@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <NinePatchStyleList>
-  <NinePatchStyle id="nps_default" minW="5" minH="5" paddingL="1" paddingT="1" paddingR="1" paddingB="1">
-    <State id="STATE_DEFAULT" piece="piece_default" minX="1" minY="1" maxX="4" maxY="4" />
-  </NinePatchStyle>
-  <NinePatchStyle id="nps_default_red" minW="5" minH="5" paddingL="1" paddingT="1" paddingR="1" paddingB="1">
-    <State id="STATE_DEFAULT" piece="piece_default_red" minX="1" minY="1" maxX="4" maxY="4" />
+  <NinePatchStyle id="nps_border" minW="5" minH="5" paddingL="1" paddingT="1" paddingR="1" paddingB="1">
+    <State id="STATE_DISABLED" piece="piece_border_default" minX="1" minY="1" maxX="4" maxY="4" />
+    <State id="STATE_DOWN" piece="piece_border_down" minX="1" minY="1" maxX="4" maxY="4" />
+    <State id="STATE_HOVER" piece="piece_border_hover" minX="1" minY="1" maxX="4" maxY="4" />
+    <State id="STATE_DEFAULT" piece="piece_border_default" minX="1" minY="1" maxX="4" maxY="4" />
   </NinePatchStyle>
 </NinePatchStyleList>

@@ -91,8 +91,26 @@ public:
 
 	bool IsOnMe(const Vector2& pos);
 
-	bool SetWindowState(uint stateMask, bool set);
-	bool CheckWindowState(uint stateMask);
+	inline bool SetWindowState(uint stateMask, bool set)
+	{
+		uint oldState = m_WindowState;
+
+		if (set) 
+		{
+			m_WindowState |= stateMask;
+		}
+		else
+		{
+			m_WindowState &= (~stateMask);
+		}
+
+		return (oldState != m_WindowState);
+	};
+
+	inline bool CheckWindowState(uint stateMask)
+	{
+		return (m_WindowState & stateMask) == stateMask;
+	};
 
 	void SystemRender(uint state);
 

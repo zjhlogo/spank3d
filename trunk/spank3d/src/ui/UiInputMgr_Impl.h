@@ -15,6 +15,16 @@
 class UiInputMgr_Impl : public IUiInputMgr
 {
 public:
+	enum CONST_DEFINE
+	{
+		VK_LBUTTON = 0x01,
+		VK_RBUTTON = 0x02,
+		VK_MBUTTON = 0x04,
+
+		NUM_KEYS = 256,
+	};
+
+public:
 	RTTI_DEF(UiInputMgr_Impl, IUiInputMgr);
 
 	UiInputMgr_Impl();
@@ -25,9 +35,20 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
+	virtual bool IsKeyDown(uchar keyCode) const;
+	virtual bool IsLButtonDown() const;
+	virtual bool IsMButtonDown() const;
+	virtual bool IsRButtonDown() const;
+
+	virtual const Vector2& GetMousePos() const;
+
 private:
 	bool OnMouseEvent(MouseEvent& event);
 	bool OnKeyboardEvent(KeyboardEvent& event);
+
+private:
+	bool m_KeyMap[NUM_KEYS];
+	Vector2 m_MousePos;
 
 };
 #endif // __UIINPUTMGR_IMPL_H__

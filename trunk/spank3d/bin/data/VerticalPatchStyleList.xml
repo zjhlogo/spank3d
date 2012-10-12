@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VerticalPatchStyleList>
-  <VerticalPatchStyle id="vps_default" minW="5" minH="5" paddingL="1" paddingT="1" paddingR="1" paddingB="1">
-    <State id="STATE_DEFAULT" piece="piece_default" minY="1" maxY="4" />
+  <VerticalPatchStyle id="vps_border" minW="5" minH="5" paddingL="1" paddingT="1" paddingR="1" paddingB="1">
+    <State id="STATE_DEFAULT" piece="piece_border_default" minY="1" maxY="4" />
   </VerticalPatchStyle>
 </VerticalPatchStyleList>

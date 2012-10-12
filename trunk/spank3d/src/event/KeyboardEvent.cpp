@@ -31,12 +31,12 @@ KeyboardEvent::KEYBOARD_EVENT_TYPE KeyboardEvent::GetKeyboardEventType() const
 	return m_eKeyboardEventType;
 }
 
-void KeyboardEvent::SetKeyCode(uint nKeyCode)
+void KeyboardEvent::SetKeyCode(uchar nKeyCode)
 {
 	m_nKeyCode = nKeyCode;
 }
 
-uint KeyboardEvent::GetKeyCode() const
+uchar KeyboardEvent::GetKeyCode() const
 {
 	return m_nKeyCode;
 }

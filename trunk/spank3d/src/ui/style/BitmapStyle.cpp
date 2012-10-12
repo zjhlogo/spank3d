@@ -31,7 +31,7 @@ bool BitmapStyle::Render(const Vector2& pos, const Vector2& size, uint state)
 	for (TV_BITMAP_INFO::iterator it = m_vBitmapInfo.begin(); it != m_vBitmapInfo.end(); ++it)
 	{
 		BITMAP_INFO *pBitmapInfo = (*it);
-		if ((pBitmapInfo->nState & state) == pBitmapInfo->nState)
+		if ((pBitmapInfo->nState & state) != 0)
 		{
 			return RenderBitmapPiece(*pBitmapInfo, pos, size);
 		}
