@@ -831,6 +831,7 @@ public:
 	int QueryIntValue( int* _value ) const;
 	/// QueryDoubleValue examines the value string. See QueryIntValue().
 	int QueryDoubleValue( double* _value ) const;
+	int QueryFloatValue( float* fval ) const;
 
 	void SetName( const char* _name )	{ name = _name; }				///< Set the name of this attribute.
 	void SetValue( const char* _value )	{ value = _value; }				///< Set the value.
@@ -974,6 +975,7 @@ public:
 		is non-null.
 	*/
 	const char* Attribute( const char* name, double* d ) const;
+	const char* Attribute( const char* name, float* f ) const;
 
 	/** QueryIntAttribute examines the attribute - it is an alternative to the
 		Attribute() method with richer error checking.

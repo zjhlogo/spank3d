@@ -30,6 +30,7 @@ public:
 	virtual Screen* GetScreen(uint index);
 	virtual bool SwitchScreen(uint index);
 	virtual Screen* GetCurrScreen();
+	virtual const Rect& GetScreenRect() const;
 
 	virtual void SetWindowDownState(IWindow* pWindow);
 	virtual void SetWindowHoverState(IWindow* pWindow);
@@ -51,6 +52,7 @@ private:
 private:
 	TV_SCREEN m_vScreen;
 	Screen* m_pCurrScreen;
+	Rect m_ScreenRect;
 
 	IWindow* m_pDownWindow;
 	IWindow* m_pHoverWindow;

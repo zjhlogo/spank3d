@@ -19,7 +19,9 @@ public:
 	virtual ~Screen();
 
 	uint GetScreenIndex() const;
-	virtual void Render(uint state);
+
+protected:
+	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 private:
 	uint m_nScreenIndex;

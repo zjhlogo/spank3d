@@ -25,14 +25,14 @@ NinePatchStyle::~NinePatchStyle()
 	m_vNinePatchInfo.clear();
 }
 
-bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size, uint state)
+bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state)
 {
 	for (TV_NINE_PATCH_INFO::iterator it = m_vNinePatchInfo.begin(); it != m_vNinePatchInfo.end(); ++it)
 	{
 		NINE_PATCH_INFO *pNinePatchInfo = (*it);
 		if ((pNinePatchInfo->nState & state) != 0)
 		{
-			return RenderNinePatchPiece(*pNinePatchInfo, pos, size);
+			return RenderNinePatchPiece(*pNinePatchInfo, pos, size, clipRect);
 		}
 	}
 
@@ -57,11 +57,10 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 		const PieceInfo* pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);
 		if (!pPieceInfo) continue;
 
-		int minX = 0;
-		int minY = 0;
-		int maxX = 0;
-		int maxY = 0;
-
+		float minX = 0;
+		float minY = 0;
+		float maxX = 0;
+		float maxY = 0;
 		pXmlState->Attribute(_("minX"), &minX);
 		pXmlState->Attribute(_("minY"), &minY);
 		pXmlState->Attribute(_("maxX"), &maxX);
@@ -70,9 +69,9 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 		NINE_PATCH_INFO* pPatchInfo = new NINE_PATCH_INFO();
 		pPatchInfo->nState = nState;
 		pPatchInfo->pPieceInfo = pPieceInfo;
-		pPatchInfo->pieceSize[0].Reset(float(minX), float(minY));
-		pPatchInfo->pieceSize[1].Reset(float(maxX-minX), float(maxY-minY));
-		pPatchInfo->pieceSize[2].Reset(float(pPieceInfo->width-maxX), float(pPieceInfo->height-maxY));
+		pPatchInfo->pieceSize[0].Reset(minX, minY);
+		pPatchInfo->pieceSize[1].Reset(maxX-minX, maxY-minY);
+		pPatchInfo->pieceSize[2].Reset(pPieceInfo->width-maxX, pPieceInfo->height-maxY);
 
 		float u[4];
 		u[0] = pPieceInfo->u;
@@ -132,7 +131,7 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 	return true;
 }
 
-bool NinePatchStyle::RenderNinePatchPiece(NINE_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size)
+bool NinePatchStyle::RenderNinePatchPiece(NINE_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)
 {
 	static ushort s_Indis[NUM_INDIS] =
 	{
@@ -188,6 +187,76 @@ bool NinePatchStyle::RenderNinePatchPiece(NINE_PATCH_INFO& patchInfo, const Vect
 	patchInfo.verts[14].y = py[3];
 	patchInfo.verts[15].x = px[3];
 	patchInfo.verts[15].y = py[3];
+
+	patchInfo.verts[0].cl = clipRect.x;
+	patchInfo.verts[1].cl = clipRect.x;
+	patchInfo.verts[2].cl = clipRect.x;
+	patchInfo.verts[3].cl = clipRect.x;
+	patchInfo.verts[4].cl = clipRect.x;
+	patchInfo.verts[5].cl = clipRect.x;
+	patchInfo.verts[6].cl = clipRect.x;
+	patchInfo.verts[7].cl = clipRect.x;
+	patchInfo.verts[8].cl = clipRect.x;
+	patchInfo.verts[9].cl = clipRect.x;
+	patchInfo.verts[10].cl = clipRect.x;
+	patchInfo.verts[11].cl = clipRect.x;
+	patchInfo.verts[12].cl = clipRect.x;
+	patchInfo.verts[13].cl = clipRect.x;
+	patchInfo.verts[14].cl = clipRect.x;
+	patchInfo.verts[15].cl = clipRect.x;
+
+	float right = clipRect.x+clipRect.width;
+	patchInfo.verts[0].cr = right;
+	patchInfo.verts[1].cr = right;
+	patchInfo.verts[2].cr = right;
+	patchInfo.verts[3].cr = right;
+	patchInfo.verts[4].cr = right;
+	patchInfo.verts[5].cr = right;
+	patchInfo.verts[6].cr = right;
+	patchInfo.verts[7].cr = right;
+	patchInfo.verts[8].cr = right;
+	patchInfo.verts[9].cr = right;
+	patchInfo.verts[10].cr = right;
+	patchInfo.verts[11].cr = right;
+	patchInfo.verts[12].cr = right;
+	patchInfo.verts[13].cr = right;
+	patchInfo.verts[14].cr = right;
+	patchInfo.verts[15].cr = right;
+
+	patchInfo.verts[0].ct = clipRect.y;
+	patchInfo.verts[1].ct = clipRect.y;
+	patchInfo.verts[2].ct = clipRect.y;
+	patchInfo.verts[3].ct = clipRect.y;
+	patchInfo.verts[4].ct = clipRect.y;
+	patchInfo.verts[5].ct = clipRect.y;
+	patchInfo.verts[6].ct = clipRect.y;
+	patchInfo.verts[7].ct = clipRect.y;
+	patchInfo.verts[8].ct = clipRect.y;
+	patchInfo.verts[9].ct = clipRect.y;
+	patchInfo.verts[10].ct = clipRect.y;
+	patchInfo.verts[11].ct = clipRect.y;
+	patchInfo.verts[12].ct = clipRect.y;
+	patchInfo.verts[13].ct = clipRect.y;
+	patchInfo.verts[14].ct = clipRect.y;
+	patchInfo.verts[15].ct = clipRect.y;
+
+	float bottom = clipRect.y+clipRect.height;
+	patchInfo.verts[0].cb = bottom;
+	patchInfo.verts[1].cb = bottom;
+	patchInfo.verts[2].cb = bottom;
+	patchInfo.verts[3].cb = bottom;
+	patchInfo.verts[4].cb = bottom;
+	patchInfo.verts[5].cb = bottom;
+	patchInfo.verts[6].cb = bottom;
+	patchInfo.verts[7].cb = bottom;
+	patchInfo.verts[8].cb = bottom;
+	patchInfo.verts[9].cb = bottom;
+	patchInfo.verts[10].cb = bottom;
+	patchInfo.verts[11].cb = bottom;
+	patchInfo.verts[12].cb = bottom;
+	patchInfo.verts[13].cb = bottom;
+	patchInfo.verts[14].cb = bottom;
+	patchInfo.verts[15].cb = bottom;
 
 	g_pUiRenderer->DrawTriangleList(patchInfo.verts, NUM_VERTS, s_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
 	return false;

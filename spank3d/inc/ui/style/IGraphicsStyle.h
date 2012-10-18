@@ -43,7 +43,7 @@ public:
 	void SetBestSize(float width, float height);
 	const Vector2& GetBestSize() const;
 
-	virtual bool Render(const Vector2& pos, const Vector2& size, uint state) = 0;
+	virtual bool Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state) = 0;
 
 protected:
 	bool LoadFromXml(TiXmlElement* pXmlGraphicsStyle);

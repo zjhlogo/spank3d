@@ -100,43 +100,43 @@ const Vector2& IGraphicsStyle::GetBestSize() const
 
 bool IGraphicsStyle::LoadFromXml(TiXmlElement* pXmlGraphicsStyle)
 {
-	int minW = 0;
-	int minH = 0;
+	float minW = 0;
+	float minH = 0;
 	if (!pXmlGraphicsStyle->Attribute(_("minW"), &minW) || !pXmlGraphicsStyle->Attribute(_("minH"), &minH)) return false;
-	SetMinSize(float(minW), float(minH));
+	SetMinSize(minW, minH);
 
-	int maxW = 0;
-	int maxH = 0;
+	float maxW = 0;
+	float maxH = 0;
 	if (pXmlGraphicsStyle->Attribute(_("maxW"), &maxW) && pXmlGraphicsStyle->Attribute(_("maxH"), &maxH))
 	{
-		SetMaxSize(float(maxW), float(maxH));
+		SetMaxSize(maxW, maxH);
 	}
 	else
 	{
-		SetMaxSize(float(INT_MAX), float(INT_MAX));
+		SetMaxSize(float(SHRT_MAX), float(SHRT_MAX));
 	}
 
-	int bestW = 0;
-	int bestH = 0;
+	float bestW = 0;
+	float bestH = 0;
 	if (pXmlGraphicsStyle->Attribute(_("bestW"), &bestW) && pXmlGraphicsStyle->Attribute(_("bestH"), &bestH))
 	{
-		SetBestSize(float(bestW), float(bestH));
+		SetBestSize(bestW, bestH);
 	}
 	else
 	{
-		SetBestSize(float(minW), float(minH));
+		SetBestSize(minW, minH);
 	}
 
-	int paddingL = 0;
-	int paddingT = 0;
-	int paddingR = 0;
-	int paddingB = 0;
+	float paddingL = 0;
+	float paddingT = 0;
+	float paddingR = 0;
+	float paddingB = 0;
 	pXmlGraphicsStyle->Attribute(_("paddingL"), &paddingL);
 	pXmlGraphicsStyle->Attribute(_("paddingT"), &paddingT);
 	pXmlGraphicsStyle->Attribute(_("paddingR"), &paddingR);
 	pXmlGraphicsStyle->Attribute(_("paddingB"), &paddingB);
-	SetPaddingLT(float(paddingL), float(paddingT));
-	SetPaddingRB(float(paddingR), float(paddingB));
+	SetPaddingLT(paddingL, paddingT);
+	SetPaddingRB(paddingR, paddingB);
 
 	return true;
 }

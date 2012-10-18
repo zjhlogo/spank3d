@@ -2,13 +2,16 @@
 
 uniform mat4 u_matModelViewProj;
 
-in vec2 p2v_position;
-in vec2 p2v_texCoord;
+in vec4 p2v_pos_uv;
+in vec4 p2v_clip_rect;
 
-out vec2 v2f_texCoord;
+out vec4 v2f_posUv;
+out vec4 v2f_clipRect;
 
 void main()
 {
-	gl_Position = u_matModelViewProj * vec4(int(p2v_position.x), int(p2v_position.y), 0.0, 1.0);
-	v2f_texCoord = p2v_texCoord;
+	gl_Position = u_matModelViewProj * vec4(int(p2v_pos_uv.x), int(p2v_pos_uv.y), 0.0, 1.0);
+
+	v2f_posUv = p2v_pos_uv;
+	v2f_clipRect = p2v_clip_rect;
 }

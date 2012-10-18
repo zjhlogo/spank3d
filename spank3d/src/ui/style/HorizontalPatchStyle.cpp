@@ -25,14 +25,14 @@ HorizontalPatchStyle::~HorizontalPatchStyle()
 	m_vHorizontalPatchInfo.clear();
 }
 
-bool HorizontalPatchStyle::Render(const Vector2& pos, const Vector2& size, uint state)
+bool HorizontalPatchStyle::Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state)
 {
 	for (TV_HORIZONTAL_PATCH_INFO::iterator it = m_vHorizontalPatchInfo.begin(); it != m_vHorizontalPatchInfo.end(); ++it)
 	{
 		HORIZONTAL_PATCH_INFO *pHorizontalPatchInfo = (*it);
 		if ((pHorizontalPatchInfo->nState & state) != 0)
 		{
-			return RenderHorizontalPatchPiece(*pHorizontalPatchInfo, pos, size);
+			return RenderHorizontalPatchPiece(*pHorizontalPatchInfo, pos, size, clipRect);
 		}
 	}
 
@@ -57,18 +57,17 @@ bool HorizontalPatchStyle::LoadFromXml(TiXmlElement* pXmlHorizontalPatchStyle)
 		const PieceInfo* pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);
 		if (!pPieceInfo) continue;
 
-		int minX = 0;
-		int maxX = 0;
-
+		float minX = 0;
+		float maxX = 0;
 		pXmlState->Attribute(_("minX"), &minX);
 		pXmlState->Attribute(_("maxX"), &maxX);
 
 		HORIZONTAL_PATCH_INFO* pPatchInfo = new HORIZONTAL_PATCH_INFO();
 		pPatchInfo->nState = nState;
 		pPatchInfo->pPieceInfo = pPieceInfo;
-		pPatchInfo->pieceWidths[0] = float(minX);
-		pPatchInfo->pieceWidths[1] = float(maxX-minX);
-		pPatchInfo->pieceWidths[2] = float(pPieceInfo->width-maxX);
+		pPatchInfo->pieceWidths[0] = minX;
+		pPatchInfo->pieceWidths[1] = maxX-minX;
+		pPatchInfo->pieceWidths[2] = pPieceInfo->width-maxX;
 
 		float u[4];
 		u[0] = pPieceInfo->u;
@@ -106,7 +105,7 @@ bool HorizontalPatchStyle::LoadFromXml(TiXmlElement* pXmlHorizontalPatchStyle)
 	return true;
 }
 
-bool HorizontalPatchStyle::RenderHorizontalPatchPiece(HORIZONTAL_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size)
+bool HorizontalPatchStyle::RenderHorizontalPatchPiece(HORIZONTAL_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)
 {
 	static ushort s_Indis[NUM_INDIS] = {0, 4, 1, 4, 5, 1, 1, 5, 2, 5, 6, 2, 2, 6, 3, 6, 7, 3};
 
@@ -137,6 +136,44 @@ bool HorizontalPatchStyle::RenderHorizontalPatchPiece(HORIZONTAL_PATCH_INFO& pat
 	patchInfo.verts[6].y = py[1];
 	patchInfo.verts[7].x = px[3];
 	patchInfo.verts[7].y = py[1];
+
+	patchInfo.verts[0].cl = clipRect.x;
+	patchInfo.verts[1].cl = clipRect.x;
+	patchInfo.verts[2].cl = clipRect.x;
+	patchInfo.verts[3].cl = clipRect.x;
+	patchInfo.verts[4].cl = clipRect.x;
+	patchInfo.verts[5].cl = clipRect.x;
+	patchInfo.verts[6].cl = clipRect.x;
+	patchInfo.verts[7].cl = clipRect.x;
+
+	float right = clipRect.x+clipRect.width;
+	patchInfo.verts[0].cr = right;
+	patchInfo.verts[1].cr = right;
+	patchInfo.verts[2].cr = right;
+	patchInfo.verts[3].cr = right;
+	patchInfo.verts[4].cr = right;
+	patchInfo.verts[5].cr = right;
+	patchInfo.verts[6].cr = right;
+	patchInfo.verts[7].cr = right;
+
+	patchInfo.verts[0].ct = clipRect.y;
+	patchInfo.verts[1].ct = clipRect.y;
+	patchInfo.verts[2].ct = clipRect.y;
+	patchInfo.verts[3].ct = clipRect.y;
+	patchInfo.verts[4].ct = clipRect.y;
+	patchInfo.verts[5].ct = clipRect.y;
+	patchInfo.verts[6].ct = clipRect.y;
+	patchInfo.verts[7].ct = clipRect.y;
+
+	float bottom = clipRect.y+clipRect.height;
+	patchInfo.verts[0].cb = bottom;
+	patchInfo.verts[1].cb = bottom;
+	patchInfo.verts[2].cb = bottom;
+	patchInfo.verts[3].cb = bottom;
+	patchInfo.verts[4].cb = bottom;
+	patchInfo.verts[5].cb = bottom;
+	patchInfo.verts[6].cb = bottom;
+	patchInfo.verts[7].cb = bottom;
 
 	g_pUiRenderer->DrawTriangleList(patchInfo.verts, NUM_VERTS, s_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
 	return false;

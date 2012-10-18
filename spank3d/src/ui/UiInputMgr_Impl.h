@@ -42,6 +42,9 @@ public:
 
 	virtual const Vector2& GetMousePos() const;
 
+	virtual bool CaptureMouse(IWindow* pWindow);
+	virtual bool ReleaseMouse();
+
 private:
 	bool OnMouseEvent(MouseEvent& event);
 	bool OnKeyboardEvent(KeyboardEvent& event);
@@ -49,6 +52,7 @@ private:
 private:
 	bool m_KeyMap[NUM_KEYS];
 	Vector2 m_MousePos;
+	IWindow* m_pCaptureWindow;
 
 };
 #endif // __UIINPUTMGR_IMPL_H__

@@ -23,7 +23,7 @@ uint Screen::GetScreenIndex() const
 	return m_nScreenIndex;
 }
 
-void Screen::Render(uint state)
+void Screen::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 {
 	// TODO: 
 }

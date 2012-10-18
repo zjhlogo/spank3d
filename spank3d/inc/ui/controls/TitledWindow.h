@@ -19,11 +19,18 @@ public:
 	TitledWindow(IWindow* parent);
 	virtual ~TitledWindow();
 
-	virtual void Render(uint state);
+protected:
+	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
+
+private:
+	bool OnMouseEvent(MouseEvent& event);
 
 private:
 	IGraphicsStyle* m_pTitleStyle;
 	IFontStyle* m_pFontStyle;
+
+	Vector2 m_LastMouseDownPos;
+	Vector2 m_LastMouseDownWindowPos;
 
 };
 #endif // __TITLEDWINDOW_H__

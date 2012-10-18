@@ -139,12 +139,12 @@ bool IWindow::FindChild(IWindow* pChild)
 	return false;
 }
 
-bool IWindow::SystemMouseEvent(MouseEvent& event)
+bool IWindow::SystemMouseEvent(MouseEvent& event, bool force /* = false */)
 {
 	if (!CheckWindowState(WS_ENABLE)) return true;
 
 	Vector2 mousePos = event.GetPosition();
-	if (!IsOnMe(mousePos)) return false;
+	if (!force && !IsOnMe(mousePos)) return false;
 
 	Vector2 localPos(mousePos.x-m_Position.x, mousePos.y-m_Position.y);
 
@@ -218,7 +218,7 @@ bool IWindow::IsOnMe(const Vector2& pos)
 	return true;
 }
 
-void IWindow::SystemRender(uint state)
+void IWindow::SystemRender(const Vector2& basePos, const Rect& clipRect, uint state)
 {
 	uint myState = UiState::STATE_DEFAULT;
 	if (!CheckWindowState(WS_ENABLE) || (state & UiState::STATE_DISABLED) == UiState::STATE_DISABLED) myState |= UiState::STATE_DISABLED;
@@ -226,12 +226,15 @@ void IWindow::SystemRender(uint state)
  	if (CheckWindowState(WS_MOUSE_DOWN)) myState |= UiState::STATE_DOWN;
 	if (CheckWindowState(WS_FOCUS)) myState |= UiState::STATE_FOCUS;
 
-	Render(myState);
+	Render(basePos, clipRect, myState);
+
+	Vector2 childBasePos = basePos + m_Position;
+	Rect childClipRect = clipRect.Intersect(childBasePos, m_Size);
 
 	for (TV_WINDOW::const_iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
 	{
 		IWindow* pChild = (*it);
-		pChild->SystemRender(myState);
+		pChild->SystemRender(childBasePos, childClipRect, myState);
 	}
 }
 

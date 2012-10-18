@@ -26,14 +26,14 @@ BitmapStyle::~BitmapStyle()
 	m_vBitmapInfo.clear();
 }
 
-bool BitmapStyle::Render(const Vector2& pos, const Vector2& size, uint state)
+bool BitmapStyle::Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state)
 {
 	for (TV_BITMAP_INFO::iterator it = m_vBitmapInfo.begin(); it != m_vBitmapInfo.end(); ++it)
 	{
 		BITMAP_INFO *pBitmapInfo = (*it);
 		if ((pBitmapInfo->nState & state) != 0)
 		{
-			return RenderBitmapPiece(*pBitmapInfo, pos, size);
+			return RenderBitmapPiece(*pBitmapInfo, pos, size, clipRect);
 		}
 	}
 
@@ -68,8 +68,8 @@ bool BitmapStyle::LoadFromXml(TiXmlElement* pXmlBitmapStyle)
 	return true;
 }
 
-bool BitmapStyle::RenderBitmapPiece(const BITMAP_INFO& bitmapInfo, const Vector2& pos, const Vector2& size)
+bool BitmapStyle::RenderBitmapPiece(const BITMAP_INFO& bitmapInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)
 {
-	g_pUiRenderer->DrawRect(pos, size, bitmapInfo.pPieceInfo);
+	g_pUiRenderer->DrawRect(pos, size, clipRect, bitmapInfo.pPieceInfo);
 	return true;
 }
