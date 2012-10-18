@@ -34,6 +34,10 @@ bool Ui::Initialize()
 	m_pWindow->SetPosition(Vector2(200.0f, 200.0f));
 	m_pWindow->SetSize(Vector2(400.0f, 200.0f));
 
+	TitledWindow* pWindow = new TitledWindow(m_pWindow);
+	pWindow->SetPosition(Vector2(50.0f, 50.0f));
+	pWindow->SetSize(Vector2(200.0f, 100.0f));
+
 	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
 	if (!m_pFontStyle) return false;
 

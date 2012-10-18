@@ -28,15 +28,15 @@ void TitledWindow::Render(const Vector2& basePos, const Rect& clipRect, uint sta
 	Vector2 size = m_Size;
 
 	size.y = m_pTitleStyle->GetBestSize().y;
-	m_pTitleStyle->Render(pos, size, clipRect, state);
+	m_pTitleStyle->Render(basePos+pos, size, clipRect, state);
 
 	pos.y += size.y;
 	size.y = m_Size.y - m_pTitleStyle->GetBestSize().y;
-	m_pBgStyle->Render(pos, size, clipRect, state);
+	m_pBgStyle->Render(basePos+pos, size, clipRect, state);
 
 	pos.x = m_Position.x + m_pTitleStyle->GetPaddingLT().x;
 	pos.y = m_Position.y + 0.5f*(m_pTitleStyle->GetPaddingLT().y + m_pTitleStyle->GetBestSize().y - m_pTitleStyle->GetPaddingRB().y - m_pFontStyle->GetLineHeight());
-	m_pFontStyle->Render(_("TitledWindow"), pos, clipRect, state);
+	m_pFontStyle->Render(_("TitledWindow"), basePos+pos, clipRect, state);
 }
 
 bool TitledWindow::OnMouseEvent(MouseEvent& event)
