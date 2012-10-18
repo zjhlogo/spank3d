@@ -14,12 +14,6 @@
 class BitmapStyle : public IGraphicsStyle
 {
 public:
-	typedef struct VERTEX_ATTR_tag
-	{
-		float x, y;
-		float u, v;
-	} VERTEX_ATTR;
-
 	typedef struct BITMAP_INFO_tag
 	{
 		uint nState;
@@ -34,11 +28,11 @@ public:
 	BitmapStyle(const tstring& id);
 	virtual ~BitmapStyle();
 
-	virtual bool Render(const Vector2& pos, const Vector2& size, uint state);
+	virtual bool Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state);
 	bool LoadFromXml(TiXmlElement* pXmlBitmapStyle);
 
 private:
-	bool RenderBitmapPiece(const BITMAP_INFO& bitmapInfo, const Vector2& pos, const Vector2& size);
+	bool RenderBitmapPiece(const BITMAP_INFO& bitmapInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect);
 
 private:
 	TV_BITMAP_INFO m_vBitmapInfo;

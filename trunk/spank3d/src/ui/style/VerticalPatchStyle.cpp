@@ -25,14 +25,14 @@ VerticalPatchStyle::~VerticalPatchStyle()
 	m_vVerticalPatchInfo.clear();
 }
 
-bool VerticalPatchStyle::Render(const Vector2& pos, const Vector2& size, uint state)
+bool VerticalPatchStyle::Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state)
 {
 	for (TV_VERTICAL_PATCH_INFO::iterator it = m_vVerticalPatchInfo.begin(); it != m_vVerticalPatchInfo.end(); ++it)
 	{
 		VERTICAL_PATCH_INFO *pVerticalPatchInfo = (*it);
 		if ((pVerticalPatchInfo->nState & state) != 0)
 		{
-			return RenderVerticalPatchPiece(*pVerticalPatchInfo, pos, size);
+			return RenderVerticalPatchPiece(*pVerticalPatchInfo, pos, size, clipRect);
 		}
 	}
 
@@ -57,18 +57,17 @@ bool VerticalPatchStyle::LoadFromXml(TiXmlElement* pXmlVerticalPatchStyle)
 		const PieceInfo* pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);
 		if (!pPieceInfo) continue;
 
-		int minY = 0;
-		int maxY = 0;
-
+		float minY = 0;
+		float maxY = 0;
 		pXmlState->Attribute(_("minY"), &minY);
 		pXmlState->Attribute(_("maxY"), &maxY);
 
 		VERTICAL_PATCH_INFO* pPatchInfo = new VERTICAL_PATCH_INFO();
 		pPatchInfo->nState = nState;
 		pPatchInfo->pPieceInfo = pPieceInfo;
-		pPatchInfo->pieceHeights[0] = float(minY);
-		pPatchInfo->pieceHeights[1] = float(maxY-minY);
-		pPatchInfo->pieceHeights[2] = float(pPieceInfo->height-maxY);
+		pPatchInfo->pieceHeights[0] = minY;
+		pPatchInfo->pieceHeights[1] = maxY-minY;
+		pPatchInfo->pieceHeights[2] = pPieceInfo->height-maxY;
 
 		float u[2];
 		u[0] = pPieceInfo->u;
@@ -110,7 +109,7 @@ bool VerticalPatchStyle::LoadFromXml(TiXmlElement* pXmlVerticalPatchStyle)
 	return true;
 }
 
-bool VerticalPatchStyle::RenderVerticalPatchPiece(VERTICAL_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size)
+bool VerticalPatchStyle::RenderVerticalPatchPiece(VERTICAL_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)
 {
 	static ushort s_Indis[NUM_INDIS] = {0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3, 4, 6, 5, 6, 7, 5};
 
@@ -143,6 +142,44 @@ bool VerticalPatchStyle::RenderVerticalPatchPiece(VERTICAL_PATCH_INFO& patchInfo
 	patchInfo.verts[6].y = py[3];
 	patchInfo.verts[7].x = px[1];
 	patchInfo.verts[7].y = py[3];
+
+	patchInfo.verts[0].cl = clipRect.x;
+	patchInfo.verts[1].cl = clipRect.x;
+	patchInfo.verts[2].cl = clipRect.x;
+	patchInfo.verts[3].cl = clipRect.x;
+	patchInfo.verts[4].cl = clipRect.x;
+	patchInfo.verts[5].cl = clipRect.x;
+	patchInfo.verts[6].cl = clipRect.x;
+	patchInfo.verts[7].cl = clipRect.x;
+
+	float right = clipRect.x+clipRect.width;
+	patchInfo.verts[0].cr = right;
+	patchInfo.verts[1].cr = right;
+	patchInfo.verts[2].cr = right;
+	patchInfo.verts[3].cr = right;
+	patchInfo.verts[4].cr = right;
+	patchInfo.verts[5].cr = right;
+	patchInfo.verts[6].cr = right;
+	patchInfo.verts[7].cr = right;
+
+	patchInfo.verts[0].ct = clipRect.y;
+	patchInfo.verts[1].ct = clipRect.y;
+	patchInfo.verts[2].ct = clipRect.y;
+	patchInfo.verts[3].ct = clipRect.y;
+	patchInfo.verts[4].ct = clipRect.y;
+	patchInfo.verts[5].ct = clipRect.y;
+	patchInfo.verts[6].ct = clipRect.y;
+	patchInfo.verts[7].ct = clipRect.y;
+
+	float bottom = clipRect.y+clipRect.height;
+	patchInfo.verts[0].cb = bottom;
+	patchInfo.verts[1].cb = bottom;
+	patchInfo.verts[2].cb = bottom;
+	patchInfo.verts[3].cb = bottom;
+	patchInfo.verts[4].cb = bottom;
+	patchInfo.verts[5].cb = bottom;
+	patchInfo.verts[6].cb = bottom;
+	patchInfo.verts[7].cb = bottom;
 
 	g_pUiRenderer->DrawTriangleList(patchInfo.verts, NUM_VERTS, s_Indis, NUM_INDIS, patchInfo.pPieceInfo->pTexture);
 	return false;

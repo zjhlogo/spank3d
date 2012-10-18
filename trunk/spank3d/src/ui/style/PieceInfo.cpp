@@ -12,10 +12,10 @@ PieceInfo::PieceInfo(const tstring& id)
 {
 	strId = id;
 
-	x = 0;
-	y = 0;
-	width = 0;
-	height = 0;
+	x = 0.0f;
+	y = 0.0f;
+	width = 0.0f;
+	height = 0.0f;
 	u = 0.0f;
 	v = 0.0f;
 	du = 0.0f;

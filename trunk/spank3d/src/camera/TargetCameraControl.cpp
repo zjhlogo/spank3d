@@ -87,7 +87,7 @@ void TargetCameraControl::DoMouseWheel(float wheel)
 void TargetCameraControl::UpdateMatrix()
 {
 	Matrix4x4 matBase;
-	Math::BuildLookAtMatrix(matBase, m_vEye, m_vTarget, Math::VEC_UP);
+	Math::BuildLookAtMatrix(matBase, m_vEye, m_vTarget, Math::VEC3_UP);
 
 	Matrix4x4 matRot;
 	Math::BuildMatrixFromEulerXYZ(matRot, m_fRotX, m_fRotY, 0.0f);

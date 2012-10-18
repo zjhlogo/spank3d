@@ -8,6 +8,7 @@
 #ifndef __MATH_H__
 #define __MATH_H__
 
+#include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Matrix4x4.h"
@@ -55,8 +56,10 @@ public:
 	static const float FLOAT_MIN;	// 1.175494351e-38F
 	static const float FLOAT_MAX;	// 3.402823466e+38F
 
-	static const Vector3 VEC_ZERO;
-	static const Vector3 VEC_UP;
+	static const Vector2 VEC2_ZERO;
+
+	static const Vector3 VEC3_ZERO;
+	static const Vector3 VEC3_UP;
 
 	static const Matrix4x4 MAT_IDENTITY;
 

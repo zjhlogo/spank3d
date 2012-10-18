@@ -40,6 +40,9 @@ bool UiSystemMgr_Impl::Initialize()
 	if (!UiResMgr_Impl::GetInstance().Initialize()) return false;
 	if (!UiInputMgr_Impl::GetInstance().Initialize()) return false;
 
+	const Vector2& screenSize = g_pDevice->GetSize();
+	m_ScreenRect.Reset(0.0f, 0.0f, screenSize.x, screenSize.y);
+
 	SwitchScreen(CreateScreen()->GetScreenIndex());
 	return true;
 }
@@ -55,7 +58,7 @@ void UiSystemMgr_Impl::Terminate()
 Screen* UiSystemMgr_Impl::CreateScreen()
 {
 	Screen* pScreen = new Screen(m_vScreen.size());
-	pScreen->SetSize(g_pDevice->GetSize());
+	pScreen->SetSize(Vector2(m_ScreenRect.width, m_ScreenRect.height));
 
 	m_vScreen.push_back(pScreen);
 	return pScreen;
@@ -81,6 +84,11 @@ Screen* UiSystemMgr_Impl::GetCurrScreen()
 	return m_pCurrScreen;
 }
 
+const Rect& UiSystemMgr_Impl::GetScreenRect() const
+{
+	return m_ScreenRect;
+}
+
 void UiSystemMgr_Impl::Update(float dt)
 {
 	// TODO: 
@@ -88,7 +96,10 @@ void UiSystemMgr_Impl::Update(float dt)
 
 void UiSystemMgr_Impl::Render()
 {
-	m_pCurrScreen->SystemRender(UiState::STATE_DEFAULT);
+	Vector2 basePos(0.0f, 0.0f);
+	Rect clipRect(0.0f, 0.0f, m_pCurrScreen->GetSize().x, m_pCurrScreen->GetSize().y);
+
+	m_pCurrScreen->SystemRender(basePos, clipRect, UiState::STATE_DEFAULT);
 }
 
 void UiSystemMgr_Impl::DestroyScreens()
@@ -110,7 +121,7 @@ void UiSystemMgr_Impl::SetWindowDownState(IWindow* pWindow)
 	{
 		m_pDownWindow->SetWindowState(IWindow::WS_MOUSE_DOWN, false);
 		m_pDownWindow->UnregisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnDownWindowDestroyed);
-		//LOG(_("Mouse down leave %s"), m_pDownWindow->GetRtti()->GetClassName().c_str());
+// 		LOG(_("Mouse down leave %s"), m_pDownWindow->GetRtti()->GetClassName().c_str());
 	}
 
 	m_pDownWindow = pWindow;
@@ -119,7 +130,7 @@ void UiSystemMgr_Impl::SetWindowDownState(IWindow* pWindow)
 	{
 		m_pDownWindow->SetWindowState(IWindow::WS_MOUSE_DOWN, true);
 		m_pDownWindow->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnDownWindowDestroyed);
-		//LOG(_("Mouse down enter %s"), m_pDownWindow->GetRtti()->GetClassName().c_str());
+// 		LOG(_("Mouse down enter %s"), m_pDownWindow->GetRtti()->GetClassName().c_str());
 	}
 }
 
@@ -131,7 +142,7 @@ void UiSystemMgr_Impl::SetWindowHoverState(IWindow* pWindow)
 	{
 		m_pHoverWindow->SetWindowState(IWindow::WS_MOUSE_HOVER, false);
 		m_pHoverWindow->UnregisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnHoverWindowDestroyed);
-		LOG(_("Mouse hover leave %s"), m_pHoverWindow->GetRtti()->GetClassName().c_str());
+// 		LOG(_("Mouse hover leave %s"), m_pHoverWindow->GetRtti()->GetClassName().c_str());
 	}
 
 	m_pHoverWindow = pWindow;
@@ -140,7 +151,7 @@ void UiSystemMgr_Impl::SetWindowHoverState(IWindow* pWindow)
 	{
 		m_pHoverWindow->SetWindowState(IWindow::WS_MOUSE_HOVER, true);
 		m_pHoverWindow->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnHoverWindowDestroyed);
-		LOG(_("Mouse hover enter %s"), m_pHoverWindow->GetRtti()->GetClassName().c_str());
+// 		LOG(_("Mouse hover enter %s"), m_pHoverWindow->GetRtti()->GetClassName().c_str());
 	}
 }
 
@@ -152,15 +163,20 @@ void UiSystemMgr_Impl::SetWindowFocusState(IWindow* pWindow)
 	{
 		m_pFocusWindow->SetWindowState(IWindow::WS_FOCUS, false);
 		m_pFocusWindow->UnregisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnFocusWindowDestroyed);
-		//LOG(_("Mouse focus leave %s"), m_pFocusWindow->GetRtti()->GetClassName().c_str());
+// 		LOG(_("Mouse focus leave %s"), m_pFocusWindow->GetRtti()->GetClassName().c_str());
 	}
 
 	m_pFocusWindow = pWindow;
-	if (m_pFocusWindow)
+
+	if (m_pFocusWindow && m_pFocusWindow->CheckWindowState(IWindow::WS_FOCUS_ENABLE))
 	{
 		m_pFocusWindow->SetWindowState(IWindow::WS_FOCUS, true);
 		m_pFocusWindow->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnFocusWindowDestroyed);
-		//LOG(_("Mouse focus enter %s"), m_pFocusWindow->GetRtti()->GetClassName().c_str());
+// 		LOG(_("Mouse focus enter %s"), m_pFocusWindow->GetRtti()->GetClassName().c_str());
+	}
+	else
+	{
+		m_pFocusWindow = NULL;
 	}
 }
 

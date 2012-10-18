@@ -23,10 +23,10 @@ public:
 	bool LoadFromXml(TiXmlElement* pXmlPieceInfo);
 
 public:
-	int x;
-	int y;
-	int width;
-	int height;
+	float x;
+	float y;
+	float width;
+	float height;
 
 	float u;
 	float v;

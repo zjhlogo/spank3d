@@ -62,7 +62,7 @@ void Ui::Update(float dt)
 void Ui::Render()
 {
 	g_pUiSystemMgr->Render();
-	m_pFontStyle->Render(m_strFPS, Vector2(0.0f, 0.0f), Rect(0.0f, 0.0f, 0.0f, 0.0f), UiState::STATE_DEFAULT);
+	m_pFontStyle->Render(m_strFPS, Math::VEC2_ZERO, g_pUiSystemMgr->GetScreenRect(), UiState::STATE_DEFAULT);
 
 	g_pUiRenderer->FlushAll();
 }

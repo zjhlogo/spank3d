@@ -7,11 +7,13 @@
  */
 #include "UiInputMgr_Impl.h"
 #include <util/SystemUtil.h>
+#include <util/LogUtil.h>
 #include <Spank3d.h>
 
 UiInputMgr_Impl::UiInputMgr_Impl()
 {
 	SystemUtil::ZeroMemory(m_KeyMap, sizeof(m_KeyMap));
+	m_pCaptureWindow = NULL;
 	g_pUiInputMgr = this;
 }
 
@@ -64,6 +66,25 @@ const Vector2& UiInputMgr_Impl::GetMousePos() const
 	return m_MousePos;
 }
 
+bool UiInputMgr_Impl::CaptureMouse(IWindow* pWindow)
+{
+	if (m_pCaptureWindow)
+	{
+		LOG(_("already capture the window %s(%s), release the capture first"), m_pCaptureWindow->GetRtti()->GetClassName().c_str(), m_pCaptureWindow->GetTag().c_str());
+		return false;
+	}
+
+	m_pCaptureWindow = pWindow;
+	return true;
+}
+
+bool UiInputMgr_Impl::ReleaseMouse()
+{
+	if (!m_pCaptureWindow) return false;
+	m_pCaptureWindow = NULL;
+	return true;
+}
+
 bool UiInputMgr_Impl::OnMouseEvent(MouseEvent& event)
 {
 	switch (event.GetMouseEventType())
@@ -89,8 +110,19 @@ bool UiInputMgr_Impl::OnMouseEvent(MouseEvent& event)
 	}
 
 	m_MousePos = event.GetPosition();
-	Screen* pCurrScreen = g_pUiSystemMgr->GetCurrScreen();
-	pCurrScreen->SystemMouseEvent(event);
+	if (m_pCaptureWindow)
+	{
+		IWindow* pParent = m_pCaptureWindow;
+		if (m_pCaptureWindow->GetParent()) pParent = m_pCaptureWindow->GetParent();
+		event.SetPosition(m_MousePos - pParent->GetPositionAbs());
+		m_pCaptureWindow->SystemMouseEvent(event, true);
+	}
+	else
+	{
+		Screen* pCurrScreen = g_pUiSystemMgr->GetCurrScreen();
+		pCurrScreen->SystemMouseEvent(event);
+	}
+
 	return true;
 }
 

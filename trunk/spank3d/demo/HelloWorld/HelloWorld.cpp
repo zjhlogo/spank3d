@@ -37,7 +37,7 @@ bool HelloWorld::Initialize()
 	if (!m_pTexture) return false;
 
 	m_pCamera = new ICamera();
-	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC_ZERO);
+	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC3_ZERO);
 
 	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&HelloWorld::OnMouseEvent));
 

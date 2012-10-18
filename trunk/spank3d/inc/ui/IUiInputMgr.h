@@ -10,6 +10,7 @@
 
 #include "../core/ISingleton.h"
 #include "../math/Vector2.h"
+#include "controls/IWindow.h"
 
 class IUiInputMgr : public ISingleton
 {
@@ -25,5 +26,9 @@ public:
 	virtual bool IsRButtonDown() const = 0;
 
 	virtual const Vector2& GetMousePos() const = 0;
+
+	virtual bool CaptureMouse(IWindow* pWindow) = 0;
+	virtual bool ReleaseMouse() = 0;
+
 };
 #endif // __IUIINPUTMGR_H__

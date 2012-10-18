@@ -45,7 +45,7 @@ bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const R
 		TM_UINT_FLOAT::iterator itKerning = m_KerningMap.find(hashKey);
 		if (itKerning != m_KerningMap.end()) kerning = itKerning->second;
 
-		g_pUiRenderer->DrawRect(currPos.x+charInfo.offset.x+kerning, currPos.y+charInfo.offset.y, float(charInfo.width), float(charInfo.height), charInfo.u, charInfo.v, charInfo.du, charInfo.dv, charInfo.pTexture);
+		g_pUiRenderer->DrawRect(currPos.x+charInfo.offset.x+kerning, currPos.y+charInfo.offset.y, float(charInfo.width), float(charInfo.height), charInfo.u, charInfo.v, charInfo.du, charInfo.dv, clipRect, charInfo.pTexture);
 
 		currPos.x += (charInfo.advance+kerning);
 		lastChar = ch;
@@ -136,16 +136,10 @@ bool BitmapFontStyle::CreateCharsInfo(TiXmlElement* pXmlCharsInfo)
 		pXmlChar->Attribute(_("width"), &charInfo.width);
 		pXmlChar->Attribute(_("height"), &charInfo.height);
 
-		int offsetX = 0;
-		int offsetY = 0;
-		pXmlChar->Attribute(_("xoffset"), &offsetX);
-		pXmlChar->Attribute(_("yoffset"), &offsetY);
-		charInfo.offset.x = float(offsetX);
-		charInfo.offset.y = float(offsetY);
+		pXmlChar->Attribute(_("xoffset"), &charInfo.offset.x);
+		pXmlChar->Attribute(_("yoffset"), &charInfo.offset.y);
 
-		int advance = 0;
-		pXmlChar->Attribute(_("xadvance"), &advance);
-		charInfo.advance = float(advance);
+		pXmlChar->Attribute(_("xadvance"), &charInfo.advance);
 
 		int pageIndex = 0;
 		pXmlChar->Attribute(_("page"), &pageIndex);
@@ -175,11 +169,11 @@ bool BitmapFontStyle::CreateKerningsInfo(TiXmlElement* pXmlKerningsInfo)
 		int secondId = 0;
 		pXmlKerning->Attribute(_("second"), &secondId);
 
-		int offset = 0;
+		float offset = 0.0f;
 		pXmlKerning->Attribute(_("amount"), &offset);
 
 		uint hashKey = ((firstId << 16) | (secondId & 0x0000FFFF));
-		m_KerningMap.insert(std::make_pair(hashKey, float(offset)));
+		m_KerningMap.insert(std::make_pair(hashKey, offset));
 	}
 
 	return true;

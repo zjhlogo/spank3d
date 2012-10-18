@@ -37,6 +37,7 @@ public:
 		WS_KEYBOARD_UP_ENABLE			= 1 << 14,
 		WS_SOLID						= 1 << 15,
 		WS_CLIP_CHILDREN				= 1 << 16,
+		WS_FOCUS_ENABLE					= 1 << 17,
 
 		WS_MOUSE_ENABLE					= WS_MOUSE_LBUTTON_DOWN_ENABLE
 										| WS_MOUSE_LBUTTON_UP_ENABLE
@@ -86,7 +87,7 @@ public:
 	void RemoveAllChildren();
 	bool FindChild(IWindow* pChild);
 
-	bool SystemMouseEvent(MouseEvent& event);
+	bool SystemMouseEvent(MouseEvent& event, bool force = false);
 	bool SystemKeyboardEvent(KeyboardEvent& event);
 
 	bool IsOnMe(const Vector2& pos);
@@ -112,10 +113,10 @@ public:
 		return (m_WindowState & stateMask) == stateMask;
 	};
 
-	void SystemRender(uint state);
+	void SystemRender(const Vector2& basePos, const Rect& clipRect, uint state);
 
 protected:
-	virtual void Render(uint state) = 0;
+	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state) = 0;
 
 	IWindow* FindChildUnderPoint(const Vector2& pos);
 	bool PreProcessMouseEvent(const MouseEvent& event);
