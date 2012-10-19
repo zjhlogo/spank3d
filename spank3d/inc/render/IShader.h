@@ -22,7 +22,9 @@ public:
 	virtual ~IShader() {};
 
 	virtual const tstring& GetId() const = 0;
-	virtual bool Commit() = 0;
+
+	virtual bool BeginRender() = 0;
+	virtual void EndRender() = 0;
 
 	virtual bool SetMatrix4x4(const Matrix4x4& m, const tstring& strName) = 0;
 	virtual bool SetTexture(ITexture* pTexture, const tstring& strName, uint nIndex = 0) = 0;

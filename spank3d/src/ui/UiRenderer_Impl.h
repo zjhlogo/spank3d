@@ -9,15 +9,14 @@
 #define __UIRENDERER_IMPL_H__
 
 #include <ui/IUiRenderer.h>
-#include "VertexCache.h"
+#include "UiVertexCache.h"
 
 class UiRenderer_Impl : public IUiRenderer
 {
 public:
 	enum CONST_DEFINE
 	{
-		NUM_CACHE = 10,
-		NUM_PRIM_PER_CACHE = 128,
+		NUM_PRIM_PER_CACHE = 5*1024,
 	};
 
 public:
@@ -28,16 +27,17 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
-	virtual void DrawRect(const Rect& rect, const Rect& clipRect, ITexture* pTexture);
-	virtual void DrawRect(const Vector2& pos, const Vector2& size, const Rect& clipRect, ITexture* pTexture);
-	virtual void DrawRect(float x, float y, float width, float height, const Rect& clipRect, ITexture* pTexture);
-	virtual void DrawRect(float x, float y, float width, float height, float u, float v, float du, float dv, const Rect& clipRect, ITexture* pTexture);
+	virtual void DrawRect(const Rect& rect, uint color, const Rect& clipRect, ITexture* pTexture);
+	virtual void DrawRect(const Vector2& pos, const Vector2& size, uint color, const Rect& clipRect, ITexture* pTexture);
+	virtual void DrawRect(float x, float y, float width, float height, uint color, const Rect& clipRect, ITexture* pTexture);
+	virtual void DrawRect(float x, float y, float width, float height, float u, float v, float du, float dv, uint color, const Rect& clipRect, ITexture* pTexture);
 
-	virtual void DrawRect(const Rect& rect, const Rect& clipRect, const PieceInfo* pPieceInfo);
-	virtual void DrawRect(const Vector2& pos, const Vector2& size, const Rect& clipRect, const PieceInfo* pPieceInfo);
-	virtual void DrawRect(float x, float y, float width, float height, const Rect& clipRect, const PieceInfo* pPieceInfo);
+	virtual void DrawRect(const Rect& rect, uint color, const Rect& clipRect, const PieceInfo* pPieceInfo);
+	virtual void DrawRect(const Vector2& pos, const Vector2& size, uint color, const Rect& clipRect, const PieceInfo* pPieceInfo);
+	virtual void DrawRect(float x, float y, float width, float height, uint color, const Rect& clipRect, const PieceInfo* pPieceInfo);
 
-	virtual void DrawTriangleList(const VERTEX_ATTR* pVerts, uint nVerts, const ushort* pIndis, uint nIndis, ITexture* pTexture);
+	virtual void DrawTriangleList(const VERTEX_ATTR* pVerts, uint nVerts, const ushort* pIndis, uint nIndis, const Rect& clipRect, ITexture* pTexture);
+	virtual void DrawTriangleList(const VERTEX_ATTR* pVerts, uint nVerts, const ushort* pIndis, uint nIndis, uint color, const Rect& clipRect, ITexture* pTexture);
 
 	virtual void FlushAll();
 
@@ -46,11 +46,7 @@ private:
 	virtual ~UiRenderer_Impl();
 
 private:
-	bool AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, ITexture* pTexture, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
-	void FlushCache(VertexCache* pVertexCache);
-
-private:
-	VertexCache* m_pVertexCaches[NUM_CACHE];
+	UiVertexCache* m_pVertexCache;
 	IShader* m_pShader;
 	Matrix4x4 m_matModelViewProj;
 

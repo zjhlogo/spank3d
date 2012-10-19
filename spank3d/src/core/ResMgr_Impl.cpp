@@ -231,6 +231,13 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 			return NULL;
 		}
 
+		const char* pszTypeName = pXmlVertexAttribute->Attribute("type");
+		if (!pszTypeName)
+		{
+			LOG(_("IResMgr::CreateShader, parse xml %s failed, no type attributes in attribute element"), strFullPath.c_str());
+			return NULL;
+		}
+
 		const char* pszAttrName = pXmlVertexAttribute->Attribute("name");
 		if (!pszAttrName)
 		{
@@ -239,7 +246,7 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 		}
 
 		attrItems[nAttrIndex].nSize = nSize;
-		attrItems[nAttrIndex].eItemType = VertexAttribute::AIT_FLOAT;
+		attrItems[nAttrIndex].eItemType = VertexAttribute::GetAttributeItemType(pszTypeName);
 		strncpy_s(attrItems[nAttrIndex].szParamName, pszAttrName, VertexAttribute::MAX_ATTRIBUTE_NAME_LENGTH);
 
 		++nAttrIndex;

@@ -17,6 +17,7 @@ public:
 	static bool str2bool(bool& bValue, const tchar* pstrIn);
 	static bool str2int(int& nValue, const tchar* pstrIn);
 	static bool str2float(float& fValue, const tchar* pstrIn);
+	static bool strHex2Uint(uint& nValue, const tchar* pstrIn);
 
 	static bool tchar2char(std::string& strOut, const tchar* pstrIn);
 	static const char* tchar2char(const tchar* pszIn);

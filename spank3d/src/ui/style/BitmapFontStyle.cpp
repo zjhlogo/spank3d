@@ -6,6 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/style/BitmapFontStyle.h>
+#include <ui/UiState.h>
+#include <util/StringUtil.h>
 #include <Spank3d.h>
 
 BitmapFontStyle::BitmapFontStyle(const tstring& id)
@@ -29,6 +31,20 @@ float BitmapFontStyle::GetLineHeight() const
 
 bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state)
 {
+	for (TV_BITMAP_FONT_INFO::iterator it = m_vBitmapFontInfo.begin(); it != m_vBitmapFontInfo.end(); ++it)
+	{
+		BITMAP_FONT_INFO& bitmapFontInfo = (*it);
+		if ((bitmapFontInfo.nState & state) != 0)
+		{
+			return RenderText(bitmapFontInfo, strText, pos, clipRect);
+		}
+	}
+
+	return true;
+}
+
+bool BitmapFontStyle::RenderText(const BITMAP_FONT_INFO& bitmapFontInfo, const tstring& strText, const Vector2& pos, const Rect& clipRect)
+{
 	Vector2 currPos(pos.x, pos.y);
 
 	tchar lastChar = 0;
@@ -45,10 +61,35 @@ bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const R
 		TM_UINT_FLOAT::iterator itKerning = m_KerningMap.find(hashKey);
 		if (itKerning != m_KerningMap.end()) kerning = itKerning->second;
 
-		g_pUiRenderer->DrawRect(currPos.x+charInfo.offset.x+kerning, currPos.y+charInfo.offset.y, float(charInfo.width), float(charInfo.height), charInfo.u, charInfo.v, charInfo.du, charInfo.dv, clipRect, charInfo.pTexture);
+		g_pUiRenderer->DrawRect(currPos.x+charInfo.offset.x+kerning, currPos.y+charInfo.offset.y, float(charInfo.width), float(charInfo.height), charInfo.u, charInfo.v, charInfo.du, charInfo.dv, bitmapFontInfo.color, clipRect, charInfo.pTexture);
 
 		currPos.x += (charInfo.advance+kerning);
 		lastChar = ch;
+	}
+
+	return true;
+}
+
+bool BitmapFontStyle::LoadFromXml(TiXmlElement* pXmlBitmapFontStyle)
+{
+	const tchar* pszFile = pXmlBitmapFontStyle->Attribute(_("file"));
+	if (!LoadFontFile(pszFile)) return false;
+
+	for (TiXmlElement* pXmlState = pXmlBitmapFontStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
+	{
+		const tchar* pszId = pXmlState->Attribute(_("id"));
+		if (!pszId) continue;
+
+		uint nState = UiState::GetStateValue(pszId);
+		if (nState == 0) continue;
+
+		const tchar* pszColor = pXmlState->Attribute(_("color"));
+		if (!pszColor) continue;
+
+		BITMAP_FONT_INFO bitmapFontInfo;
+		bitmapFontInfo.nState = nState;
+		StringUtil::strHex2Uint(bitmapFontInfo.color, pszColor);
+		m_vBitmapFontInfo.push_back(bitmapFontInfo);
 	}
 
 	return true;

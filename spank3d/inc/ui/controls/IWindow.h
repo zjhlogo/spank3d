@@ -68,13 +68,16 @@ public:
 	virtual ~IWindow();
 
 	void SetPosition(const Vector2& pos);
+	void SetPosition(float x, float y);
 	const Vector2& GetPosition() const;
 	Vector2 GetPositionAbs() const;
 
 	void SetSize(const Vector2& size);
+	void SetSize(float width, float height);
 	const Vector2& GetSize() const;
 
 	void SetScroll(const Vector2& scroll);
+	void SetScroll(float scrollX, float scrollY);
 	const Vector2& GetScroll() const;
 
 	IWindow* GetParent() const;

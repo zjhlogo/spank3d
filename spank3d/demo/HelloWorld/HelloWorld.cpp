@@ -60,7 +60,7 @@ void HelloWorld::Update(float dt)
 
 void HelloWorld::Render()
 {
-	m_pShader->Commit();
+	m_pShader->BeginRender();
 
 	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
 
@@ -77,6 +77,8 @@ void HelloWorld::Render()
 		IMeshPiece* pMeshPiece = m_pMesh->GetPiece(i);
 		m_pShader->DrawTriangleList(pMeshPiece->GetVerts(), pMeshPiece->GetNumVerts(), pMeshPiece->GetIndis(), pMeshPiece->GetNumIndis());
 	}
+
+	m_pShader->EndRender();
 }
 
 bool HelloWorld::OnMouseEvent(MouseEvent& mouseEvent)

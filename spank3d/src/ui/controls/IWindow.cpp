@@ -24,7 +24,13 @@ IWindow::~IWindow()
 
 void IWindow::SetPosition(const Vector2& pos)
 {
-	m_Position = pos;
+	SetPosition(pos.x, pos.y);
+}
+
+void IWindow::SetPosition(float x, float y)
+{
+	m_Position.x = x;
+	m_Position.y = y;
 }
 
 const Vector2& IWindow::GetPosition() const
@@ -47,7 +53,13 @@ Vector2 IWindow::GetPositionAbs() const
 
 void IWindow::SetSize(const Vector2& size)
 {
-	m_Size = size;
+	SetSize(size.x, size.y);
+}
+
+void IWindow::SetSize(float width, float height)
+{
+	m_Size.x = width;
+	m_Size.y = height;
 }
 
 const Vector2& IWindow::GetSize() const
@@ -58,6 +70,13 @@ const Vector2& IWindow::GetSize() const
 void IWindow::SetScroll(const Vector2& scroll)
 {
 	m_Scroll = scroll;
+	SetScroll(scroll.x, scroll.y);
+}
+
+void IWindow::SetScroll(float scrollX, float scrollY)
+{
+	m_Scroll.x = scrollX;
+	m_Scroll.y = scrollY;
 }
 
 const Vector2& IWindow::GetScroll() const

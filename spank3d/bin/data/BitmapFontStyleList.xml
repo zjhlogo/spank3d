@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BitmapFontStyleList>
-  <BitmapFontStyle id="12px_Tahoma" file="12px_Tahoma.fnt" />
+  <BitmapFontStyle id="12px_Tahoma" file="12px_Tahoma.fnt">
+    <State id="STATE_DISABLED" color="0x808080FF" />
+    <State id="STATE_DOWN" color="0xD0D0D0FF" />
+    <State id="STATE_HOVER" color="0xFFFFFFFF" />
+    <State id="STATE_DEFAULT" color="0xE0E0E0FF" />
+  </BitmapFontStyle>
 </BitmapFontStyleList>

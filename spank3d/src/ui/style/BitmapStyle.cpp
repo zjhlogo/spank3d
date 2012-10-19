@@ -70,6 +70,6 @@ bool BitmapStyle::LoadFromXml(TiXmlElement* pXmlBitmapStyle)
 
 bool BitmapStyle::RenderBitmapPiece(const BITMAP_INFO& bitmapInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)
 {
-	g_pUiRenderer->DrawRect(pos, size, clipRect, bitmapInfo.pPieceInfo);
+	g_pUiRenderer->DrawRect(pos, size, 0xFFFFFFFF, clipRect, bitmapInfo.pPieceInfo);
 	return true;
 }

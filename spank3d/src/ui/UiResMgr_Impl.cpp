@@ -329,9 +329,7 @@ bool UiResMgr_Impl::LoadBitmapFontStyleList(const tstring& strFile)
 		}
 
 		BitmapFontStyle* pBitmapFontStyle = new BitmapFontStyle(pszId);
-
-		const tchar* pszFile = pXmlBitmapFontStyle->Attribute(_("file"));
-		if (!pBitmapFontStyle->LoadFontFile(pszFile))
+		if (!pBitmapFontStyle->LoadFromXml(pXmlBitmapFontStyle))
 		{
 			SAFE_DELETE(pBitmapFontStyle);
 			continue;

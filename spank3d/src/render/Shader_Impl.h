@@ -20,7 +20,8 @@ public:
 
 	virtual const tstring& GetId() const;
 
-	virtual bool Commit();
+	virtual bool BeginRender();
+	virtual void EndRender();
 
 	virtual bool SetMatrix4x4(const Matrix4x4& m, const tstring& strName);
 	virtual bool SetTexture(ITexture* pTexture, const tstring& strName, uint nIndex = 0);

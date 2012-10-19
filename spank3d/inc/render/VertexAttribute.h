@@ -52,6 +52,7 @@ public:
 
 	static uint GetGlType(ATTRIBUTE_ITEM_TYPE eType);
 	static uint GetAttributeItemSize(uint nSize, ATTRIBUTE_ITEM_TYPE eType);
+	static ATTRIBUTE_ITEM_TYPE GetAttributeItemType(const tstring& strType);
 
 private:
 	bool CreateVertexAttribute(const ATTRIBUTE_ITEM* pAttrItems);
