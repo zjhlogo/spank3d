@@ -29,6 +29,31 @@ float BitmapFontStyle::GetLineHeight() const
 	return m_fLineHeight;
 }
 
+Vector2 BitmapFontStyle::CalcSize(const tstring& strText, uint state)
+{
+	Vector2 size(0.0f, m_fLineHeight);
+
+	tchar lastChar = 0;
+	for (tstring::const_iterator it = strText.begin(); it != strText.end(); ++it)
+	{
+		const tchar& ch = (*it);
+
+		TM_CHAR_INFO::iterator itChar = m_CharInfoMap.find(int(ch));
+		if (itChar == m_CharInfoMap.end()) continue;
+		const CHAR_INFO& charInfo = itChar->second;
+
+		float kerning = 0.0f;
+		uint hashKey = ((uint(lastChar) << 16) | (uint(ch) & 0x0000FFFF));
+		TM_UINT_FLOAT::iterator itKerning = m_KerningMap.find(hashKey);
+		if (itKerning != m_KerningMap.end()) kerning = itKerning->second;
+
+		size.x += (charInfo.advance+kerning);
+		lastChar = ch;
+	}
+
+	return size;
+}
+
 bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state)
 {
 	for (TV_BITMAP_FONT_INFO::iterator it = m_vBitmapFontInfo.begin(); it != m_vBitmapFontInfo.end(); ++it)

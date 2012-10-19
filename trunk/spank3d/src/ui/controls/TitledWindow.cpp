@@ -13,6 +13,7 @@ TitledWindow::TitledWindow(IWindow* parent)
 {
 	m_pTitleStyle = g_pUiResMgr->FindHorizontalPatchStyle(_("hps_title"));
 	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
+	m_bMouseDown = false;
 
 	RegisterEvent(EID_UI_PRE_MOUSE_EVENT, this, (FUNC_HANDLER)&TitledWindow::OnMouseEvent);
 }
@@ -46,13 +47,15 @@ bool TitledWindow::OnMouseEvent(MouseEvent& event)
 	case MouseEvent::MET_LBUTTON_DOWN:
 		m_LastMouseDownPos = g_pUiInputMgr->GetMousePos();
 		m_LastMouseDownWindowPos = GetPosition();
+		m_bMouseDown = true;
 		g_pUiInputMgr->CaptureMouse(this);
 		break;
 	case MouseEvent::MET_LBUTTON_UP:
+		m_bMouseDown = false;
 		g_pUiInputMgr->ReleaseMouse();
 		break;
 	case MouseEvent::MET_MOUSE_MOVE:
-		if (g_pUiInputMgr->IsLButtonDown())
+		if (m_bMouseDown)
 		{
 			Vector2 offset = (g_pUiInputMgr->GetMousePos() - m_LastMouseDownPos);
 			SetPosition(m_LastMouseDownWindowPos+offset);

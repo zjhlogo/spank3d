@@ -11,6 +11,7 @@
 #include <Spank3d.h>
 #include <event/MouseEvent.h>
 #include <ui/controls/TitledWindow.h>
+#include <ui/controls/PushButton.h>
 
 class Ui : public IApp
 {
@@ -28,6 +29,8 @@ public:
 
 private:
 	TitledWindow* m_pWindow;
+	TitledWindow* m_pWindow2;
+	PushButton* m_pButton;
 
 	IFontStyle* m_pFontStyle;
 	uint m_nFPSFrame;

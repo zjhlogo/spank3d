@@ -31,6 +31,7 @@ private:
 
 	Vector2 m_LastMouseDownPos;
 	Vector2 m_LastMouseDownWindowPos;
+	bool m_bMouseDown;
 
 };
 #endif // __TITLEDWINDOW_H__
