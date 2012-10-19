@@ -28,7 +28,12 @@ void SystemUtil::TimeLocal(LOCAL_TIME& LocalTime, uint64 nTimeStamp)
 	LocalTime.nSecond = tmLocal.tm_sec;
 }
 
-void SystemUtil::ZeroMemory(void* pBuffer, int nSize)
+void SystemUtil::ZeroMemory(void* pBuffer, uint nSize)
 {
 	memset(pBuffer, 0, nSize);
+}
+
+void SystemUtil::CopyMemory(void* pBuffer, const void* pSrcBuffer, uint nSize)
+{
+	memcpy(pBuffer, pSrcBuffer, nSize);
 }

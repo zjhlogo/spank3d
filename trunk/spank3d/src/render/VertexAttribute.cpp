@@ -87,6 +87,18 @@ uint VertexAttribute::GetAttributeItemSize(uint nSize, ATTRIBUTE_ITEM_TYPE eType
 	return nSize*s_ItemSizes[eType];
 }
 
+VertexAttribute::ATTRIBUTE_ITEM_TYPE VertexAttribute::GetAttributeItemType(const tstring& strType)
+{
+	if (strType == _("AIT_UNKNOWN")) return AIT_UNKNOWN;
+	else if (strType == _("AIT_BYTE")) return AIT_BYTE;
+	else if (strType == _("AIT_UNSIGNED_BYTE")) return AIT_UNSIGNED_BYTE;
+	else if (strType == _("AIT_SHORT")) return AIT_SHORT;
+	else if (strType == _("AIT_UNSIGNED_SHORT")) return AIT_UNSIGNED_SHORT;
+	else if (strType == _("AIT_FLOAT")) return AIT_FLOAT;
+	else if (strType == _("AIT_FIXED")) return AIT_FIXED;
+	return AIT_UNKNOWN;
+}
+
 bool VertexAttribute::CreateVertexAttribute(const ATTRIBUTE_ITEM* pAttrItems)
 {
 	int nNumItems = 0;

@@ -514,11 +514,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ui\VertexCache.cpp"
+				RelativePath=".\src\ui\UiVertexCache.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ui\VertexCache.h"
+				RelativePath=".\src\ui\UiVertexCache.h"
 				>
 			</File>
 			<Filter

@@ -81,6 +81,12 @@ bool StringUtil::str2float(float& fValue, const tchar* pstrIn)
 	return true;
 }
 
+bool StringUtil::strHex2Uint(uint& nValue, const tchar* pstrIn)
+{
+	_stscanf_s(pstrIn, _("%x"), &nValue);
+	return true;
+}
+
 bool StringUtil::bool2str(tstring& strOut, bool bValue)
 {
 	if (bValue) strOut = _("true");

@@ -30,7 +30,6 @@ public:
 
 	typedef std::vector<VERTICAL_PATCH_INFO*> TV_VERTICAL_PATCH_INFO;
 
-
 public:
 	RTTI_DEF(VerticalPatchStyle, IGraphicsStyle);
 

@@ -29,7 +29,8 @@ public:
 	static uint64 TimeNow();
 	static void TimeLocal(LOCAL_TIME& LocalTime, uint64 nTimeStamp);
 
-	static void ZeroMemory(void* pBuffer, int nSize);
+	static void ZeroMemory(void* pBuffer, uint nSize);
+	static void CopyMemory(void* pBuffer, const void* pSrcBuffer, uint nSize);
 
 };
 #endif // __SYSTEMUTIL_H__

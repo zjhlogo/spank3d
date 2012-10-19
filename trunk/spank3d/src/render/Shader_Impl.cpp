@@ -34,11 +34,16 @@ const tstring& Shader_Impl::GetId() const
 	return m_strId;
 }
 
-bool Shader_Impl::Commit()
+bool Shader_Impl::BeginRender()
 {
 	if (!IsOk()) return false;
 	glUseProgram(m_nProgram);
 	return true;
+}
+
+void Shader_Impl::EndRender()
+{
+	// nothing to do
 }
 
 bool Shader_Impl::SetMatrix4x4(const Matrix4x4& m, const tstring& strName)

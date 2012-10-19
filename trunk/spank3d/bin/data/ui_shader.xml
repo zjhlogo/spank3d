@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shader id="1" vertex_shader="data/ui_shader.vs" fregment_shader="data/ui_shader.fs">
 	<attributes>
-		<attribute size="4" name="p2v_pos_uv" />
-		<attribute size="4" name="p2v_clip_rect" />
+		<attribute size="4" type="AIT_FLOAT" name="p2v_pos_index" />
+		<attribute size="2" type="AIT_FLOAT" name="p2v_texCoord" />
+		<attribute size="4" type="AIT_FLOAT" name="p2v_color" />
+		<attribute size="4" type="AIT_FLOAT" name="p2v_clip_rect" />
 	</attributes>
 </shader>
