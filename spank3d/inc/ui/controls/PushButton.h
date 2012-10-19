@@ -9,6 +9,7 @@
 #define __PUSHBUTTON_H__
 
 #include "IWindow.h"
+#include "../style/IFontStyle.h"
 
 class PushButton : public IWindow
 {
@@ -19,7 +20,10 @@ public:
 	virtual ~PushButton();
 
 protected:
-	virtual void Render(uint state);
+	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
+
+private:
+	IFontStyle* m_pFontStyle;
 
 };
 #endif // __PUSHBUTTON_H__

@@ -39,6 +39,7 @@ public:
 	virtual ~IFontStyle() {};
 
 	virtual float GetLineHeight() const = 0;
+	virtual Vector2 CalcSize(const tstring& strText, uint state) = 0;
 	virtual bool Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state) = 0;
 };
 #endif // __IFONTSTYLE_H__

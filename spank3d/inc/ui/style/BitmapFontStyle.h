@@ -33,6 +33,7 @@ public:
 	virtual ~BitmapFontStyle();
 
 	virtual float GetLineHeight() const;
+	virtual Vector2 CalcSize(const tstring& strText, uint state);
 	virtual bool Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state);
 	bool LoadFromXml(TiXmlElement* pXmlBitmapFontStyle);
 
