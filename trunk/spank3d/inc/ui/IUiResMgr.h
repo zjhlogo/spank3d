@@ -14,6 +14,8 @@
 #include "style/NinePatchStyle.h"
 #include "style/VerticalPatchStyle.h"
 #include "style/HorizontalPatchStyle.h"
+
+#include "style/IFontInfo.h"
 #include "style/IFontStyle.h"
 
 class IUiResMgr : public ISingleton
@@ -29,6 +31,8 @@ public:
 	virtual NinePatchStyle* FindNinePatchStyle(const tstring& strId) = 0;
 	virtual VerticalPatchStyle* FindVerticalPatchStyle(const tstring& strId) = 0;
 	virtual HorizontalPatchStyle* FindHorizontalPatchStyle(const tstring& strId) = 0;
+
+	virtual IFontInfo* FindFontInfo(const tstring& strId) = 0;
 	virtual IFontStyle* FindFontStyle(const tstring& strId) = 0;
 
 };

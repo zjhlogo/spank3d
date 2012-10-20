@@ -17,7 +17,7 @@ public:
 	{
 		KET_KEY_DOWN,					// KeyboardEvent
 		KET_KEY_UP,						// KeyboardEvent
-		KET_CHAR						// KeyboardEvent
+		KET_CHAR,						// KeyboardEvent
 	};
 public:
 	RTTI_DEF(KeyboardEvent, Event);

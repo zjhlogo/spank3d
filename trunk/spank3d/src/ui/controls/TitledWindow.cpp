@@ -36,7 +36,7 @@ void TitledWindow::Render(const Vector2& basePos, const Rect& clipRect, uint sta
 	m_pBgStyle->Render(basePos+pos, size, clipRect, state);
 
 	pos.x = m_Position.x + m_pTitleStyle->GetPaddingLT().x;
-	pos.y = m_Position.y + 0.5f*(m_pTitleStyle->GetPaddingLT().y + m_pTitleStyle->GetBestSize().y - m_pTitleStyle->GetPaddingRB().y - m_pFontStyle->GetLineHeight());
+	pos.y = m_Position.y + 0.5f*(m_pTitleStyle->GetPaddingLT().y + m_pTitleStyle->GetBestSize().y - m_pTitleStyle->GetPaddingRB().y - m_pFontStyle->GetLineHeight(state));
 	m_pFontStyle->Render(_("TitledWindow"), basePos+pos, clipRect, state);
 }
 

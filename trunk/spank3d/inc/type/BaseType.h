@@ -30,9 +30,15 @@ typedef unsigned __int64			uint64;
 
 #ifdef _UNICODE
 	#define _(x) L ## x
+#ifndef _T
+	#define _T(x) L ## x
+#endif
 	typedef wchar_t tchar;
 #else
 	#define _(x) x
+#ifndef _T
+#define _T(x) x
+#endif
 	typedef char tchar;
 #endif // _UNICODE
 

@@ -73,7 +73,7 @@ IMesh* ResMgr_Impl::CreateMesh(const tstring& strFile)
 	Mesh_Impl* pMesh = new Mesh_Impl(strFullPath);
 	if (!pMesh || !pMesh->IsOk())
 	{
-		LOG(_("IResMgr::CreateMesh Failed %s"), strFullPath.c_str());
+		LOG(_T("IResMgr::CreateMesh Failed %s"), strFullPath.c_str());
 		SAFE_RELEASE(pMesh);
 		return NULL;
 	}
@@ -147,7 +147,7 @@ ITexture* ResMgr_Impl::CreateTexture(const tstring& strFile, ITexture::TEXTURE_S
 	IBitmapData* pBitmapData = PngUtil::DecodePngFromFile(strFullPath);
 	if (!pBitmapData)
 	{
-		LOG(_("IResMgr::CreateTexture, create bitmap data failed %s"), strFullPath.c_str());
+		LOG(_T("IResMgr::CreateTexture, create bitmap data failed %s"), strFullPath.c_str());
 		return NULL;
 	}
 
@@ -174,7 +174,7 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 	std::string strXmlFile;
 	if (!FileUtil::ReadFileIntoString(strXmlFile, strFullPath))
 	{
-		LOG(_("IResMgr::CreateShader failed, %s"), strFullPath.c_str());
+		LOG(_T("IResMgr::CreateShader failed, %s"), strFullPath.c_str());
 		return NULL;
 	}
 
@@ -182,7 +182,7 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 	doc.Parse(strXmlFile.c_str());
 	if (doc.Error())
 	{
-		LOG(_("IResMgr::CreateShader, parse xml %s failed, error=%s"), strFullPath.c_str(), doc.ErrorDesc());
+		LOG(_T("IResMgr::CreateShader, parse xml %s failed, error=%s"), strFullPath.c_str(), doc.ErrorDesc());
 		return NULL;
 	}
 
@@ -190,58 +190,58 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 	TiXmlElement* pXmlShader = doc.RootElement();
 	if (!pXmlShader)
 	{
-		LOG(_("IResMgr::CreateShader, parse xml %s failed, no root element"), strFullPath.c_str());
+		LOG(_T("IResMgr::CreateShader, parse xml %s failed, no root element"), strFullPath.c_str());
 		return NULL;
 	}
 
 	// vertex shader
 	std::string strVertexShaderData;
-	const char* pszVertexShader = pXmlShader->Attribute("vertex_shader");
+	const tchar* pszVertexShader = pXmlShader->Attribute(_("vertex_shader"));
 	if (pszVertexShader) FileUtil::ReadFileIntoString(strVertexShaderData, StringUtil::char2tchar(pszVertexShader));
 
 	// geometry shader
 	std::string strGeometryShaderData;
-	const char* pszGeometryShader = pXmlShader->Attribute("geometry_shader");
+	const tchar* pszGeometryShader = pXmlShader->Attribute(_("geometry_shader"));
 	if (pszGeometryShader) FileUtil::ReadFileIntoString(strGeometryShaderData, StringUtil::char2tchar(pszGeometryShader));
 
 	// fragment shader
 	std::string strFragmentShaderData;
-	const char* pszFregmentShader = pXmlShader->Attribute("fregment_shader");
+	const tchar* pszFregmentShader = pXmlShader->Attribute(_("fregment_shader"));
 	if (pszFregmentShader) FileUtil::ReadFileIntoString(strFragmentShaderData, StringUtil::char2tchar(pszFregmentShader));
 
 	// vertex attribute
-	TiXmlElement* pElmAttrs = pXmlShader->FirstChildElement("attributes");
+	TiXmlElement* pElmAttrs = pXmlShader->FirstChildElement(_("attributes"));
 	if (!pElmAttrs)
 	{
-		LOG(_("IResMgr::CreateShader, parse xml %s failed, no attributes element"), strFullPath.c_str());
+		LOG(_T("IResMgr::CreateShader, parse xml %s failed, no attributes element"), strFullPath.c_str());
 		return NULL;
 	}
 
 	VertexAttribute::ATTRIBUTE_ITEM attrItems[VertexAttribute::MAX_ATTRIBUTE_ITEMS+1];
 	int nAttrIndex = 0;
 
-	TiXmlElement* pXmlVertexAttribute = pElmAttrs->FirstChildElement("attribute");
+	TiXmlElement* pXmlVertexAttribute = pElmAttrs->FirstChildElement(_("attribute"));
 	while (pXmlVertexAttribute)
 	{
 		int nSize = 0;
-		pXmlVertexAttribute->Attribute("size", &nSize);
+		pXmlVertexAttribute->Attribute(_("size"), &nSize);
 		if (nSize <= 0)
 		{
-			LOG(_("IResMgr::CreateShader, parse xml %s failed, no size attributes in attribute element"), strFullPath.c_str());
+			LOG(_T("IResMgr::CreateShader, parse xml %s failed, no size attributes in attribute element"), strFullPath.c_str());
 			return NULL;
 		}
 
-		const char* pszTypeName = pXmlVertexAttribute->Attribute("type");
+		const tchar* pszTypeName = pXmlVertexAttribute->Attribute(_("type"));
 		if (!pszTypeName)
 		{
-			LOG(_("IResMgr::CreateShader, parse xml %s failed, no type attributes in attribute element"), strFullPath.c_str());
+			LOG(_T("IResMgr::CreateShader, parse xml %s failed, no type attributes in attribute element"), strFullPath.c_str());
 			return NULL;
 		}
 
-		const char* pszAttrName = pXmlVertexAttribute->Attribute("name");
+		const tchar* pszAttrName = pXmlVertexAttribute->Attribute(_("name"));
 		if (!pszAttrName)
 		{
-			LOG(_("IResMgr::CreateShader, parse xml %s failed, no name attributes in attribute element"), strFullPath.c_str());
+			LOG(_T("IResMgr::CreateShader, parse xml %s failed, no name attributes in attribute element"), strFullPath.c_str());
 			return NULL;
 		}
 
@@ -250,26 +250,26 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 		strncpy_s(attrItems[nAttrIndex].szParamName, pszAttrName, VertexAttribute::MAX_ATTRIBUTE_NAME_LENGTH);
 
 		++nAttrIndex;
-		pXmlVertexAttribute = pXmlVertexAttribute->NextSiblingElement("attribute");
+		pXmlVertexAttribute = pXmlVertexAttribute->NextSiblingElement(_("attribute"));
 	}
 
 	if (nAttrIndex <= 0 || nAttrIndex > VertexAttribute::MAX_ATTRIBUTE_ITEMS)
 	{
-		LOG(_("IResMgr::CreateShader, parse xml %s failed, attributes count out of boundary, must 0 < count <= 8"), strFullPath.c_str());
+		LOG(_T("IResMgr::CreateShader, parse xml %s failed, attributes count out of boundary, must 0 < count <= 8"), strFullPath.c_str());
 		return NULL;
 	}
 
 	attrItems[nAttrIndex].nSize = 0;
 	attrItems[nAttrIndex].eItemType = VertexAttribute::AIT_UNKNOWN;
 	attrItems[nAttrIndex].nOffset = 0;
-	attrItems[nAttrIndex].szParamName[0] = '\0';
+	attrItems[nAttrIndex].szParamName[0] = _('\0');
 
 	// create shader
 	Shader_Impl* pShader = new Shader_Impl(strFullPath, strVertexShaderData, strGeometryShaderData, strFragmentShaderData, attrItems);
 	if (!pShader || !pShader->IsOk())
 	{
 		SAFE_RELEASE(pShader);
-		LOG(_("IResMgr::CreateShader Failed"));
+		LOG(_T("IResMgr::CreateShader Failed"));
 		return NULL;
 	}
 
@@ -294,7 +294,7 @@ ITexture* ResMgr_Impl::InternalCreateTexture(const tstring& id, const IBitmapDat
 	if (!pTexture->LoadFromBitmapData(pBitmapData, eSample))
 	{
 		SAFE_DELETE(pTexture);
-		LOG(_("IResMgr::InternalCreateTexture failed, %s"), id.c_str());
+		LOG(_T("IResMgr::InternalCreateTexture failed, %s"), id.c_str());
 		return NULL;
 	}
 
@@ -310,7 +310,7 @@ IBitmapData* ResMgr_Impl::InternalCreateBitmapData(const tstring& id, uint width
 	if (!pBitmapData || !pBitmapData->IsOk())
 	{
 		SAFE_DELETE(pBitmapData);
-		LOG(_("IResMgr::InternalCreateBitmapData failed, width=%d, height=%d, bpp=%d"), width, height, bpp);
+		LOG(_T("IResMgr::InternalCreateBitmapData failed, width=%d, height=%d, bpp=%d"), width, height, bpp);
 		return NULL;
 	}
 

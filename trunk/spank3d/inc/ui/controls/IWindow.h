@@ -99,14 +99,8 @@ public:
 	{
 		uint oldState = m_WindowState;
 
-		if (set) 
-		{
-			m_WindowState |= stateMask;
-		}
-		else
-		{
-			m_WindowState &= (~stateMask);
-		}
+		if (set) m_WindowState |= stateMask;
+		else m_WindowState &= (~stateMask);
 
 		return (oldState != m_WindowState);
 	};

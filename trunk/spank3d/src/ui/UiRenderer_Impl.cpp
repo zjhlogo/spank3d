@@ -126,7 +126,7 @@ void UiRenderer_Impl::DrawTriangleList(const VERTEX_ATTR* pVerts, uint nVerts, c
 	{
 		m_pVertexCache->Flush(m_pShader, m_matModelViewProj);
 		bool bOK = m_pVertexCache->AddVerts(pVerts, nVerts, pIndis, nIndis, clipRect, pTexture);
-		if (!bOK) LOG(_("IRendererUi AddPrimetive Failed with nVerts:%d, nIndis:%d"), nVerts, nIndis);
+		if (!bOK) LOG(_T("IRendererUi AddPrimetive Failed with nVerts:%d, nIndis:%d"), nVerts, nIndis);
 	}
 }
 
@@ -136,7 +136,7 @@ void UiRenderer_Impl::DrawTriangleList(const VERTEX_ATTR* pVerts, uint nVerts, c
 	{
 		m_pVertexCache->Flush(m_pShader, m_matModelViewProj);
 		bool bOK = m_pVertexCache->AddVerts(pVerts, nVerts, pIndis, nIndis, color, clipRect, pTexture);
-		if (!bOK) LOG(_("IRendererUi AddPrimetive Failed with nVerts:%d, nIndis:%d"), nVerts, nIndis);
+		if (!bOK) LOG(_T("IRendererUi AddPrimetive Failed with nVerts:%d, nIndis:%d"), nVerts, nIndis);
 	}
 }
 

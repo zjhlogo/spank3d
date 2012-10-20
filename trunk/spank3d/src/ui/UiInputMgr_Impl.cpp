@@ -70,7 +70,7 @@ bool UiInputMgr_Impl::CaptureMouse(IWindow* pWindow)
 {
 	if (m_pCaptureWindow)
 	{
-		LOG(_("already capture the window %s(%s), release the capture first"), m_pCaptureWindow->GetRtti()->GetClassName().c_str(), m_pCaptureWindow->GetTag().c_str());
+		LOG(_T("already capture the window %s(%s), release the capture first"), m_pCaptureWindow->GetRtti()->GetClassName().c_str(), m_pCaptureWindow->GetTag().c_str());
 		return false;
 	}
 

@@ -19,6 +19,8 @@ public:
 	typedef std::map<tstring, NinePatchStyle*> TM_NINE_PATCH_STYLE;
 	typedef std::map<tstring, HorizontalPatchStyle*> TM_HORIZONTAL_PATCH_STYLE;
 	typedef std::map<tstring, VerticalPatchStyle*> TM_VERTICAL_PATCH_STYLE;
+
+	typedef std::map<tstring, IFontInfo*> TM_FONT_INFO;
 	typedef std::map<tstring, IFontStyle*> TM_FONT_STYLE;
 
 public:
@@ -34,6 +36,8 @@ public:
 	virtual NinePatchStyle* FindNinePatchStyle(const tstring& strId);
 	virtual VerticalPatchStyle* FindVerticalPatchStyle(const tstring& strId);
 	virtual HorizontalPatchStyle* FindHorizontalPatchStyle(const tstring& strId);
+
+	virtual IFontInfo* FindFontInfo(const tstring& strId);
 	virtual IFontStyle* FindFontStyle(const tstring& strId);
 
 private:
@@ -45,6 +49,8 @@ private:
 	bool LoadNinePatchStyleList(const tstring& strFile);
 	bool LoadHotizontalPatchStyleList(const tstring& strFile);
 	bool LoadVerticalPatchStyleList(const tstring& strFile);
+
+	bool LoadBitmapFontInfo(const tstring& strFile);
 	bool LoadBitmapFontStyleList(const tstring& strFile);
 
 private:
@@ -53,6 +59,8 @@ private:
 	TM_NINE_PATCH_STYLE m_NinePatchStyleMap;
 	TM_HORIZONTAL_PATCH_STYLE m_HorizontalPatchStyleMap;
 	TM_VERTICAL_PATCH_STYLE m_VerticalPatchStyleMap;
+
+	TM_FONT_INFO m_FontInfoMap;
 	TM_FONT_STYLE m_FontStyleMap;
 
 };

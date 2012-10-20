@@ -9,6 +9,7 @@
 #include <Spank3d.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 #include <util/LogUtil.h>
+#include <ui/style/BitmapFontInfo.h>
 #include <ui/style/BitmapFontStyle.h>
 
 UiResMgr_Impl::UiResMgr_Impl()
@@ -34,8 +35,9 @@ bool UiResMgr_Impl::Initialize()
 	if (!LoadNinePatchStyleList(_("NinePatchStyleList.xml"))) return false;
 	if (!LoadHotizontalPatchStyleList(_("HorizontalPatchStyleList.xml"))) return false;
 	if (!LoadVerticalPatchStyleList(_("VerticalPatchStyleList.xml"))) return false;
-	if (!LoadBitmapFontStyleList(_("BitmapFontStyleList.xml"))) return false;
 
+	if (!LoadBitmapFontInfo(_("12px_Tahoma.fnt"))) return false;
+	if (!LoadBitmapFontStyleList(_("BitmapFontStyleList.xml"))) return false;
 	return true;
 }
 
@@ -105,6 +107,13 @@ HorizontalPatchStyle* UiResMgr_Impl::FindHorizontalPatchStyle(const tstring& str
 	return itFound->second;
 }
 
+IFontInfo* UiResMgr_Impl::FindFontInfo(const tstring& strId)
+{
+	TM_FONT_INFO::iterator itFound = m_FontInfoMap.find(strId);
+	if (itFound == m_FontInfoMap.end()) return NULL;
+	return itFound->second;
+}
+
 IFontStyle* UiResMgr_Impl::FindFontStyle(const tstring& strId)
 {
 	TM_FONT_STYLE::iterator itFound = m_FontStyleMap.find(strId);
@@ -139,7 +148,7 @@ bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
 
 		if (m_PieceInfoMap.find(pszId) != m_PieceInfoMap.end())
 		{
-			LOG(_("duplicate piece info id %s"), pszId);
+			LOG(_T("duplicate piece info id %s"), pszId);
 			continue;
 		}
 
@@ -176,7 +185,7 @@ bool UiResMgr_Impl::LoadBitmapStyleList(const tstring& strFile)
 
 		if (m_BitmapStyleMap.find(pszId) != m_BitmapStyleMap.end())
 		{
-			LOG(_("duplicate bitmap style id %s"), pszId);
+			LOG(_T("duplicate bitmap style id %s"), pszId);
 			continue;
 		}
 
@@ -213,7 +222,7 @@ bool UiResMgr_Impl::LoadNinePatchStyleList(const tstring& strFile)
 
 		if (m_NinePatchStyleMap.find(pszId) != m_NinePatchStyleMap.end())
 		{
-			LOG(_("duplicate nine patch style id %s"), pszId);
+			LOG(_T("duplicate nine patch style id %s"), pszId);
 			continue;
 		}
 
@@ -250,7 +259,7 @@ bool UiResMgr_Impl::LoadHotizontalPatchStyleList(const tstring& strFile)
 
 		if (m_HorizontalPatchStyleMap.find(pszId) != m_HorizontalPatchStyleMap.end())
 		{
-			LOG(_("duplicate horizontal patch style id %s"), pszId);
+			LOG(_T("duplicate horizontal patch style id %s"), pszId);
 			continue;
 		}
 
@@ -287,7 +296,7 @@ bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
 
 		if (m_VerticalPatchStyleMap.find(pszId) != m_VerticalPatchStyleMap.end())
 		{
-			LOG(_("duplicate vertical patch style id %s"), pszId);
+			LOG(_T("duplicate vertical patch style id %s"), pszId);
 			continue;
 		}
 
@@ -301,6 +310,20 @@ bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
 		m_VerticalPatchStyleMap.insert(std::make_pair(pVerticalPatchStyle->GetId(), pVerticalPatchStyle));
 	}
 
+	return true;
+}
+
+bool UiResMgr_Impl::LoadBitmapFontInfo(const tstring& strFile)
+{
+	BitmapFontInfo* pBitmapFontInfo = new BitmapFontInfo(strFile);
+	if (!pBitmapFontInfo->LoadFromFile(strFile))
+	{
+		SAFE_DELETE(pBitmapFontInfo);
+		LOG(_T("can not load bitmap font info %s"), strFile.c_str());
+		return false;
+	}
+
+	m_FontInfoMap.insert(std::make_pair(strFile, pBitmapFontInfo));
 	return true;
 }
 
@@ -324,7 +347,7 @@ bool UiResMgr_Impl::LoadBitmapFontStyleList(const tstring& strFile)
 
 		if (m_FontStyleMap.find(pszId) != m_FontStyleMap.end())
 		{
-			LOG(_("duplicate font style id %s"), pszId);
+			LOG(_T("duplicate font style id %s"), pszId);
 			continue;
 		}
 
