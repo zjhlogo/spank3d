@@ -5,9 +5,9 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <tchar.h>
 #include <util/FileUtil.h>
 #include <util/LogUtil.h>
-#include <tchar.h>
 
 IFile* FileUtil::LoadFile(const tstring& strFileName, uint nFlag /*= IFile::OFF_READ*/)
 {
@@ -19,7 +19,7 @@ IFile* FileUtil::LoadFile(const tchar* pszFileName, uint nFlag /*= IFile::OFF_RE
 	IFile *pFile = new IFile(pszFileName, nFlag);
 	if (!pFile || !pFile->IsOk())
 	{
-		LOG(_("FileUtil::OpenFile Failed \"%s\""), pszFileName);
+		LOG(_T("FileUtil::OpenFile Failed \"%s\""), pszFileName);
 		SAFE_RELEASE(pFile);
 		return NULL;
 	}
@@ -50,7 +50,7 @@ bool FileUtil::ReadFileIntoString(std::string& strOut, const tchar* pszFileName)
 		SAFE_RELEASE(pFile);
 		return false;
 	}
-	pszFileData[nFileSize] = '\0';
+	pszFileData[nFileSize] = _('\0');
 
 	strOut.clear();
 	strOut.append(pszFileData);

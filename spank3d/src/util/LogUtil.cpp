@@ -46,7 +46,7 @@ void LogUtil::Log(const tstring& strMsg)
 	SystemUtil::TimeLocal(LocalTime, SystemUtil::TimeNow());
 
 	tstring strText;
-	StringUtil::strformat(strText, _("[%04d-%02d-%02d %02d:%02d:%02d]: %s\n"),
+	StringUtil::strformat(strText, _T("[%04d-%02d-%02d %02d:%02d:%02d]: %s\n"),
 		LocalTime.nYear,
 		LocalTime.nMonth,
 		LocalTime.nDayInMonth,

@@ -85,7 +85,7 @@ void Device_Impl::StartPerform()
 	UpdateWindow(g_hWnd);
 
 	// logout start perform
-	LOG(_("StartPerforming ..."));
+	LOG(_T("StartPerforming ..."));
 
 	// reset time
 	m_fLastTime = GetTime();
@@ -309,11 +309,11 @@ bool Device_Impl::InternalCreateWindow()
 		NULL);
 	if (!g_hWnd)
 	{
-		LOG(_("Device_Impl::InternalCreateWindow Failed"));
+		LOG(_T("Device_Impl::InternalCreateWindow Failed"));
 		return false;
 	}
 
- 	LOG(_("Device_Impl::InternalCreateWindow OK"));
+ 	LOG(_T("Device_Impl::InternalCreateWindow OK"));
 	return true;
 }
 
@@ -323,7 +323,7 @@ void Device_Impl::InternalDestroyWindow()
 	{
 		DestroyWindow(g_hWnd);
 		g_hWnd = NULL;
- 		LOG(_("Device_Impl::InternalDestroyWindow OK"));
+ 		LOG(_T("Device_Impl::InternalDestroyWindow OK"));
 	}
 }
 
@@ -353,32 +353,32 @@ bool Device_Impl::InternalCreateOGL()
 
 	if (!(g_hDc = GetDC(g_hWnd)))					// Did We Get A Device Context?
 	{
-		LOG(_("Device_Impl::InternalCreateOGL, Can't Create A GL Device Context"));
+		LOG(_T("Device_Impl::InternalCreateOGL, Can't Create A GL Device Context"));
 		return false;								// Return FALSE
 	}
 
 	GLuint PixelFormat;								// Holds The Results After Searching For A Match
 	if (!(PixelFormat = ChoosePixelFormat(g_hDc, &pfd)))	// Did Windows Find A Matching Pixel Format?
 	{
-		LOG(_("Device_Impl::InternalCreateOGL, Can't Find A Suitable PixelFormat"));
+		LOG(_T("Device_Impl::InternalCreateOGL, Can't Find A Suitable PixelFormat"));
 		return false;								// Return FALSE
 	}
 
 	if (!SetPixelFormat(g_hDc, PixelFormat, &pfd))	// Are We Able To Set The Pixel Format?
 	{
-		LOG(_("Device_Impl::InternalCreateOGL, Can't Set The PixelFormat"));
+		LOG(_T("Device_Impl::InternalCreateOGL, Can't Set The PixelFormat"));
 		return false;								// Return FALSE
 	}
 
 	if (!(g_hRc = wglCreateContext(g_hDc)))			// Are We Able To Get A Rendering Context?
 	{
-		LOG(_("Device_Impl::InternalCreateOGL, Can't Create A GL Rendering Context"));
+		LOG(_T("Device_Impl::InternalCreateOGL, Can't Create A GL Rendering Context"));
 		return false;								// Return FALSE
 	}
 
 	if(!wglMakeCurrent(g_hDc, g_hRc))				// Try To Activate The Rendering Context
 	{
-		LOG(_("Device_Impl::InternalCreateOGL, Can't Activate The GL Rendering Context"));
+		LOG(_T("Device_Impl::InternalCreateOGL, Can't Activate The GL Rendering Context"));
 		return false;								// Return FALSE
 	}
 
@@ -391,19 +391,19 @@ void Device_Impl::InternalDestroyOGL()
 	{
 		if (!wglMakeCurrent(NULL, NULL))				// Are We Able To Release The DC And RC Contexts?
 		{
-			LOG(_("Device_Impl::InternalDestroyOGL, Release Of DC And RC Failed"));
+			LOG(_T("Device_Impl::InternalDestroyOGL, Release Of DC And RC Failed"));
 		}
 
 		if (!wglDeleteContext(g_hRc))					// Are We Able To Delete The RC?
 		{
-			LOG(_("Device_Impl::InternalDestroyOGL, Release Rendering Context Failed"));
+			LOG(_T("Device_Impl::InternalDestroyOGL, Release Rendering Context Failed"));
 		}
 		g_hRc = NULL;									// Set RC To NULL
 	}
 
 	if (g_hDc && !ReleaseDC(g_hWnd, g_hDc))				// Are We Able To Release The DC
 	{
-		LOG(_("Device_Impl::InternalDestroyOGL, Release Device Context Failed"));
+		LOG(_T("Device_Impl::InternalDestroyOGL, Release Device Context Failed"));
 		g_hDc = NULL;									// Set DC To NULL
 	}
 }

@@ -64,7 +64,7 @@ void Ui::Update(float dt)
 	if (m_fFPSTime > 1.0f)
 	{
 		m_fFPSTime -= 1.0f;
-		StringUtil::strformat(m_strFPS, _("%d FPS"), m_nFPSFrame);
+		StringUtil::strformat(m_strFPS, _T("%d FPS"), m_nFPSFrame);
 		m_nFPSFrame = 0;
 	}
 

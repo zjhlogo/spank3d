@@ -68,16 +68,16 @@ bool Shader_Impl::SetTexture(ITexture* pTexture, const tstring& strName, uint nI
 	Texture_Impl* pTexture_Impl = (Texture_Impl*)pTexture;
 	glActiveTexture(GL_TEXTURE0+nIndex);
 	uint eError = glGetError();
-	if (eError != GL_NO_ERROR) LOG(_("glActiveTexture error code: 0x%04x"), eError);
+	if (eError != GL_NO_ERROR) LOG(_T("glActiveTexture error code: 0x%04x"), eError);
 
 	// bind texture
 	glBindTexture(GL_TEXTURE_2D, pTexture_Impl->GetTextureId());
 	eError = glGetError();
-	if (eError != GL_NO_ERROR) LOG(_("glBindTexture error code: 0x%04x"), eError);
+	if (eError != GL_NO_ERROR) LOG(_T("glBindTexture error code: 0x%04x"), eError);
 
 	glUniform1i(nLoc, nIndex);
 	eError = glGetError();
-	if (eError != GL_NO_ERROR) LOG(_("glUniform1i error code: 0x%04x"), eError);
+	if (eError != GL_NO_ERROR) LOG(_T("glUniform1i error code: 0x%04x"), eError);
 
 	return true;
 }
@@ -135,7 +135,7 @@ bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& st
 	glLinkProgram(m_nProgram);
 	if (GetProgramErrorLog(m_nProgram))
 	{
-		LOG(_("Link program failed with error log %s"), m_strError.c_str());
+		LOG(_T("Link program failed with error log %s"), m_strError.c_str());
 		return false;
 	}
 
@@ -186,7 +186,7 @@ uint Shader_Impl::CompileShader(uint nShaderType, const tstring& strShader)
 	glCompileShader(nShaderId);
 	if (GetShaderErrorLog(nShaderId))
 	{
-		LOG(_("Compile shader failed with error log %s"), m_strError.c_str());
+		LOG(_T("Compile shader failed with error log %s"), m_strError.c_str());
 		glDeleteShader(nShaderId);
 		return 0;
 	}

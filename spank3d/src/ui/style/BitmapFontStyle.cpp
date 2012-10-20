@@ -13,41 +13,41 @@
 BitmapFontStyle::BitmapFontStyle(const tstring& id)
 :IFontStyle(id)
 {
-	m_fLineHeight = 0.0f;
-	m_nNumPages = 0;
+
 }
 
 BitmapFontStyle::~BitmapFontStyle()
 {
-	DestroyTextures();
-	m_CharInfoMap.clear();
-	m_KerningMap.clear();
+
 }
 
-float BitmapFontStyle::GetLineHeight() const
+float BitmapFontStyle::GetLineHeight(uint state) const
 {
-	return m_fLineHeight;
+	const BITMAP_FONT_INFO* pBitmapFontInfo = FindFontInfo(state);
+	if (!pBitmapFontInfo) return 0.0f;
+	return pBitmapFontInfo->pFontInfo->GetLineHeight();
 }
 
 Vector2 BitmapFontStyle::CalcSize(const tstring& strText, uint state)
 {
-	Vector2 size(0.0f, m_fLineHeight);
+	Vector2 size(0.0f, 0.0f);
+
+	const BITMAP_FONT_INFO* pBitmapFontInfo = FindFontInfo(state);
+	if (!pBitmapFontInfo) return size;
+
+	size.y = pBitmapFontInfo->pFontInfo->GetLineHeight();
 
 	tchar lastChar = 0;
 	for (tstring::const_iterator it = strText.begin(); it != strText.end(); ++it)
 	{
 		const tchar& ch = (*it);
 
-		TM_CHAR_INFO::iterator itChar = m_CharInfoMap.find(int(ch));
-		if (itChar == m_CharInfoMap.end()) continue;
-		const CHAR_INFO& charInfo = itChar->second;
+		const IFontInfo::CHAR_INFO* pCharInfo = pBitmapFontInfo->pFontInfo->GetCharInfo(ch);
+		if (!pCharInfo) continue;
 
-		float kerning = 0.0f;
-		uint hashKey = ((uint(lastChar) << 16) | (uint(ch) & 0x0000FFFF));
-		TM_UINT_FLOAT::iterator itKerning = m_KerningMap.find(hashKey);
-		if (itKerning != m_KerningMap.end()) kerning = itKerning->second;
+		float kerning = pBitmapFontInfo->pFontInfo->GetKerning(lastChar, ch);
 
-		size.x += (charInfo.advance+kerning);
+		size.x += (pCharInfo->advance+kerning);
 		lastChar = ch;
 	}
 
@@ -56,16 +56,23 @@ Vector2 BitmapFontStyle::CalcSize(const tstring& strText, uint state)
 
 bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state)
 {
-	for (TV_BITMAP_FONT_INFO::iterator it = m_vBitmapFontInfo.begin(); it != m_vBitmapFontInfo.end(); ++it)
+	const BITMAP_FONT_INFO* pBitmapFontInfo = FindFontInfo(state);
+	if (!pBitmapFontInfo) return true;
+	return RenderText(*pBitmapFontInfo, strText, pos, clipRect);
+}
+
+const BitmapFontStyle::BITMAP_FONT_INFO* BitmapFontStyle::FindFontInfo(uint state) const
+{
+	for (TV_BITMAP_FONT_INFO::const_iterator it = m_vBitmapFontInfo.begin(); it != m_vBitmapFontInfo.end(); ++it)
 	{
-		BITMAP_FONT_INFO& bitmapFontInfo = (*it);
+		const BITMAP_FONT_INFO& bitmapFontInfo = (*it);
 		if ((bitmapFontInfo.nState & state) != 0)
 		{
-			return RenderText(bitmapFontInfo, strText, pos, clipRect);
+			return &bitmapFontInfo;
 		}
 	}
 
-	return true;
+	return NULL;
 }
 
 bool BitmapFontStyle::RenderText(const BITMAP_FONT_INFO& bitmapFontInfo, const tstring& strText, const Vector2& pos, const Rect& clipRect)
@@ -77,18 +84,14 @@ bool BitmapFontStyle::RenderText(const BITMAP_FONT_INFO& bitmapFontInfo, const t
 	{
 		const tchar& ch = (*it);
 
-		TM_CHAR_INFO::iterator itChar = m_CharInfoMap.find(int(ch));
-		if (itChar == m_CharInfoMap.end()) continue;
-		const CHAR_INFO& charInfo = itChar->second;
+		const IFontInfo::CHAR_INFO* pCharInfo = bitmapFontInfo.pFontInfo->GetCharInfo(ch);
+		if (!pCharInfo) continue;
 
-		float kerning = 0.0f;
-		uint hashKey = ((uint(lastChar) << 16) | (uint(ch) & 0x0000FFFF));
-		TM_UINT_FLOAT::iterator itKerning = m_KerningMap.find(hashKey);
-		if (itKerning != m_KerningMap.end()) kerning = itKerning->second;
+		float kerning = bitmapFontInfo.pFontInfo->GetKerning(lastChar, ch);
 
-		g_pUiRenderer->DrawRect(currPos.x+charInfo.offset.x+kerning, currPos.y+charInfo.offset.y, float(charInfo.width), float(charInfo.height), charInfo.u, charInfo.v, charInfo.du, charInfo.dv, bitmapFontInfo.color, clipRect, charInfo.pTexture);
+		g_pUiRenderer->DrawRect(currPos.x+pCharInfo->offset.x+kerning, currPos.y+pCharInfo->offset.y, float(pCharInfo->width), float(pCharInfo->height), pCharInfo->u, pCharInfo->v, pCharInfo->du, pCharInfo->dv, bitmapFontInfo.color, clipRect, pCharInfo->pTexture);
 
-		currPos.x += (charInfo.advance+kerning);
+		currPos.x += (pCharInfo->advance+kerning);
 		lastChar = ch;
 	}
 
@@ -97,9 +100,6 @@ bool BitmapFontStyle::RenderText(const BITMAP_FONT_INFO& bitmapFontInfo, const t
 
 bool BitmapFontStyle::LoadFromXml(TiXmlElement* pXmlBitmapFontStyle)
 {
-	const tchar* pszFile = pXmlBitmapFontStyle->Attribute(_("file"));
-	if (!LoadFontFile(pszFile)) return false;
-
 	for (TiXmlElement* pXmlState = pXmlBitmapFontStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
 		const tchar* pszId = pXmlState->Attribute(_("id"));
@@ -108,138 +108,20 @@ bool BitmapFontStyle::LoadFromXml(TiXmlElement* pXmlBitmapFontStyle)
 		uint nState = UiState::GetStateValue(pszId);
 		if (nState == 0) continue;
 
+		const tchar* pszFile = pXmlState->Attribute(_("file"));
+		if (!pszFile) continue;
+
+		IFontInfo* pFontInfo = g_pUiResMgr->FindFontInfo(pszFile);
+		if (!pFontInfo) continue;
+
 		const tchar* pszColor = pXmlState->Attribute(_("color"));
 		if (!pszColor) continue;
 
 		BITMAP_FONT_INFO bitmapFontInfo;
 		bitmapFontInfo.nState = nState;
+		bitmapFontInfo.pFontInfo = pFontInfo;
 		StringUtil::strHex2Uint(bitmapFontInfo.color, pszColor);
 		m_vBitmapFontInfo.push_back(bitmapFontInfo);
-	}
-
-	return true;
-}
-
-bool BitmapFontStyle::LoadFontFile(const tstring& strFile)
-{
-	tstring strXmlData;
-	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
-
-	TiXmlDocument doc;
-	doc.Parse(strXmlData.c_str());
-	if (doc.Error()) return false;
-
-	// parse the xml files
-	TiXmlElement* pXmlRoot = doc.RootElement();
-
-	TiXmlElement* pXmlCommon = pXmlRoot->FirstChildElement(_("common"));
-	if (!ParseCommonInfo(pXmlCommon)) return false;
-
-	TiXmlElement* pXmlPages = pXmlRoot->FirstChildElement(_("pages"));
-	if (!CreateTextures(pXmlPages)) return false;
-
-	TiXmlElement* pXmlCharsInfo = pXmlRoot->FirstChildElement(_("chars"));
-	if (!CreateCharsInfo(pXmlCharsInfo)) return false;
-
-	TiXmlElement* pXmlKerningsInfo = pXmlRoot->FirstChildElement(_("kernings"));
-	CreateKerningsInfo(pXmlKerningsInfo);
-
-	return true;
-}
-
-bool BitmapFontStyle::ParseCommonInfo(TiXmlElement* pXmlCommon)
-{
-	if (!pXmlCommon) return false;
-
-	int nLineHeight = 0;
-	if (!pXmlCommon->Attribute(_("lineHeight"), &nLineHeight)) return false;
-	m_fLineHeight = float(nLineHeight);
-
-	return true;
-}
-
-bool BitmapFontStyle::CreateTextures(TiXmlElement* pXmlPages)
-{
-	DestroyTextures();
-
-	if (!pXmlPages) return false;
-
-	for (TiXmlElement* pXmlPage = pXmlPages->FirstChildElement(_("page")); pXmlPage != NULL; pXmlPage = pXmlPage->NextSiblingElement(_("page")))
-	{
-		const tchar* pszTexture = pXmlPage->Attribute(_("file"));
-		if (!pszTexture) return false;
-
-		ITexture* pTexture = g_pResMgr->CreateTexture(pszTexture);
-		if (!pTexture) return false;
-
-		m_vTextures.push_back(pTexture);
-	}
-
-	return true;
-}
-
-void BitmapFontStyle::DestroyTextures()
-{
-	for (TV_TEXTURE::iterator it = m_vTextures.begin(); it != m_vTextures.end(); ++it)
-	{
-		ITexture* pTexture = (*it);
-		SAFE_RELEASE(pTexture);
-	}
-	m_vTextures.clear();
-}
-
-bool BitmapFontStyle::CreateCharsInfo(TiXmlElement* pXmlCharsInfo)
-{
-	m_CharInfoMap.clear();
-	if (!pXmlCharsInfo) return false;
-
-	for (TiXmlElement* pXmlChar = pXmlCharsInfo->FirstChildElement(_("char")); pXmlChar != NULL; pXmlChar = pXmlChar->NextSiblingElement(_("char")))
-	{
-		CHAR_INFO charInfo;
-		pXmlChar->Attribute(_("id"), &charInfo.id);
-		pXmlChar->Attribute(_("x"), &charInfo.x);
-		pXmlChar->Attribute(_("y"), &charInfo.y);
-		pXmlChar->Attribute(_("width"), &charInfo.width);
-		pXmlChar->Attribute(_("height"), &charInfo.height);
-
-		pXmlChar->Attribute(_("xoffset"), &charInfo.offset.x);
-		pXmlChar->Attribute(_("yoffset"), &charInfo.offset.y);
-
-		pXmlChar->Attribute(_("xadvance"), &charInfo.advance);
-
-		int pageIndex = 0;
-		pXmlChar->Attribute(_("page"), &pageIndex);
-		charInfo.pTexture = m_vTextures[pageIndex];
-
-		charInfo.u = charInfo.x / charInfo.pTexture->GetSize().x;
-		charInfo.v = charInfo.y / charInfo.pTexture->GetSize().y;
-		charInfo.du = charInfo.width / charInfo.pTexture->GetSize().x;
-		charInfo.dv = charInfo.height / charInfo.pTexture->GetSize().y;
-
-		m_CharInfoMap.insert(std::make_pair(charInfo.id, charInfo));
-	}
-
-	return true;
-}
-
-bool BitmapFontStyle::CreateKerningsInfo(TiXmlElement* pXmlKerningsInfo)
-{
-	m_KerningMap.clear();
-	if (!pXmlKerningsInfo) return false;
-
-	for (TiXmlElement* pXmlKerning = pXmlKerningsInfo->FirstChildElement(_("kerning")); pXmlKerning != NULL; pXmlKerning = pXmlKerning->NextSiblingElement(_("kerning")))
-	{
-		int firstId = 0;
-		pXmlKerning->Attribute(_("first"), &firstId);
-
-		int secondId = 0;
-		pXmlKerning->Attribute(_("second"), &secondId);
-
-		float offset = 0.0f;
-		pXmlKerning->Attribute(_("amount"), &offset);
-
-		uint hashKey = ((firstId << 16) | (secondId & 0x0000FFFF));
-		m_KerningMap.insert(std::make_pair(hashKey, offset));
 	}
 
 	return true;
