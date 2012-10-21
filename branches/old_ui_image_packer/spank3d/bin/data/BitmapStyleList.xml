@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BitmapStyleList>
+  <BitmapStyle id="bs_sun" minW="128" minH="128">
+    <State id="STATE_DEFAULT" piece="piece_sun" />
+  </BitmapStyle>
+</BitmapStyleList>

@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng1.5.12", "libpng1.5.12.vcproj", "{637974A9-B6B6-4DEA-8EE6-D88A61E4B9B4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{119338BD-EC67-459E-82AF-F414B5A59D20} = {119338BD-EC67-459E-82AF-F414B5A59D20}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib1.2.7", "..\zlib1.2.7\zlib1.2.7.vcproj", "{119338BD-EC67-459E-82AF-F414B5A59D20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{637974A9-B6B6-4DEA-8EE6-D88A61E4B9B4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{637974A9-B6B6-4DEA-8EE6-D88A61E4B9B4}.Debug|Win32.Build.0 = Debug|Win32
+		{637974A9-B6B6-4DEA-8EE6-D88A61E4B9B4}.Release|Win32.ActiveCfg = Release|Win32
+		{637974A9-B6B6-4DEA-8EE6-D88A61E4B9B4}.Release|Win32.Build.0 = Release|Win32
+		{119338BD-EC67-459E-82AF-F414B5A59D20}.Debug|Win32.ActiveCfg = Debug|Win32
+		{119338BD-EC67-459E-82AF-F414B5A59D20}.Debug|Win32.Build.0 = Debug|Win32
+		{119338BD-EC67-459E-82AF-F414B5A59D20}.Release|Win32.ActiveCfg = Release|Win32
+		{119338BD-EC67-459E-82AF-F414B5A59D20}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
