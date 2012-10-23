@@ -10,15 +10,13 @@
 #include <util/StringUtil.h>
 #include <event/EventIds.h>
 #include <ui/UiState.h>
+#include <ui/controls/TitledWindow.h>
+#include <ui/controls/PushButton.h>
 
 IMPLEMENT_APP(Ui);
 
 Ui::Ui()
 {
-	m_pWindow = NULL;
-	m_pWindow2 = NULL;
-	m_pButton = NULL;
-
 	m_pFontStyle = NULL;
 	m_nFPSFrame = 0;
 	m_fFPSTime = 0.0f;
@@ -32,17 +30,17 @@ Ui::~Ui()
 bool Ui::Initialize()
 {
 	Screen* pMainScreen = g_pUiSystemMgr->GetCurrScreen();
-	m_pWindow = new TitledWindow(pMainScreen);
-	m_pWindow->SetPosition(200.0f, 200.0f);
-	m_pWindow->SetSize(400.0f, 200.0f);
+	TitledWindow* pWindow = new TitledWindow(pMainScreen);
+	pWindow->SetPosition(200.0f, 200.0f);
+	pWindow->SetSize(400.0f, 200.0f);
 
-	m_pWindow2 = new TitledWindow(m_pWindow);
-	m_pWindow2->SetPosition(50.0f, 50.0f);
-	m_pWindow2->SetSize(200.0f, 100.0f);
+	TitledWindow* pWindow2 = new TitledWindow(pWindow);
+	pWindow2->SetPosition(50.0f, 50.0f);
+	pWindow2->SetSize(200.0f, 100.0f);
 
-	m_pButton = new PushButton(m_pWindow);
-	m_pButton->SetPosition(200.0f, 10.0f);
-	m_pButton->SetSize(100.0f, 30.0f);
+	PushButton* pButton = new PushButton(pWindow);
+	pButton->SetPosition(200.0f, 10.0f);
+	pButton->SetSize(100.0f, 30.0f);
 
 	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
 	if (!m_pFontStyle) return false;
@@ -52,9 +50,7 @@ bool Ui::Initialize()
 
 void Ui::Terminate()
 {
-	SAFE_DELETE(m_pWindow);
-	SAFE_DELETE(m_pWindow2);
-	SAFE_DELETE(m_pButton);
+	// TODO: 
 }
 
 void Ui::Update(float dt)

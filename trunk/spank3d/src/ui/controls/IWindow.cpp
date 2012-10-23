@@ -19,6 +19,21 @@ IWindow::IWindow(IWindow* pParent)
 
 IWindow::~IWindow()
 {
+	if (m_pParent)
+	{
+		m_pParent->RemoveChild(this);
+		m_pParent = NULL;
+	}
+
+	for (TV_WINDOW::iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
+	{
+		IWindow* pChild = (*it);
+		pChild->m_pParent = NULL;
+		SAFE_DELETE(pChild);
+	}
+
+	m_vChildren.clear();
+
 	DispatchEvent(Event(EID_OBJECT_DESTROYED));
 }
 
@@ -222,6 +237,15 @@ bool IWindow::SystemKeyboardEvent(KeyboardEvent& event)
 {
 	if (!CheckWindowState(WS_ENABLE)) return true;
 
+	return true;
+}
+
+bool IWindow::SetBgStyle(const tstring& styleId)
+{
+	IGraphicsStyle* pGraphicsStyle = g_pUiResMgr->FindStyle(styleId);
+	if (!pGraphicsStyle) return false;
+
+	m_pBgStyle = pGraphicsStyle;
 	return true;
 }
 

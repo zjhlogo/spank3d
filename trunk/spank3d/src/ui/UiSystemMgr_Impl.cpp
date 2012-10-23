@@ -13,6 +13,8 @@
 #include <ui/UiState.h>
 #include <Spank3d.h>
 
+#include <ui/parsers/PushButtonParser.h>
+
 UiSystemMgr_Impl::UiSystemMgr_Impl()
 {
 	g_pUiSystemMgr = this;
@@ -39,6 +41,7 @@ bool UiSystemMgr_Impl::Initialize()
 	if (!UiRenderer_Impl::GetInstance().Initialize()) return false;
 	if (!UiResMgr_Impl::GetInstance().Initialize()) return false;
 	if (!UiInputMgr_Impl::GetInstance().Initialize()) return false;
+	if (!InitParsers()) return false;
 
 	const Vector2& screenSize = g_pDevice->GetSize();
 	m_ScreenRect.Reset(0.0f, 0.0f, screenSize.x, screenSize.y);
@@ -50,6 +53,7 @@ bool UiSystemMgr_Impl::Initialize()
 void UiSystemMgr_Impl::Terminate()
 {
 	DestroyScreens();
+	FreeParsers();
 	UiInputMgr_Impl::GetInstance().Terminate();
 	UiResMgr_Impl::GetInstance().Terminate();
 	UiRenderer_Impl::GetInstance().Terminate();
@@ -87,6 +91,19 @@ Screen* UiSystemMgr_Impl::GetCurrScreen()
 const Rect& UiSystemMgr_Impl::GetScreenRect() const
 {
 	return m_ScreenRect;
+}
+
+IWindow* UiSystemMgr_Impl::LoadWindowFromFile(const tstring& strFile, IWindow* pParent)
+{
+	tstring strXmlData;
+	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return NULL;
+
+	TiXmlDocument doc;
+	doc.Parse(strXmlData.c_str());
+	if (doc.Error()) return NULL;
+
+	TiXmlElement* pXmlRoot = doc.RootElement();
+	return ParseWindowFromXml(pXmlRoot, pParent);
 }
 
 void UiSystemMgr_Impl::Update(float dt)
@@ -211,4 +228,59 @@ bool UiSystemMgr_Impl::OnFocusWindowDestroyed(Event& event)
 {
 	m_pFocusWindow = NULL;
 	return true;
+}
+
+IWindow* UiSystemMgr_Impl::ParseWindowFromXml(TiXmlElement* pXmlWindow, IWindow* pParent)
+{
+	// find parser
+	IWindowParser* pParser = FindParser(pXmlWindow->Value());
+	if (!pParser) return NULL;
+
+	// parse window
+	IWindow* pWindow = pParser->Parse(pXmlWindow, pParent);
+	if (!pWindow) return NULL;
+
+	// parse child
+	for (TiXmlElement* pXmlChild = pXmlWindow->FirstChildElement(); pXmlChild != NULL; pXmlChild = pXmlChild->NextSiblingElement())
+	{
+		ParseWindowFromXml(pXmlChild, pWindow);
+	}
+
+	return pWindow;
+}
+
+bool UiSystemMgr_Impl::InitParsers()
+{
+	AddParser(new PushButtonParser());
+
+	return true;
+}
+
+void UiSystemMgr_Impl::FreeParsers()
+{
+	for (TM_PARSER::iterator it = m_ParsersMap.begin(); it != m_ParsersMap.end(); ++it)
+	{
+		IWindowParser* pParser = it->second;
+		SAFE_DELETE(pParser);
+	}
+	m_ParsersMap.clear();
+}
+
+bool UiSystemMgr_Impl::AddParser(IWindowParser* pParser)
+{
+	if (FindParser(pParser->GetClassName()))
+	{
+		SAFE_DELETE(pParser);
+		return false;
+	}
+
+	m_ParsersMap.insert(std::make_pair(pParser->GetClassName(), pParser));
+	return true;
+}
+
+IWindowParser* UiSystemMgr_Impl::FindParser(const tstring& strClassName)
+{
+	TM_PARSER::iterator itFound = m_ParsersMap.find(strClassName);
+	if (itFound == m_ParsersMap.end()) return NULL;
+	return itFound->second;
 }

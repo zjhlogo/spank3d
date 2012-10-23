@@ -19,6 +19,7 @@ public:
 	typedef std::map<tstring, NinePatchStyle*> TM_NINE_PATCH_STYLE;
 	typedef std::map<tstring, HorizontalPatchStyle*> TM_HORIZONTAL_PATCH_STYLE;
 	typedef std::map<tstring, VerticalPatchStyle*> TM_VERTICAL_PATCH_STYLE;
+	typedef std::map<tstring, IGraphicsStyle*> TM_GRAPHICS_STYLE;
 
 	typedef std::map<tstring, IFontInfo*> TM_FONT_INFO;
 	typedef std::map<tstring, IFontStyle*> TM_FONT_STYLE;
@@ -34,6 +35,8 @@ public:
 	virtual void Terminate();
 
 	virtual PieceInfo* FindPieceInfo(const tstring& strId);
+
+	virtual IGraphicsStyle* FindStyle(const tstring& strId);
 	virtual BitmapStyle* FindBitmapStyle(const tstring& strId);
 	virtual NinePatchStyle* FindNinePatchStyle(const tstring& strId);
 	virtual VerticalPatchStyle* FindVerticalPatchStyle(const tstring& strId);
@@ -47,6 +50,7 @@ private:
 	virtual ~UiResMgr_Impl();
 
 	bool LoadPieceInfoList(const tstring& strFile);
+
 	bool LoadBitmapStyleList(const tstring& strFile);
 	bool LoadNinePatchStyleList(const tstring& strFile);
 	bool LoadHorizontalPatchStyleList(const tstring& strFile);
@@ -61,6 +65,7 @@ private:
 	TM_NINE_PATCH_STYLE m_NinePatchStyleMap;
 	TM_HORIZONTAL_PATCH_STYLE m_HorizontalPatchStyleMap;
 	TM_VERTICAL_PATCH_STYLE m_VerticalPatchStyleMap;
+	TM_GRAPHICS_STYLE m_GraphicsStyleMap;
 
 	TM_FONT_INFO m_FontInfoMap;
 	TM_FONT_STYLE m_FontStyleMap;

@@ -86,6 +86,8 @@ bool UiResMgr_Impl::Initialize()
 
 void UiResMgr_Impl::Terminate()
 {
+	m_GraphicsStyleMap.clear();
+
 	for (TM_VERTICAL_PATCH_STYLE::iterator it = m_VerticalPatchStyleMap.begin(); it != m_VerticalPatchStyleMap.end(); ++it)
 	{
 		VerticalPatchStyle* pVerticalPatchStyle = it->second;
@@ -114,6 +116,13 @@ void UiResMgr_Impl::Terminate()
 	}
 	m_BitmapStyleMap.clear();
 
+	for (TM_FONT_INFO::iterator it = m_FontInfoMap.begin(); it != m_FontInfoMap.end(); ++it)
+	{
+		IFontInfo* pFontInfo = it->second;
+		SAFE_DELETE(pFontInfo);
+	}
+	m_FontInfoMap.clear();
+
 	for (TM_PIECE_INFO::iterator it = m_PieceInfoMap.begin(); it != m_PieceInfoMap.end(); ++it)
 	{
 		PieceInfo* pPieceInfo = it->second;
@@ -133,6 +142,13 @@ PieceInfo* UiResMgr_Impl::FindPieceInfo(const tstring& strId)
 {
 	TM_PIECE_INFO::iterator itFound = m_PieceInfoMap.find(strId);
 	if (itFound == m_PieceInfoMap.end()) return NULL;
+	return itFound->second;
+}
+
+IGraphicsStyle* UiResMgr_Impl::FindStyle(const tstring& strId)
+{
+	TM_GRAPHICS_STYLE::iterator itFound = m_GraphicsStyleMap.find(strId);
+	if (itFound == m_GraphicsStyleMap.end()) return NULL;
 	return itFound->second;
 }
 
@@ -241,7 +257,7 @@ bool UiResMgr_Impl::LoadBitmapStyleList(const tstring& strFile)
 		const tchar* pszId = pXmlBitmapStyle->Attribute(_("id"));
 		if (!pszId) continue;
 
-		if (m_BitmapStyleMap.find(pszId) != m_BitmapStyleMap.end())
+		if (FindStyle(pszId))
 		{
 			LOG(_T("duplicate bitmap style id %s"), pszId);
 			continue;
@@ -255,6 +271,7 @@ bool UiResMgr_Impl::LoadBitmapStyleList(const tstring& strFile)
 		}
 
 		m_BitmapStyleMap.insert(std::make_pair(pBitmapStyle->GetId(), pBitmapStyle));
+		m_GraphicsStyleMap.insert(std::make_pair(pBitmapStyle->GetId(), pBitmapStyle));
 	}
 
 	return true;
@@ -278,7 +295,7 @@ bool UiResMgr_Impl::LoadNinePatchStyleList(const tstring& strFile)
 		const tchar* pszId = pXmlNinePatchStyle->Attribute(_("id"));
 		if (!pszId) continue;
 
-		if (m_NinePatchStyleMap.find(pszId) != m_NinePatchStyleMap.end())
+		if (FindStyle(pszId))
 		{
 			LOG(_T("duplicate nine patch style id %s"), pszId);
 			continue;
@@ -292,6 +309,7 @@ bool UiResMgr_Impl::LoadNinePatchStyleList(const tstring& strFile)
 		}
 
 		m_NinePatchStyleMap.insert(std::make_pair(pNinePatchStyle->GetId(), pNinePatchStyle));
+		m_GraphicsStyleMap.insert(std::make_pair(pNinePatchStyle->GetId(), pNinePatchStyle));
 	}
 
 	return true;
@@ -315,7 +333,7 @@ bool UiResMgr_Impl::LoadHorizontalPatchStyleList(const tstring& strFile)
 		const tchar* pszId = pXmlHorizontalPatchStyle->Attribute(_("id"));
 		if (!pszId) continue;
 
-		if (m_HorizontalPatchStyleMap.find(pszId) != m_HorizontalPatchStyleMap.end())
+		if (FindStyle(pszId))
 		{
 			LOG(_T("duplicate horizontal patch style id %s"), pszId);
 			continue;
@@ -329,6 +347,7 @@ bool UiResMgr_Impl::LoadHorizontalPatchStyleList(const tstring& strFile)
 		}
 
 		m_HorizontalPatchStyleMap.insert(std::make_pair(pHorizontalPatchStyle->GetId(), pHorizontalPatchStyle));
+		m_GraphicsStyleMap.insert(std::make_pair(pHorizontalPatchStyle->GetId(), pHorizontalPatchStyle));
 	}
 
 	return true;
@@ -352,7 +371,7 @@ bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
 		const tchar* pszId = pXmlVerticalPatchStyle->Attribute(_("id"));
 		if (!pszId) continue;
 
-		if (m_VerticalPatchStyleMap.find(pszId) != m_VerticalPatchStyleMap.end())
+		if (FindStyle(pszId))
 		{
 			LOG(_T("duplicate vertical patch style id %s"), pszId);
 			continue;
@@ -366,6 +385,7 @@ bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
 		}
 
 		m_VerticalPatchStyleMap.insert(std::make_pair(pVerticalPatchStyle->GetId(), pVerticalPatchStyle));
+		m_GraphicsStyleMap.insert(std::make_pair(pVerticalPatchStyle->GetId(), pVerticalPatchStyle));
 	}
 
 	return true;

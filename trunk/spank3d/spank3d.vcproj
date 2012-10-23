@@ -645,6 +645,26 @@
 				Name="events"
 				>
 			</Filter>
+			<Filter
+				Name="parsers"
+				>
+				<File
+					RelativePath=".\src\ui\parsers\IWindowParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\parsers\IWindowParser.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ui\parsers\PushButtonParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\parsers\PushButtonParser.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="render"
