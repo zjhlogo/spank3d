@@ -25,6 +25,8 @@ public:
 	virtual Screen* GetCurrScreen() = 0;
 	virtual const Rect& GetScreenRect() const = 0;
 
+	virtual IWindow* LoadWindowFromFile(const tstring& strFile, IWindow* pParent) = 0;
+
 	virtual void SetWindowDownState(IWindow* pWindow) = 0;
 	virtual void SetWindowHoverState(IWindow* pWindow) = 0;
 	virtual void SetWindowFocusState(IWindow* pWindow) = 0;

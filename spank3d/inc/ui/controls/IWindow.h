@@ -93,6 +93,8 @@ public:
 	bool SystemMouseEvent(MouseEvent& event, bool force = false);
 	bool SystemKeyboardEvent(KeyboardEvent& event);
 
+	bool SetBgStyle(const tstring& styleId);
+
 	bool IsOnMe(const Vector2& pos);
 
 	inline bool SetWindowState(uint stateMask, bool set)

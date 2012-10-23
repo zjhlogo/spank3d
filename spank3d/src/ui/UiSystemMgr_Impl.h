@@ -9,11 +9,13 @@
 #define __UISYSTEMMGR_IMPL_H__
 
 #include <ui/IUiSystemMgr.h>
+#include <ui/parsers/IWindowParser.h>
 
 class UiSystemMgr_Impl : public IUiSystemMgr
 {
 public:
 	typedef std::vector<Screen*> TV_SCREEN;
+	typedef std::map<tstring, IWindowParser*> TM_PARSER;
 
 public:
 	RTTI_DEF(UiSystemMgr_Impl, IUiSystemMgr);
@@ -32,6 +34,8 @@ public:
 	virtual Screen* GetCurrScreen();
 	virtual const Rect& GetScreenRect() const;
 
+	virtual IWindow* LoadWindowFromFile(const tstring& strFile, IWindow* pParent);
+
 	virtual void SetWindowDownState(IWindow* pWindow);
 	virtual void SetWindowHoverState(IWindow* pWindow);
 	virtual void SetWindowFocusState(IWindow* pWindow);
@@ -49,6 +53,13 @@ private:
 	bool OnHoverWindowDestroyed(Event& event);
 	bool OnFocusWindowDestroyed(Event& event);
 
+	bool InitParsers();
+	void FreeParsers();
+	bool AddParser(IWindowParser* pParser);
+	IWindowParser* FindParser(const tstring& strClassName);
+
+	IWindow* ParseWindowFromXml(TiXmlElement* pXmlWindow, IWindow* pParent);
+
 private:
 	TV_SCREEN m_vScreen;
 	Screen* m_pCurrScreen;
@@ -57,6 +68,8 @@ private:
 	IWindow* m_pDownWindow;
 	IWindow* m_pHoverWindow;
 	IWindow* m_pFocusWindow;
+
+	TM_PARSER m_ParsersMap;
 
 };
 #endif // __UISYSTEMMGR_IMPL_H__
