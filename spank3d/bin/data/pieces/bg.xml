@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<PieceInfoList texture="pieces\bg.png">
+    <PieceInfo id="exchange_bg" x="923" y="0" width="257" height="247" />
+    <PieceInfo id="guild_bg1" x="0" y="0" width="680" height="381" />
+    <PieceInfo id="guild_picture_1" x="1180" y="0" width="181" height="160" />
+    <PieceInfo id="guild_picture_2" x="923" y="247" width="186" height="137" />
+    <PieceInfo id="guild_picture_3" x="680" y="314" width="198" height="148" />
+    <PieceInfo id="player_bg" x="680" y="0" width="243" height="314" />
+    <PieceInfo id="push_bg" x="0" y="381" width="658" height="48" />
+</PieceInfoList>

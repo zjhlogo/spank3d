@@ -1,0 +1,1364 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<BitmapStyleList>
+    <BitmapStyle id="bs_alchemy_btn_pick" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="alchemy_btn_pick" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_alchemy_btn_sell" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="alchemy_btn_sell" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_alchemy_lift" minW="53" minH="38">
+        <State id="STATE_DEFAULT" piece="alchemy_life" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_alchemy_return" minW="109" minH="109">
+        <State id="STATE_HOVER" piece="alchemy_return0" />
+        <State id="STATE_DEFAULT" piece="alchemy_return1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_alchemy_sell" minW="53" minH="38">
+        <State id="STATE_DEFAULT" piece="alchemy_sell" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_alchemy_take" minW="53" minH="38">
+        <State id="STATE_DEFAULT" piece="alchemy_take" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_arrow_icon1" minW="23" minH="24">
+        <State id="STATE_DEFAULT" piece="arrow_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_arrow_small_left" minW="22" minH="22">
+        <State id="STATE_DEFAULT" piece="arrow_samle_lefr" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_arrow_small_right" minW="22" minH="22">
+        <State id="STATE_DEFAULT" piece="arrow_small_right" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_athletics_btn1" minW="120" minH="72">
+        <State id="STATE_DEFAULT" piece="athletics_btn1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_athletics_btn2" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="athletics_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_autoFight_bg" minW="152" minH="24">
+        <State id="STATE_DEFAULT" piece="autofight" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_autoGo_bg" minW="152" minH="24">
+        <State id="STATE_DEFAULT" piece="autopath" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_auto_combat_loading_bg" minW="239" minH="23">
+        <State id="STATE_DEFAULT" piece="auto_combat_loading_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_auto_combat_loading_btn1" minW="40" minH="22">
+        <State id="STATE_DEFAULT" piece="auto_combat_loading_btn1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_auto_combat_loading_btn2" minW="40" minH="22">
+        <State id="STATE_DEFAULT" piece="auto_combat_loading_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_back" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="back" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_backpack_drugstore" minW="54" minH="49">
+        <State id="STATE_DEFAULT" piece="backpack_drugstore" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_backpack_warehouse" minW="54" minH="49">
+        <State id="STATE_DEFAULT" piece="backpack_warehouse" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_bounty" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="bounty" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_back" minW="41" minH="27">
+        <State id="STATE_DEFAULT" piece="btn_back" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_buy" minW="57" minH="57">
+        <State id="STATE_DEFAULT" piece="tag_buy" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_buy2" minW="33" minH="32">
+        <State id="STATE_DEFAULT" piece="btn_buy2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_close" minW="20" minH="20">
+        <State id="STATE_DEFAULT" piece="btn_close" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_close_disable" minW="47" minH="26">
+        <State id="STATE_DEFAULT" piece="close_disable" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_right" minW="20" minH="20">
+        <State id="STATE_DEFAULT" piece="btn_right" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_step" minW="130" minH="72">
+        <State id="STATE_DEFAULT" piece="btn_step_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_step_selected" minW="130" minH="72">
+        <State id="STATE_DEFAULT" piece="btn_step_selected" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_step_selected_ico" minW="50" minH="49">
+        <State id="STATE_DEFAULT" piece="btn_step_selected_ico" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_btn_step_selected_ico2" minW="104" minH="108">
+        <State id="STATE_DEFAULT" piece="btn_step_selected_ico2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_bubble1" minW="40" minH="40">
+        <State id="STATE_DEFAULT" piece="bubble1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_bugreport" minW="39" minH="40">
+        <State id="STATE_DEFAULT" piece="bugreport" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_button_minus" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="button_minus_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_button_plus" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="button_plus_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_buystar" minW="180" minH="72">
+        <State id="STATE_DEFAULT" piece="buystar" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_card_bg" minW="205" minH="166">
+        <State id="STATE_DEFAULT" piece="card_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_card_bottom_01" minW="128" minH="187">
+        <State id="STATE_DEFAULT" piece="card_bottom_01" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_card_bottom_02" minW="128" minH="187">
+        <State id="STATE_DEFAULT" piece="card_bottom_02" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_card_bottom_03" minW="128" minH="187">
+        <State id="STATE_DEFAULT" piece="card_bottom_03" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_card_bottom_04" minW="128" minH="187">
+        <State id="STATE_DEFAULT" piece="card_bottom_04" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_card_star_01" minW="14" minH="14">
+        <State id="STATE_DEFAULT" piece="card_star_01" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_card_star_02" minW="14" minH="14">
+        <State id="STATE_DEFAULT" piece="card_star_02" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_charinfo_btn" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="charinfo_btn" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_charinfo_btn2" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="charinfo_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_chat_bg" minW="230" minH="28">
+        <State id="STATE_DEFAULT" piece="chat_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_chat_close" minW="22" minH="22">
+        <State id="STATE_DEFAULT" piece="chat_close" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_checkbox2_checked" minW="19" minH="18">
+        <State id="STATE_DEFAULT" piece="checkbox2_checked_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_checkbox2_uncheck" minW="19" minH="18">
+        <State id="STATE_DEFAULT" piece="checkbox2_uncheck_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_chest_btn1_checked" minW="46" minH="46">
+        <State id="STATE_DEFAULT" piece="chest_btn1_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_chest_btn1_uncheck" minW="46" minH="46">
+        <State id="STATE_DISABLED" piece="chest_btn1_disable" />
+        <State id="STATE_HOVER" piece="chest_btn1_hover" />
+        <State id="STATE_DEFAULT" piece="chest_btn1_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_chest_icon1" minW="53" minH="46">
+        <State id="STATE_DEFAULT" piece="chest_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_chest_icon2" minW="53" minH="46">
+        <State id="STATE_DEFAULT" piece="chest_icon2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_chest_loading_bg" minW="360" minH="40">
+        <State id="STATE_DEFAULT" piece="chest_loading_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_classmaster_box_01" minW="163" minH="63">
+        <State id="STATE_DEFAULT" piece="classmaster_box_01" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_classmaster_colour_00" minW="164" minH="140">
+        <State id="STATE_DEFAULT" piece="classmaster_colour_01" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_classmaster_colour_01" minW="164" minH="140">
+        <State id="STATE_DEFAULT" piece="classmaster_colour_02" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_classmaster_colour_02" minW="164" minH="140">
+        <State id="STATE_DEFAULT" piece="classmaster_colour_03" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_classmaster_colour_04" minW="164" minH="140">
+        <State id="STATE_DEFAULT" piece="classmaster_colour_04" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_close" minW="57" minH="28">
+        <State id="STATE_DEFAULT" piece="close_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_close1" minW="27" minH="27">
+        <State id="STATE_DEFAULT" piece="close_default1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_0" minW="26" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_0" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_1" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_2" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_3" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_4" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_4" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_5" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_5" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_6" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_6" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_7" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_7" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_8" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_8" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_9" minW="23" minH="25">
+        <State id="STATE_DEFAULT" piece="comhit_9" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_KillCombo" minW="102" minH="18">
+        <State id="STATE_DEFAULT" piece="comhit_killcombo" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_comhit_bg" minW="227" minH="59">
+        <State id="STATE_DEFAULT" piece="comhit_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_daily_btn1" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="daily_btn1_up" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_daily_btn2" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="daily_btn2_up" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_daily_btn3" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="daily_btn3_up" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_daily_txt2" minW="154" minH="27">
+        <State id="STATE_DEFAULT" piece="daily_txt2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_equipment_arrow1" minW="130" minH="43">
+        <State id="STATE_DEFAULT" piece="equipment_arrow1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_ereryday_taks_loading_bg" minW="400" minH="48">
+        <State id="STATE_DEFAULT" piece="ereryday_taks_loading_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_exchange_bg" minW="257" minH="247">
+        <State id="STATE_DEFAULT" piece="exchange_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_experience" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="experience" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_fast" minW="19" minH="22">
+        <State id="STATE_DISABLED" piece="fast_unavailable" />
+        <State id="STATE_DOWN" piece="fast_down" />
+        <State id="STATE_HOVER" piece="fast_hover" />
+        <State id="STATE_DEFAULT" piece="fast_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_friends_head_box1" minW="321" minH="80">
+        <State id="STATE_DEFAULT" piece="friends_head_box1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_mage" minW="62" minH="62">
+        <State id="STATE_DISABLED" piece="newbie_default_disable" />
+        <State id="STATE_DOWN" piece="mage_down" />
+        <State id="STATE_HOVER" piece="mage_over" />
+        <State id="STATE_DEFAULT" piece="mage_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_mage_down" minW="62" minH="62">
+        <State id="STATE_DEFAULT" piece="mage_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_newbie" minW="62" minH="62">
+        <State id="STATE_DISABLED" piece="newbie_default_disable" />
+        <State id="STATE_DEFAULT" piece="newbie_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_priest" minW="62" minH="62">
+        <State id="STATE_DISABLED" piece="newbie_default_disable" />
+        <State id="STATE_DOWN" piece="priest_down" />
+        <State id="STATE_HOVER" piece="priest_over" />
+        <State id="STATE_DEFAULT" piece="priest_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_priest_down" minW="62" minH="62">
+        <State id="STATE_DEFAULT" piece="priest_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_ranger" minW="62" minH="62">
+        <State id="STATE_DISABLED" piece="newbie_default_disable" />
+        <State id="STATE_DOWN" piece="ranger_down" />
+        <State id="STATE_HOVER" piece="ranger_over" />
+        <State id="STATE_DEFAULT" piece="ranger_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_ranger_down" minW="62" minH="62">
+        <State id="STATE_DEFAULT" piece="ranger_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_warrior" minW="62" minH="62">
+        <State id="STATE_DISABLED" piece="newbie_default_disable" />
+        <State id="STATE_DOWN" piece="warrior_down" />
+        <State id="STATE_HOVER" piece="warrior_over" />
+        <State id="STATE_DEFAULT" piece="warrior_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_function_warrior_down" minW="62" minH="62">
+        <State id="STATE_DEFAULT" piece="warrior_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_gift" minW="16" minH="17">
+        <State id="STATE_DEFAULT" piece="gift" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_giftbox_bar_bg" minW="406" minH="21">
+        <State id="STATE_DEFAULT" piece="giftbox_bar_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_goods_bg" minW="48" minH="48">
+        <State id="STATE_DEFAULT" piece="goods_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_goods_mosaic" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="goods_mosaic" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_goods_penal_bg1" minW="186" minH="79">
+        <State id="STATE_DEFAULT" piece="goods_penal_bg1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_goods_penal_bg2" minW="186" minH="20">
+        <State id="STATE_DEFAULT" piece="goods_penal_bg2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_group_pk_bg" minW="440" minH="85">
+        <State id="STATE_DEFAULT" piece="group_pk_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_guide_i" minW="50" minH="51">
+        <State id="STATE_DOWN" piece="guide_i2" />
+        <State id="STATE_HOVER" piece="guide_i2" />
+        <State id="STATE_DEFAULT" piece="guide_i1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_guild_lv" minW="62" minH="37">
+        <State id="STATE_DEFAULT" piece="guild_lv" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_guild_modify" minW="17" minH="17">
+        <State id="STATE_DEFAULT" piece="guild_modify_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_guild_step_digital1" minW="108" minH="33">
+        <State id="STATE_DEFAULT" piece="guild_step_digital1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_guild_step_digital2" minW="116" minH="34">
+        <State id="STATE_DEFAULT" piece="guild_step_digital2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_guild_step_digital3" minW="117" minH="35">
+        <State id="STATE_DEFAULT" piece="guild_step_digital3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_guild_step_digital4" minW="117" minH="33">
+        <State id="STATE_DEFAULT" piece="guild_step_digital4" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_guild_step_digital5" minW="115" minH="34">
+        <State id="STATE_DEFAULT" piece="guild_step_digital5" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_hand" minW="18" minH="18">
+        <State id="STATE_DEFAULT" piece="hand" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_help" minW="57" minH="28">
+        <State id="STATE_DEFAULT" piece="help_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_help1" minW="29" minH="27">
+        <State id="STATE_DEFAULT" piece="help_default1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_icon_add" minW="23" minH="23">
+        <State id="STATE_DEFAULT" piece="icon_add" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_icon_xp" minW="23" minH="20">
+        <State id="STATE_DEFAULT" piece="xp" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_infocenterbg_gold" minW="56" minH="56">
+        <State id="STATE_DEFAULT" piece="infocenterbg_gold" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_interface_prepaid" minW="73" minH="22">
+        <State id="STATE_DEFAULT" piece="interface_prepaid" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_interface_vip" minW="73" minH="22">
+        <State id="STATE_DEFAULT" piece="interface_vip" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_inventory_blue" minW="36" minH="36">
+        <State id="STATE_DEFAULT" piece="inventory_blue" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_inventory_green" minW="36" minH="36">
+        <State id="STATE_DEFAULT" piece="inventory_green" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_inventory_orange" minW="36" minH="36">
+        <State id="STATE_DEFAULT" piece="inventory_orange" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_inventory_purple" minW="36" minH="36">
+        <State id="STATE_DEFAULT" piece="inventory_purple" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_inventory_unavaiable" minW="36" minH="36">
+        <State id="STATE_DEFAULT" piece="inventory_unavailable" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_inventory_unavailable2" minW="36" minH="36">
+        <State id="STATE_DEFAULT" piece="inventory_unavailable2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_inventory_yellow" minW="36" minH="36">
+        <State id="STATE_DEFAULT" piece="inventory_yellow" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_item_bg0" minW="70" minH="70">
+        <State id="STATE_DEFAULT" piece="item_bg1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_item_bg1" minW="84" minH="84">
+        <State id="STATE_DISABLED" piece="item_bg_disable" />
+        <State id="STATE_HOVER" piece="item_bg_gold" />
+        <State id="STATE_DEFAULT" piece="item_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_item_bg2" minW="84" minH="84">
+        <State id="STATE_DEFAULT" piece="item_bg_gold" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_item_small_bg1" minW="52" minH="53">
+        <State id="STATE_DISABLED" piece="item_bg_disable2" />
+        <State id="STATE_HOVER" piece="item_bg_gold2" />
+        <State id="STATE_DEFAULT" piece="item_bg2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_item_small_bg2" minW="52" minH="53">
+        <State id="STATE_DEFAULT" piece="item_bg_gold2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_itembg_new" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="itembg_new" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_key_f11" minW="40" minH="42">
+        <State id="STATE_DEFAULT" piece="key_f11" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_knights_friends_head_dedault" minW="48" minH="48">
+        <State id="STATE_DEFAULT" piece="knights_friends_head_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_knights_friends_itembg" minW="62" minH="62">
+        <State id="STATE_DEFAULT" piece="knights_friends_itembg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_knights_friends_title_txt1" minW="86" minH="26">
+        <State id="STATE_DEFAULT" piece="knights_friends_title_txt1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_knights_friends_title_txt2" minW="86" minH="26">
+        <State id="STATE_DEFAULT" piece="knights_friends_title_txt2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_landed_bg" minW="514" minH="52">
+        <State id="STATE_DEFAULT" piece="landed_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_loading_bar_green" minW="7" minH="11">
+        <State id="STATE_DEFAULT" piece="loading_bar_green" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_loading_bar_yellow" minW="7" minH="11">
+        <State id="STATE_DEFAULT" piece="loading_bar_yellow" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_loading_bg" minW="625" minH="43">
+        <State id="STATE_DEFAULT" piece="loading_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_arrow_left" minW="45" minH="58">
+        <State id="STATE_DEFAULT" piece="login_arrow_left" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_arrow_right" minW="45" minH="58">
+        <State id="STATE_DEFAULT" piece="login_arrow_right" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color1" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color10" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color10" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color2" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color3" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color4" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color4" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color5" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color5" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color6" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color6" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color7" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color7" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color8" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color8" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color9" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color9" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_color_selected" minW="17" minH="34">
+        <State id="STATE_DEFAULT" piece="login_color_selected" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_delete" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="login_delete" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_female" minW="81" minH="70">
+        <State id="STATE_DEFAULT" piece="login_female_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_female_uncheck" minW="81" minH="70">
+        <State id="STATE_HOVER" piece="login_female_hover" />
+        <State id="STATE_DEFAULT" piece="login_female_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_gd" minW="341" minH="80">
+        <State id="STATE_DEFAULT" piece="login_gd2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_gd1" minW="341" minH="80">
+        <State id="STATE_HOVER" piece="login_gd1" />
+        <State id="STATE_DEFAULT" piece="login_gd3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_gd1_uncheck" minW="341" minH="80">
+        <State id="STATE_DEFAULT" piece="login_gd1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_gd_uncheck" minW="341" minH="80">
+        <State id="STATE_HOVER" piece="login_gd1" />
+        <State id="STATE_DEFAULT" piece="login_gd3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_head" minW="90" minH="80">
+        <State id="STATE_DEFAULT" piece="login_head" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_head_null" minW="64" minH="64">
+        <State id="STATE_DEFAULT" piece="login_head_null" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_man" minW="81" minH="70">
+        <State id="STATE_DEFAULT" piece="login_man_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_man_uncheck" minW="81" minH="70">
+        <State id="STATE_HOVER" piece="login_man_hover" />
+        <State id="STATE_DEFAULT" piece="login_man_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_sound_off" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="login_sound_off" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_sound_on" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="login_sound_on" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_txt1" minW="31" minH="18">
+        <State id="STATE_DEFAULT" piece="login_txt1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_txt2" minW="31" minH="18">
+        <State id="STATE_DEFAULT" piece="login_txt2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_login_txt3" minW="55" minH="30">
+        <State id="STATE_DEFAULT" piece="login_txt3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_lucky_chance_btn1" minW="3" minH="3">
+        <State id="STATE_HOVER" piece="lucky_chance_btn1" />
+        <State id="STATE_DEFAULT" piece="classmaster_selecte_03" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_lucky_chance_btn2" minW="106" minH="106">
+        <State id="STATE_DEFAULT" piece="lucky_chance_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_lucky_chance_radiobutton_checked" minW="20" minH="22">
+        <State id="STATE_DEFAULT" piece="lucky_chance_radiobutton_checked" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_lucky_chance_radiobutton_unchecked" minW="20" minH="22">
+        <State id="STATE_DEFAULT" piece="lucky_chance_radiobutton_unchecked" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_luckychance" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="luckychance" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_chat_away" minW="17" minH="17">
+        <State id="STATE_DEFAULT" piece="main_chat_away_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_chat_away2" minW="17" minH="17">
+        <State id="STATE_DEFAULT" piece="main_chat_away2_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_chat_end" minW="17" minH="20">
+        <State id="STATE_DEFAULT" piece="main_chat_end_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_chat_zoom" minW="8" minH="8">
+        <State id="STATE_DEFAULT" piece="main_chat_zoom_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_away" minW="34" minH="34">
+        <State id="STATE_DEFAULT" piece="main_function_away_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_charge" minW="75" minH="74">
+        <State id="STATE_DEFAULT" piece="main_function_charge" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_energy" minW="86" minH="86">
+        <State id="STATE_DEFAULT" piece="main_function_energy" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_exp" minW="25" minH="11">
+        <State id="STATE_DEFAULT" piece="main_function_exp" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_exp_light" minW="5" minH="15">
+        <State id="STATE_DEFAULT" piece="main_function_exp_light" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_exp_separated" minW="3" minH="10">
+        <State id="STATE_DEFAULT" piece="main_function_exp_separated" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_mall" minW="44" minH="44">
+        <State id="STATE_DEFAULT" piece="main_function_mall_btn" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_skill_bg1" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="main_function_skill_bg1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_skill_bg2" minW="11" minH="11">
+        <State id="STATE_DEFAULT" piece="main_function_skill_bg2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_switch1" minW="14" minH="15">
+        <State id="STATE_DEFAULT" piece="main_function_switch1_disabled" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_switch1_uncheck" minW="14" minH="15">
+        <State id="STATE_HOVER" piece="main_function_switch1_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_switch1_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_switch2" minW="14" minH="15">
+        <State id="STATE_DEFAULT" piece="main_function_switch2_disabled" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_function_switch2_uncheck" minW="14" minH="15">
+        <State id="STATE_DOWN" piece="main_function_switch2_down" />
+        <State id="STATE_HOVER" piece="main_function_switch2_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_switch2_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_level_bg" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="main_level_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_map_arrow" minW="17" minH="21">
+        <State id="STATE_DEFAULT" piece="main_map_arrow" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_map_bg" minW="125" minH="125">
+        <State id="STATE_DEFAULT" piece="main_map_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_map_fullscreen" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="main_map_fullscreen_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_map_mask" minW="125" minH="125">
+        <State id="STATE_DEFAULT" piece="main_map_mask" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_map_pattern" minW="183" minH="153">
+        <State id="STATE_DEFAULT" piece="main_map_pattern" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_map_return" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="main_map_return" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_monster_bg" minW="235" minH="64">
+        <State id="STATE_DEFAULT" piece="main_monster_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_role_bg" minW="243" minH="85">
+        <State id="STATE_DEFAULT" piece="main_role_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_role_captain" minW="17" minH="12">
+        <State id="STATE_DEFAULT" piece="main_role_captain" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_role_slide" minW="5" minH="20">
+        <State id="STATE_DEFAULT" piece="main_role_slide" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_squad_bg" minW="136" minH="38">
+        <State id="STATE_DEFAULT" piece="main_squad_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_star0" minW="83" minH="22">
+        <State id="STATE_DEFAULT" piece="main_star0" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_star1" minW="83" minH="22">
+        <State id="STATE_DEFAULT" piece="main_star1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_star2" minW="83" minH="22">
+        <State id="STATE_DEFAULT" piece="main_star2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_star3" minW="83" minH="22">
+        <State id="STATE_DEFAULT" piece="main_star3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_star4" minW="83" minH="22">
+        <State id="STATE_DEFAULT" piece="main_star4" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_main_star5" minW="83" minH="22">
+        <State id="STATE_DEFAULT" piece="main_star5" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_mainuipet_bg" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="mainuipet_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_mainuipet_btn1" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="mainuipet_btn1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_mall_digital" minW="56" minH="30">
+        <State id="STATE_DEFAULT" piece="mall_digital" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_mall_icon1" minW="49" minH="44">
+        <State id="STATE_DEFAULT" piece="mall_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_mall_title_bg" minW="344" minH="50">
+        <State id="STATE_DEFAULT" piece="mall_title_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_mall_title_cn" minW="92" minH="50">
+        <State id="STATE_DEFAULT" piece="mall_title_cn" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_map_title_cn" minW="73" minH="39">
+        <State id="STATE_DEFAULT" piece="map_title_cn" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_page_first" minW="41" minH="27">
+        <State id="STATE_DEFAULT" piece="page_first_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_page_last" minW="41" minH="27">
+        <State id="STATE_DEFAULT" piece="page_lase_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_page_next" minW="41" minH="27">
+        <State id="STATE_DEFAULT" piece="page_next_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_page_next2" minW="23" minH="36">
+        <State id="STATE_DEFAULT" piece="page_next2_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_page_prev" minW="41" minH="27">
+        <State id="STATE_DEFAULT" piece="page_prev_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_page_prev2" minW="23" minH="36">
+        <State id="STATE_DEFAULT" piece="page_prev2_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_pet_Crystal_bg" minW="51" minH="51">
+        <State id="STATE_DOWN" piece="pet_crystal_bg_hover" />
+        <State id="STATE_HOVER" piece="pet_crystal_bg_hover" />
+        <State id="STATE_DEFAULT" piece="pet_crystal_bg_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_pet_btn1" minW="54" minH="54">
+        <State id="STATE_DEFAULT" piece="pet_btn1_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_pet_btn1_uncheck" minW="54" minH="54">
+        <State id="STATE_DISABLED" piece="pet_btn1_disable" />
+        <State id="STATE_HOVER" piece="pet_btn1_hover" />
+        <State id="STATE_DEFAULT" piece="pet_btn1_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_pet_exchange" minW="45" minH="45">
+        <State id="STATE_DEFAULT" piece="pet_exchange" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_pet_frame" minW="92" minH="118">
+        <State id="STATE_DEFAULT" piece="pet_frame" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_pet_lock1" minW="51" minH="51">
+        <State id="STATE_HOVER" piece="pet_lock1_hover" />
+        <State id="STATE_DEFAULT" piece="pet_lock1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_pet_skills_icon1" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="pet_skills_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_bar_bg" minW="446" minH="21">
+        <State id="STATE_DEFAULT" piece="player_bar_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_bg" minW="243" minH="314">
+        <State id="STATE_DEFAULT" piece="player_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_btn1" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="player_btn1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_btn2" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="player_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_btn3" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="player_btn3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_btn4" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="player_btn4" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_btn5" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="player_btn5" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_icon3" minW="16" minH="16">
+        <State id="STATE_DEFAULT" piece="player_icon3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_menu1_bg" minW="166" minH="20">
+        <State id="STATE_DEFAULT" piece="player_menu1_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_tree_close" minW="20" minH="20">
+        <State id="STATE_DEFAULT" piece="player_tree_closed" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_tree_open" minW="20" minH="20">
+        <State id="STATE_DEFAULT" piece="player_tree_open" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_turn_left" minW="42" minH="23">
+        <State id="STATE_DEFAULT" piece="player_turn_left" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_player_turn_right" minW="42" minH="23">
+        <State id="STATE_DEFAULT" piece="player_turn_right" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_prompt_btn1" minW="300" minH="72">
+        <State id="STATE_DEFAULT" piece="prompt_btn1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_prompt_btn2" minW="300" minH="72">
+        <State id="STATE_DEFAULT" piece="prompt_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_pumpcard_back" minW="128" minH="185">
+        <State id="STATE_DEFAULT" piece="pumpcard_back" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_push_bg" minW="658" minH="48">
+        <State id="STATE_DEFAULT" piece="push_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_radiobutton_checked" minW="18" minH="18">
+        <State id="STATE_DEFAULT" piece="radiobutton_checked" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_radiobutton_uncheck" minW="18" minH="18">
+        <State id="STATE_DEFAULT" piece="radiobutton_unchecked" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_recharge_btn1" minW="180" minH="72">
+        <State id="STATE_DEFAULT" piece="recharge_btn1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_recharge_btn2" minW="180" minH="72">
+        <State id="STATE_DEFAULT" piece="recharge_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_refresh_lock1" minW="25" minH="26">
+        <State id="STATE_DEFAULT" piece="refresh_lock1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_refresh_lock2" minW="25" minH="26">
+        <State id="STATE_DEFAULT" piece="refresh_lock2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_scroll_down" minW="17" minH="22">
+        <State id="STATE_DISABLED" piece="scroll_down_disable" />
+        <State id="STATE_DEFAULT" piece="scroll_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_scroll_up" minW="17" minH="22">
+        <State id="STATE_DISABLED" piece="scroll_up_disable" />
+        <State id="STATE_DEFAULT" piece="scroll_up" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_signnamebtn_disable" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="signnamebtn_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_singing_bar_bg" minW="209" minH="21">
+        <State id="STATE_DEFAULT" piece="singing_bar_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_skills_btn" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="skills_btn" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_skills_btn2" minW="30" minH="30">
+        <State id="STATE_DEFAULT" piece="skills_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_skills_delete" minW="22" minH="22">
+        <State id="STATE_DEFAULT" piece="skills_delete" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_skills_label" minW="250" minH="54">
+        <State id="STATE_DEFAULT" piece="skills_label_2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_skills_label_uncheck" minW="250" minH="54">
+        <State id="STATE_DEFAULT" piece="skills_label_1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_summon" minW="83" minH="21">
+        <State id="STATE_DEFAULT" piece="summon_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_system_notice_bg" minW="670" minH="39">
+        <State id="STATE_DEFAULT" piece="system_notice_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_tab2_left" minW="100" minH="30">
+        <State id="STATE_DOWN" piece="tab2_left_down" />
+        <State id="STATE_HOVER" piece="tab2_left_hover" />
+        <State id="STATE_DEFAULT" piece="tab2_left_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_tab2_middle" minW="100" minH="30">
+        <State id="STATE_DOWN" piece="tab2_middle_down" />
+        <State id="STATE_HOVER" piece="tab2_middle_hover" />
+        <State id="STATE_DEFAULT" piece="tab2_middle_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_tab2_right" minW="100" minH="30">
+        <State id="STATE_DOWN" piece="tab2_right_down" />
+        <State id="STATE_HOVER" piece="tab2_right_hover" />
+        <State id="STATE_DEFAULT" piece="tab2_right_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_table_cutline" minW="3" minH="25">
+        <State id="STATE_DEFAULT" piece="table_cutline" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_table_title_default" minW="16" minH="27">
+        <State id="STATE_DEFAULT" piece="table_title_default" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_table_title_down" minW="16" minH="27">
+        <State id="STATE_DEFAULT" piece="table_title_down" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_table_title_up" minW="16" minH="27">
+        <State id="STATE_DEFAULT" piece="table_title_up" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_target_angle" minW="15" minH="29">
+        <State id="STATE_DEFAULT" piece="target_angle" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_task_btn1" minW="17" minH="17">
+        <State id="STATE_DEFAULT" piece="task_btn1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_task_btn2" minW="17" minH="17">
+        <State id="STATE_DEFAULT" piece="task_btn2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_task_icon1" minW="36" minH="37">
+        <State id="STATE_DEFAULT" piece="task_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_transaction_lock1" minW="69" minH="69">
+        <State id="STATE_DEFAULT" piece="transaction_lock1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_transaction_lock2" minW="69" minH="69">
+        <State id="STATE_DEFAULT" piece="transaction_lock2" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_transaction_lock3" minW="69" minH="69">
+        <State id="STATE_DEFAULT" piece="transaction_lock3" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_transaction_lock4" minW="69" minH="69">
+        <State id="STATE_DEFAULT" piece="transaction_lock4" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_transport_bg" minW="152" minH="24">
+        <State id="STATE_DEFAULT" piece="transporticon" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_tree_closed1" minW="21" minH="13">
+        <State id="STATE_DEFAULT" piece="tree_closed1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_tree_open1" minW="21" minH="13">
+        <State id="STATE_DEFAULT" piece="tree_open1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_vip_check" minW="23" minH="23">
+        <State id="STATE_DEFAULT" piece="vip_check" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_vip_schedule_bg" minW="608" minH="27">
+        <State id="STATE_DEFAULT" piece="vip_schedule_bg" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_vip_schedule_highlight" minW="9" minH="22">
+        <State id="STATE_DEFAULT" piece="vip_schedule_highight" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_wall_panel1" minW="181" minH="254">
+        <State id="STATE_DEFAULT" piece="wall_panel1" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_wall_panel2" minW="181" minH="254">
+        <State id="STATE_DEFAULT" piece="wall_panel2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_chest_icon3" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="chest_icon3" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_classmaster_icon_00" minW="45" minH="45">
+        <State id="STATE_DEFAULT" piece="classmaster_icon_01" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_classmaster_icon_01" minW="45" minH="45">
+        <State id="STATE_DEFAULT" piece="classmaster_icon_02" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_classmaster_icon_02" minW="45" minH="45">
+        <State id="STATE_DEFAULT" piece="classmaster_icon_03" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_classmaster_icon_03" minW="45" minH="45">
+        <State id="STATE_DEFAULT" piece="classmaster_icon_04" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_daily_icon1" minW="51" minH="56">
+        <State id="STATE_DEFAULT" piece="daily_icon1_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_daily_icon2" minW="51" minH="56">
+        <State id="STATE_DEFAULT" piece="daily_icon2_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_daily_icon3" minW="51" minH="56">
+        <State id="STATE_DEFAULT" piece="daily_icon3_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_daily_icon4" minW="51" minH="56">
+        <State id="STATE_DEFAULT" piece="daily_icon4_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_daily_icon5" minW="51" minH="56">
+        <State id="STATE_DEFAULT" piece="daily_icon5_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_daily_icon6" minW="51" minH="56">
+        <State id="STATE_DEFAULT" piece="daily_icon6_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_daily_icon7" minW="23" minH="22">
+        <State id="STATE_DEFAULT" piece="daily_icon7_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_dice" minW="21" minH="19">
+        <State id="STATE_DEFAULT" piece="dice" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon1" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon10" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon10" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon11" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon11" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon12" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon12" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon13" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon13" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon2" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon3" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon3" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon4" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon4" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon5" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon5" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon6" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon6" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon7" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon7" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon8" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon8" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_equipment_icon9" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="equipment_icon9" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_facebook" minW="16" minH="16">
+        <State id="STATE_DEFAULT" piece="facebook" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_flyshoes" minW="18" minH="22">
+        <State id="STATE_DISABLED" piece="flyshoes_unavailable" />
+        <State id="STATE_DOWN" piece="flyshoes_down" />
+        <State id="STATE_HOVER" piece="flyshoes_hover" />
+        <State id="STATE_DEFAULT" piece="flyshoes_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_gold1" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="gold1" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_gold2" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="gold2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_gold3" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="gold3" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_gold4" minW="21" minH="21">
+        <State id="STATE_DEFAULT" piece="gold4" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_group2" minW="18" minH="18">
+        <State id="STATE_DEFAULT" piece="group2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_guild_step_ico1" minW="52" minH="43">
+        <State id="STATE_DEFAULT" piece="guild_step_ico1" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_guild_step_ico2" minW="48" minH="42">
+        <State id="STATE_DEFAULT" piece="guild_step_ico2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_guild_step_ico3" minW="55" minH="39">
+        <State id="STATE_DEFAULT" piece="guild_step_ico3" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_guild_step_ico4" minW="58" minH="48">
+        <State id="STATE_DEFAULT" piece="guild_step_ico4" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_guild_step_ico5" minW="59" minH="56">
+        <State id="STATE_DEFAULT" piece="guild_step_ico5" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_heart" minW="20" minH="22">
+        <State id="STATE_DEFAULT" piece="heart" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_icon_famale" minW="16" minH="20">
+        <State id="STATE_DEFAULT" piece="icon_famale" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_icon_male" minW="16" minH="20">
+        <State id="STATE_DEFAULT" piece="icon_male" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_icon_warning" minW="39" minH="35">
+        <State id="STATE_DEFAULT" piece="icon_warning" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_itembg_new_lock" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="itembg_new_lock" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_leave_time" minW="25" minH="25">
+        <State id="STATE_DEFAULT" piece="leaveTime" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_mail" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="mail" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_mailread" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="mailread" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_chat_icon1" minW="19" minH="17">
+        <State id="STATE_DEFAULT" piece="main_chat_icon1_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_chat_icon2" minW="18" minH="12">
+        <State id="STATE_DEFAULT" piece="main_chat_icon2_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_chat_icon3" minW="18" minH="18">
+        <State id="STATE_DEFAULT" piece="main_chat_icon3_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_chat_icon4" minW="12" minH="10">
+        <State id="STATE_DEFAULT" piece="main_chat_icon4_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_chat_icon5" minW="20" minH="16">
+        <State id="STATE_DEFAULT" piece="main_chat_icon5" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon1" minW="31" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon1_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon1_down" />
+        <State id="STATE_HOVER" piece="main_function_icon1_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon1_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon10" minW="42" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon10_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon10_down" />
+        <State id="STATE_HOVER" piece="main_function_icon10_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon10_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon11" minW="42" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon11_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon11_down" />
+        <State id="STATE_HOVER" piece="main_function_icon11_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon11_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon12" minW="40" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon12_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon12_down" />
+        <State id="STATE_HOVER" piece="main_function_icon12_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon12_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon13" minW="40" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon13_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon13_down" />
+        <State id="STATE_HOVER" piece="main_function_icon13_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon13_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon14" minW="40" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon14_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon14_down" />
+        <State id="STATE_HOVER" piece="main_function_icon14_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon14_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon2" minW="34" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon2_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon2_down" />
+        <State id="STATE_HOVER" piece="main_function_icon2_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon2_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon3" minW="46" minH="41">
+        <State id="STATE_DOWN" piece="main_function_icon3_down" />
+        <State id="STATE_HOVER" piece="main_function_icon3_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon3_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon4" minW="46" minH="41">
+        <State id="STATE_DOWN" piece="main_function_icon4_down" />
+        <State id="STATE_HOVER" piece="main_function_icon4_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon4_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon5" minW="46" minH="41">
+        <State id="STATE_DOWN" piece="main_function_icon5_down" />
+        <State id="STATE_HOVER" piece="main_function_icon5_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon5_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon6" minW="42" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon6_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon6_down" />
+        <State id="STATE_HOVER" piece="main_function_icon6_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon6_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon7" minW="46" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon7_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon7_down" />
+        <State id="STATE_HOVER" piece="main_function_icon7_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon7_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon8" minW="46" minH="41">
+        <State id="STATE_DOWN" piece="main_function_icon8_down" />
+        <State id="STATE_HOVER" piece="main_function_icon8_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon8_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon9" minW="38" minH="41">
+        <State id="STATE_DISABLED" piece="main_function_icon9_disable" />
+        <State id="STATE_DOWN" piece="main_function_icon9_down" />
+        <State id="STATE_HOVER" piece="main_function_icon9_hover" />
+        <State id="STATE_DEFAULT" piece="main_function_icon9_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini1" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini1" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini10" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini10" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini11" minW="27" minH="28">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini11" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini12" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini12" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini13" minW="27" minH="27">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini13" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini14" minW="27" minH="24">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini14" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini15" minW="27" minH="25">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini15" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini16" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini16" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini17" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini17" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini18" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini18" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini19" minW="25" minH="25">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini19" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini2" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini20" minW="25" minH="25">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini20" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini21" minW="25" minH="25">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini21" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini22" minW="25" minH="25">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini22" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini23" minW="25" minH="25">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini23" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini3" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini3" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini4" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini4" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini5" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini5" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini6" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini6" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini7" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini7" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini8" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini8" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icon_mini9" minW="27" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icon_mini9" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icona_normal" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icona_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_iconb_normal" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_iconb_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_iconc_normal" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_iconc_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icond_normal" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icond_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_function_icone_normal" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_function_icone_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon1" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="main_map_icon1_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon10" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon10_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon11" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon11_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon12" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon12_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon15" minW="11" minH="11">
+        <State id="STATE_DEFAULT" piece="main_map_icon15" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon16" minW="11" minH="11">
+        <State id="STATE_DEFAULT" piece="main_map_icon16" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon17" minW="11" minH="11">
+        <State id="STATE_DEFAULT" piece="main_map_icon17" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon18" minW="11" minH="11">
+        <State id="STATE_DEFAULT" piece="main_map_icon18" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon19" minW="11" minH="11">
+        <State id="STATE_DEFAULT" piece="main_map_icon19" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon2" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon2_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon20" minW="11" minH="11">
+        <State id="STATE_DEFAULT" piece="main_map_icon20" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon21" minW="44" minH="44">
+        <State id="STATE_DEFAULT" piece="main_map_icon21" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon22" minW="44" minH="44">
+        <State id="STATE_DEFAULT" piece="main_map_icon22" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon23" minW="18" minH="18">
+        <State id="STATE_DEFAULT" piece="main_map_letter" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon24" minW="38" minH="38">
+        <State id="STATE_DEFAULT" piece="main_map_icon24" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon25" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon23" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon26" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon26" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon27" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon27" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon3" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon3_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon4" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon4_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon5" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon5_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon6" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon6_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon7" minW="31" minH="31">
+        <State id="STATE_DEFAULT" piece="main_map_icon7_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon8" minW="31" minH="31">
+        <State id="STATE_DEFAULT" piece="main_map_icon8_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_map_icon9" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_map_icon9_normal" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_pop_icon1" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_pop_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_pop_icon2" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_pop_icon2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_pop_icon3" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_pop_icon3" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_pop_icon4" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_pop_icon4" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_pop_icon5" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_pop_icon5" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_pop_icon6" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_pop_icon6" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_pop_icon7" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_pop_icon7" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_role_icon0" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_role_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_role_icon1" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_role_icon2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_role_icon2" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_role_icon3" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_role_icon3" minW="26" minH="26">
+        <State id="STATE_DEFAULT" piece="main_role_icon4" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_role_icon5" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="main_role_icon5" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_role_icon6" minW="24" minH="24">
+        <State id="STATE_DEFAULT" piece="main_role_icon6" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_spuad_icon1" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_spuad_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_spuad_icon2" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_spuad_icon2" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_spuad_icon3" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_spuad_icon3" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_spuad_icon4" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_spuad_icon4" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_spuad_icon5" minW="32" minH="32">
+        <State id="STATE_DEFAULT" piece="main_spuad_icon5" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_main_task_icon1" minW="9" minH="14">
+        <State id="STATE_DEFAULT" piece="main_task_icon1" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_mark" minW="9" minH="14">
+        <State id="STATE_DEFAULT" piece="mark" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_search" minW="20" minH="22">
+        <State id="STATE_DEFAULT" piece="search" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_smalllock" minW="9" minH="9">
+        <State id="STATE_DEFAULT" piece="smalllock" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_star" minW="21" minH="20">
+        <State id="STATE_DEFAULT" piece="icon_star" />
+    </BitmapStyle>
+    <BitmapStyle id="icos_wayfinding" minW="18" minH="22">
+        <State id="STATE_DOWN" piece="wayfinding_down" />
+        <State id="STATE_HOVER" piece="wayfinding_hover" />
+        <State id="STATE_DEFAULT" piece="wayfinding_normal" />
+    </BitmapStyle>
+</BitmapStyleList>

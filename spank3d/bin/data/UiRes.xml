@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UiRes>
+  <PieceInfo path="pieces\default_ui.xml" />
+  <BitmapFont path="fonts\12px_Tahoma.xml" />
+  <BitmapStyle path="styles\DefaultBitmapStyleList.xml" />
+  <NinePatchStyle path="styles\DefaultNinePatchStyleList.xml" />
+  <HorizontalPatchStyle path="styles\DefaultHorizontalPatchStyleList.xml" />
+  <VerticalPatchStyle path="styles\DefaultVerticalPatchStyleList.xml" />
+  <BitmapFontStyle path="styles\DefaultBitmapFontStyleList.xml" />
+</UiRes>

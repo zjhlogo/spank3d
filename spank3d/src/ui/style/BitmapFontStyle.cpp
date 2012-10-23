@@ -100,6 +100,12 @@ bool BitmapFontStyle::RenderText(const BITMAP_FONT_INFO& bitmapFontInfo, const t
 
 bool BitmapFontStyle::LoadFromXml(TiXmlElement* pXmlBitmapFontStyle)
 {
+	const tchar* pszFontInfoId = pXmlBitmapFontStyle->Attribute(_("fontInfoId"));
+	if (!pszFontInfoId) return false;
+
+	IFontInfo* pFontInfo = g_pUiResMgr->FindFontInfo(pszFontInfoId);
+	if (!pFontInfo) return false;
+
 	for (TiXmlElement* pXmlState = pXmlBitmapFontStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
 		const tchar* pszId = pXmlState->Attribute(_("id"));
@@ -107,12 +113,6 @@ bool BitmapFontStyle::LoadFromXml(TiXmlElement* pXmlBitmapFontStyle)
 
 		uint nState = UiState::GetStateValue(pszId);
 		if (nState == 0) continue;
-
-		const tchar* pszFile = pXmlState->Attribute(_("file"));
-		if (!pszFile) continue;
-
-		IFontInfo* pFontInfo = g_pUiResMgr->FindFontInfo(pszFile);
-		if (!pFontInfo) continue;
 
 		const tchar* pszColor = pXmlState->Attribute(_("color"));
 		if (!pszColor) continue;

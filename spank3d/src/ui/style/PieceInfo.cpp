@@ -25,7 +25,7 @@ PieceInfo::PieceInfo(const tstring& id)
 
 PieceInfo::~PieceInfo()
 {
-	SAFE_RELEASE(pTexture);
+	
 }
 
 const tstring& PieceInfo::GetId() const
@@ -33,13 +33,9 @@ const tstring& PieceInfo::GetId() const
 	return strId;
 }
 
-bool PieceInfo::LoadFromXml(TiXmlElement* pXmlPieceInfo)
+bool PieceInfo::LoadFromXml(TiXmlElement* pXmlPieceInfo, ITexture* pTex)
 {
-	const tchar* pszTexture = pXmlPieceInfo->Attribute(_("texture"));
-	if (!pszTexture) return false;
-
-	pTexture = g_pResMgr->CreateTexture(pszTexture, ITexture::TS_NEAREST);
-	if (!pTexture) return false;
+	pTexture = pTex;
 
 	pXmlPieceInfo->Attribute(_("x"), &x);
 	pXmlPieceInfo->Attribute(_("y"), &y);

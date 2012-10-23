@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<PieceInfoList texture="pieces\skills.png">
+    <PieceInfo id="skills_arrow" x="250" y="54" width="21" height="46" />
+    <PieceInfo id="skills_bg" x="250" y="0" width="32" height="52" />
+    <PieceInfo id="skills_btn" x="0" y="108" width="38" height="38" />
+    <PieceInfo id="skills_btn2" x="0" y="146" width="30" height="30" />
+    <PieceInfo id="skills_delete" x="271" y="54" width="22" height="22" />
+    <PieceInfo id="skills_label_1" x="0" y="0" width="250" height="54" />
+    <PieceInfo id="skills_label_2" x="0" y="54" width="250" height="54" />
+</PieceInfoList>

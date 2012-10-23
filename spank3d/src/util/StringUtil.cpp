@@ -5,8 +5,8 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <util/StringUtil.h>
 #include <tchar.h>
+#include <util/StringUtil.h>
 #include <algorithm>
 #include <Windows.h>
 
