@@ -30,14 +30,57 @@ UiResMgr_Impl& UiResMgr_Impl::GetInstance()
 
 bool UiResMgr_Impl::Initialize()
 {
-	if (!LoadPieceInfoList(_("PieceInfoList.xml"))) return false;
-	if (!LoadBitmapStyleList(_("BitmapStyleList.xml"))) return false;
-	if (!LoadNinePatchStyleList(_("NinePatchStyleList.xml"))) return false;
-	if (!LoadHotizontalPatchStyleList(_("HorizontalPatchStyleList.xml"))) return false;
-	if (!LoadVerticalPatchStyleList(_("VerticalPatchStyleList.xml"))) return false;
+	tstring strXmlData;
+	if (!g_pResMgr->ReadStringFile(strXmlData, _("UiRes.xml"))) return false;
 
-	if (!LoadBitmapFontInfo(_("12px_Tahoma.fnt"))) return false;
-	if (!LoadBitmapFontStyleList(_("BitmapFontStyleList.xml"))) return false;
+	TiXmlDocument doc;
+	doc.Parse(strXmlData.c_str());
+	if (doc.Error()) return false;
+
+	TiXmlElement* pXmlRoot = doc.RootElement();
+
+	for (TiXmlElement* pXmlPieceInfo = pXmlRoot->FirstChildElement(_("PieceInfo")); pXmlPieceInfo != NULL; pXmlPieceInfo = pXmlPieceInfo->NextSiblingElement(_("PieceInfo")))
+	{
+		tstring strPath = pXmlPieceInfo->Attribute(_("path"));
+		if (!LoadPieceInfoList(strPath)) return false;
+	}
+
+	for (TiXmlElement* pXmlBitmapFont = pXmlRoot->FirstChildElement(_("BitmapFont")); pXmlBitmapFont != NULL; pXmlBitmapFont = pXmlBitmapFont->NextSiblingElement(_("BitmapFont")))
+	{
+		tstring strPath = pXmlBitmapFont->Attribute(_("path"));
+		if (!LoadBitmapFontInfo(strPath)) return false;
+	}
+
+	for (TiXmlElement* pXmlBitmapStyleList = pXmlRoot->FirstChildElement(_("BitmapStyle")); pXmlBitmapStyleList != NULL; pXmlBitmapStyleList = pXmlBitmapStyleList->NextSiblingElement(_("BitmapStyle")))
+	{
+		tstring strPath = pXmlBitmapStyleList->Attribute(_("path"));
+		if (!LoadBitmapStyleList(strPath)) return false;
+	}
+
+	for (TiXmlElement* pXmlNinePatchStyleList = pXmlRoot->FirstChildElement(_("NinePatchStyle")); pXmlNinePatchStyleList != NULL; pXmlNinePatchStyleList = pXmlNinePatchStyleList->NextSiblingElement(_("NinePatchStyle")))
+	{
+		tstring strPath = pXmlNinePatchStyleList->Attribute(_("path"));
+		if (!LoadNinePatchStyleList(strPath)) return false;
+	}
+
+	for (TiXmlElement* pXmlHorizontalPatchStyleList = pXmlRoot->FirstChildElement(_("HorizontalPatchStyle")); pXmlHorizontalPatchStyleList != NULL; pXmlHorizontalPatchStyleList = pXmlHorizontalPatchStyleList->NextSiblingElement(_("HorizontalPatchStyle")))
+	{
+		tstring strPath = pXmlHorizontalPatchStyleList->Attribute(_("path"));
+		if (!LoadHorizontalPatchStyleList(strPath)) return false;
+	}
+
+	for (TiXmlElement* pXmlVerticalPatchStyleList = pXmlRoot->FirstChildElement(_("VerticalPatchStyle")); pXmlVerticalPatchStyleList != NULL; pXmlVerticalPatchStyleList = pXmlVerticalPatchStyleList->NextSiblingElement(_("VerticalPatchStyle")))
+	{
+		tstring strPath = pXmlVerticalPatchStyleList->Attribute(_("path"));
+		if (!LoadVerticalPatchStyleList(strPath)) return false;
+	}
+
+	for (TiXmlElement* pXmlBitmapFontStyleList = pXmlRoot->FirstChildElement(_("BitmapFontStyle")); pXmlBitmapFontStyleList != NULL; pXmlBitmapFontStyleList = pXmlBitmapFontStyleList->NextSiblingElement(_("BitmapFontStyle")))
+	{
+		tstring strPath = pXmlBitmapFontStyleList->Attribute(_("path"));
+		if (!LoadBitmapFontStyleList(strPath)) return false;
+	}
+
 	return true;
 }
 
@@ -77,6 +120,13 @@ void UiResMgr_Impl::Terminate()
 		SAFE_DELETE(pPieceInfo);
 	}
 	m_PieceInfoMap.clear();
+
+	for (TV_TEXTURE::iterator it = m_vUiTextures.begin(); it != m_vUiTextures.end(); ++it)
+	{
+		ITexture* pTexture = (*it);
+		SAFE_RELEASE(pTexture);
+	}
+	m_vUiTextures.clear();
 }
 
 PieceInfo* UiResMgr_Impl::FindPieceInfo(const tstring& strId)
@@ -141,6 +191,14 @@ bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
 	TiXmlElement* pXmlPieceInfoList = doc.RootElement();
 	if (!pXmlPieceInfoList) return false;
 
+	const tchar* pszTexture = pXmlPieceInfoList->Attribute(_("texture"));
+	if (!pszTexture) return false;
+
+	ITexture* pTexture = g_pResMgr->CreateTexture(pszTexture, ITexture::TS_NEAREST);
+	if (!pTexture) return false;
+
+	m_vUiTextures.push_back(pTexture);
+
 	for (TiXmlElement* pXmlPieceInfo = pXmlPieceInfoList->FirstChildElement(_("PieceInfo")); pXmlPieceInfo != NULL; pXmlPieceInfo = pXmlPieceInfo->NextSiblingElement(_("PieceInfo")))
 	{
 		const tchar* pszId = pXmlPieceInfo->Attribute(_("id"));
@@ -153,7 +211,7 @@ bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
 		}
 
 		PieceInfo* pPieceInfo = new PieceInfo(pszId);
-		if (!pPieceInfo->LoadFromXml(pXmlPieceInfo))
+		if (!pPieceInfo->LoadFromXml(pXmlPieceInfo, pTexture))
 		{
 			SAFE_DELETE(pPieceInfo);
 			continue;
@@ -239,7 +297,7 @@ bool UiResMgr_Impl::LoadNinePatchStyleList(const tstring& strFile)
 	return true;
 }
 
-bool UiResMgr_Impl::LoadHotizontalPatchStyleList(const tstring& strFile)
+bool UiResMgr_Impl::LoadHorizontalPatchStyleList(const tstring& strFile)
 {
 	tstring strXmlData;
 	if (!g_pResMgr->ReadStringFile(strXmlData, strFile)) return false;
@@ -315,7 +373,16 @@ bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
 
 bool UiResMgr_Impl::LoadBitmapFontInfo(const tstring& strFile)
 {
-	BitmapFontInfo* pBitmapFontInfo = new BitmapFontInfo(strFile);
+	tstring fontInfoId;
+	StringUtil::GetFileNameWithoutExt(fontInfoId, strFile);
+
+	if (FindFontInfo(fontInfoId))
+	{
+		LOG(_T("duplicate bitmap font style id %s"), fontInfoId.c_str());
+		return false;
+	}
+
+	BitmapFontInfo* pBitmapFontInfo = new BitmapFontInfo(fontInfoId);
 	if (!pBitmapFontInfo->LoadFromFile(strFile))
 	{
 		SAFE_DELETE(pBitmapFontInfo);
@@ -323,7 +390,7 @@ bool UiResMgr_Impl::LoadBitmapFontInfo(const tstring& strFile)
 		return false;
 	}
 
-	m_FontInfoMap.insert(std::make_pair(strFile, pBitmapFontInfo));
+	m_FontInfoMap.insert(std::make_pair(fontInfoId, pBitmapFontInfo));
 	return true;
 }
 

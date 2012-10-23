@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<PieceInfoList texture="pieces\knights_friends.png">
+    <PieceInfo id="adamwar_life" x="275" y="179" width="32" height="32" />
+    <PieceInfo id="adamwar_magic" x="275" y="211" width="32" height="32" />
+    <PieceInfo id="adamwar_magicdef" x="369" y="48" width="32" height="32" />
+    <PieceInfo id="adamwar_magicinjury" x="401" y="48" width="32" height="32" />
+    <PieceInfo id="adamwar_phydef" x="433" y="48" width="32" height="32" />
+    <PieceInfo id="adamwar_phyinjury" x="465" y="48" width="32" height="32" />
+    <PieceInfo id="chest_arrow_2" x="400" y="26" width="47" height="15" />
+    <PieceInfo id="constellation_title1" x="121" y="171" width="85" height="23" />
+    <PieceInfo id="ereryday_taks_loading_bg" x="0" y="0" width="400" height="48" />
+    <PieceInfo id="friends_head_box1" x="0" y="48" width="321" height="80" />
+    <PieceInfo id="hourglass" x="86" y="222" width="30" height="34" />
+    <PieceInfo id="knights_friends_head_default" x="321" y="48" width="48" height="48" />
+    <PieceInfo id="knights_friends_itembg" x="213" y="179" width="62" height="62" />
+    <PieceInfo id="knights_friends_title_txt1" x="400" y="0" width="86" height="26" />
+    <PieceInfo id="knights_friends_title_txt2" x="0" y="222" width="86" height="26" />
+    <PieceInfo id="refresh_lock1" x="486" y="0" width="25" height="26" />
+    <PieceInfo id="refresh_lock2" x="185" y="194" width="25" height="26" />
+    <PieceInfo id="speed_icon1" x="213" y="128" width="102" height="51" />
+    <PieceInfo id="speed_icon2" x="0" y="171" width="121" height="51" />
+    <PieceInfo id="speed_icon3" x="0" y="128" width="213" height="43" />
+    <PieceInfo id="speed_icon4" x="121" y="194" width="64" height="39" />
+</PieceInfoList>

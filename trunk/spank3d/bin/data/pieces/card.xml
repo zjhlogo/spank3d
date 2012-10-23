@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<PieceInfoList texture="pieces\card.png">
+    <PieceInfo id="card_bottom_01" x="137" y="40" width="128" height="187" />
+    <PieceInfo id="card_bottom_02" x="265" y="40" width="128" height="187" />
+    <PieceInfo id="card_bottom_03" x="393" y="40" width="128" height="187" />
+    <PieceInfo id="card_bottom_04" x="137" y="227" width="128" height="187" />
+    <PieceInfo id="card_star_01" x="360" y="25" width="14" height="14" />
+    <PieceInfo id="card_star_02" x="445" y="23" width="14" height="14" />
+    <PieceInfo id="chest_arrow" x="360" y="0" width="47" height="15" />
+    <PieceInfo id="chest_btn1_disable" x="86" y="379" width="46" height="46" />
+    <PieceInfo id="chest_btn1_down" x="137" y="414" width="46" height="46" />
+    <PieceInfo id="chest_btn1_hover" x="183" y="414" width="46" height="46" />
+    <PieceInfo id="chest_btn1_normal" x="137" y="460" width="46" height="46" />
+    <PieceInfo id="chest_icon1" x="0" y="465" width="53" height="46" />
+    <PieceInfo id="chest_icon2" x="53" y="465" width="53" height="46" />
+    <PieceInfo id="chest_icon3" x="407" y="0" width="38" height="38" />
+    <PieceInfo id="chest_loading_bar" x="360" y="15" width="24" height="10" />
+    <PieceInfo id="chest_loading_bg" x="0" y="0" width="360" height="40" />
+    <PieceInfo id="ico_key1" x="384" y="15" width="22" height="23" />
+    <PieceInfo id="ico_key2" x="445" y="0" width="22" height="23" />
+    <PieceInfo id="ico_key3" x="467" y="0" width="22" height="23" />
+    <PieceInfo id="pumpcard_back" x="265" y="227" width="128" height="185" />
+    <PieceInfo id="pumpcard_bg1" x="0" y="40" width="137" height="339" />
+    <PieceInfo id="pumpcard_mask" x="0" y="379" width="86" height="86" />
+</PieceInfoList>

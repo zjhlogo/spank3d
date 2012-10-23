@@ -23,6 +23,8 @@ public:
 	typedef std::map<tstring, IFontInfo*> TM_FONT_INFO;
 	typedef std::map<tstring, IFontStyle*> TM_FONT_STYLE;
 
+	typedef std::vector<ITexture*> TV_TEXTURE;
+
 public:
 	RTTI_DEF(UiResMgr_Impl, IUiResMgr);
 
@@ -47,7 +49,7 @@ private:
 	bool LoadPieceInfoList(const tstring& strFile);
 	bool LoadBitmapStyleList(const tstring& strFile);
 	bool LoadNinePatchStyleList(const tstring& strFile);
-	bool LoadHotizontalPatchStyleList(const tstring& strFile);
+	bool LoadHorizontalPatchStyleList(const tstring& strFile);
 	bool LoadVerticalPatchStyleList(const tstring& strFile);
 
 	bool LoadBitmapFontInfo(const tstring& strFile);
@@ -62,6 +64,8 @@ private:
 
 	TM_FONT_INFO m_FontInfoMap;
 	TM_FONT_STYLE m_FontStyleMap;
+
+	TV_TEXTURE m_vUiTextures;
 
 };
 #endif // __UIRESMGR_IMPL_H__

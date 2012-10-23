@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<PieceInfoList texture="pieces\lucky_chance.png">
+    <PieceInfo id="btn_medium_pink" x="454" y="117" width="81" height="32" />
+    <PieceInfo id="btn_small_pink" x="454" y="149" width="63" height="30" />
+    <PieceInfo id="lucky_chance_bg1" x="535" y="156" width="41" height="41" />
+    <PieceInfo id="lucky_chance_bg2" x="577" y="117" width="41" height="41" />
+    <PieceInfo id="lucky_chance_bg3" x="577" y="158" width="41" height="41" />
+    <PieceInfo id="lucky_chance_bg4" x="0" y="215" width="440" height="80" />
+    <PieceInfo id="lucky_chance_btn1" x="583" y="0" width="106" height="106" />
+    <PieceInfo id="lucky_chance_btn2" x="291" y="393" width="106" height="106" />
+    <PieceInfo id="lucky_chance_icon1" x="535" y="117" width="42" height="39" />
+    <PieceInfo id="lucky_chance_pattern1" x="0" y="393" width="291" height="81" />
+    <PieceInfo id="lucky_chance_pattern2" x="0" y="295" width="384" height="98" />
+    <PieceInfo id="lucky_chance_pattern3" x="0" y="117" width="454" height="98" />
+    <PieceInfo id="lucky_chance_pattern4" x="0" y="0" width="583" height="117" />
+    <PieceInfo id="lucky_chance_radiobutton_checked" x="454" y="179" width="20" height="22" />
+    <PieceInfo id="lucky_chance_radiobutton_unchecked" x="474" y="179" width="20" height="22" />
+</PieceInfoList>

@@ -20,7 +20,7 @@ public:
 
 	const tstring& GetId() const;
 
-	bool LoadFromXml(TiXmlElement* pXmlPieceInfo);
+	bool LoadFromXml(TiXmlElement* pXmlPieceInfo, ITexture* pTex);
 
 public:
 	float x;

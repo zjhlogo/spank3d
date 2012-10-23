@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<PieceInfoList texture="pieces\equipment.png">
+    <PieceInfo id="card_bg" x="0" y="64" width="205" height="166" />
+    <PieceInfo id="equipment_arrow1" x="205" y="64" width="130" height="43" />
+    <PieceInfo id="equipment_lock" x="205" y="107" width="64" height="64" />
+    <PieceInfo id="equipment_tips_bg" x="0" y="0" width="288" height="64" />
+    <PieceInfo id="goods_border_02" x="326" y="23" width="7" height="7" />
+    <PieceInfo id="goods_mosaic" x="288" y="0" width="38" height="38" />
+    <PieceInfo id="goods_penal_bg1" x="0" y="230" width="186" height="79" />
+    <PieceInfo id="goods_penal_bg2" x="0" y="309" width="186" height="20" />
+    <PieceInfo id="icon_add" x="326" y="0" width="23" height="23" />
+    <PieceInfo id="star1" x="288" y="38" width="25" height="23" />
+    <PieceInfo id="star2" x="313" y="38" width="25" height="23" />
+    <PieceInfo id="star3" x="269" y="107" width="25" height="23" />
+    <PieceInfo id="tab_lock" x="186" y="230" width="15" height="19" />
+</PieceInfoList>
