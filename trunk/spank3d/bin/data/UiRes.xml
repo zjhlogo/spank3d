@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <UiRes root=".">
+  <PieceInfo path="pieces\adore.xml" />
+  <PieceInfo path="pieces\bars.xml" />
+  <PieceInfo path="pieces\buttons.xml" />
+  <PieceInfo path="pieces\circles.xml" />
   <PieceInfo path="pieces\default_ui.xml" />
+  <PieceInfo path="pieces\graphics.xml" />
+  <PieceInfo path="pieces\icons.xml" />
+  <PieceInfo path="pieces\rects_big.xml" />
+  <PieceInfo path="pieces\rects_small.xml" />
+  <PieceInfo path="pieces\transparents.xml" />
+  <PieceInfo path="pieces\words.xml" />
   <BitmapFont path="fonts\12px_Tahoma.xml" />
   <BitmapStyle path="styles\DefaultBitmapStyleList.xml" />
+  <BitmapStyle path="styles\BitmapStyleList.xml" />
   <NinePatchStyle path="styles\DefaultNinePatchStyleList.xml" />
+  <NinePatchStyle path="styles\NinePatchStyleList.xml" />
   <HorizontalPatchStyle path="styles\DefaultHorizontalPatchStyleList.xml" />
+  <HorizontalPatchStyle path="styles\HorizontalPatchStyleList.xml" />
   <VerticalPatchStyle path="styles\DefaultVerticalPatchStyleList.xml" />
+  <VerticalPatchStyle path="styles\VerticalPatchStyleList.xml" />
   <BitmapFontStyle path="styles\DefaultBitmapFontStyleList.xml" />
 </UiRes>

@@ -272,7 +272,16 @@ void IWindow::SystemRender(const Vector2& basePos, const Rect& clipRect, uint st
 	Render(basePos, clipRect, myState);
 
 	Vector2 childBasePos = basePos + m_Position;
-	Rect childClipRect = clipRect.Intersect(childBasePos, m_Size);
+
+	Rect childClipRect;
+	if (CheckWindowState(WS_CLIP_CHILDREN))
+	{
+		childClipRect = clipRect.Intersect(childBasePos, m_Size);
+	}
+	else
+	{
+		childClipRect = clipRect;
+	}
 
 	for (TV_WINDOW::const_iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
 	{

@@ -23,6 +23,16 @@ TitledWindow::~TitledWindow()
 	// TODO: 
 }
 
+void TitledWindow::SetTitle(const tstring& strTitle)
+{
+	m_strTitle = strTitle;
+}
+
+const tstring& TitledWindow::GetTitle() const
+{
+	return m_strTitle;
+}
+
 void TitledWindow::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 {
 	Vector2 pos = m_Position;
@@ -35,9 +45,12 @@ void TitledWindow::Render(const Vector2& basePos, const Rect& clipRect, uint sta
 	size.y = m_Size.y - m_pTitleStyle->GetBestSize().y;
 	m_pBgStyle->Render(basePos+pos, size, clipRect, state);
 
-	pos.x = m_Position.x + m_pTitleStyle->GetPaddingLT().x;
-	pos.y = m_Position.y + 0.5f*(m_pTitleStyle->GetPaddingLT().y + m_pTitleStyle->GetBestSize().y - m_pTitleStyle->GetPaddingRB().y - m_pFontStyle->GetLineHeight(state));
-	m_pFontStyle->Render(_("TitledWindow"), basePos+pos, clipRect, state);
+	if (!m_strTitle.empty())
+	{
+		pos.x = m_Position.x + m_pTitleStyle->GetPaddingLT().x;
+		pos.y = m_Position.y + 0.5f*(m_pTitleStyle->GetPaddingLT().y + m_pTitleStyle->GetBestSize().y - m_pTitleStyle->GetPaddingRB().y - m_pFontStyle->GetLineHeight(state));
+		m_pFontStyle->Render(m_strTitle, basePos+pos, clipRect, state);
+	}
 }
 
 bool TitledWindow::OnMouseEvent(MouseEvent& event)

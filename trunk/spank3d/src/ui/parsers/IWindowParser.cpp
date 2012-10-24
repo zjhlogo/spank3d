@@ -56,5 +56,8 @@ bool IWindowParser::ParseWindow(TiXmlElement* pXmlWindow, IWindow* pWindow)
 	pXmlWindow->Attribute(_("height"), &size.y);
 	pWindow->SetSize(size);
 
+	const tchar* pszBgStyle = pXmlWindow->Attribute(_("bgstyle"));
+	pWindow->SetBgStyle(pszBgStyle);
+
 	return true;
 }

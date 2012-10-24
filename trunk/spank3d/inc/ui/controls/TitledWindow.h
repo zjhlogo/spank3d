@@ -19,6 +19,9 @@ public:
 	TitledWindow(IWindow* parent);
 	virtual ~TitledWindow();
 
+	void SetTitle(const tstring& strTitle);
+	const tstring& GetTitle() const;
+
 protected:
 	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
@@ -28,6 +31,8 @@ private:
 private:
 	IGraphicsStyle* m_pTitleStyle;
 	IFontStyle* m_pFontStyle;
+
+	tstring m_strTitle;
 
 	Vector2 m_LastMouseDownPos;
 	Vector2 m_LastMouseDownWindowPos;
