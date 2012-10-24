@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<PieceInfoList texture="pieces\athletics.png">
-    <PieceInfo id="athletics_btn1" x="0" y="39" width="120" height="72" />
-    <PieceInfo id="athletics_btn2" x="144" y="0" width="21" height="21" />
-    <PieceInfo id="athletics_title_cn" x="0" y="0" width="144" height="39" />
-</PieceInfoList>

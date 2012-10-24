@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<UiRes>
+<UiRes root=".">
   <PieceInfo path="pieces\default_ui.xml" />
   <BitmapFont path="fonts\12px_Tahoma.xml" />
   <BitmapStyle path="styles\DefaultBitmapStyleList.xml" />

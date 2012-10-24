@@ -52,10 +52,13 @@
     <BitmapStyle id="bs_back" minW="38" minH="38">
         <State id="STATE_DEFAULT" piece="back" />
     </BitmapStyle>
-    <BitmapStyle id="bs_backpack_drugstore" minW="54" minH="49">
+    <BitmapStyle id="bs_backpack_btn" minW="44" minH="43">
+        <State id="STATE_DEFAULT" piece="backpack_btn" />
+    </BitmapStyle>
+    <BitmapStyle id="bs_backpack_drugstore" minW="45" minH="45">
         <State id="STATE_DEFAULT" piece="backpack_drugstore" />
     </BitmapStyle>
-    <BitmapStyle id="bs_backpack_warehouse" minW="54" minH="49">
+    <BitmapStyle id="bs_backpack_warehouse" minW="45" minH="45">
         <State id="STATE_DEFAULT" piece="backpack_warehouse" />
     </BitmapStyle>
     <BitmapStyle id="bs_bounty" minW="38" minH="38">

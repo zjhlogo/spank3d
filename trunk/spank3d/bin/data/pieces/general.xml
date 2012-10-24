@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<PieceInfoList texture="pieces\general.png">
-    <PieceInfo id="autofight" x="356" y="0" width="152" height="24" />
-    <PieceInfo id="autopath" x="178" y="33" width="152" height="24" />
-    <PieceInfo id="stall_attention" x="0" y="0" width="178" height="33" />
-    <PieceInfo id="stall_now" x="178" y="0" width="178" height="33" />
-    <PieceInfo id="stall_sort" x="0" y="33" width="178" height="33" />
-    <PieceInfo id="transporticon" x="330" y="33" width="152" height="24" />
-</PieceInfoList>
