@@ -33,14 +33,17 @@ bool Ui::Initialize()
 	TitledWindow* pWindow = new TitledWindow(pMainScreen);
 	pWindow->SetPosition(200.0f, 200.0f);
 	pWindow->SetSize(400.0f, 200.0f);
+	pWindow->SetTitle(_T("Title Window"));
 
 	TitledWindow* pWindow2 = new TitledWindow(pWindow);
 	pWindow2->SetPosition(50.0f, 50.0f);
 	pWindow2->SetSize(200.0f, 100.0f);
+	pWindow2->SetTitle(_T("Title Window"));
 
 	PushButton* pButton = new PushButton(pWindow);
 	pButton->SetPosition(200.0f, 10.0f);
 	pButton->SetSize(100.0f, 30.0f);
+	pButton->SetLabel(_T("Push Button"));
 
 	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
 	if (!m_pFontStyle) return false;
