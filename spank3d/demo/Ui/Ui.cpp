@@ -45,6 +45,7 @@ bool Ui::Initialize()
 	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
 	if (!m_pFontStyle) return false;
 
+//	g_pUiSystemMgr->LoadWindowFromFile(_("countdown.xml"), g_pUiSystemMgr->GetCurrScreen());
 	return true;
 }
 

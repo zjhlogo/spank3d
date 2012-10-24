@@ -55,7 +55,7 @@ public:
 										| WS_VISIBLE
 										| WS_MOUSE_ENABLE
 										| WS_KEYBOARD_ENABLE
-										| WS_CLIP_CHILDREN
+ 										| WS_CLIP_CHILDREN
 										| WS_SOLID,
 	};
 

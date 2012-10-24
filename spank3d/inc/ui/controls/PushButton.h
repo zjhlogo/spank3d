@@ -19,11 +19,15 @@ public:
 	PushButton(IWindow* pParent);
 	virtual ~PushButton();
 
+	void SetLabel(const tstring& strLabel);
+	const tstring& GetLabel() const;
+
 protected:
 	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 private:
 	IFontStyle* m_pFontStyle;
+	tstring m_strLabel;
 
 };
 #endif // __PUSHBUTTON_H__

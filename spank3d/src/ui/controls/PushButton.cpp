@@ -19,11 +19,24 @@ PushButton::~PushButton()
 	// TODO: 
 }
 
+void PushButton::SetLabel(const tstring& strLabel)
+{
+	m_strLabel = strLabel;
+}
+
+const tstring& PushButton::GetLabel() const
+{
+	return m_strLabel;
+}
+
 void PushButton::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 {
 	m_pBgStyle->Render(basePos+m_Position, m_Size, clipRect, state);
 
-	Vector2 textSize = m_pFontStyle->CalcSize(_("PushButton"), state);
-	Vector2 pos = m_Position + (m_Size - textSize) * 0.5f;
-	m_pFontStyle->Render(_("PushButton"), basePos+pos, clipRect, state);
+	if (!m_strLabel.empty())
+	{
+		Vector2 textSize = m_pFontStyle->CalcSize(m_strLabel, state);
+		Vector2 pos = m_Position + (m_Size - textSize) * 0.5f;
+		m_pFontStyle->Render(m_strLabel, basePos+pos, clipRect, state);
+	}
 }
