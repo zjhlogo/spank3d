@@ -1,64 +1,59 @@
 /*!
- * \file HelloWorld.cpp
- * \date 4-14-2012 21:46:12
+ * \file Brick.cpp
+ * \date 10-25-2012 13:07:35
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "HelloWorld.h"
+#include "Brick.h"
 #include <util/AppUtil.h>
 #include <event/EventIds.h>
 
-IMPLEMENT_APP(HelloWorld);
+IMPLEMENT_APP(Brick);
 
-HelloWorld::HelloWorld()
+Brick::Brick()
 {
 	m_pShader = NULL;
 	m_pMesh = NULL;
-	m_pTexture = NULL;
 	m_pCamera = NULL;
 	m_pTargetCameraCtrl = NULL;
 }
 
-HelloWorld::~HelloWorld()
+Brick::~Brick()
 {
 	// TODO: 
 }
 
-bool HelloWorld::Initialize()
+bool Brick::Initialize()
 {
-	m_pShader = g_pResMgr->CreateShader(_("default_shader.xml"));
+	m_pShader = g_pResMgr->CreateShader(_("brick_shader.xml"));
 	if (!m_pShader) return false;
 
 	m_pMesh = g_pResMgr->CreateMesh(_("teapot.mesh"));
 	if (!m_pMesh) return false;
 
-	m_pTexture = g_pResMgr->CreateTexture(_("grid16.png"));
-	if (!m_pTexture) return false;
-
 	m_pCamera = new ICamera();
 	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC3_ZERO);
 
-	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&HelloWorld::OnMouseEvent));
+	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&Brick::OnMouseEvent));
 
 	return true;
 }
 
-void HelloWorld::Terminate()
+void Brick::Terminate()
 {
 	SAFE_DELETE(m_pTargetCameraCtrl);
 	SAFE_DELETE(m_pCamera);
-	SAFE_RELEASE(m_pTexture);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pShader);
 }
 
-void HelloWorld::Update(float dt)
+void Brick::Update(float dt)
 {
 	// TODO: 
 }
 
-void HelloWorld::Render()
+void Brick::Render()
 {
 	m_pShader->BeginRender();
 
@@ -68,9 +63,10 @@ void HelloWorld::Render()
 	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetSize().x, g_pDevice->GetSize().y, 0.1f, 100.0f);
 
 	Matrix4x4 matWorldViewProj = matProj*matView;
-	m_pShader->SetMatrix4x4(matWorldViewProj, _("u_matModelViewProj"));
 
-	m_pShader->SetTexture(m_pTexture, _("u_texture"));
+	m_pShader->SetMatrix4x4(matView, _("u_matModelView"));
+	m_pShader->SetMatrix4x4(matWorldViewProj, _("u_matModelViewProj"));
+	m_pShader->SetVector3(Vector3(0.0f, 0.0f, 2.0f), _("u_vLightPosition"));
 
 	for (int i = 0; i < m_pMesh->GetNumPieces(); ++i)
 	{
@@ -81,7 +77,7 @@ void HelloWorld::Render()
 	m_pShader->EndRender();
 }
 
-bool HelloWorld::OnMouseEvent(MouseEvent& mouseEvent)
+bool Brick::OnMouseEvent(MouseEvent& mouseEvent)
 {
 	return m_pTargetCameraCtrl->HandleMouseEvent(mouseEvent);
 }

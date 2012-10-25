@@ -46,6 +46,17 @@ void Shader_Impl::EndRender()
 	// nothing to do
 }
 
+bool Shader_Impl::SetVector3(const Vector3& v, const tstring& strName)
+{
+	if (!IsOk()) return false;
+
+	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName.c_str()));
+	if (nLoc < 0) return false;
+
+	glUniform3f(nLoc, v.x, v.y, v.z);
+	return true;
+}
+
 bool Shader_Impl::SetMatrix4x4(const Matrix4x4& m, const tstring& strName)
 {
 	if (!IsOk()) return false;
@@ -121,16 +132,40 @@ bool Shader_Impl::CreateShader(const tstring& strVertexShader, const tstring& st
 	if (m_nProgram == 0) return false;
 
 	// create vertex shader
-	m_nVertexShader = CompileShader(GL_VERTEX_SHADER, strVertexShader);
-	if (m_nVertexShader != 0) glAttachShader(m_nProgram, m_nVertexShader);
+	if (!strVertexShader.empty())
+	{
+		m_nVertexShader = CompileShader(GL_VERTEX_SHADER, strVertexShader);
+		if (m_nVertexShader == 0)
+		{
+			LOG(_T("Compile vertex shader failed"));
+			return false;
+		}
+		glAttachShader(m_nProgram, m_nVertexShader);
+	}
 
 	// create geometry shader
-	m_nGeometryShader = CompileShader(GL_GEOMETRY_SHADER, strGeometryShader);
-	if (m_nGeometryShader != 0) glAttachShader(m_nProgram, m_nGeometryShader);
+	if (!strGeometryShader.empty())
+	{
+		m_nGeometryShader = CompileShader(GL_GEOMETRY_SHADER, strGeometryShader);
+		if (m_nGeometryShader == 0)
+		{
+			LOG(_T("Compile geometry shader failed"));
+			return false;
+		}
+		glAttachShader(m_nProgram, m_nGeometryShader);
+	}
 
 	// create fragment shader
-	m_nFragmentShader = CompileShader(GL_FRAGMENT_SHADER, strFragmentShader);
-	if (m_nFragmentShader != 0) glAttachShader(m_nProgram, m_nFragmentShader);
+	if (!strFragmentShader.empty())
+	{
+		m_nFragmentShader = CompileShader(GL_FRAGMENT_SHADER, strFragmentShader);
+		if (m_nFragmentShader == 0)
+		{
+			LOG(_T("Compile fragment shader failed"));
+			return false;
+		}
+		glAttachShader(m_nProgram, m_nFragmentShader);
+	}
 
 	glLinkProgram(m_nProgram);
 	if (GetProgramErrorLog(m_nProgram))
