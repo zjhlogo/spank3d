@@ -8,12 +8,12 @@
 #ifndef __MODELEXPORTER_H__
 #define __MODELEXPORTER_H__
 
-#include <type/BaseType.h>
 #include <math/Math.h>
-
 #include <max.h>
 #include <IGame/IGame.h>
 #include <IGame/IGameModifier.h>
+
+#include <type/BaseType.h>
 
 #include <vector>
 #include <set>

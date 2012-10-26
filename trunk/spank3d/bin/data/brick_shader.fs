@@ -6,7 +6,7 @@ uniform vec2 u_vBrickSize = vec2(0.3, 0.15);
 uniform vec2 u_vBrickPitch = vec2(0.9, 0.85);
 
 in vec2 v2f_mcPosition;
-//in float v2f_lightIntensity;
+in float v2f_lightIntensity;
 
 out vec4 f2d_color;
 
@@ -20,7 +20,7 @@ void main()
 	vec2 useBrick = step(position, u_vBrickPitch);
 
 	vec3 color = mix(u_vMortarColor, u_vBrickColor, useBrick.x * useBrick.y);
-//	color *= v2f_lightIntensity;
+	color *= v2f_lightIntensity;
 
 	f2d_color = vec4(color, 1.0);
 }

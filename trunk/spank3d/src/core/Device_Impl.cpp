@@ -422,8 +422,18 @@ void Device_Impl::InitializeOGL()
 {
 	glewInit();
 
+	const tchar* pszRenderer = (const tchar*)glGetString(GL_RENDERER);
+	const tchar* pszVendor = (const tchar*)glGetString(GL_VENDOR);
+	const tchar* pszVersion = (const tchar*)glGetString(GL_VERSION);
+	const tchar* pszGlslVersion = (const tchar*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+
+	LOG(_T("GL Renderer : %s"), pszRenderer);
+	LOG(_T("GL Vendor : %s"), pszVendor);
+	LOG(_T("GL Version : %s"), pszVersion);
+	LOG(_T("GLSL Version : %s"), pszGlslVersion);
+
 	// Black Background
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// Depth Buffer Setup
 	glClearDepth(1.0f);
 
