@@ -158,6 +158,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\math\Matrix3x3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\math\Matrix3x3.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\math\Matrix4x4.h"
 				>
 			</File>
