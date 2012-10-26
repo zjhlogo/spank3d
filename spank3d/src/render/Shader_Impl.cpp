@@ -105,13 +105,15 @@ bool Shader_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort
 	{
 		const VertexAttribute::ATTRIBUTE_ITEM* pAttrItem = m_pVertexAttribute->GetAttributeItem(i);
 
-		glEnableVertexAttribArray(i);
+		uint attrLoc = glGetAttribLocation(m_nProgram, pAttrItem->szParamName);
+
+		glEnableVertexAttribArray(attrLoc);
 		GLenum eType = VertexAttribute::GetGlType(pAttrItem->eItemType);
-		glVertexAttribPointer(i, pAttrItem->nSize, eType, GL_FALSE, m_pVertexAttribute->GetStride(), ((const uchar*)pVerts)+pAttrItem->nOffset);
-		glBindAttribLocation(m_nProgram, i, pAttrItem->szParamName);
+		glVertexAttribPointer(attrLoc, pAttrItem->nSize, eType, GL_FALSE, m_pVertexAttribute->GetStride(), (const uchar*)pVerts+pAttrItem->nOffset);
 	}
 
 	glDrawElements(GL_TRIANGLES, nIndis, GL_UNSIGNED_SHORT, pIndis);
+
 	return true;
 }
 

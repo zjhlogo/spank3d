@@ -62,15 +62,14 @@ void Brick::Render()
 	Matrix4x4 matProj;
 	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetSize().x, g_pDevice->GetSize().y, 0.1f, 100.0f);
 
-	Matrix4x4 matWorldViewProj = matProj*matView;
-
 	m_pShader->SetMatrix4x4(matView, _("u_matModelView"));
-	m_pShader->SetMatrix4x4(matWorldViewProj, _("u_matModelViewProj"));
-	m_pShader->SetVector3(Vector3(0.0f, 0.0f, 2.0f), _("u_vLightPosition"));
+	m_pShader->SetMatrix4x4(matProj*matView, _("u_matModelViewProj"));
+	m_pShader->SetVector3(Vector3(0.0f, 0.0f, 10.0f), _("u_vLightPosition"));
 
 	for (int i = 0; i < m_pMesh->GetNumPieces(); ++i)
 	{
 		IMeshPiece* pMeshPiece = m_pMesh->GetPiece(i);
+		const VERTEX_ATTR* pVertex = (const VERTEX_ATTR*)pMeshPiece->GetVerts();
 		m_pShader->DrawTriangleList(pMeshPiece->GetVerts(), pMeshPiece->GetNumVerts(), pMeshPiece->GetIndis(), pMeshPiece->GetNumIndis());
 	}
 

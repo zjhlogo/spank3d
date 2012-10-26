@@ -14,6 +14,14 @@
 class Brick : public IApp
 {
 public:
+	typedef struct VERTEX_ATTR_tag
+	{
+		float x, y, z;
+		float u, v;
+		float nx, ny, nz;
+	} VERTEX_ATTR;
+
+public:
 	RTTI_DEF(Brick, IApp);
 
 	Brick();
