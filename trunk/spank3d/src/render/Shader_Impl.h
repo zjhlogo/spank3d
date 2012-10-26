@@ -24,6 +24,7 @@ public:
 	virtual void EndRender();
 
 	virtual bool SetVector3(const Vector3& v, const tstring& strName);
+	virtual bool SetMatrix3x3(const Matrix3x3& m, const tstring& strName);
 	virtual bool SetMatrix4x4(const Matrix4x4& m, const tstring& strName);
 
 	virtual bool SetTexture(ITexture* pTexture, const tstring& strName, uint nIndex = 0);

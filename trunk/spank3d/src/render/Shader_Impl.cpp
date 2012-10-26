@@ -57,6 +57,17 @@ bool Shader_Impl::SetVector3(const Vector3& v, const tstring& strName)
 	return true;
 }
 
+bool Shader_Impl::SetMatrix3x3(const Matrix3x3& m, const tstring& strName)
+{
+	if (!IsOk()) return false;
+
+	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName.c_str()));
+	if (nLoc < 0) return false;
+
+	glUniformMatrix3fv(nLoc, 1, false, m.e);
+	return true;
+}
+
 bool Shader_Impl::SetMatrix4x4(const Matrix4x4& m, const tstring& strName)
 {
 	if (!IsOk()) return false;
@@ -105,7 +116,8 @@ bool Shader_Impl::DrawTriangleList(const void* pVerts, uint nVerts, const ushort
 	{
 		const VertexAttribute::ATTRIBUTE_ITEM* pAttrItem = m_pVertexAttribute->GetAttributeItem(i);
 
-		uint attrLoc = glGetAttribLocation(m_nProgram, pAttrItem->szParamName);
+		int attrLoc = glGetAttribLocation(m_nProgram, pAttrItem->szParamName);
+		if (attrLoc == -1) continue;
 
 		glEnableVertexAttribArray(attrLoc);
 		GLenum eType = VertexAttribute::GetGlType(pAttrItem->eItemType);

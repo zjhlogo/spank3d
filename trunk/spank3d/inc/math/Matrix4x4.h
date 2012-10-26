@@ -23,9 +23,9 @@ public:
 			   float fe20 = 0.0f, float fe21 = 0.0f, float fe22 = 1.0f, float fe23 = 0.0f,
 			   float fe30 = 0.0f, float fe31 = 0.0f, float fe32 = 0.0f, float fe33 = 1.0f);
 
-	float Det() const;
-	Matrix4x4 Transpose() const;
-	Matrix4x4 Inverse() const;
+	float Determinant() const;
+	void Transpose();
+	bool Invert();
 
 	Matrix4x4& operator +=(const Matrix4x4& m);
 	Matrix4x4& operator -=(const Matrix4x4& m);
