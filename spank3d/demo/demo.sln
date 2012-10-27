@@ -31,6 +31,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brick", "Brick\Brick.vcproj
 		{5AE704FB-10E7-4D59-95B8-A1F7F4A667B8} = {5AE704FB-10E7-4D59-95B8-A1F7F4A667B8}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mandelbrot", "Mandelbrot\Mandelbrot.vcproj", "{3403F624-620B-4AB5-81C3-15D7492C4114}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5AE704FB-10E7-4D59-95B8-A1F7F4A667B8} = {5AE704FB-10E7-4D59-95B8-A1F7F4A667B8}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -65,6 +70,10 @@ Global
 		{DC0E3152-A04C-4A24-BBA4-43DA8ACCB856}.Debug|Win32.Build.0 = Debug|Win32
 		{DC0E3152-A04C-4A24-BBA4-43DA8ACCB856}.Release|Win32.ActiveCfg = Release|Win32
 		{DC0E3152-A04C-4A24-BBA4-43DA8ACCB856}.Release|Win32.Build.0 = Release|Win32
+		{3403F624-620B-4AB5-81C3-15D7492C4114}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3403F624-620B-4AB5-81C3-15D7492C4114}.Debug|Win32.Build.0 = Debug|Win32
+		{3403F624-620B-4AB5-81C3-15D7492C4114}.Release|Win32.ActiveCfg = Release|Win32
+		{3403F624-620B-4AB5-81C3-15D7492C4114}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,10 +23,14 @@ const Vector2 Math::VEC2_ZERO = Vector2(0.0f, 0.0f);
 const Vector3 Math::VEC3_ZERO = Vector3(0.0f, 0.0f, 0.0f);
 const Vector3 Math::VEC3_UP = Vector3(0.0f, 1.0f, 0.0f);
 
-const Matrix4x4 Math::MAT_IDENTITY = Matrix4x4(1.0f, 0.0f, 0.0f, 0.0f,
-											   0.0f, 1.0f, 0.0f, 0.0f,
-											   0.0f, 0.0f, 1.0f, 0.0f,
-											   0.0f, 0.0f, 0.0f, 1.0f);
+const Matrix3x3 Math::MAT3_IDENTITY = Matrix3x3(1.0f, 0.0f, 0.0f, 
+												0.0f, 1.0f, 0.0f,
+												0.0f, 0.0f, 1.0f);
+
+const Matrix4x4 Math::MAT4_IDENTITY = Matrix4x4(1.0f, 0.0f, 0.0f, 0.0f,
+												0.0f, 1.0f, 0.0f, 0.0f,
+												0.0f, 0.0f, 1.0f, 0.0f,
+												0.0f, 0.0f, 0.0f, 1.0f);
 
 float Math::Radians(float degrees)
 {
