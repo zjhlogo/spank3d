@@ -37,9 +37,12 @@ public:
 	 */
 	const Matrix4x4& GetViewMatrix();
 
+	void SetProjectionMatrix(const Matrix4x4& m);
+	const Matrix4x4& GetProjectionMatrix();
+
 private:
 	Matrix4x4 m_matView;
-
+	Matrix4x4 m_matProj;
 };
 
 #endif // __ICAMERA_H__

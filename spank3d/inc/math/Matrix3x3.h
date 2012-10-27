@@ -22,8 +22,8 @@ public:
 			   float fe20 = 0.0f, float fe21 = 0.0f, float fe22 = 1.0f);
 
 	float Determinant() const;
-	void Transpose();
-	bool Invert();
+	Matrix3x3& Transpose();
+	Matrix3x3& Invert();
 
 	Matrix3x3& operator +=(const Matrix3x3& m);
 	Matrix3x3& operator -=(const Matrix3x3& m);

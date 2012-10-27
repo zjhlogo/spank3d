@@ -46,7 +46,7 @@ void Shader_Impl::EndRender()
 	// nothing to do
 }
 
-bool Shader_Impl::SetVector3(const Vector3& v, const tstring& strName)
+bool Shader_Impl::SetVector3(const tstring& strName, const Vector3& v)
 {
 	if (!IsOk()) return false;
 
@@ -57,29 +57,29 @@ bool Shader_Impl::SetVector3(const Vector3& v, const tstring& strName)
 	return true;
 }
 
-bool Shader_Impl::SetMatrix3x3(const Matrix3x3& m, const tstring& strName)
+bool Shader_Impl::SetMatrix3x3(const tstring& strName, const Matrix3x3& m)
 {
 	if (!IsOk()) return false;
 
 	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName.c_str()));
 	if (nLoc < 0) return false;
 
-	glUniformMatrix3fv(nLoc, 1, false, m.e);
+	glUniformMatrix3fv(nLoc, 1, GL_FALSE, m.e);
 	return true;
 }
 
-bool Shader_Impl::SetMatrix4x4(const Matrix4x4& m, const tstring& strName)
+bool Shader_Impl::SetMatrix4x4(const tstring& strName, const Matrix4x4& m)
 {
 	if (!IsOk()) return false;
 
 	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName.c_str()));
 	if (nLoc < 0) return false;
 
-	glUniformMatrix4fv(nLoc, 1, false, m.e);
+	glUniformMatrix4fv(nLoc, 1, GL_FALSE, m.e);
 	return true;
 }
 
-bool Shader_Impl::SetTexture(ITexture* pTexture, const tstring& strName, uint nIndex /*= 0*/)
+bool Shader_Impl::SetTexture(const tstring& strName, ITexture* pTexture, uint nIndex /*= 0*/)
 {
 	if (!pTexture) return false;
 

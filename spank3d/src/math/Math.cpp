@@ -310,3 +310,19 @@ void Math::BuildQuaternionFromEulerXYZ(Quaternion& q, float x, float y, float z)
 	q.y = cx*sy*cz + sx*cy*sz;
 	q.z = cx*cy*sz - sx*sy*cz;
 }
+
+void Math::GetSubMatrix(Matrix3x3& mOut, const Matrix4x4& mIn)
+{
+	mOut.e[0] = mIn.e[0];
+	mOut.e[1] = mIn.e[1];
+	mOut.e[2] = mIn.e[2];
+
+	mOut.e[3] = mIn.e[4];
+	mOut.e[4] = mIn.e[5];
+	mOut.e[5] = mIn.e[6];
+
+	mOut.e[6] = mIn.e[8];
+	mOut.e[7] = mIn.e[9];
+	mOut.e[8] = mIn.e[10];
+
+}

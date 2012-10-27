@@ -3,8 +3,9 @@
 const float SPECULAR = 0.3;
 const float DIFFUSE = 1.0 - SPECULAR;
 
-uniform mat4 u_matModelView;
+uniform mat3 u_matModelView;
 uniform mat4 u_matModelViewProj;
+uniform mat3 u_matNormal;
 uniform vec3 u_vLightPosition;
 
 in vec3 p2v_position;
@@ -16,15 +17,16 @@ out float v2f_lightIntensity;
 
 void main()
 {
-	vec3 vertexPos = vec3(u_matModelView * vec4(p2v_position, 1.0));
+	vec3 vertexPos = vec3(u_matModelView * p2v_position);
 	v2f_mcPosition = vertexPos.xy;
 
 	vec3 lightVec = normalize(u_vLightPosition - vertexPos);
+	vec3 vertNormal = u_matNormal * p2v_normal;
 
-	vec3 reflectVec = reflect(-lightVec, p2v_normal);
+	vec3 reflectVec = reflect(-lightVec, vertNormal);
 	vec3 viewVec = normalize(vertexPos);
 
-	float diffuse = max(dot(lightVec, p2v_normal), 0.0);
+	float diffuse = max(dot(lightVec, vertNormal), 0.0);
 	float specular = 0.0;
 	if (diffuse > 0.0)
 	{

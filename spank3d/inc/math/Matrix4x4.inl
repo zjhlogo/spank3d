@@ -46,7 +46,7 @@ inline float Matrix4x4::Determinant() const
 	return fA0*fB5-fA1*fB4+fA2*fB3+fA3*fB2-fA4*fB1+fA5*fB0;
 }
 
-inline void Matrix4x4::Transpose()
+inline Matrix4x4& Matrix4x4::Transpose()
 {
 	float temp = e[1];
 	e[1] = e[4];
@@ -71,9 +71,11 @@ inline void Matrix4x4::Transpose()
 	temp = e[11];
 	e[11] = e[14];
 	e[14] = temp;
+
+	return *this;
 }
 
-inline bool Matrix4x4::Invert()
+inline Matrix4x4& Matrix4x4::Invert()
 {
 	float fA0 = e[0]*e[5] - e[1]*e[4];
 	float fA1 = e[0]*e[6] - e[2]*e[4];
@@ -91,7 +93,11 @@ inline bool Matrix4x4::Invert()
 
 	float fDet = fA0*fB5-fA1*fB4+fA2*fB3+fA3*fB2-fA4*fB1+fA5*fB0;
 
-	if (fabs(fDet) <= 1E-5f) return false;
+	if (fabs(fDet) <= 1E-5f)
+	{
+		Reset();
+		return *this;
+	}
 
 	float e0  =  e[5]*fB5 - e[6]*fB4 + e[7]*fB3;
 	float e4  = -e[4]*fB5 + e[6]*fB2 - e[7]*fB1;
@@ -135,7 +141,7 @@ inline bool Matrix4x4::Invert()
 	e[14] = e14 * fInvDet;
 	e[15] = e15 * fInvDet;
 
-	return true;
+	return *this;
 }
 
 inline Matrix4x4& Matrix4x4::operator +=(const Matrix4x4& m)
