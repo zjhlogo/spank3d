@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shader id="1" vertex_shader="data/mandelbrot_shader.vs" fregment_shader="data/mandelbrot_shader.fs">
+	<attributes>
+		<attribute size="3" type="AIT_FLOAT" name="p2v_position" />
+	</attributes>
+</shader>

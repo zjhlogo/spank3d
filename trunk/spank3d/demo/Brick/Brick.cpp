@@ -76,7 +76,6 @@ void Brick::Render()
 	for (int i = 0; i < m_pMesh->GetNumPieces(); ++i)
 	{
 		IMeshPiece* pMeshPiece = m_pMesh->GetPiece(i);
-		const VERTEX_ATTR* pVertex = (const VERTEX_ATTR*)pMeshPiece->GetVerts();
 		m_pShader->DrawTriangleList(pMeshPiece->GetVerts(), pMeshPiece->GetNumVerts(), pMeshPiece->GetIndis(), pMeshPiece->GetNumIndis());
 	}
 
