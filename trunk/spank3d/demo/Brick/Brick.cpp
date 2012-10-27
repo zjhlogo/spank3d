@@ -58,13 +58,20 @@ void Brick::Render()
 	m_pShader->BeginRender();
 
 	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
+	const Matrix4x4& matProj = m_pCamera->GetProjectionMatrix();
 
-	Matrix4x4 matProj;
-	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetSize().x, g_pDevice->GetSize().y, 0.1f, 100.0f);
+	Matrix3x3 matModelView;
+	Math::GetSubMatrix(matModelView, matView);
+	m_pShader->SetMatrix3x3(_("u_matModelView"), matModelView);
 
-	m_pShader->SetMatrix4x4(matView, _("u_matModelView"));
-	m_pShader->SetMatrix4x4(matProj*matView, _("u_matModelViewProj"));
-	m_pShader->SetVector3(Vector3(0.0f, 0.0f, 10.0f), _("u_vLightPosition"));
+	m_pShader->SetMatrix4x4(_("u_matModelViewProj"), matProj*matView);
+
+	Matrix3x3 matNormal;
+	Math::GetSubMatrix(matNormal, matView);
+	matNormal.Invert().Transpose();
+	m_pShader->SetMatrix3x3(_("u_matNormal"), matNormal);
+
+	m_pShader->SetVector3(_("u_vLightPosition"), Vector3(0.0f, 0.0f, 10.0f));
 
 	for (int i = 0; i < m_pMesh->GetNumPieces(); ++i)
 	{

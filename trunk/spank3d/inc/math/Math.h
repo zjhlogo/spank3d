@@ -47,6 +47,8 @@ public:
 	static void BuildQuaternionFromMatrix(Quaternion& q, const Matrix4x4& m);
 	static void BuildQuaternionFromEulerXYZ(Quaternion& q, float x, float y, float z);
 
+	static void GetSubMatrix(Matrix3x3& mOut, const Matrix4x4& mIn);
+
 public:
 	static const float PI_2;		// pi/2
 	static const float PI;			// pi

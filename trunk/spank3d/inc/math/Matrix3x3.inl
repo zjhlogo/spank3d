@@ -31,7 +31,7 @@ inline float Matrix3x3::Determinant() const
 	return e[0]*fCo00 + e[1]*fCo10 + e[2]*fCo20;
 }
 
-inline void Matrix3x3::Transpose()
+inline Matrix3x3& Matrix3x3::Transpose()
 {
 	float temp = e[3];
 	e[3] = e[1];
@@ -44,16 +44,22 @@ inline void Matrix3x3::Transpose()
 	temp = e[5];
 	e[5] = e[7];
 	e[7] = temp;
+
+	return *this;
 }
 
-inline bool Matrix3x3::Invert()
+inline Matrix3x3& Matrix3x3::Invert()
 {
 	float fCo00 = e[4]*e[8] - e[5]*e[7];
 	float fCo10 = e[5]*e[6] - e[3]*e[8];
 	float fCo20 = e[3]*e[7] - e[4]*e[6];
 	float fDet = e[0]*fCo00 + e[1]*fCo10 + e[2]*fCo20;
 
-	if (fabs(fDet) <= 1E-5f) return false;
+	if (fabs(fDet) <= 1E-5f)
+	{
+		Reset();
+		return *this;
+	}
 
 	Matrix3x3 matInv;
 
@@ -79,7 +85,7 @@ inline bool Matrix3x3::Invert()
 	e[7] = e7 * fInvDet;
 	e[8] = e8 * fInvDet;
 
-	return true;
+	return *this;
 }
 
 inline Matrix3x3& Matrix3x3::operator +=(const Matrix3x3& m)

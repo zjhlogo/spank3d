@@ -23,11 +23,11 @@ public:
 	virtual bool BeginRender();
 	virtual void EndRender();
 
-	virtual bool SetVector3(const Vector3& v, const tstring& strName);
-	virtual bool SetMatrix3x3(const Matrix3x3& m, const tstring& strName);
-	virtual bool SetMatrix4x4(const Matrix4x4& m, const tstring& strName);
+	virtual bool SetVector3(const tstring& strName, const Vector3& v);
+	virtual bool SetMatrix3x3(const tstring& strName, const Matrix3x3& m);
+	virtual bool SetMatrix4x4(const tstring& strName, const Matrix4x4& m);
 
-	virtual bool SetTexture(ITexture* pTexture, const tstring& strName, uint nIndex = 0);
+	virtual bool SetTexture(const tstring& strName, ITexture* pTexture, uint nIndex = 0);
 
 	virtual bool DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
 

@@ -112,7 +112,7 @@ bool UiVertexCache::AddVerts(const IUiRenderer::VERTEX_ATTR* pVerts, uint nVerts
 	return true;
 }
 
-void UiVertexCache::Flush(IShader* pShader, const Matrix4x4& matMVP)
+void UiVertexCache::Flush(IShader* pShader, const Matrix4x4& matModelViewProj)
 {
 	static const tchar* s_TexNames[MAX_TEXTURE_CACHE] = 
 	{
@@ -128,10 +128,10 @@ void UiVertexCache::Flush(IShader* pShader, const Matrix4x4& matMVP)
 	for (int i = 0; i < MAX_TEXTURE_CACHE; ++i)
 	{
 		if (!m_pTexture[i]) break;
-		pShader->SetTexture(m_pTexture[i], s_TexNames[i], i);
+		pShader->SetTexture(s_TexNames[i], m_pTexture[i], i);
 		m_pTexture[i] = NULL;
 	}
-	pShader->SetMatrix4x4(matMVP, _("u_matModelViewProj"));
+	pShader->SetMatrix4x4(_("u_matModelViewProj"), matModelViewProj);
 	pShader->DrawTriangleList(m_pVerts, m_nVerts, m_pIndis, m_nIndis);
 	pShader->EndRender();
 

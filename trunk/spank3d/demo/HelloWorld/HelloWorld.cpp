@@ -63,14 +63,12 @@ void HelloWorld::Render()
 	m_pShader->BeginRender();
 
 	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
-
-	Matrix4x4 matProj;
-	Math::BuildPerspectiveFovMatrix(matProj, 45.0f, g_pDevice->GetSize().x, g_pDevice->GetSize().y, 0.1f, 100.0f);
+	const Matrix4x4& matProj = m_pCamera->GetProjectionMatrix();
 
 	Matrix4x4 matWorldViewProj = matProj*matView;
-	m_pShader->SetMatrix4x4(matWorldViewProj, _("u_matModelViewProj"));
+	m_pShader->SetMatrix4x4(_("u_matModelViewProj"), matWorldViewProj);
 
-	m_pShader->SetTexture(m_pTexture, _("u_texture"));
+	m_pShader->SetTexture(_("u_texture"), m_pTexture);
 
 	for (int i = 0; i < m_pMesh->GetNumPieces(); ++i)
 	{
