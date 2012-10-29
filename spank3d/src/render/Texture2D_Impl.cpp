@@ -1,49 +1,45 @@
 /*!
- * \file Texture_Impl.cpp
- * \date 7-19-2012 14:29:29
+ * \file Texture2D_Impl.cpp
+ * \date 10-29-2012 10:10:01
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "Texture_Impl.h"
+#include "Texture2D_Impl.h"
 #include <util/LogUtil.h>
+#include <util/TextureUtil.h>
 #include <gl/glew.h>
 #include <event/EventIds.h>
 
-Texture_Impl::Texture_Impl(const tstring& id)
+Texture2D_Impl::Texture2D_Impl(const tstring& id)
+:ITexture(id)
 {
-	m_strId = id;
 	m_nTextureId = 0;
 }
 
-Texture_Impl::~Texture_Impl()
+Texture2D_Impl::~Texture2D_Impl()
 {
 	FreeTexture();
 	DispatchEvent(Event(EID_OBJECT_DESTROYED));
 }
 
-const tstring& Texture_Impl::GetId() const
-{
-	return m_strId;
-}
-
-const Vector2& Texture_Impl::GetSize() const
+const Vector2& Texture2D_Impl::GetSize() const
 {
 	return m_Size;
 }
 
-bool Texture_Impl::LoadFromBitmapData(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample)
+uint Texture2D_Impl::GetTextureHandler() const
+{
+	return m_nTextureId;
+}
+
+bool Texture2D_Impl::LoadFromBitmapData(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample)
 {
 	SetOk(CreateTexture(pBitmapData, eSample));
 	return IsOk();
 }
 
-GLuint Texture_Impl::GetTextureId()
-{
-	return m_nTextureId;
-}
-
-bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample)
+bool Texture2D_Impl::CreateTexture(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample)
 {
 	FreeTexture();
 
@@ -71,9 +67,9 @@ bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData, TEXTURE_SAMPLE 
 
 	int width = pBitmapData->GetWidth();
 	int height = pBitmapData->GetHeight();
-	if (!IsValidTextureSize(width, height))
+	if (!TextureUtil::IsValidTextureSize(width, height))
 	{
-		LOG("invalid texture size: %dx%d", width, height);
+		LOG(_T("invalid texture size: %dx%d"), width, height);
 		return false;
 	}
 
@@ -91,36 +87,11 @@ bool Texture_Impl::CreateTexture(const IBitmapData* pBitmapData, TEXTURE_SAMPLE 
 	return true;
 }
 
-void Texture_Impl::FreeTexture()
+void Texture2D_Impl::FreeTexture()
 {
 	if (m_nTextureId != 0)
 	{
 		glDeleteTextures(1, &m_nTextureId);
 		m_nTextureId = 0;
 	}
-}
-
-bool Texture_Impl::IsValidTextureSize(uint width, uint height)
-{
-	static const uint s_nValidSize[] = {16, 32, 64, 128, 256, 512, 1024, 2048, 0};
-
-	bool bValidWidth = false;
-	bool bValidHeight = false;
-
-	int nIndex = 0;
-	while (s_nValidSize[nIndex] != 0)
-	{
-		if (!bValidWidth && width == s_nValidSize[nIndex])
-		{
-			bValidWidth = true;
-		}
-		if (!bValidHeight && height == s_nValidSize[nIndex])
-		{
-			bValidHeight = true;
-		}
-
-		++nIndex;
-	}
-
-	return bValidWidth && bValidHeight;
 }

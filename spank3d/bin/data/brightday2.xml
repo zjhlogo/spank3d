@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CubeMap>
+	<Texture path="brightday2\brightday2_positive_x.png" />
+	<Texture path="brightday2\brightday2_negative_x.png" />
+	<Texture path="brightday2\brightday2_positive_y.png" />
+	<Texture path="brightday2\brightday2_negative_y.png" />
+	<Texture path="brightday2\brightday2_positive_z.png" />
+	<Texture path="brightday2\brightday2_negative_z.png" />
+</CubeMap>

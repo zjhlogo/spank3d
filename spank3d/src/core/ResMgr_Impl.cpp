@@ -10,11 +10,12 @@
 #include <util/LogUtil.h>
 #include <util/StringUtil.h>
 #include <util/FileUtil.h>
-#include <util/PngUtil.h>
+#include <util/TextureUtil.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 
 #include "BitmapData_Impl.h"
-#include "../render/Texture_Impl.h"
+#include "../render/Texture2D_Impl.h"
+#include "../render/TextureCube_Impl.h"
 #include "../render/Shader_Impl.h"
 
 ResMgr_Impl::ResMgr_Impl()
@@ -112,7 +113,7 @@ IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& strFile)
 		return pBitmapData;
 	}
 
-	return PngUtil::DecodePngFromFile(strFullPath);
+	return TextureUtil::DecodePngFromFile(strFullPath);
 }
 
 ITexture* ResMgr_Impl::CreateTexture(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample /* = ITexture::TS_LINEAR */)
@@ -144,7 +145,7 @@ ITexture* ResMgr_Impl::CreateTexture(const tstring& strFile, ITexture::TEXTURE_S
 		return pTexture;
 	}
 
-	IBitmapData* pBitmapData = PngUtil::DecodePngFromFile(strFullPath);
+	IBitmapData* pBitmapData = TextureUtil::DecodePngFromFile(strFullPath);
 	if (!pBitmapData)
 	{
 		LOG(_T("IResMgr::CreateTexture, create bitmap data failed %s"), strFullPath.c_str());
@@ -154,6 +155,35 @@ ITexture* ResMgr_Impl::CreateTexture(const tstring& strFile, ITexture::TEXTURE_S
 	ITexture* pTexture = InternalCreateTexture(strFullPath, pBitmapData, eSample);
 	SAFE_RELEASE(pBitmapData);
 	return pTexture;
+}
+
+ITexture* ResMgr_Impl::CreateTextureCube(const tstring& strFile)
+{
+	// get file path
+	tstring strFullPath;
+	if (!StringUtil::GetFileFullPath(strFullPath, m_strDefaultDir, strFile)) return NULL;
+
+	// check texture is exist in the cache
+	TM_TEXTURE::iterator itFound = m_TextureMap.find(strFullPath);
+	if (itFound != m_TextureMap.end())
+	{
+		ITexture* pTexture = itFound->second;
+		pTexture->IncRef();
+		return pTexture;
+	}
+
+	TextureCube_Impl* pTextureCube_Impl = new TextureCube_Impl(strFullPath);
+	if (!pTextureCube_Impl->LoadFromFile(strFullPath))
+	{
+		SAFE_DELETE(pTextureCube_Impl);
+		LOG(_T("IResMgr::CreateTextureCube failed, %s"), strFile.c_str());
+		return NULL;
+	}
+
+	// cache the texture res
+	m_TextureMap.insert(std::make_pair(pTextureCube_Impl->GetId(), pTextureCube_Impl));
+	pTextureCube_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
+	return pTextureCube_Impl;
 }
 
 IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
@@ -290,7 +320,7 @@ bool ResMgr_Impl::ReadStringFile(tstring& strOut, const tstring& strFile)
 
 ITexture* ResMgr_Impl::InternalCreateTexture(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample)
 {
-	Texture_Impl* pTexture = new Texture_Impl(id);
+	Texture2D_Impl* pTexture = new Texture2D_Impl(id);
 	if (!pTexture->LoadFromBitmapData(pBitmapData, eSample))
 	{
 		SAFE_DELETE(pTexture);
