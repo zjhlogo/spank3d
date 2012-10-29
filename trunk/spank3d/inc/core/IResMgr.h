@@ -32,6 +32,7 @@ public:
 
 	virtual ITexture* CreateTexture(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample = ITexture::TS_LINEAR) = 0;
 	virtual ITexture* CreateTexture(const tstring& strFile, ITexture::TEXTURE_SAMPLE eSample = ITexture::TS_LINEAR) = 0;
+	virtual ITexture* CreateTextureCube(const tstring& strFile) = 0;
 
 	virtual IShader* CreateShader(const tstring& strFile) = 0;
 

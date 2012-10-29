@@ -1,11 +1,11 @@
 /*!
- * \file PngUtil.cpp
- * \date 8-11-2012 14:17:29
+ * \file TextureUtil.cpp
+ * \date 10-29-2012 10:28:10
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <util/PngUtil.h>
+#include <util/TextureUtil.h>
 #include <Spank3d.h>
 #include <util/FileUtil.h>
 #include <libpng1.5.12/png.h>
@@ -134,7 +134,7 @@ static IBitmapData* CreatePaletteBitmapData(png_struct* pPngStruct, png_info* pP
 	return pBitmapData;
 }
 
-IBitmapData* PngUtil::DecodePngFromFile(const tstring& strFullPath)
+IBitmapData* TextureUtil::DecodePngFromFile(const tstring& strFullPath)
 {
 	IFile* pFile = FileUtil::LoadFile(strFullPath.c_str());
 	if (!pFile) return NULL;
@@ -189,4 +189,29 @@ IBitmapData* PngUtil::DecodePngFromFile(const tstring& strFullPath)
 	SAFE_RELEASE(pFile);
 
 	return pBitmapData;
+}
+
+bool TextureUtil::IsValidTextureSize(uint width, uint height)
+{
+	static const uint s_nValidSize[] = {16, 32, 64, 128, 256, 512, 1024, 2048, 0};
+
+	bool bValidWidth = false;
+	bool bValidHeight = false;
+
+	int nIndex = 0;
+	while (s_nValidSize[nIndex] != 0)
+	{
+		if (!bValidWidth && width == s_nValidSize[nIndex])
+		{
+			bValidWidth = true;
+		}
+		if (!bValidHeight && height == s_nValidSize[nIndex])
+		{
+			bValidHeight = true;
+		}
+
+		++nIndex;
+	}
+
+	return bValidWidth && bValidHeight;
 }

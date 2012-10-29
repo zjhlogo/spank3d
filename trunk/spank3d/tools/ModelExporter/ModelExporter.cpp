@@ -1617,8 +1617,8 @@ void ModelExporter::MaxEular2SpankEular(Vector3& vOut, const Point3& vIn)
 
 void ModelExporter::MaxUV2SpankUV(float* fOut2, const Point2& uv)
 {
-	fOut2[0] = uv.x - floorf(uv.x);
-	fOut2[1] = uv.y - floorf(uv.y);
+	fOut2[0] = uv.x;
+	fOut2[1] = uv.y;
 }
 
 void ModelExporter::MaxFaceIndex2SpankFaceIndex(ushort* nOut3, const int* indis)

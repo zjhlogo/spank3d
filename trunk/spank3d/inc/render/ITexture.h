@@ -23,11 +23,15 @@ public:
 public:
 	RTTI_DEF(ITexture, IObject);
 
-	ITexture() {};
+	ITexture(const tstring& id) { m_strId = id; };
 	virtual ~ITexture() {};
 
-	virtual const tstring& GetId() const = 0;
+	virtual const tstring& GetId() const { return m_strId; };
 	virtual const Vector2& GetSize() const = 0;
+	virtual uint GetTextureHandler() const = 0;
+
+private:
+	tstring m_strId;
 
 };
 #endif // __ITEXTURE_H__

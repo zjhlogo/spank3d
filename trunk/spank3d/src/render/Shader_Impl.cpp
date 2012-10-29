@@ -9,7 +9,6 @@
 #include <gl/glew.h>
 #include <util/StringUtil.h>
 #include <util/LogUtil.h>
-#include "Texture_Impl.h"
 #include <event/EventIds.h>
 
 Shader_Impl::Shader_Impl(const tstring& id, const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
@@ -87,13 +86,12 @@ bool Shader_Impl::SetTexture(const tstring& strName, ITexture* pTexture, uint nI
 	if (nLoc < 0) return false;
 
 	// active texture
-	Texture_Impl* pTexture_Impl = (Texture_Impl*)pTexture;
 	glActiveTexture(GL_TEXTURE0+nIndex);
 	uint eError = glGetError();
 	if (eError != GL_NO_ERROR) LOG(_T("glActiveTexture error code: 0x%04x"), eError);
 
 	// bind texture
-	glBindTexture(GL_TEXTURE_2D, pTexture_Impl->GetTextureId());
+	glBindTexture(GL_TEXTURE_2D, pTexture->GetTextureHandler());
 	eError = glGetError();
 	if (eError != GL_NO_ERROR) LOG(_T("glBindTexture error code: 0x%04x"), eError);
 

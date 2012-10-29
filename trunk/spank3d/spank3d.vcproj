@@ -370,14 +370,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\util\PngUtil.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\util\PngUtil.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\util\StringUtil.cpp"
 				>
 			</File>
@@ -391,6 +383,14 @@
 			</File>
 			<File
 				RelativePath=".\inc\util\SystemUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\util\TextureUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\util\TextureUtil.h"
 				>
 			</File>
 		</Filter>
@@ -694,11 +694,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\render\Texture_Impl.cpp"
+				RelativePath=".\src\render\Texture2D_Impl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\render\Texture_Impl.h"
+				RelativePath=".\src\render\Texture2D_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\TextureCube_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\TextureCube_Impl.h"
 				>
 			</File>
 			<File
