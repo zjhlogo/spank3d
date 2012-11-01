@@ -91,10 +91,11 @@ bool Shader_Impl::SetTexture(const tstring& strName, ITexture* pTexture, uint nI
 	if (eError != GL_NO_ERROR) LOG(_T("glActiveTexture error code: 0x%04x"), eError);
 
 	// bind texture
-	glBindTexture(GL_TEXTURE_2D, pTexture->GetTextureHandler());
+	glBindTexture(pTexture->GetTextureType(), pTexture->GetTextureId());
 	eError = glGetError();
 	if (eError != GL_NO_ERROR) LOG(_T("glBindTexture error code: 0x%04x"), eError);
 
+	// link texture slot to shader
 	glUniform1i(nLoc, nIndex);
 	eError = glGetError();
 	if (eError != GL_NO_ERROR) LOG(_T("glUniform1i error code: 0x%04x"), eError);

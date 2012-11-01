@@ -17,19 +17,27 @@ public:
 	RTTI_DEF(Texture2D_Impl, ITexture);
 
 	Texture2D_Impl(const tstring& id);
+	Texture2D_Impl(const tstring& id, uint width, uint height, uint depth, TEXTURE_SAMPLE eSample);
 	virtual ~Texture2D_Impl();
 
 	virtual const Vector2& GetSize() const;
-	virtual uint GetTextureHandler() const;
+	virtual uint GetWidth() const;
+	virtual uint GetHeight() const;
+
+	virtual uint GetTextureId() const;
 
 	bool LoadFromBitmapData(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample);
 
 private:
 	bool CreateTexture(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample);
+	bool CreateTexture(uint width, uint height, uint depth, TEXTURE_SAMPLE eSample);
 	void FreeTexture();
 
 private:
 	Vector2 m_Size;
+	uint m_nTexWidth;
+	uint m_nTexHeight;
+
 	uint m_nTextureId;
 
 };

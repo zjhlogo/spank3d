@@ -90,7 +90,7 @@ bool BitmapFontInfo::CreateTextures(TiXmlElement* pXmlPages)
 		const tchar* pszTexture = pXmlPage->Attribute(_("file"));
 		if (!pszTexture) return false;
 
-		ITexture* pTexture = g_pResMgr->CreateTexture(pszTexture);
+		ITexture* pTexture = g_pResMgr->CreateTexture2D(pszTexture);
 		if (!pTexture) return false;
 
 		m_vTextures.push_back(pTexture);

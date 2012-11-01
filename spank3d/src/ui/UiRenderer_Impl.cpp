@@ -38,11 +38,12 @@ bool UiRenderer_Impl::Initialize()
 	m_pVertexCache = new UiVertexCache(NUM_PRIM_PER_CACHE);
 	if (!m_pVertexCache || !m_pVertexCache->IsOk()) return false;
 
+	const Vector2& windowSize = g_pDevice->GetSize();
 	Matrix4x4 matOrtho;
-	Math::BuildOrthoMatrix(matOrtho, 0.0f, g_pDevice->GetSize().x, 0.0f, g_pDevice->GetSize().y, -100.0f, 100.0f);
+	Math::BuildOrthoMatrix(matOrtho, 0.0f, windowSize.x, 0.0f, windowSize.y, -100.0f, 100.0f);
 
 	Matrix4x4 matModelView;
-	Math::BuildTranslateMatrix(matModelView, 0.0f, g_pDevice->GetSize().y, 0.0f);
+	Math::BuildTranslateMatrix(matModelView, 0.0f, windowSize.y, 0.0f);
 	matModelView.e[5] = -1.0f;
 
 	m_matModelViewProj = matOrtho*matModelView;

@@ -678,11 +678,23 @@
 			Name="render"
 			>
 			<File
+				RelativePath=".\inc\render\IRenderTarget.h"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\render\IShader.h"
 				>
 			</File>
 			<File
 				RelativePath=".\inc\render\ITexture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\RenderTarget_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\render\RenderTarget_Impl.h"
 				>
 			</File>
 			<File

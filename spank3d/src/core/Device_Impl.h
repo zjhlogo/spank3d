@@ -32,6 +32,8 @@ public:
 	virtual void EndPerform();
 
 	virtual const Vector2& GetSize() const;
+	virtual uint GetWidth() const;
+	virtual uint GetHeight() const;
 
 private:
 	Device_Impl();
@@ -51,6 +53,8 @@ private:
 	float m_fLastTime;
 
 	Vector2 m_WindowSize;
+	uint m_nWindowWidth;
+	uint m_nWindowHeight;
 
 };
 #endif // __DEVICE_IMPL_H__
