@@ -17,10 +17,12 @@
 #include "../render/Texture2D_Impl.h"
 #include "../render/TextureCube_Impl.h"
 #include "../render/Shader_Impl.h"
+#include "../render/RenderTarget_Impl.h"
 
 ResMgr_Impl::ResMgr_Impl()
 {
 	g_pResMgr = this;
+	m_nNumMemoryTextures = 0;
 }
 
 ResMgr_Impl::~ResMgr_Impl()
@@ -71,17 +73,17 @@ IMesh* ResMgr_Impl::CreateMesh(const tstring& strFile)
 	}
 
 	// create new
-	Mesh_Impl* pMesh = new Mesh_Impl(strFullPath);
-	if (!pMesh || !pMesh->IsOk())
+	Mesh_Impl* pMesh_Impl = new Mesh_Impl(strFullPath);
+	if (!pMesh_Impl || !pMesh_Impl->IsOk())
 	{
 		LOG(_T("IResMgr::CreateMesh Failed %s"), strFullPath.c_str());
-		SAFE_RELEASE(pMesh);
+		SAFE_RELEASE(pMesh_Impl);
 		return NULL;
 	}
 
-	m_MeshMap.insert(std::make_pair(strFullPath, pMesh));
-	pMesh->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnMeshDestroyed);
-	return pMesh;
+	m_MeshMap.insert(std::make_pair(strFullPath, pMesh_Impl));
+	pMesh_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnMeshDestroyed);
+	return pMesh_Impl;
 }
 
 IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& id, uint width, uint height, uint bpp /* = 32 */)
@@ -95,7 +97,18 @@ IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& id, uint width, uint h
 		return pBitmapData;
 	}
 
-	return InternalCreateBitmapData(id, width, height, bpp);
+	BitmapData_Impl* pBitmapData_Impl = new BitmapData_Impl(id, width, height, bpp);
+	if (!pBitmapData_Impl || !pBitmapData_Impl->IsOk())
+	{
+		SAFE_DELETE(pBitmapData_Impl);
+		LOG(_T("IResMgr::CreateBitmapData failed, width=%d, height=%d, bpp=%d"), width, height, bpp);
+		return NULL;
+	}
+
+	// cache the bitmap data
+	m_BitmapDataMap.insert(std::make_pair(id, pBitmapData_Impl));
+	pBitmapData_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnBitmapDataDestroyed);
+	return pBitmapData_Impl;
 }
 
 IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& strFile)
@@ -116,7 +129,34 @@ IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& strFile)
 	return TextureUtil::DecodePngFromFile(strFullPath);
 }
 
-ITexture* ResMgr_Impl::CreateTexture(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample /* = ITexture::TS_LINEAR */)
+ITexture* ResMgr_Impl::CreateTexture2D(uint width, uint height, uint depth, ITexture::TEXTURE_SAMPLE eSample /*= ITexture::TS_LINEAR*/)
+{
+	tstring strNewId;
+	StringUtil::strformat(strNewId, _("memory_texture: %d"), m_nNumMemoryTextures++);
+
+	// check texture is exist in the cache
+	TM_TEXTURE::iterator itFound = m_TextureMap.find(strNewId);
+	if (itFound != m_TextureMap.end())
+	{
+		LOG(_T("IResMgr::CreateTexture2D failed, duplicate texture id: %s"), strNewId.c_str());
+		return NULL;
+	}
+
+	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(strNewId, width, height, depth, eSample);
+	if (!pTexture2D_Impl || !pTexture2D_Impl->IsOk())
+	{
+		SAFE_DELETE(pTexture2D_Impl);
+		LOG(_T("IResMgr::CreateTexture2D failed, with width:%d, height:%d, depth:%d"), width, height, depth);
+		return NULL;
+	}
+
+	// cache the texture res
+	m_TextureMap.insert(std::make_pair(strNewId, pTexture2D_Impl));
+	pTexture2D_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
+	return pTexture2D_Impl;
+}
+
+ITexture* ResMgr_Impl::CreateTexture2D(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample /* = ITexture::TS_LINEAR */)
 {
 	// check texture is exist in the cache
 	TM_TEXTURE::iterator itFound = m_TextureMap.find(id);
@@ -127,10 +167,21 @@ ITexture* ResMgr_Impl::CreateTexture(const tstring& id, const IBitmapData* pBitm
 		return pTexture;
 	}
 
-	return InternalCreateTexture(id, pBitmapData, eSample);
+	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(id);
+	if (!pTexture2D_Impl->LoadFromBitmapData(pBitmapData, eSample))
+	{
+		SAFE_DELETE(pTexture2D_Impl);
+		LOG(_T("IResMgr::CreateTexture2D failed, %s"), id.c_str());
+		return NULL;
+	}
+
+	// cache the texture res
+	m_TextureMap.insert(std::make_pair(id, pTexture2D_Impl));
+	pTexture2D_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
+	return pTexture2D_Impl;
 }
 
-ITexture* ResMgr_Impl::CreateTexture(const tstring& strFile, ITexture::TEXTURE_SAMPLE eSample /* = ITexture::TS_LINEAR */)
+ITexture* ResMgr_Impl::CreateTexture2D(const tstring& strFile, ITexture::TEXTURE_SAMPLE eSample /* = ITexture::TS_LINEAR */)
 {
 	// get file path
 	tstring strFullPath;
@@ -148,13 +199,24 @@ ITexture* ResMgr_Impl::CreateTexture(const tstring& strFile, ITexture::TEXTURE_S
 	IBitmapData* pBitmapData = TextureUtil::DecodePngFromFile(strFullPath);
 	if (!pBitmapData)
 	{
-		LOG(_T("IResMgr::CreateTexture, create bitmap data failed %s"), strFullPath.c_str());
+		LOG(_T("IResMgr::CreateTexture2D, create bitmap data failed %s"), strFullPath.c_str());
 		return NULL;
 	}
 
-	ITexture* pTexture = InternalCreateTexture(strFullPath, pBitmapData, eSample);
+	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(strFullPath);
+	if (!pTexture2D_Impl->LoadFromBitmapData(pBitmapData, eSample))
+	{
+		SAFE_DELETE(pTexture2D_Impl);
+		SAFE_RELEASE(pBitmapData);
+		LOG(_T("IResMgr::CreateTexture2D failed, %s"), strFullPath.c_str());
+		return NULL;
+	}
 	SAFE_RELEASE(pBitmapData);
-	return pTexture;
+
+	// cache the texture res
+	m_TextureMap.insert(std::make_pair(strFullPath, pTexture2D_Impl));
+	pTexture2D_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
+	return pTexture2D_Impl;
 }
 
 ITexture* ResMgr_Impl::CreateTextureCube(const tstring& strFile)
@@ -295,18 +357,33 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 	attrItems[nAttrIndex].szParamName[0] = _('\0');
 
 	// create shader
-	Shader_Impl* pShader = new Shader_Impl(strFullPath, strVertexShaderData, strGeometryShaderData, strFragmentShaderData, attrItems);
-	if (!pShader || !pShader->IsOk())
+	Shader_Impl* pShader_Impl = new Shader_Impl(strFullPath, strVertexShaderData, strGeometryShaderData, strFragmentShaderData, attrItems);
+	if (!pShader_Impl || !pShader_Impl->IsOk())
 	{
-		SAFE_RELEASE(pShader);
+		SAFE_RELEASE(pShader_Impl);
 		LOG(_T("IResMgr::CreateShader Failed"));
 		return NULL;
 	}
 
 	// cache the shader
-	m_ShaderMap.insert(std::make_pair(strFullPath, pShader));
-	pShader->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnShaderDestroyed);
-	return pShader;
+	m_ShaderMap.insert(std::make_pair(strFullPath, pShader_Impl));
+	pShader_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnShaderDestroyed);
+	return pShader_Impl;
+}
+
+IRenderTarget* ResMgr_Impl::CreateRenderTarget()
+{
+	RenderTarget_Impl* pRenderTarget_Impl = new RenderTarget_Impl();
+	if (!pRenderTarget_Impl || !pRenderTarget_Impl->IsOk())
+	{
+		SAFE_DELETE(pRenderTarget_Impl);
+		LOG(_T("IResMgr::CreateRenderTarget failed"));
+		return NULL;
+	}
+
+	m_RenderTargetSet.insert(pRenderTarget_Impl);
+	pRenderTarget_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnRenderTargetDestroyed);
+	return pRenderTarget_Impl;
 }
 
 bool ResMgr_Impl::ReadStringFile(tstring& strOut, const tstring& strFile)
@@ -316,38 +393,6 @@ bool ResMgr_Impl::ReadStringFile(tstring& strOut, const tstring& strFile)
 	if (!StringUtil::GetFileFullPath(strFullPath, m_strDefaultDir, strFile)) return false;
 
 	return FileUtil::ReadFileIntoString(strOut, strFullPath);
-}
-
-ITexture* ResMgr_Impl::InternalCreateTexture(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample)
-{
-	Texture2D_Impl* pTexture = new Texture2D_Impl(id);
-	if (!pTexture->LoadFromBitmapData(pBitmapData, eSample))
-	{
-		SAFE_DELETE(pTexture);
-		LOG(_T("IResMgr::InternalCreateTexture failed, %s"), id.c_str());
-		return NULL;
-	}
-
-	// cache the texture res
-	m_TextureMap.insert(std::make_pair(id, pTexture));
-	pTexture->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
-	return pTexture;
-}
-
-IBitmapData* ResMgr_Impl::InternalCreateBitmapData(const tstring& id, uint width, uint height, uint bpp)
-{
-	BitmapData_Impl* pBitmapData = new BitmapData_Impl(id, width, height, bpp);
-	if (!pBitmapData || !pBitmapData->IsOk())
-	{
-		SAFE_DELETE(pBitmapData);
-		LOG(_T("IResMgr::InternalCreateBitmapData failed, width=%d, height=%d, bpp=%d"), width, height, bpp);
-		return NULL;
-	}
-
-	// cache the bitmap data
-	m_BitmapDataMap.insert(std::make_pair(id, pBitmapData));
-	pBitmapData->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnBitmapDataDestroyed);
-	return pBitmapData;
 }
 
 bool ResMgr_Impl::OnMeshDestroyed(Event& event)
@@ -395,5 +440,17 @@ bool ResMgr_Impl::OnShaderDestroyed(Event& event)
 	if (itFound == m_ShaderMap.end()) return true;
 
 	m_ShaderMap.erase(itFound);
+	return true;
+}
+
+bool ResMgr_Impl::OnRenderTargetDestroyed(Event& event)
+{
+	IRenderTarget* pRenderTarget = (IRenderTarget*)event.GetEventDispatcher();
+	if (!pRenderTarget) return true;
+
+	TS_RENDER_TARGET::iterator itFound = m_RenderTargetSet.find(pRenderTarget);
+	if (itFound == m_RenderTargetSet.end()) return true;
+
+	m_RenderTargetSet.erase(itFound);
 	return true;
 }

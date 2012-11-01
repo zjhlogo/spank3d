@@ -10,7 +10,8 @@
 
 ICamera::ICamera()
 {
-	Math::BuildPerspectiveFovMatrix(m_matProj, 45.0f, g_pDevice->GetSize().x, g_pDevice->GetSize().y, 0.1f, 100.0f);
+	const Vector2& windowSize = g_pDevice->GetSize();
+	Math::BuildPerspectiveFovMatrix(m_matProj, 45.0f, windowSize.x, windowSize.y, 0.1f, 100.0f);
 }
 
 ICamera::~ICamera()

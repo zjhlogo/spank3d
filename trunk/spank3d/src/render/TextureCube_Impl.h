@@ -26,7 +26,10 @@ public:
 	virtual ~TextureCube_Impl();
 
 	virtual const Vector2& GetSize() const;
-	virtual uint GetTextureHandler() const;
+	virtual uint GetWidth() const;
+	virtual uint GetHeight() const;
+
+	virtual uint GetTextureId() const;
 
 	bool LoadFromFile(const tstring& strFile);
 
@@ -36,6 +39,9 @@ private:
 
 private:
 	Vector2 m_Size;
+	uint m_nTexWidth;
+	uint m_nTexHeight;
+
 	uint m_nTextureId;
 
 };

@@ -15,9 +15,11 @@
 #include <Spank3d.h>
 
 TextureCube_Impl::TextureCube_Impl(const tstring& id)
-:ITexture(id)
+:ITexture(id, GL_TEXTURE_CUBE_MAP)
 {
 	m_nTextureId = 0;
+	m_nTexWidth = 0;
+	m_nTexHeight = 0;
 }
 
 TextureCube_Impl::~TextureCube_Impl()
@@ -31,7 +33,17 @@ const Vector2& TextureCube_Impl::GetSize() const
 	return m_Size;
 }
 
-uint TextureCube_Impl::GetTextureHandler() const
+uint TextureCube_Impl::GetWidth() const
+{
+	return m_nTexWidth;
+}
+
+uint TextureCube_Impl::GetHeight() const
+{
+	return m_nTexHeight;
+}
+
+uint TextureCube_Impl::GetTextureId() const
 {
 	return m_nTextureId;
 }
@@ -106,17 +118,17 @@ bool TextureCube_Impl::CreateTextures(const tstring& strFile)
 			return false;
 		}
 
-		int width = pBitmapData->GetWidth();
-		int height = pBitmapData->GetHeight();
-		if (!TextureUtil::IsValidTextureSize(width, height))
+		m_nTexWidth = pBitmapData->GetWidth();
+		m_nTexHeight = pBitmapData->GetHeight();
+		if (!TextureUtil::IsValidTextureSize(m_nTexWidth, m_nTexHeight))
 		{
 			SAFE_RELEASE(pBitmapData);
-			LOG(_T("invalid texture size: %dx%d"), width, height);
+			LOG(_T("invalid texture size: %dx%d"), m_nTexWidth, m_nTexHeight);
 			return false;
 		}
 
-		m_Size.Reset(float(width), float(height));
-		glTexImage2D(s_Targets[i], 0, nColorFormat, width, height, 0, nColorFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
+		m_Size.Reset(float(m_nTexWidth), float(m_nTexHeight));
+		glTexImage2D(s_Targets[i], 0, nColorFormat, m_nTexWidth, m_nTexHeight, 0, nColorFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
 		SAFE_RELEASE(pBitmapData);
 	}
 

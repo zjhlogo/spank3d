@@ -210,7 +210,7 @@ bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
 	const tchar* pszTexture = pXmlPieceInfoList->Attribute(_("texture"));
 	if (!pszTexture) return false;
 
-	ITexture* pTexture = g_pResMgr->CreateTexture(pszTexture, ITexture::TS_NEAREST);
+	ITexture* pTexture = g_pResMgr->CreateTexture2D(pszTexture, ITexture::TS_NEAREST);
 	if (!pTexture) return false;
 
 	m_vUiTextures.push_back(pTexture);

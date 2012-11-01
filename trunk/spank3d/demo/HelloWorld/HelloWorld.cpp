@@ -33,7 +33,7 @@ bool HelloWorld::Initialize()
 	m_pMesh = g_pResMgr->CreateMesh(_("teapot.mesh"));
 	if (!m_pMesh) return false;
 
-	m_pTexture = g_pResMgr->CreateTexture(_("grid16.png"));
+	m_pTexture = g_pResMgr->CreateTexture2D(_("grid16.png"));
 	if (!m_pTexture) return false;
 
 	m_pCamera = new ICamera();

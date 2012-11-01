@@ -35,6 +35,8 @@ Device_Impl::Device_Impl()
 {
 	m_fLastTime = 0.0f;
 	m_WindowSize.Reset(float(DEFAULT_WINDOW_WIDTH), float(DEFAULT_WINDOW_HEIGHT));
+	m_nWindowWidth = DEFAULT_WINDOW_WIDTH;
+	m_nWindowHeight = DEFAULT_WINDOW_HEIGHT;
 
 	g_pDevice = this;
 }
@@ -167,6 +169,16 @@ const Vector2& Device_Impl::GetSize() const
 	return m_WindowSize;
 }
 
+uint Device_Impl::GetWidth() const
+{
+	return m_nWindowWidth;
+}
+
+uint Device_Impl::GetHeight() const
+{
+	return m_nWindowHeight;
+}
+
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static short s_nLastMousePosX = 0;
@@ -290,7 +302,7 @@ bool Device_Impl::InternalCreateWindow()
 	uint nScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
-	RECT rc = {0, 0, int(m_WindowSize.x), int(m_WindowSize.y)};
+	RECT rc = {0, 0, m_nWindowWidth, m_nWindowHeight};
 	AdjustWindowRect(&rc, dwStyle, FALSE);
 	uint nAdjustWidth = rc.right - rc.left;
 	uint nAdjustHeight = rc.bottom - rc.top;
@@ -410,11 +422,10 @@ void Device_Impl::InternalDestroyOGL()
 
 void Device_Impl::PerformOnce(float dt)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
-
 	g_pApp->Update(dt);
-	g_pApp->Render();
 
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+	g_pApp->Render();
 	SwapBuffers(g_hDc);					// Swap Buffers (Double Buffering)
 }
 
@@ -454,5 +465,5 @@ void Device_Impl::InitializeOGL()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 	// Reset The Current Viewport
-	glViewport(0, 0, int(m_WindowSize.x), int(m_WindowSize.y));
+	glViewport(0, 0, m_nWindowWidth, m_nWindowHeight);
 }
