@@ -13,6 +13,12 @@
 
 class RenderTarget : public IApp
 {
+	enum CONST_DEFINE
+	{
+		RENDER_TARGET_WIDTH = 256,
+		RENDER_TARGET_HEIGHT = 256,
+	};
+
 public:
 	RTTI_DEF(RenderTarget, IApp);
 
