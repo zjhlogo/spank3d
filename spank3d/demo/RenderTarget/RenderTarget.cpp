@@ -8,6 +8,7 @@
 #include "RenderTarget.h"
 #include <util/AppUtil.h>
 #include <event/EventIds.h>
+#include <ui/controls/Picture.h>
 
 IMPLEMENT_APP(RenderTarget);
 
@@ -43,17 +44,20 @@ bool RenderTarget::Initialize()
 	m_pRenderTarget = g_pResMgr->CreateRenderTarget();
 	if (!m_pRenderTarget) return false;
 
-	m_pRenderTargetTexture = g_pResMgr->CreateTexture2D(512, 512, 32);
+	m_pRenderTargetTexture = g_pResMgr->CreateTexture2D(RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT, 32);
 	if (!m_pRenderTargetTexture) return false;
 
 	if (!m_pRenderTarget->SetTargetTexture(m_pRenderTargetTexture)) return false;
 
-	Math::BuildPerspectiveFovMatrix(m_matRenderTargetProj, 45.0f, 512.0f, 512.0f, 0.1f, 100.0f);
+	Math::BuildPerspectiveFovMatrix(m_matRenderTargetProj, 45.0f, RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT, 0.1f, 100.0f);
 
 	m_pCamera = new ICamera();
 	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC3_ZERO);
 
 	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&RenderTarget::OnMouseEvent));
+
+	Picture* pPicture = new Picture(g_pUiSystemMgr->GetCurrScreen());
+	pPicture->SetTexture(m_pRenderTargetTexture);
 
 	return true;
 }
@@ -74,6 +78,7 @@ void RenderTarget::Terminate()
 void RenderTarget::Update(float dt)
 {
 	// TODO: 
+	g_pUiSystemMgr->Update(dt);
 }
 
 void RenderTarget::Render()
@@ -85,6 +90,9 @@ void RenderTarget::Render()
 
 	// render scene
 	RenderScene(m_pCamera->GetProjectionMatrix(), m_pRenderTargetTexture);
+
+	g_pUiSystemMgr->Render();
+	g_pUiRenderer->FlushAll();
 }
 
 bool RenderTarget::OnMouseEvent(MouseEvent& mouseEvent)

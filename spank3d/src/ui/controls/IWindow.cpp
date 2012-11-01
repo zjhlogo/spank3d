@@ -249,6 +249,11 @@ bool IWindow::SetBgStyle(const tstring& styleId)
 	return true;
 }
 
+IGraphicsStyle* IWindow::GetBgStyle()
+{
+	return m_pBgStyle;
+}
+
 bool IWindow::IsOnMe(const Vector2& pos)
 {
 	if (!CheckWindowState(WS_VISIBLE|WS_SOLID)) return false;

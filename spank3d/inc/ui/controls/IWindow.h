@@ -94,6 +94,7 @@ public:
 	bool SystemKeyboardEvent(KeyboardEvent& event);
 
 	bool SetBgStyle(const tstring& styleId);
+	IGraphicsStyle* GetBgStyle();
 
 	bool IsOnMe(const Vector2& pos);
 

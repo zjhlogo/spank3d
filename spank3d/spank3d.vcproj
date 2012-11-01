@@ -541,6 +541,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ui\controls\Picture.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\controls\Picture.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ui\controls\PushButton.cpp"
 					>
 				</File>
