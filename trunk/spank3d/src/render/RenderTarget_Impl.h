@@ -39,6 +39,9 @@ private:
 	uint m_nDepthBuffer;
 	uint m_nClearType;
 
+	uint m_nFrameWidth;
+	uint m_nFrameHeight;
+
 	ITexture* m_pColorTexture;
 	ITexture* m_pDepthTexture;
 

@@ -27,6 +27,9 @@ void RenderTarget_Impl::InitMember()
 	m_nDepthBuffer = 0;
 	m_nClearType = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
 
+	m_nFrameWidth = 0;
+	m_nFrameHeight = 0;
+
 	m_pColorTexture = NULL;
 	m_pDepthTexture = NULL;
 }
@@ -44,10 +47,9 @@ ITexture* RenderTarget_Impl::GetDepthTexture()
 bool RenderTarget_Impl::BeginRender()
 {
 	if (m_nFrameBuffer == 0) return false;
-	if (!m_pColorTexture) return false;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
-	glViewport(0, 0, m_pColorTexture->GetWidth(), m_pColorTexture->GetHeight());
+	glViewport(0, 0, m_nFrameWidth, m_nFrameHeight);
 
 	glClear(m_nClearType);	// Clear Screen And Depth Buffer
 
@@ -109,6 +111,10 @@ bool RenderTarget_Impl::CreateColorTextureBuffer(ITexture* pColorTexture)
 	if (m_nFrameBuffer == 0) return false;
 
 	if (pColorTexture->GetType() != TEXTURE_TYPE::TT_TEXTURE_2D) return false;
+	if (pColorTexture->GetFormat() != TEXTURE_FORMAT::TF_RGBA) return false;
+
+	m_nFrameWidth = pColorTexture->GetWidth();
+	m_nFrameHeight = pColorTexture->GetHeight();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
 
@@ -118,7 +124,7 @@ bool RenderTarget_Impl::CreateColorTextureBuffer(ITexture* pColorTexture)
 	// depth buffer
 	glGenRenderbuffers(1, &m_nDepthBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_nDepthBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, pColorTexture->GetWidth(), pColorTexture->GetHeight());
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_nFrameWidth, m_nFrameHeight);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_nDepthBuffer);
 
 	// draw color attachment
@@ -129,6 +135,7 @@ bool RenderTarget_Impl::CreateColorTextureBuffer(ITexture* pColorTexture)
 
 	m_pColorTexture = pColorTexture;
 	m_nClearType = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
+
 	return true;
 }
 
@@ -139,6 +146,9 @@ bool RenderTarget_Impl::CreateDepthTextureBuffer(ITexture* pDepthTexture)
 
 	if (pDepthTexture->GetType() != TEXTURE_TYPE::TT_TEXTURE_2D) return false;
 	if (pDepthTexture->GetFormat() != TEXTURE_FORMAT::TF_DEPTH) return false;
+
+	m_nFrameWidth = pDepthTexture->GetWidth();
+	m_nFrameHeight = pDepthTexture->GetHeight();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
 
@@ -162,11 +172,16 @@ bool RenderTarget_Impl::CreateColorDepthTextureBuffer(ITexture* pColorTexture, I
 	if (m_nFrameBuffer == 0) return false;
 
 	if (pColorTexture->GetType() != TEXTURE_TYPE::TT_TEXTURE_2D) return false;
+	if (pColorTexture->GetFormat() != TEXTURE_FORMAT::TF_RGBA) return false;
+
 	if (pDepthTexture->GetType() != TEXTURE_TYPE::TT_TEXTURE_2D) return false;
 	if (pDepthTexture->GetFormat() != TEXTURE_FORMAT::TF_DEPTH) return false;
 
 	if (pColorTexture->GetWidth() != pDepthTexture->GetWidth()
 		|| pColorTexture->GetHeight() != pDepthTexture->GetHeight()) return false;
+
+	m_nFrameWidth = pColorTexture->GetWidth();
+	m_nFrameHeight = pColorTexture->GetHeight();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
 
