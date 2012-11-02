@@ -22,18 +22,22 @@ public:
 public:
 	RTTI_DEF(TextureCube_Impl, ITexture);
 
-	TextureCube_Impl(const tstring& id);
+	TextureCube_Impl(const tstring& id, const tstring& strFile);
 	virtual ~TextureCube_Impl();
 
 	virtual const Vector2& GetSize() const;
 	virtual uint GetWidth() const;
 	virtual uint GetHeight() const;
 
-	virtual uint GetTextureId() const;
+	virtual uint GetType() const;
+	virtual uint GetHandler() const;
+	virtual uint GetFormat() const;
 
-	bool LoadFromFile(const tstring& strFile);
+	virtual void SetFilter(uint filter);
+	virtual uint GetFilter() const;
 
 private:
+	void InitMember();
 	bool CreateTextures(const tstring& strFile);
 	void FreeTextures();
 
@@ -42,7 +46,9 @@ private:
 	uint m_nTexWidth;
 	uint m_nTexHeight;
 
-	uint m_nTextureId;
+	uint m_nHandler;
+	uint m_nTexFormat;
+	uint m_nFilter;
 
 };
 #endif // __TEXTURECUBE_IMPL_H__

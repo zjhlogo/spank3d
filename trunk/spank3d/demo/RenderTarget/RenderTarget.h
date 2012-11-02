@@ -42,7 +42,7 @@ private:
 
 	Matrix4x4 m_matRenderTargetProj;
 	IRenderTarget* m_pRenderTarget;
-	ITexture* m_pRenderTargetTexture;
+	ITexture* m_pColorTexture;
 
 	ICamera* m_pCamera;
 	TargetCameraControl* m_pTargetCameraCtrl;

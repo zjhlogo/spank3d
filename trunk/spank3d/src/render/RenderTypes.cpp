@@ -1,0 +1,27 @@
+/*!
+ * \file RenderTypes.cpp
+ * \date 11-02-2012 9:22:13
+ * 
+ * 
+ * \author zjhlogo (zjhlogo@gmail.com)
+ */
+#include <render/RenderTypes.h>
+#include <gl/glew.h>
+
+const uint TEXTURE_TYPE::TT_TEXTURE_1D = GL_TEXTURE_1D;
+const uint TEXTURE_TYPE::TT_TEXTURE_2D = GL_TEXTURE_2D;
+const uint TEXTURE_TYPE::TT_TEXTURE_3D = GL_TEXTURE_3D;
+const uint TEXTURE_TYPE::TT_TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY;
+const uint TEXTURE_TYPE::TT_TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY;
+const uint TEXTURE_TYPE::TT_TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE;
+const uint TEXTURE_TYPE::TT_TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP;
+
+const uint TEXTURE_FORMAT::TF_DEPTH = GL_DEPTH_COMPONENT;
+const uint TEXTURE_FORMAT::TF_STENCIL = GL_DEPTH_STENCIL;
+const uint TEXTURE_FORMAT::TF_R = GL_RED;
+const uint TEXTURE_FORMAT::TF_RG = GL_RG;
+const uint TEXTURE_FORMAT::TF_RGB = GL_RGB;
+const uint TEXTURE_FORMAT::TF_RGBA = GL_RGBA;
+
+const uint TEXTURE_FILTER::TF_NEAREST = GL_NEAREST;
+const uint TEXTURE_FILTER::TF_LINEAR = GL_LINEAR;

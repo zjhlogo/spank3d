@@ -92,6 +92,7 @@ bool BitmapFontInfo::CreateTextures(TiXmlElement* pXmlPages)
 
 		ITexture* pTexture = g_pResMgr->CreateTexture2D(pszTexture);
 		if (!pTexture) return false;
+		pTexture->SetFilter(TEXTURE_FILTER::TF_NEAREST);
 
 		m_vTextures.push_back(pTexture);
 	}

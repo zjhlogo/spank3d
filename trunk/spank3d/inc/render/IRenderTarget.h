@@ -19,8 +19,8 @@ public:
 	IRenderTarget() {};
 	virtual ~IRenderTarget() {};
 
-	virtual bool SetTargetTexture(ITexture* pTexture) = 0;
-	virtual ITexture* GetTargetTexture() = 0;
+	virtual ITexture* GetColorTexture() = 0;
+	virtual ITexture* GetDepthTexture() = 0;
 
 	virtual bool BeginRender() = 0;
 	virtual void EndRender() = 0;

@@ -14,18 +14,26 @@
 #include <event/EventIds.h>
 #include <Spank3d.h>
 
-TextureCube_Impl::TextureCube_Impl(const tstring& id)
-:ITexture(id, GL_TEXTURE_CUBE_MAP)
+TextureCube_Impl::TextureCube_Impl(const tstring& id, const tstring& strFile)
+:ITexture(id)
 {
-	m_nTextureId = 0;
-	m_nTexWidth = 0;
-	m_nTexHeight = 0;
+	InitMember();
+	SetOk(CreateTextures(strFile));
 }
 
 TextureCube_Impl::~TextureCube_Impl()
 {
 	FreeTextures();
 	DispatchEvent(Event(EID_OBJECT_DESTROYED));
+}
+
+void TextureCube_Impl::InitMember()
+{
+	m_nHandler = 0;
+	m_nTexWidth = 0;
+	m_nTexHeight = 0;
+	m_nTexFormat = TEXTURE_FORMAT::TF_RGBA;
+	m_nFilter = TEXTURE_FILTER::TF_LINEAR;
 }
 
 const Vector2& TextureCube_Impl::GetSize() const
@@ -43,15 +51,32 @@ uint TextureCube_Impl::GetHeight() const
 	return m_nTexHeight;
 }
 
-uint TextureCube_Impl::GetTextureId() const
+uint TextureCube_Impl::GetType() const
 {
-	return m_nTextureId;
+	return TEXTURE_TYPE::TT_TEXTURE_CUBE_MAP;
 }
 
-bool TextureCube_Impl::LoadFromFile(const tstring& strFile)
+uint TextureCube_Impl::GetHandler() const
 {
-	SetOk(CreateTextures(strFile));
-	return IsOk();
+	return m_nHandler;
+}
+
+uint TextureCube_Impl::GetFormat() const
+{
+	return m_nTexFormat;
+}
+
+void TextureCube_Impl::SetFilter(uint filter)
+{
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_nHandler);
+	m_nFilter = filter;
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, m_nFilter);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, m_nFilter);
+}
+
+uint TextureCube_Impl::GetFilter() const
+{
+	return m_nFilter;
 }
 
 bool TextureCube_Impl::CreateTextures(const tstring& strFile)
@@ -83,9 +108,9 @@ bool TextureCube_Impl::CreateTextures(const tstring& strFile)
 		return false;
 	}
 
-	glGenTextures(1, &m_nTextureId);
-	if (m_nTextureId == 0) return false;
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_nTextureId);
+	glGenTextures(1, &m_nHandler);
+	if (m_nHandler == 0) return false;
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_nHandler);
 
 	TiXmlElement* pXmlTexture = doc.RootElement()->FirstChildElement(_("Texture"));
 	for (int i = 0; i < NUM_TARGETS; ++i)
@@ -98,26 +123,7 @@ bool TextureCube_Impl::CreateTextures(const tstring& strFile)
 		IBitmapData* pBitmapData = g_pResMgr->CreateBitmapData(pszTexPath);
 		if (!pBitmapData) return false;
 
-		uint nColorFormat = GL_RGBA;
-		switch (pBitmapData->GetBPP())
-		{
-		case 8:
-			nColorFormat = GL_RED;
-			break;
-		case 16:
-			nColorFormat = GL_RG;
-			break;
-		case 24:
-			nColorFormat = GL_RGB;
-			break;
-		case 32:
-			nColorFormat = GL_RGBA;
-			break;
-		default:
-			SAFE_RELEASE(pBitmapData);
-			return false;
-		}
-
+		m_nTexFormat = TextureUtil::Bpp2TexFormat(pBitmapData->GetBPP());
 		m_nTexWidth = pBitmapData->GetWidth();
 		m_nTexHeight = pBitmapData->GetHeight();
 		if (!TextureUtil::IsValidTextureSize(m_nTexWidth, m_nTexHeight))
@@ -128,24 +134,21 @@ bool TextureCube_Impl::CreateTextures(const tstring& strFile)
 		}
 
 		m_Size.Reset(float(m_nTexWidth), float(m_nTexHeight));
-		glTexImage2D(s_Targets[i], 0, nColorFormat, m_nTexWidth, m_nTexHeight, 0, nColorFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
+		glTexImage2D(s_Targets[i], 0, m_nTexFormat, m_nTexWidth, m_nTexHeight, 0, m_nTexFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
 		SAFE_RELEASE(pBitmapData);
 	}
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	return true;
 }
 
 void TextureCube_Impl::FreeTextures()
 {
-	if (m_nTextureId != 0)
+	if (m_nHandler != 0)
 	{
-		glDeleteTextures(1, &m_nTextureId);
-		m_nTextureId = 0;
+		glDeleteTextures(1, &m_nHandler);
+		m_nHandler = 0;
 	}
 }

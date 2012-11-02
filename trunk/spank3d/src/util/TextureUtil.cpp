@@ -10,6 +10,7 @@
 #include <util/FileUtil.h>
 #include <libpng1.5.12/png.h>
 #include <vector>
+#include <cassert>
 
 static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_t nSize)
 {
@@ -214,4 +215,29 @@ bool TextureUtil::IsValidTextureSize(uint width, uint height)
 	}
 
 	return bValidWidth && bValidHeight;
+}
+
+uint TextureUtil::Bpp2TexFormat(uint bpp)
+{
+	uint nTexFormat = TEXTURE_FORMAT::TF_RGBA;
+	switch (bpp)
+	{
+	case 8:
+		nTexFormat = TEXTURE_FORMAT::TF_R;
+		break;
+	case 16:
+		nTexFormat = TEXTURE_FORMAT::TF_RG;
+		break;
+	case 24:
+		nTexFormat = TEXTURE_FORMAT::TF_RGB;
+		break;
+	case 32:
+		nTexFormat = TEXTURE_FORMAT::TF_RGBA;
+		break;
+	default:
+		assert(false);
+		break;
+	}
+
+	return nTexFormat;
 }
