@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shader id="1" vertex_shader="data/shadow_mapping_shader.vs" fregment_shader="data/shadow_mapping_shader.fs">
+	<attributes>
+		<attribute size="3" type="AIT_FLOAT" name="p2v_position" />
+		<attribute size="2" type="AIT_FLOAT" name="p2v_texCoord" />
+		<attribute size="3" type="AIT_FLOAT" name="p2v_normal" />
+	</attributes>
+</shader>
