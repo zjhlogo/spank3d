@@ -31,14 +31,14 @@ public:
 	virtual IBitmapData* CreateBitmapData(const tstring& id, uint width, uint height, uint bpp = 32) = 0;
 	virtual IBitmapData* CreateBitmapData(const tstring& strFile) = 0;
 
-	virtual ITexture* CreateTexture2D(uint width, uint height, uint depth, ITexture::TEXTURE_SAMPLE eSample = ITexture::TS_LINEAR) = 0;
-	virtual ITexture* CreateTexture2D(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample = ITexture::TS_LINEAR) = 0;
-	virtual ITexture* CreateTexture2D(const tstring& strFile, ITexture::TEXTURE_SAMPLE eSample = ITexture::TS_LINEAR) = 0;
+	virtual ITexture* CreateTexture2D(uint width, uint height, uint nTexFormat = TEXTURE_FORMAT::TF_RGBA) = 0;
+	virtual ITexture* CreateTexture2D(const tstring& id, const IBitmapData* pBitmapData) = 0;
+	virtual ITexture* CreateTexture2D(const tstring& strFile) = 0;
 	virtual ITexture* CreateTextureCube(const tstring& strFile) = 0;
 
 	virtual IShader* CreateShader(const tstring& strFile) = 0;
 
-	virtual IRenderTarget* CreateRenderTarget() = 0;
+	virtual IRenderTarget* CreateRenderTarget(ITexture* pColorTexture, ITexture* pDepthTexture) = 0;
 
 	virtual bool ReadStringFile(tstring& strOut, const tstring& strFile) = 0;
 };

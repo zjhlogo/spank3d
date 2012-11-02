@@ -19,7 +19,7 @@ RenderTarget::RenderTarget()
 	m_pTexture = NULL;
 
 	m_pRenderTarget = NULL;
-	m_pRenderTargetTexture = NULL;
+	m_pColorTexture = NULL;
 
 	m_pCamera = NULL;
 	m_pTargetCameraCtrl = NULL;
@@ -41,13 +41,11 @@ bool RenderTarget::Initialize()
 	m_pTexture = g_pResMgr->CreateTexture2D(_("grid16.png"));
 	if (!m_pTexture) return false;
 
-	m_pRenderTarget = g_pResMgr->CreateRenderTarget();
+	m_pColorTexture = g_pResMgr->CreateTexture2D(RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT, TEXTURE_FORMAT::TF_RGBA);
+	if (!m_pColorTexture) return false;
+
+	m_pRenderTarget = g_pResMgr->CreateRenderTarget(m_pColorTexture, NULL);
 	if (!m_pRenderTarget) return false;
-
-	m_pRenderTargetTexture = g_pResMgr->CreateTexture2D(RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT, 32);
-	if (!m_pRenderTargetTexture) return false;
-
-	if (!m_pRenderTarget->SetTargetTexture(m_pRenderTargetTexture)) return false;
 
 	Math::BuildPerspectiveFovMatrix(m_matRenderTargetProj, 45.0f, RENDER_TARGET_WIDTH, RENDER_TARGET_HEIGHT, 0.1f, 100.0f);
 
@@ -57,7 +55,7 @@ bool RenderTarget::Initialize()
 	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&RenderTarget::OnMouseEvent));
 
 	Picture* pPicture = new Picture(g_pUiSystemMgr->GetCurrScreen());
-	pPicture->SetTexture(m_pRenderTargetTexture);
+	pPicture->SetTexture(m_pColorTexture);
 
 	return true;
 }
@@ -69,7 +67,7 @@ void RenderTarget::Terminate()
 	SAFE_RELEASE(m_pTexture);
 
 	SAFE_RELEASE(m_pRenderTarget);
-	SAFE_RELEASE(m_pRenderTargetTexture);
+	SAFE_RELEASE(m_pColorTexture);
 
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pShader);
@@ -89,7 +87,7 @@ void RenderTarget::Render()
 	m_pRenderTarget->EndRender();
 
 	// render scene
-	RenderScene(m_pCamera->GetProjectionMatrix(), m_pRenderTargetTexture);
+	RenderScene(m_pCamera->GetProjectionMatrix(), m_pColorTexture);
 
 	g_pUiSystemMgr->Render();
 	g_pUiRenderer->FlushAll();

@@ -11,28 +11,33 @@
 #include <gl/glew.h>
 #include <event/EventIds.h>
 
-Texture2D_Impl::Texture2D_Impl(const tstring& id)
-:ITexture(id, GL_TEXTURE_2D)
+Texture2D_Impl::Texture2D_Impl(const tstring& id, const IBitmapData* pBitmapData)
+:ITexture(id)
 {
-	m_nTextureId = 0;
-	m_nTexWidth = 0;
-	m_nTexHeight = 0;
+	InitMember();
+	SetOk(CreateTexture(pBitmapData));
 }
 
-Texture2D_Impl::Texture2D_Impl(const tstring& id, uint width, uint height, uint depth, TEXTURE_SAMPLE eSample)
-:ITexture(id, GL_TEXTURE_2D)
+Texture2D_Impl::Texture2D_Impl(const tstring& id, uint width, uint height, uint nTexFormat)
+:ITexture(id)
 {
-	m_nTextureId = 0;
-	m_nTexWidth = 0;
-	m_nTexHeight = 0;
-
-	SetOk(CreateTexture(width, height, depth, eSample));
+	InitMember();
+	SetOk(CreateTexture(width, height, nTexFormat));
 }
 
 Texture2D_Impl::~Texture2D_Impl()
 {
 	FreeTexture();
 	DispatchEvent(Event(EID_OBJECT_DESTROYED));
+}
+
+void Texture2D_Impl::InitMember()
+{
+	m_nHandler = 0;
+	m_nWidth = 0;
+	m_nHeight = 0;
+	m_nTexFormat = TEXTURE_FORMAT::TF_RGBA;
+	m_nFilter = TEXTURE_FILTER::TF_LINEAR;
 }
 
 const Vector2& Texture2D_Impl::GetSize() const
@@ -42,126 +47,101 @@ const Vector2& Texture2D_Impl::GetSize() const
 
 uint Texture2D_Impl::GetWidth() const
 {
-	return m_nTexWidth;
+	return m_nWidth;
 }
 
 uint Texture2D_Impl::GetHeight() const
 {
-	return m_nTexHeight;
+	return m_nHeight;
 }
 
-uint Texture2D_Impl::GetTextureId() const
+uint Texture2D_Impl::GetType() const
 {
-	return m_nTextureId;
+	return TEXTURE_TYPE::TT_TEXTURE_2D;
 }
 
-bool Texture2D_Impl::LoadFromBitmapData(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample)
+uint Texture2D_Impl::GetHandler() const
 {
-	SetOk(CreateTexture(pBitmapData, eSample));
-	return IsOk();
+	return m_nHandler;
 }
 
-bool Texture2D_Impl::CreateTexture(const IBitmapData* pBitmapData, TEXTURE_SAMPLE eSample)
+uint Texture2D_Impl::GetFormat() const
+{
+	return m_nTexFormat;
+}
+
+void Texture2D_Impl::SetFilter(uint filter)
+{
+	glBindTexture(GL_TEXTURE_2D, m_nHandler);
+	m_nFilter = filter;
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_nFilter);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_nFilter);
+}
+
+uint Texture2D_Impl::GetFilter() const
+{
+	return m_nFilter;
+}
+
+bool Texture2D_Impl::CreateTexture(const IBitmapData* pBitmapData)
 {
 	FreeTexture();
 
-	glGenTextures(1, &m_nTextureId);
-	if (m_nTextureId == 0) return false;
+	glGenTextures(1, &m_nHandler);
+	if (m_nHandler == 0) return false;
 
-	uint nColorFormat = GL_RGBA;
-	switch (pBitmapData->GetBPP())
+	m_nTexFormat = TextureUtil::Bpp2TexFormat(pBitmapData->GetBPP());
+	m_nWidth = pBitmapData->GetWidth();
+	m_nHeight = pBitmapData->GetHeight();
+	if (!TextureUtil::IsValidTextureSize(m_nWidth, m_nHeight))
 	{
-	case 8:
-		nColorFormat = GL_RED;
-		break;
-	case 16:
-		nColorFormat = GL_RG;
-		break;
-	case 24:
-		nColorFormat = GL_RGB;
-		break;
-	case 32:
-		nColorFormat = GL_RGBA;
-		break;
-	default:
+		LOG(_T("invalid texture size: %dx%d"), m_nWidth, m_nHeight);
 		return false;
 	}
 
-	m_nTexWidth = pBitmapData->GetWidth();
-	m_nTexHeight = pBitmapData->GetHeight();
-	if (!TextureUtil::IsValidTextureSize(m_nTexWidth, m_nTexHeight))
-	{
-		LOG(_T("invalid texture size: %dx%d"), m_nTexWidth, m_nTexHeight);
-		return false;
-	}
+	m_Size.Reset(float(m_nWidth), float(m_nHeight));
 
-	m_Size.Reset(float(m_nTexWidth), float(m_nTexHeight));
+	glBindTexture(GL_TEXTURE_2D, m_nHandler);
+	glTexImage2D(GL_TEXTURE_2D, 0, m_nTexFormat, m_nWidth, m_nHeight, 0, m_nTexFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
 
-	glBindTexture(GL_TEXTURE_2D, m_nTextureId);
-	glTexImage2D(GL_TEXTURE_2D, 0, nColorFormat, m_nTexWidth, m_nTexHeight, 0, nColorFormat, GL_UNSIGNED_BYTE, pBitmapData->GetData());
-
-	uint texSample = GL_LINEAR;
-	if (eSample == TS_NEAREST) texSample = GL_NEAREST;
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texSample);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texSample);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	return true;
 }
 
-bool Texture2D_Impl::CreateTexture(uint width, uint height, uint depth, TEXTURE_SAMPLE eSample)
+bool Texture2D_Impl::CreateTexture(uint width, uint height, uint nTexFormat)
 {
 	FreeTexture();
 
-	glGenTextures(1, &m_nTextureId);
-	if (m_nTextureId == 0) return false;
+	glGenTextures(1, &m_nHandler);
+	if (m_nHandler == 0) return false;
 
-	uint nColorFormat = GL_RGBA;
-	switch (depth)
-	{
-	case 8:
-		nColorFormat = GL_RED;
-		break;
-	case 16:
-		nColorFormat = GL_RG;
-		break;
-	case 24:
-		nColorFormat = GL_RGB;
-		break;
-	case 32:
-		nColorFormat = GL_RGBA;
-		break;
-	default:
-		return false;
-	}
-
+	m_nTexFormat = nTexFormat;
 	if (!TextureUtil::IsValidTextureSize(width, height))
 	{
 		LOG(_T("invalid texture size: %dx%d"), width, height);
 		return false;
 	}
 
-	m_nTexWidth = width;
-	m_nTexHeight = height;
-	m_Size.Reset(float(m_nTexWidth), float(m_nTexHeight));
+	m_nWidth = width;
+	m_nHeight = height;
+	m_Size.Reset(float(m_nWidth), float(m_nHeight));
 
-	glBindTexture(GL_TEXTURE_2D, m_nTextureId);
-	glTexImage2D(GL_TEXTURE_2D, 0, nColorFormat, m_nTexWidth, m_nTexHeight, 0, nColorFormat, GL_UNSIGNED_BYTE, NULL);
+	glBindTexture(GL_TEXTURE_2D, m_nHandler);
+	glTexImage2D(GL_TEXTURE_2D, 0, m_nTexFormat, m_nWidth, m_nHeight, 0, m_nTexFormat, GL_UNSIGNED_BYTE, NULL);
 
-	uint texSample = GL_LINEAR;
-	if (eSample == TS_NEAREST) texSample = GL_NEAREST;
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texSample);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texSample);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	return true;
 }
 
 void Texture2D_Impl::FreeTexture()
 {
-	if (m_nTextureId != 0)
+	if (m_nHandler != 0)
 	{
-		glDeleteTextures(1, &m_nTextureId);
-		m_nTextureId = 0;
+		glDeleteTextures(1, &m_nHandler);
+		m_nHandler = 0;
 	}
 }

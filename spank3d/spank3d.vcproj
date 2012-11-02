@@ -706,6 +706,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\render\RenderTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\render\RenderTypes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\render\Shader_Impl.cpp"
 				>
 			</File>

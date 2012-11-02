@@ -15,30 +15,32 @@ class RenderTarget_Impl : public IRenderTarget
 public:
 	RTTI_DEF(RenderTarget_Impl, IRenderTarget);
 
-	RenderTarget_Impl();
+	RenderTarget_Impl(ITexture* pColorTexture, ITexture* pDepthTexture);
 	virtual ~RenderTarget_Impl();
 
-	virtual bool SetTargetTexture(ITexture* pTexture);
-	virtual ITexture* GetTargetTexture();
+	virtual ITexture* GetColorTexture();
+	virtual ITexture* GetDepthTexture();
 
 	virtual bool BeginRender();
 	virtual void EndRender();
 
 private:
-	bool CreateRenderTarget();
+	void InitMember();
+
+	bool CreateRenderTarget(ITexture* pColorTexture, ITexture* pDepthTexture);
 	void DestroyRenderTarget();
 
-	bool CreateDepthBuffer(uint width, uint height);
-	void DestroyDepthBuffer();
+	bool CreateColorTextureBuffer(ITexture* pColorTexture);
+	bool CreateDepthTextureBuffer(ITexture* pDepthTexture);
+	bool CreateColorDepthTextureBuffer(ITexture* pColorTexture, ITexture* pDepthTexture);
 
 private:
 	uint m_nFrameBuffer;
-
 	uint m_nDepthBuffer;
-	uint m_nDepthBufferWidth;
-	uint m_nDepthBufferHeight;
+	uint m_nClearType;
 
-	ITexture* m_pTargetTexture;
+	ITexture* m_pColorTexture;
+	ITexture* m_pDepthTexture;
 
 };
 #endif // __RENDERTARGET_IMPL_H__

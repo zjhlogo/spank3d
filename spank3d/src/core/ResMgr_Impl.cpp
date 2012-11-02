@@ -129,7 +129,7 @@ IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& strFile)
 	return TextureUtil::DecodePngFromFile(strFullPath);
 }
 
-ITexture* ResMgr_Impl::CreateTexture2D(uint width, uint height, uint depth, ITexture::TEXTURE_SAMPLE eSample /*= ITexture::TS_LINEAR*/)
+ITexture* ResMgr_Impl::CreateTexture2D(uint width, uint height, uint nTexFormat /* = TEXTURE_FORMAT::TF_RGBA */)
 {
 	tstring strNewId;
 	StringUtil::strformat(strNewId, _("memory_texture: %d"), m_nNumMemoryTextures++);
@@ -142,11 +142,11 @@ ITexture* ResMgr_Impl::CreateTexture2D(uint width, uint height, uint depth, ITex
 		return NULL;
 	}
 
-	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(strNewId, width, height, depth, eSample);
+	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(strNewId, width, height, nTexFormat);
 	if (!pTexture2D_Impl || !pTexture2D_Impl->IsOk())
 	{
 		SAFE_DELETE(pTexture2D_Impl);
-		LOG(_T("IResMgr::CreateTexture2D failed, with width:%d, height:%d, depth:%d"), width, height, depth);
+		LOG(_T("IResMgr::CreateTexture2D failed, with width:%d, height:%d, format:0x%X"), width, height, nTexFormat);
 		return NULL;
 	}
 
@@ -156,7 +156,7 @@ ITexture* ResMgr_Impl::CreateTexture2D(uint width, uint height, uint depth, ITex
 	return pTexture2D_Impl;
 }
 
-ITexture* ResMgr_Impl::CreateTexture2D(const tstring& id, const IBitmapData* pBitmapData, ITexture::TEXTURE_SAMPLE eSample /* = ITexture::TS_LINEAR */)
+ITexture* ResMgr_Impl::CreateTexture2D(const tstring& id, const IBitmapData* pBitmapData)
 {
 	// check texture is exist in the cache
 	TM_TEXTURE::iterator itFound = m_TextureMap.find(id);
@@ -167,8 +167,8 @@ ITexture* ResMgr_Impl::CreateTexture2D(const tstring& id, const IBitmapData* pBi
 		return pTexture;
 	}
 
-	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(id);
-	if (!pTexture2D_Impl->LoadFromBitmapData(pBitmapData, eSample))
+	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(id, pBitmapData);
+	if (!pTexture2D_Impl || !pTexture2D_Impl->IsOk())
 	{
 		SAFE_DELETE(pTexture2D_Impl);
 		LOG(_T("IResMgr::CreateTexture2D failed, %s"), id.c_str());
@@ -181,7 +181,7 @@ ITexture* ResMgr_Impl::CreateTexture2D(const tstring& id, const IBitmapData* pBi
 	return pTexture2D_Impl;
 }
 
-ITexture* ResMgr_Impl::CreateTexture2D(const tstring& strFile, ITexture::TEXTURE_SAMPLE eSample /* = ITexture::TS_LINEAR */)
+ITexture* ResMgr_Impl::CreateTexture2D(const tstring& strFile)
 {
 	// get file path
 	tstring strFullPath;
@@ -203,15 +203,15 @@ ITexture* ResMgr_Impl::CreateTexture2D(const tstring& strFile, ITexture::TEXTURE
 		return NULL;
 	}
 
-	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(strFullPath);
-	if (!pTexture2D_Impl->LoadFromBitmapData(pBitmapData, eSample))
+	Texture2D_Impl* pTexture2D_Impl = new Texture2D_Impl(strFullPath, pBitmapData);
+	SAFE_RELEASE(pBitmapData);
+
+	if (!pTexture2D_Impl || !pTexture2D_Impl->IsOk())
 	{
 		SAFE_DELETE(pTexture2D_Impl);
-		SAFE_RELEASE(pBitmapData);
 		LOG(_T("IResMgr::CreateTexture2D failed, %s"), strFullPath.c_str());
 		return NULL;
 	}
-	SAFE_RELEASE(pBitmapData);
 
 	// cache the texture res
 	m_TextureMap.insert(std::make_pair(strFullPath, pTexture2D_Impl));
@@ -234,8 +234,8 @@ ITexture* ResMgr_Impl::CreateTextureCube(const tstring& strFile)
 		return pTexture;
 	}
 
-	TextureCube_Impl* pTextureCube_Impl = new TextureCube_Impl(strFullPath);
-	if (!pTextureCube_Impl->LoadFromFile(strFullPath))
+	TextureCube_Impl* pTextureCube_Impl = new TextureCube_Impl(strFullPath, strFullPath);
+	if (!pTextureCube_Impl || !pTextureCube_Impl->IsOk())
 	{
 		SAFE_DELETE(pTextureCube_Impl);
 		LOG(_T("IResMgr::CreateTextureCube failed, %s"), strFile.c_str());
@@ -371,9 +371,10 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 	return pShader_Impl;
 }
 
-IRenderTarget* ResMgr_Impl::CreateRenderTarget()
+
+IRenderTarget* ResMgr_Impl::CreateRenderTarget(ITexture* pColorTexture, ITexture* pDepthTexture)
 {
-	RenderTarget_Impl* pRenderTarget_Impl = new RenderTarget_Impl();
+	RenderTarget_Impl* pRenderTarget_Impl = new RenderTarget_Impl(pColorTexture, pDepthTexture);
 	if (!pRenderTarget_Impl || !pRenderTarget_Impl->IsOk())
 	{
 		SAFE_DELETE(pRenderTarget_Impl);

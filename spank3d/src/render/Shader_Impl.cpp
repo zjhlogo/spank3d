@@ -91,7 +91,7 @@ bool Shader_Impl::SetTexture(const tstring& strName, ITexture* pTexture, uint nI
 	if (eError != GL_NO_ERROR) LOG(_T("glActiveTexture error code: 0x%04x"), eError);
 
 	// bind texture
-	glBindTexture(pTexture->GetTextureType(), pTexture->GetTextureId());
+	glBindTexture(pTexture->GetType(), pTexture->GetHandler());
 	eError = glGetError();
 	if (eError != GL_NO_ERROR) LOG(_T("glBindTexture error code: 0x%04x"), eError);
 

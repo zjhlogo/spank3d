@@ -9,17 +9,10 @@
 #include <gl/glew.h>
 #include <Spank3d.h>
 
-RenderTarget_Impl::RenderTarget_Impl()
+RenderTarget_Impl::RenderTarget_Impl(ITexture* pColorTexture, ITexture* pDepthTexture)
 {
-	m_nFrameBuffer = 0;
-
-	m_nDepthBuffer = 0;
-	m_nDepthBufferWidth = 0;
-	m_nDepthBufferHeight = 0;
-
-	m_pTargetTexture = NULL;
-
-	SetOk(CreateRenderTarget());
+	InitMember();
+	SetOk(CreateRenderTarget(pColorTexture, pDepthTexture));
 }
 
 RenderTarget_Impl::~RenderTarget_Impl()
@@ -28,42 +21,35 @@ RenderTarget_Impl::~RenderTarget_Impl()
 	DispatchEvent(Event(EID_OBJECT_DESTROYED));
 }
 
-bool RenderTarget_Impl::SetTargetTexture(ITexture* pTexture)
+void RenderTarget_Impl::InitMember()
 {
-	if (!pTexture) return false;
+	m_nFrameBuffer = 0;
+	m_nDepthBuffer = 0;
+	m_nClearType = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
 
-	if (m_pTargetTexture == pTexture) return true;
-	if (pTexture->GetTextureType() != GL_TEXTURE_2D) return false;
-
-	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pTexture->GetTextureId(), 0);
-	if (!CreateDepthBuffer(pTexture->GetWidth(), pTexture->GetHeight())) return false;
-
-	GLenum drawBufs[] = {GL_COLOR_ATTACHMENT0};
-	glDrawBuffers(1, drawBufs);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	m_pTargetTexture = pTexture;
-
-	return true;
+	m_pColorTexture = NULL;
+	m_pDepthTexture = NULL;
 }
 
-ITexture* RenderTarget_Impl::GetTargetTexture()
+ITexture* RenderTarget_Impl::GetColorTexture()
 {
-	return m_pTargetTexture;
+	return m_pColorTexture;
+}
+
+ITexture* RenderTarget_Impl::GetDepthTexture()
+{
+	return m_pDepthTexture;
 }
 
 bool RenderTarget_Impl::BeginRender()
 {
 	if (m_nFrameBuffer == 0) return false;
-	if (!m_pTargetTexture) return false;
+	if (!m_pColorTexture) return false;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
-	glViewport(0, 0, m_pTargetTexture->GetWidth(), m_pTargetTexture->GetHeight());
+	glViewport(0, 0, m_pColorTexture->GetWidth(), m_pColorTexture->GetHeight());
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+	glClear(m_nClearType);	// Clear Screen And Depth Buffer
 
 	return true;
 }
@@ -74,12 +60,22 @@ void RenderTarget_Impl::EndRender()
 	glViewport(0, 0, g_pDevice->GetWidth(), g_pDevice->GetHeight());
 }
 
-bool RenderTarget_Impl::CreateRenderTarget()
+bool RenderTarget_Impl::CreateRenderTarget(ITexture* pColorTexture, ITexture* pDepthTexture)
 {
-	glGenFramebuffers(1, &m_nFrameBuffer);
-	if (m_nFrameBuffer == 0) return false;
+	if (pColorTexture && pDepthTexture)
+	{
+		return CreateColorDepthTextureBuffer(pColorTexture, pDepthTexture);
+	}
+	else if (pColorTexture && !pDepthTexture)
+	{
+		return CreateColorTextureBuffer(pColorTexture);
+	}
+	else if (!pColorTexture && pDepthTexture)
+	{
+		return CreateDepthTextureBuffer(pDepthTexture);
+	}
 
-	return true;
+	return false;
 }
 
 void RenderTarget_Impl::DestroyRenderTarget()
@@ -88,10 +84,18 @@ void RenderTarget_Impl::DestroyRenderTarget()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
 
-	DestroyDepthBuffer();
+	if (m_nDepthBuffer != 0)
+	{
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, 0);
+		glDeleteFramebuffers(1, &m_nDepthBuffer);
+		m_nDepthBuffer = 0;
+	}
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
-	m_pTargetTexture = NULL;
+	m_pColorTexture = NULL;
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
+	m_pDepthTexture = NULL;
 
 	glDeleteFramebuffers(1, &m_nFrameBuffer);
 	m_nFrameBuffer = 0;
@@ -99,30 +103,87 @@ void RenderTarget_Impl::DestroyRenderTarget()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-bool RenderTarget_Impl::CreateDepthBuffer(uint width, uint height)
+bool RenderTarget_Impl::CreateColorTextureBuffer(ITexture* pColorTexture)
 {
-	if (m_nDepthBufferWidth == width && m_nDepthBufferHeight == height) return true;
-	DestroyDepthBuffer();
+	glGenFramebuffers(1, &m_nFrameBuffer);
+	if (m_nFrameBuffer == 0) return false;
 
-	m_nDepthBufferWidth = width;
-	m_nDepthBufferHeight = height;
+	if (pColorTexture->GetType() != TEXTURE_TYPE::TT_TEXTURE_2D) return false;
 
+	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
+
+	// color texture
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pColorTexture->GetHandler(), 0);
+
+	// depth buffer
 	glGenRenderbuffers(1, &m_nDepthBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_nDepthBuffer);
-
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_nDepthBufferWidth, m_nDepthBufferHeight);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, pColorTexture->GetWidth(), pColorTexture->GetHeight());
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_nDepthBuffer);
 
+	// draw color attachment
+	GLenum drawBufs[] = {GL_COLOR_ATTACHMENT0};
+	glDrawBuffers(1, drawBufs);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	m_pColorTexture = pColorTexture;
+	m_nClearType = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
 	return true;
 }
 
-void RenderTarget_Impl::DestroyDepthBuffer()
+bool RenderTarget_Impl::CreateDepthTextureBuffer(ITexture* pDepthTexture)
 {
-	if (m_nDepthBuffer == 0) return;
+	glGenFramebuffers(1, &m_nFrameBuffer);
+	if (m_nFrameBuffer == 0) return false;
 
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, 0);
-	glDeleteFramebuffers(1, &m_nDepthBuffer);
+	if (pDepthTexture->GetType() != TEXTURE_TYPE::TT_TEXTURE_2D) return false;
+	if (pDepthTexture->GetFormat() != TEXTURE_FORMAT::TF_DEPTH) return false;
 
-	m_nDepthBufferWidth = 0;
-	m_nDepthBufferHeight = 0;
+	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
+
+	// depth texture
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, pDepthTexture->GetHandler(), 0);
+
+	// draw none
+	GLenum drawBufs[] = {GL_NONE};
+	glDrawBuffers(1, drawBufs);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	m_pDepthTexture = pDepthTexture;
+	m_nClearType = GL_DEPTH_BUFFER_BIT;
+	return true;
+}
+
+bool RenderTarget_Impl::CreateColorDepthTextureBuffer(ITexture* pColorTexture, ITexture* pDepthTexture)
+{
+	glGenFramebuffers(1, &m_nFrameBuffer);
+	if (m_nFrameBuffer == 0) return false;
+
+	if (pColorTexture->GetType() != TEXTURE_TYPE::TT_TEXTURE_2D) return false;
+	if (pDepthTexture->GetType() != TEXTURE_TYPE::TT_TEXTURE_2D) return false;
+	if (pDepthTexture->GetFormat() != TEXTURE_FORMAT::TF_DEPTH) return false;
+
+	if (pColorTexture->GetWidth() != pDepthTexture->GetWidth()
+		|| pColorTexture->GetHeight() != pDepthTexture->GetHeight()) return false;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, m_nFrameBuffer);
+
+	// color texture
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pColorTexture->GetHandler(), 0);
+
+	// depth texture
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, pDepthTexture->GetHandler(), 0);
+
+	// draw color attachment
+	GLenum drawBufs[] = {GL_COLOR_ATTACHMENT0};
+	glDrawBuffers(1, drawBufs);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	m_pColorTexture = pColorTexture;
+	m_pDepthTexture = pDepthTexture;
+	m_nClearType = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
+	return true;
 }

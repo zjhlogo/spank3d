@@ -10,20 +10,14 @@
 
 #include "../core/IObject.h"
 #include "../math/Vector2.h"
+#include "RenderTypes.h"
 
 class ITexture : public IObject
 {
 public:
-	enum TEXTURE_SAMPLE
-	{
-		TS_NEAREST = 1,
-		TS_LINEAR,
-	};
-
-public:
 	RTTI_DEF(ITexture, IObject);
 
-	ITexture(const tstring& id, uint nTexType):m_strId(id), m_nTexType(nTexType) {};
+	ITexture(const tstring& id):m_strId(id) {};
 	virtual ~ITexture() {};
 
 	virtual const tstring& GetId() const { return m_strId; };
@@ -31,12 +25,15 @@ public:
 	virtual uint GetWidth() const = 0;
 	virtual uint GetHeight() const = 0;
 
-	virtual uint GetTextureType() const { return m_nTexType; };
-	virtual uint GetTextureId() const = 0;
+	virtual uint GetType() const = 0;
+	virtual uint GetHandler() const = 0;
+	virtual uint GetFormat() const = 0;
+
+	virtual void SetFilter(uint filter) = 0;
+	virtual uint GetFilter() const = 0;
 
 private:
 	tstring m_strId;
-	uint m_nTexType;
 
 };
 #endif // __ITEXTURE_H__
