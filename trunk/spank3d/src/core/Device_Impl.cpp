@@ -11,6 +11,7 @@
 #include <Windows.h>
 #include <gl/glew.h>
 #include <math/Math.h>
+#include <render/RenderTypes.h>
 
 #include <event/MouseEvent.h>
 #include <event/KeyboardEvent.h>
@@ -38,6 +39,7 @@ Device_Impl::Device_Impl()
 	m_nWindowWidth = DEFAULT_WINDOW_WIDTH;
 	m_nWindowHeight = DEFAULT_WINDOW_HEIGHT;
 
+	m_CurrMode = CULL_MODE::CM_BACK;
 	g_pDevice = this;
 }
 
@@ -455,7 +457,7 @@ void Device_Impl::InitializeOGL()
 
 	// enable cull mode
 	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	glCullFace(m_CurrMode);
 
 	// enable blend
 	glEnable(GL_BLEND);
@@ -466,4 +468,15 @@ void Device_Impl::InitializeOGL()
 
 	// Reset The Current Viewport
 	glViewport(0, 0, m_nWindowWidth, m_nWindowHeight);
+}
+
+void Device_Impl::SetCullMode(uint cullMode)
+{
+	m_CurrMode = cullMode;
+	glCullFace(m_CurrMode);
+}
+
+uint Device_Impl::GetCullMode() const
+{
+	return m_CurrMode;
 }

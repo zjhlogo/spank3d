@@ -35,6 +35,9 @@ public:
 	virtual uint GetWidth() const;
 	virtual uint GetHeight() const;
 
+	virtual void SetCullMode(uint cullMode);
+	virtual uint GetCullMode() const;
+
 private:
 	Device_Impl();
 	virtual ~Device_Impl();
@@ -56,5 +59,6 @@ private:
 	uint m_nWindowWidth;
 	uint m_nWindowHeight;
 
+	uint m_CurrMode;
 };
 #endif // __DEVICE_IMPL_H__
