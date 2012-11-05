@@ -25,5 +25,9 @@ public:
 	virtual const Vector2& GetSize() const = 0;
 	virtual uint GetWidth() const = 0;
 	virtual uint GetHeight() const = 0;
+
+	virtual void SetCullMode(uint cullMode) = 0;
+	virtual uint GetCullMode() const = 0;
+
 };
 #endif // __IDEVICE_H__

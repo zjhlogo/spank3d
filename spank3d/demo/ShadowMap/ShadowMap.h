@@ -15,8 +15,8 @@ class ShadowMap : public IApp
 {
 	enum CONST_DEFINE
 	{
-		RENDER_TARGET_WIDTH = 256,
-		RENDER_TARGET_HEIGHT = 256,
+		RENDER_TARGET_WIDTH = 1024,
+		RENDER_TARGET_HEIGHT = 1024,
 	};
 
 public:
@@ -41,8 +41,8 @@ private:
 	IShader* m_pShaderShadowMap;
 	IMesh* m_pMesh;
 
-	Matrix4x4 m_matDepthBias;
-	Matrix4x4 m_matDepthBiasModelViewProj;
+	Matrix4x4 m_mat4DepthBias;
+	Matrix4x4 m_mat4DepthBiasModelViewProj;
 	IRenderTarget* m_pRenderTarget;
 
 	ITexture* m_pDepthTexture;
@@ -50,5 +50,6 @@ private:
 	ICamera* m_pCamera;
 	TargetCameraControl* m_pTargetCameraCtrl;
 
+	Vector3 m_vLightPos;
 };
 #endif // __SHADOWMAP_H__

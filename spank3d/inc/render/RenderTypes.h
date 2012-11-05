@@ -38,6 +38,14 @@ class TEXTURE_FILTER
 public:
 	static const uint TF_NEAREST;
 	static const uint TF_LINEAR;
-
 };
+
+class CULL_MODE
+{
+public:
+	static const uint CM_FRONT;
+	static const uint CM_BACK;
+	static const uint CM_FONT_AND_BACK;
+};
+
 #endif // __RENDERTYPES_H__
