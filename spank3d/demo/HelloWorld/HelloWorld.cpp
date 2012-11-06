@@ -27,7 +27,7 @@ HelloWorld::~HelloWorld()
 
 bool HelloWorld::Initialize()
 {
-	m_pShader = g_pResMgr->CreateShader(_("default_shader.xml"));
+	m_pShader = g_pResMgr->CreateShader(_("shaders/default.xml"));
 	if (!m_pShader) return false;
 
 	m_pMesh = g_pResMgr->CreateMesh(_("teapot.mesh"));
@@ -62,11 +62,23 @@ void HelloWorld::Render()
 {
 	m_pShader->BeginRender();
 
-	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
-	const Matrix4x4& matProj = m_pCamera->GetProjectionMatrix();
+	const Matrix4x4& mat4View = m_pCamera->GetViewMatrix();
+	const Matrix4x4& mat4Proj = m_pCamera->GetProjectionMatrix();
 
-	Matrix4x4 matWorldViewProj = matProj*matView;
+	m_pShader->SetMatrix3x3(_("u_matView"), Math::MAT3_IDENTITY);
+
+	Matrix3x3 mat3View;
+	Math::GetSubMatrix(mat3View, mat4View);
+	m_pShader->SetMatrix3x3(_("u_matModelView"), mat3View);
+
+	Matrix4x4 matWorldViewProj = mat4Proj*mat4View;
 	m_pShader->SetMatrix4x4(_("u_matModelViewProj"), matWorldViewProj);
+
+	Matrix3x3 mat3Normal = mat3View;
+	mat3Normal.Invert().Transpose();
+	m_pShader->SetMatrix3x3(_("u_matNormal"), mat3Normal);
+
+	m_pShader->SetVector3(_("u_vLightPosition"), Vector3(0.0f, 5.0f, 10.0f));
 
 	m_pShader->SetTexture(_("u_texture"), m_pTexture);
 

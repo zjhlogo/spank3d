@@ -32,7 +32,7 @@ RenderTarget::~RenderTarget()
 
 bool RenderTarget::Initialize()
 {
-	m_pShader = g_pResMgr->CreateShader(_("render_target_shader.xml"));
+	m_pShader = g_pResMgr->CreateShader(_("shaders/default.xml"));
 	if (!m_pShader) return false;
 
 	m_pMesh = g_pResMgr->CreateMesh(_("box.mesh"));
@@ -102,9 +102,23 @@ void RenderTarget::RenderScene(const Matrix4x4& matProj, ITexture* pTexture)
 {
 	m_pShader->BeginRender();
 
-	const Matrix4x4& matView = m_pCamera->GetViewMatrix();
-	Matrix4x4 matWorldViewProj = matProj*matView;
+	const Matrix4x4& mat4View = m_pCamera->GetViewMatrix();
+	const Matrix4x4& mat4Proj = m_pCamera->GetProjectionMatrix();
+
+	m_pShader->SetMatrix3x3(_("u_matView"), Math::MAT3_IDENTITY);
+
+	Matrix3x3 mat3View;
+	Math::GetSubMatrix(mat3View, mat4View);
+	m_pShader->SetMatrix3x3(_("u_matModelView"), mat3View);
+
+	Matrix4x4 matWorldViewProj = mat4Proj*mat4View;
 	m_pShader->SetMatrix4x4(_("u_matModelViewProj"), matWorldViewProj);
+
+	Matrix3x3 mat3Normal = mat3View;
+	mat3Normal.Invert().Transpose();
+	m_pShader->SetMatrix3x3(_("u_matNormal"), mat3Normal);
+
+	m_pShader->SetVector3(_("u_vLightPosition"), Vector3(0.0f, 5.0f, 10.0f));
 
 	m_pShader->SetTexture(_("u_texture"), pTexture);
 

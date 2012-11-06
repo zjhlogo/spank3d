@@ -32,10 +32,10 @@ ShadowMap::~ShadowMap()
 
 bool ShadowMap::Initialize()
 {
-	m_pShaderDepth = g_pResMgr->CreateShader(_("depth_shader.xml"));
+	m_pShaderDepth = g_pResMgr->CreateShader(_("shaders/depth_mapping.xml"));
 	if (!m_pShaderDepth) return false;
 
-	m_pShaderShadowMap = g_pResMgr->CreateShader(_("shadow_mapping_shader.xml"));
+	m_pShaderShadowMap = g_pResMgr->CreateShader(_("shaders/shadow_mapping.xml"));
 	if (!m_pShaderShadowMap) return false;
 
 	m_pMesh = g_pResMgr->CreateMesh(_("scene.mesh"));
