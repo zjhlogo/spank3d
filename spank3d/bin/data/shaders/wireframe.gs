@@ -3,6 +3,8 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices=3) out;
 
+uniform vec2 u_screenSize = vec2(1024, 768);
+
 in vec2 v2g_texCoord[3];
 in vec3 v2g_normal[3];
 
@@ -12,9 +14,9 @@ out vec3 g2f_normal;
 
 void main()
 {
-	vec2 p0 = vec2(1024, 768) * gl_in[0].gl_Position.xy / gl_in[0].gl_Position.w;
-	vec2 p1 = vec2(1024, 768) * gl_in[1].gl_Position.xy / gl_in[1].gl_Position.w;
-	vec2 p2 = vec2(1024, 768) * gl_in[2].gl_Position.xy / gl_in[2].gl_Position.w;
+	vec2 p0 = u_screenSize * gl_in[0].gl_Position.xy / gl_in[0].gl_Position.w;
+	vec2 p1 = u_screenSize * gl_in[1].gl_Position.xy / gl_in[1].gl_Position.w;
+	vec2 p2 = u_screenSize * gl_in[2].gl_Position.xy / gl_in[2].gl_Position.w;
 
 	vec2 v0 = p2 - p1;
 	vec2 v1 = p2 - p0;

@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D u_texture;
+const vec3 DIFFUSE_COLOR = vec3(1.0, 1.0, 1.0);
 
 in vec3 g2f_dist;
 in vec2 g2f_texCoord;
@@ -12,7 +12,5 @@ void main()
 {
 	float nearD = min(min(g2f_dist.x, g2f_dist.y), g2f_dist.z);
 	float edgeIntensity = exp2(-1.0 * nearD * nearD);
-
-	vec4 diffuse = texture(u_texture, g2f_texCoord);
-	f2d_color = edgeIntensity * vec4(0.1, 0.1, 0.1, 1.0) + (1.0 - edgeIntensity) * diffuse;
+	f2d_color = vec4(edgeIntensity * DIFFUSE_COLOR, 1.0);
 }
