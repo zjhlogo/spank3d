@@ -26,19 +26,19 @@ void main()
 	switch (v2f_texIndex)
 	{
 	case 0:
-		f2d_color = texture2D(u_texture1, v2f_texCoord) * v2f_color;
+		f2d_color = texture(u_texture1, v2f_texCoord) * v2f_color;
 		break;
 	case 1:
-		f2d_color = texture2D(u_texture2, v2f_texCoord) * v2f_color;
+		f2d_color = texture(u_texture2, v2f_texCoord) * v2f_color;
 		break;
 	case 2:
-		f2d_color = texture2D(u_texture3, v2f_texCoord) * v2f_color;
+		f2d_color = texture(u_texture3, v2f_texCoord) * v2f_color;
 		break;
 	case 3:
-		f2d_color = texture2D(u_texture4, v2f_texCoord) * v2f_color;
+		f2d_color = texture(u_texture4, v2f_texCoord) * v2f_color;
 		break;
 	default:
-		f2d_color = texture2D(u_texture1, v2f_texCoord) * v2f_color;
+		f2d_color = texture(u_texture1, v2f_texCoord) * v2f_color;
 		break;
 	}
 }

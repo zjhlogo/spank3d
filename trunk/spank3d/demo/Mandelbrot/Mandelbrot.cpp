@@ -22,7 +22,7 @@ Mandelbrot::~Mandelbrot()
 
 bool Mandelbrot::Initialize()
 {
-	m_pShader = g_pResMgr->CreateShader(_("mandelbrot_shader.xml"));
+	m_pShader = g_pResMgr->CreateShader(_("shaders/mandelbrot.xml"));
 	if (!m_pShader) return false;
 
 	Math::BuildOrthoMatrix(m_matModelViewProj, 5.0f, 3.75f, -100.0f, 100.0f);

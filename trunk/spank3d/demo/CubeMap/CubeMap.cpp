@@ -27,7 +27,7 @@ CubeMap::~CubeMap()
 
 bool CubeMap::Initialize()
 {
-	m_pShader = g_pResMgr->CreateShader(_("cubemap_shader.xml"));
+	m_pShader = g_pResMgr->CreateShader(_("shaders/cube_mapping.xml"));
 	if (!m_pShader) return false;
 
 	m_pMesh = g_pResMgr->CreateMesh(_("teapot.mesh"));

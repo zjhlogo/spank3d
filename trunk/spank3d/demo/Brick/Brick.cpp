@@ -26,7 +26,7 @@ Brick::~Brick()
 
 bool Brick::Initialize()
 {
-	m_pShader = g_pResMgr->CreateShader(_("brick_shader.xml"));
+	m_pShader = g_pResMgr->CreateShader(_("shaders/brick.xml"));
 	if (!m_pShader) return false;
 
 	m_pMesh = g_pResMgr->CreateMesh(_("teapot.mesh"));

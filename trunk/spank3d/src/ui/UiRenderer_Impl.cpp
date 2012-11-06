@@ -31,7 +31,7 @@ UiRenderer_Impl& UiRenderer_Impl::GetInstance()
 
 bool UiRenderer_Impl::Initialize()
 {
-	m_pShader = g_pResMgr->CreateShader(_("ui_shader.xml"));
+	m_pShader = g_pResMgr->CreateShader(_("shaders/ui.xml"));
 	if (!m_pShader) return false;
 
 	int nVertexAttributeSize = m_pShader->GetVertexAttribute()->GetStride();
