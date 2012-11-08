@@ -30,10 +30,10 @@ private:
 	bool OnBtnIncIterationsDown(MouseEvent& event);
 	void UpdateIterations(int iterations);
 
-	bool OnBtnDecZoomDown(MouseEvent& event);
-	bool OnBtnIncZoomDown(MouseEvent& event);
-	void UpdateZoom(float zoom);
-
+	bool OnMouseDown(MouseEvent& event);
+	bool OnMouseUp(MouseEvent& event);
+	bool OnMouseMove(MouseEvent& event);
+	bool OnMouseWheel(MouseEvent& event);
 
 private:
 	IShader* m_pShader;
@@ -42,8 +42,10 @@ private:
 	Label* m_pLblMaxIterations;
 	int m_maxIterations;
 
-	Label* m_pLblZoom;
 	float m_zoom;
+
+	bool m_bMouseDown;
+	Vector2 m_centerPos;
 
 };
 #endif // __MANDELBROT_H__

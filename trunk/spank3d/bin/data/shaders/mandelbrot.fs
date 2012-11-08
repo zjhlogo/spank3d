@@ -2,7 +2,7 @@
 
 uniform float u_maxIterations = 1.0;
 uniform float u_zoom = 1.0;
-uniform vec2 CENTER_POS = vec2(0.0, 0.0);
+uniform vec2 u_centerPos = vec2(0.0, 0.0);
 
 uniform vec3 INNER_COLOR = vec3(0.0, 0.0, 0.0);
 uniform vec3 OUTER_COLOR1 = vec3(0.0, 0.0, 0.1);
@@ -14,8 +14,8 @@ out vec4 f2d_color;
 
 void main()
 {
-	float real = v2f_position.x * u_zoom + CENTER_POS.x;
-	float imag = v2f_position.y * u_zoom + CENTER_POS.y;
+	float real = v2f_position.x * u_zoom + u_centerPos.x;
+	float imag = v2f_position.y * u_zoom + u_centerPos.y;
 
 	float Creal = real;
 	float Cimag = imag;
