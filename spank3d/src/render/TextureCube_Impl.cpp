@@ -11,7 +11,6 @@
 #include <util/FileUtil.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 #include <gl/glew.h>
-#include <event/EventIds.h>
 #include <Spank3d.h>
 
 TextureCube_Impl::TextureCube_Impl(const tstring& id, const tstring& strFile)
@@ -24,7 +23,7 @@ TextureCube_Impl::TextureCube_Impl(const tstring& id, const tstring& strFile)
 TextureCube_Impl::~TextureCube_Impl()
 {
 	FreeTextures();
-	DispatchEvent(Event(EID_OBJECT_DESTROYED));
+	DispatchEvent(ObjectEvent(ObjectEvent::OBJECT_DESTROYED));
 }
 
 void TextureCube_Impl::InitMember()

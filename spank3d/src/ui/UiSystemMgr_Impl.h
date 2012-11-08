@@ -49,9 +49,9 @@ public:
 
 private:
 	void DestroyScreens();
-	bool OnDownWindowDestroyed(Event& event);
-	bool OnHoverWindowDestroyed(Event& event);
-	bool OnFocusWindowDestroyed(Event& event);
+	bool OnDownWindowDestroyed(IEvent& event);
+	bool OnHoverWindowDestroyed(IEvent& event);
+	bool OnFocusWindowDestroyed(IEvent& event);
 
 	bool InitParsers();
 	void FreeParsers();

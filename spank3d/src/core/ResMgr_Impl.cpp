@@ -82,7 +82,7 @@ IMesh* ResMgr_Impl::CreateMesh(const tstring& strFile)
 	}
 
 	m_MeshMap.insert(std::make_pair(strFullPath, pMesh_Impl));
-	pMesh_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnMeshDestroyed);
+	pMesh_Impl->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnMeshDestroyed);
 	return pMesh_Impl;
 }
 
@@ -107,7 +107,7 @@ IBitmapData* ResMgr_Impl::CreateBitmapData(const tstring& id, uint width, uint h
 
 	// cache the bitmap data
 	m_BitmapDataMap.insert(std::make_pair(id, pBitmapData_Impl));
-	pBitmapData_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnBitmapDataDestroyed);
+	pBitmapData_Impl->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnBitmapDataDestroyed);
 	return pBitmapData_Impl;
 }
 
@@ -152,7 +152,7 @@ ITexture* ResMgr_Impl::CreateTexture2D(uint width, uint height, uint nTexFormat 
 
 	// cache the texture res
 	m_TextureMap.insert(std::make_pair(strNewId, pTexture2D_Impl));
-	pTexture2D_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
+	pTexture2D_Impl->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
 	return pTexture2D_Impl;
 }
 
@@ -177,7 +177,7 @@ ITexture* ResMgr_Impl::CreateTexture2D(const tstring& id, const IBitmapData* pBi
 
 	// cache the texture res
 	m_TextureMap.insert(std::make_pair(id, pTexture2D_Impl));
-	pTexture2D_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
+	pTexture2D_Impl->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
 	return pTexture2D_Impl;
 }
 
@@ -215,7 +215,7 @@ ITexture* ResMgr_Impl::CreateTexture2D(const tstring& strFile)
 
 	// cache the texture res
 	m_TextureMap.insert(std::make_pair(strFullPath, pTexture2D_Impl));
-	pTexture2D_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
+	pTexture2D_Impl->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
 	return pTexture2D_Impl;
 }
 
@@ -244,7 +244,7 @@ ITexture* ResMgr_Impl::CreateTextureCube(const tstring& strFile)
 
 	// cache the texture res
 	m_TextureMap.insert(std::make_pair(pTextureCube_Impl->GetId(), pTextureCube_Impl));
-	pTextureCube_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
+	pTextureCube_Impl->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnTextureDestroyed);
 	return pTextureCube_Impl;
 }
 
@@ -367,7 +367,7 @@ IShader* ResMgr_Impl::CreateShader(const tstring& strFile)
 
 	// cache the shader
 	m_ShaderMap.insert(std::make_pair(strFullPath, pShader_Impl));
-	pShader_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnShaderDestroyed);
+	pShader_Impl->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnShaderDestroyed);
 	return pShader_Impl;
 }
 
@@ -383,7 +383,7 @@ IRenderTarget* ResMgr_Impl::CreateRenderTarget(ITexture* pColorTexture, ITexture
 	}
 
 	m_RenderTargetSet.insert(pRenderTarget_Impl);
-	pRenderTarget_Impl->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnRenderTargetDestroyed);
+	pRenderTarget_Impl->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&ResMgr_Impl::OnRenderTargetDestroyed);
 	return pRenderTarget_Impl;
 }
 
@@ -396,7 +396,7 @@ bool ResMgr_Impl::ReadStringFile(tstring& strOut, const tstring& strFile)
 	return FileUtil::ReadFileIntoString(strOut, strFullPath);
 }
 
-bool ResMgr_Impl::OnMeshDestroyed(Event& event)
+bool ResMgr_Impl::OnMeshDestroyed(IEvent& event)
 {
 	IMesh* pMesh = (IMesh*)event.GetEventDispatcher();
 	if (!pMesh) return true;
@@ -408,7 +408,7 @@ bool ResMgr_Impl::OnMeshDestroyed(Event& event)
 	return true;
 }
 
-bool ResMgr_Impl::OnBitmapDataDestroyed(Event& event)
+bool ResMgr_Impl::OnBitmapDataDestroyed(IEvent& event)
 {
 	IBitmapData* pBitmapData = (IBitmapData*)event.GetEventDispatcher();
 	if (!pBitmapData) return true;
@@ -420,7 +420,7 @@ bool ResMgr_Impl::OnBitmapDataDestroyed(Event& event)
 	return true;
 }
 
-bool ResMgr_Impl::OnTextureDestroyed(Event& event)
+bool ResMgr_Impl::OnTextureDestroyed(IEvent& event)
 {
 	ITexture* pTexture = (ITexture*)event.GetEventDispatcher();
 	if (!pTexture) return true;
@@ -432,7 +432,7 @@ bool ResMgr_Impl::OnTextureDestroyed(Event& event)
 	return true;
 }
 
-bool ResMgr_Impl::OnShaderDestroyed(Event& event)
+bool ResMgr_Impl::OnShaderDestroyed(IEvent& event)
 {
 	IShader* pShader = (IShader*)event.GetEventDispatcher();
 	if (!pShader) return true;
@@ -444,7 +444,7 @@ bool ResMgr_Impl::OnShaderDestroyed(Event& event)
 	return true;
 }
 
-bool ResMgr_Impl::OnRenderTargetDestroyed(Event& event)
+bool ResMgr_Impl::OnRenderTargetDestroyed(IEvent& event)
 {
 	IRenderTarget* pRenderTarget = (IRenderTarget*)event.GetEventDispatcher();
 	if (!pRenderTarget) return true;

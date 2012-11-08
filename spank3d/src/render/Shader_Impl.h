@@ -23,6 +23,7 @@ public:
 	virtual bool BeginRender();
 	virtual void EndRender();
 
+	virtual bool SetFloat(const tstring& strName, float value);
 	virtual bool SetVector3(const tstring& strName, const Vector3& v);
 	virtual bool SetMatrix3x3(const tstring& strName, const Matrix3x3& m);
 	virtual bool SetMatrix4x4(const tstring& strName, const Matrix4x4& m);

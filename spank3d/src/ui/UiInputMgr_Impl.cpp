@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "UiInputMgr_Impl.h"
+#include <event/PreMouseEvent.h>
 #include <util/SystemUtil.h>
 #include <util/LogUtil.h>
 #include <Spank3d.h>
@@ -30,15 +31,36 @@ UiInputMgr_Impl& UiInputMgr_Impl::GetInstance()
 
 bool UiInputMgr_Impl::Initialize()
 {
-	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
-	g_pDevice->RegisterEvent(EID_KEYBOARD_EVENT, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
+	g_pDevice->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->RegisterEvent(MouseEvent::LBUTTON_UP, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->RegisterEvent(MouseEvent::MBUTTON_DOWN, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->RegisterEvent(MouseEvent::MBUTTON_UP, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->RegisterEvent(MouseEvent::RBUTTON_DOWN, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->RegisterEvent(MouseEvent::RBUTTON_UP, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->RegisterEvent(MouseEvent::MOUSE_MOVE, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->RegisterEvent(MouseEvent::MOUSE_WHEEL, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+
+	g_pDevice->RegisterEvent(KeyboardEvent::KEY_DOWN, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
+	g_pDevice->RegisterEvent(KeyboardEvent::KEY_UP, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
+	g_pDevice->RegisterEvent(KeyboardEvent::KEY_CHAR, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
+
 	return true;
 }
 
 void UiInputMgr_Impl::Terminate()
 {
-	g_pDevice->UnregisterEvent(EID_MOUSE_EVENT, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
-	g_pDevice->UnregisterEvent(EID_KEYBOARD_EVENT, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
+	g_pDevice->UnregisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->UnregisterEvent(MouseEvent::LBUTTON_UP, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->UnregisterEvent(MouseEvent::MBUTTON_DOWN, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->UnregisterEvent(MouseEvent::MBUTTON_UP, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->UnregisterEvent(MouseEvent::RBUTTON_DOWN, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->UnregisterEvent(MouseEvent::RBUTTON_UP, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->UnregisterEvent(MouseEvent::MOUSE_MOVE, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+	g_pDevice->UnregisterEvent(MouseEvent::MOUSE_WHEEL, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnMouseEvent);
+
+	g_pDevice->UnregisterEvent(KeyboardEvent::KEY_DOWN, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
+	g_pDevice->UnregisterEvent(KeyboardEvent::KEY_UP, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
+	g_pDevice->UnregisterEvent(KeyboardEvent::KEY_CHAR, this, (FUNC_HANDLER)&UiInputMgr_Impl::OnKeyboardEvent);
 }
 
 bool UiInputMgr_Impl::IsKeyDown(uchar keyCode) const
@@ -87,58 +109,105 @@ bool UiInputMgr_Impl::ReleaseMouse()
 
 bool UiInputMgr_Impl::OnMouseEvent(MouseEvent& event)
 {
-	switch (event.GetMouseEventType())
+	if (event.GetId() == MouseEvent::LBUTTON_DOWN)
 	{
-	case MouseEvent::MET_LBUTTON_DOWN:
 		m_KeyMap[VK_LBUTTON] = true;
-		break;
-	case MouseEvent::MET_LBUTTON_UP:
+	}
+	else if (event.GetId() == MouseEvent::LBUTTON_UP)
+	{
 		m_KeyMap[VK_LBUTTON] = false;
-		break;
-	case MouseEvent::MET_MBUTTON_DOWN:
+	}
+	else if (event.GetId() == MouseEvent::MBUTTON_DOWN)
+	{
 		m_KeyMap[VK_MBUTTON] = true;
-		break;
-	case MouseEvent::MET_MBUTTON_UP:
+	}
+	else if (event.GetId() == MouseEvent::MBUTTON_UP)
+	{
 		m_KeyMap[VK_MBUTTON] = false;
-		break;
-	case MouseEvent::MET_RBUTTON_DOWN:
+	}
+	else if (event.GetId() == MouseEvent::RBUTTON_DOWN)
+	{
 		m_KeyMap[VK_RBUTTON] = true;
-		break;
-	case MouseEvent::MET_RBUTTON_UP:
+	}
+	else if (event.GetId() == MouseEvent::RBUTTON_UP)
+	{
 		m_KeyMap[VK_RBUTTON] = false;
-		break;
 	}
 
 	m_MousePos = event.GetPosition();
-	if (m_pCaptureWindow)
+
+	// find window to process
+	IWindow* pWindowToProcess = m_pCaptureWindow;
+	if (!pWindowToProcess) pWindowToProcess = g_pUiSystemMgr->GetCurrScreen()->FindWindowUnderPoint(m_MousePos);
+	if (!pWindowToProcess) return false;
+
+	// get parent list
+	TV_WINDOW vParent;
+	IWindow* pParent = pWindowToProcess;
+	while (pParent)
 	{
-		IWindow* pParent = m_pCaptureWindow;
-		if (m_pCaptureWindow->GetParent()) pParent = m_pCaptureWindow->GetParent();
-		event.SetPosition(m_MousePos - pParent->GetPositionAbs());
-		m_pCaptureWindow->SystemMouseEvent(event, true);
-	}
-	else
-	{
-		Screen* pCurrScreen = g_pUiSystemMgr->GetCurrScreen();
-		pCurrScreen->SystemMouseEvent(event);
+		vParent.push_back(pParent);
+		pParent = pParent->GetParent();
 	}
 
-	return true;
+	// go throw each parent to pre-process the mouse event
+	Vector2 localPos = m_MousePos;
+	for (TV_WINDOW::reverse_iterator it = vParent.rbegin(); it != vParent.rend(); ++it)
+	{
+		IWindow* pWindowPreProcess = (*it);
+
+		localPos -= pWindowPreProcess->GetPosition();
+		localPos += pWindowPreProcess->GetScroll();
+
+		// if (!pre process window) return false;
+		PreMouseEvent preMouseEvent(PreMouseEvent::Convert2PreMouseEventType(event.GetId()));
+		preMouseEvent.SetPosition(localPos);
+		preMouseEvent.SetOffset(event.GetOffset());
+		preMouseEvent.SetWheelDetail(event.GetWheelDetail());
+		pWindowPreProcess->DispatchEvent(preMouseEvent);
+		if (preMouseEvent.IsStopProcessing()) return false;
+	}
+
+	// process the window
+	if (event.GetId() == MouseEvent::LBUTTON_DOWN)
+	{
+		// set down state
+		g_pUiSystemMgr->SetWindowDownState(pWindowToProcess);
+		// set focus state
+		g_pUiSystemMgr->SetWindowFocusState(pWindowToProcess);
+	}
+	else if (event.GetId() == MouseEvent::LBUTTON_UP)
+	{
+		// clear down state
+		if (g_pUiSystemMgr->GetDownWindow() == pWindowToProcess) g_pUiSystemMgr->SetWindowDownState(NULL);
+	}
+	else if (event.GetId() == MouseEvent::MOUSE_MOVE)
+	{
+		// set hover state
+		g_pUiSystemMgr->SetWindowHoverState(pWindowToProcess);
+		// set down state
+		if (g_pUiInputMgr->IsLButtonDown()) g_pUiSystemMgr->SetWindowDownState(pWindowToProcess);
+	}
+
+	MouseEvent mouseEvent(event.GetId());
+	mouseEvent.SetPosition(event.GetPosition());
+	mouseEvent.SetOffset(event.GetOffset());
+	mouseEvent.SetWheelDetail(event.GetWheelDetail());
+	return pWindowToProcess->DispatchEvent(mouseEvent);
 }
 
 bool UiInputMgr_Impl::OnKeyboardEvent(KeyboardEvent& event)
 {
-	switch (event.GetKeyboardEventType())
-	{
-	case KeyboardEvent::KET_KEY_DOWN:
-		m_KeyMap[event.GetKeyCode()] = true;
-		break;
-	case KeyboardEvent::KET_KEY_UP:
-		m_KeyMap[event.GetKeyCode()] = false;
-		break;
-	}
-
-	Screen* pCurrScreen = g_pUiSystemMgr->GetCurrScreen();
-	pCurrScreen->SystemKeyboardEvent(event);
+// 	if (event.GetId() == KeyboardEvent::KEY_DOWN)
+// 	{
+// 		m_KeyMap[event.GetKeyCode()] = true;
+// 	}
+// 	else if (event.GetId() == KeyboardEvent::KEY_UP)
+// 	{
+// 		m_KeyMap[event.GetKeyCode()] = false;
+// 	}
+// 
+// 	Screen* pCurrScreen = g_pUiSystemMgr->GetCurrScreen();
+// 	pCurrScreen->SystemKeyboardEvent(event);
 	return true;
 }

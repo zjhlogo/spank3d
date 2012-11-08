@@ -37,20 +37,6 @@ public:
 	 * \return 
 	 */
 	virtual void Update(float dt) = 0;
-	
-	/*!
-	 * \brief handle mouse event
-	 * \param mouseEvent
-	 * \return 
-	 */
-	virtual bool HandleMouseEvent(MouseEvent& mouseEvent) = 0;
-	
-	/*!
-	 * \brief handle keyboard event
-	 * \param keyboardEvent
-	 * \return 
-	 */
-	virtual bool HandleKeyboardEvent(KeyboardEvent& keyboardEvent) = 0;
 
 protected:
 	ICamera* m_pCamera;

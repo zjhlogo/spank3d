@@ -34,7 +34,7 @@ IWindow::~IWindow()
 
 	m_vChildren.clear();
 
-	DispatchEvent(Event(EID_OBJECT_DESTROYED));
+	DispatchEvent(ObjectEvent(ObjectEvent::OBJECT_DESTROYED));
 }
 
 void IWindow::SetPosition(const Vector2& pos)
@@ -173,73 +173,6 @@ bool IWindow::FindChild(IWindow* pChild)
 	return false;
 }
 
-bool IWindow::SystemMouseEvent(MouseEvent& event, bool force /* = false */)
-{
-	if (!CheckWindowState(WS_ENABLE)) return true;
-
-	Vector2 mousePos = event.GetPosition();
-	if (!force && !IsOnMe(mousePos)) return false;
-
-	Vector2 localPos(mousePos.x-m_Position.x, mousePos.y-m_Position.y);
-
-	// find child under point
-	IWindow* pChild = FindChildUnderPoint(localPos);
-	if (!pChild)
-	{
-		uint testMask = 0;
-		switch (event.GetMouseEventType())
-		{
-		case MouseEvent::MET_LBUTTON_DOWN:
-			testMask = WS_MOUSE_LBUTTON_DOWN_ENABLE;
-			break;
-		case MouseEvent::MET_LBUTTON_UP:
-			testMask = WS_MOUSE_LBUTTON_UP_ENABLE;
-			break;
-		case MouseEvent::MET_MBUTTON_DOWN:
-			testMask = WS_MOUSE_MBUTTON_DOWN_ENABLE;
-			break;
-		case MouseEvent::MET_MBUTTON_UP:
-			testMask = WS_MOUSE_MBUTTON_UP_ENABLE;
-			break;
-		case MouseEvent::MET_RBUTTON_DOWN:
-			testMask = WS_MOUSE_RBUTTON_DOWN_ENABLE;
-			break;
-		case MouseEvent::MET_RBUTTON_UP:
-			testMask = WS_MOUSE_RBUTTON_UP_ENABLE;
-			break;
-		case MouseEvent::MET_MOUSE_MOVE:
-			testMask = WS_MOUSE_MOVE_ENABLE;
-			break;
-		case MouseEvent::MET_MOUSE_WHEEL:
-			testMask = WS_MOUSE_WHEEL_ENABLE;
-			break;
-		}
-		if (!CheckWindowState(testMask)) return false;
-
-		event.SetPosition(localPos);
-		// pre process mouse event
-		bool bPreProcessed = PreProcessMouseEvent(event);
-		// post process mouse event
-		bool bPostProcessed = PostProcessMouseEvent(event);
-		event.SetPosition(mousePos);
-
-		return (bPreProcessed || bPostProcessed);
-	}
-
-	event.SetPosition(localPos);
-	bool bProcessed = pChild->SystemMouseEvent(event);
-	event.SetPosition(mousePos);
-
-	return bProcessed;
-}
-
-bool IWindow::SystemKeyboardEvent(KeyboardEvent& event)
-{
-	if (!CheckWindowState(WS_ENABLE)) return true;
-
-	return true;
-}
-
 bool IWindow::SetBgStyle(const tstring& styleId)
 {
 	IGraphicsStyle* pGraphicsStyle = g_pUiResMgr->FindStyle(styleId);
@@ -295,68 +228,19 @@ void IWindow::SystemRender(const Vector2& basePos, const Rect& clipRect, uint st
 	}
 }
 
-IWindow* IWindow::FindChildUnderPoint(const Vector2& pos)
+IWindow* IWindow::FindWindowUnderPoint(const Vector2& pos)
 {
+	if (!IsOnMe(pos)) return NULL;
+
+	Vector2 localPos = pos - m_Position + m_Scroll;
 	for (TV_WINDOW::const_reverse_iterator it = m_vChildren.rbegin(); it != m_vChildren.rend(); ++it)
 	{
 		IWindow* pChild = (*it);
-		if (pChild->IsOnMe(pos)) return pChild;
+		if (pChild->IsOnMe(localPos))
+		{
+			return pChild->FindWindowUnderPoint(localPos);
+		}
 	}
 
-	return NULL;
-}
-
-bool IWindow::PreProcessMouseEvent(const MouseEvent& event)
-{
-	switch (event.GetMouseEventType())
-	{
-	case MouseEvent::MET_LBUTTON_DOWN:
-		// set down state
-		g_pUiSystemMgr->SetWindowDownState(this);
-		// set focus state
-		g_pUiSystemMgr->SetWindowFocusState(this);
-		break;
-	case MouseEvent::MET_LBUTTON_UP:
-		// clear down state
-		if (g_pUiSystemMgr->GetDownWindow() == this) g_pUiSystemMgr->SetWindowDownState(NULL);
-		break;
-	case MouseEvent::MET_MOUSE_MOVE:
-		// set hover state
-		g_pUiSystemMgr->SetWindowHoverState(this);
-		// set down state
-		if (g_pUiInputMgr->IsLButtonDown()) g_pUiSystemMgr->SetWindowDownState(this);
-		break;
-	}
-
-	MouseEvent mouseEvent(EID_UI_PRE_MOUSE_EVENT, event.GetMouseEventType());
-	mouseEvent.SetOffset(event.GetOffset());
-	mouseEvent.SetWheelDetail(event.GetWheelDetail());
-
-	mouseEvent.SetPosition(event.GetPosition());
-	DispatchEvent(mouseEvent);
-	return true;
-}
-
-bool IWindow::PostProcessMouseEvent(const MouseEvent& event)
-{
-	MouseEvent mouseEvent(EID_UI_POST_MOUSE_EVENT, event.GetMouseEventType());
-	mouseEvent.SetOffset(event.GetOffset());
-	mouseEvent.SetWheelDetail(event.GetWheelDetail());
-
-	IWindow* pCurrWindow = this;
-	IWindow* pChild = NULL;
-	Vector2 localPos = event.GetPosition();
-
-	while (pCurrWindow)
-	{
-		DispatchEvent(mouseEvent);
-
-		pChild = pCurrWindow;
-		pCurrWindow = pCurrWindow->m_pParent;
-
-		if (pChild) localPos += pChild->GetPosition();
-		mouseEvent.SetPosition(localPos);
-	}
-
-	return true;
+	return this;
 }

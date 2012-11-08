@@ -15,7 +15,9 @@ TitledWindow::TitledWindow(IWindow* parent)
 	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
 	m_bMouseDown = false;
 
-	RegisterEvent(EID_UI_PRE_MOUSE_EVENT, this, (FUNC_HANDLER)&TitledWindow::OnMouseEvent);
+	RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&TitledWindow::OnMouseDown);
+	RegisterEvent(MouseEvent::LBUTTON_UP, this, (FUNC_HANDLER)&TitledWindow::OnMouseUp);
+	RegisterEvent(MouseEvent::MOUSE_MOVE, this, (FUNC_HANDLER)&TitledWindow::OnMouseMove);
 }
 
 TitledWindow::~TitledWindow()
@@ -53,27 +55,30 @@ void TitledWindow::Render(const Vector2& basePos, const Rect& clipRect, uint sta
 	}
 }
 
-bool TitledWindow::OnMouseEvent(MouseEvent& event)
+bool TitledWindow::OnMouseDown(MouseEvent& event)
 {
-	switch (event.GetMouseEventType())
+	m_LastMouseDownPos = g_pUiInputMgr->GetMousePos();
+	m_LastMouseDownWindowPos = GetPosition();
+	m_bMouseDown = true;
+	g_pUiInputMgr->CaptureMouse(this);
+
+	return true;
+}
+
+bool TitledWindow::OnMouseUp(MouseEvent& event)
+{
+	m_bMouseDown = false;
+	g_pUiInputMgr->ReleaseMouse();
+
+	return true;
+}
+
+bool TitledWindow::OnMouseMove(MouseEvent& event)
+{
+	if (m_bMouseDown)
 	{
-	case MouseEvent::MET_LBUTTON_DOWN:
-		m_LastMouseDownPos = g_pUiInputMgr->GetMousePos();
-		m_LastMouseDownWindowPos = GetPosition();
-		m_bMouseDown = true;
-		g_pUiInputMgr->CaptureMouse(this);
-		break;
-	case MouseEvent::MET_LBUTTON_UP:
-		m_bMouseDown = false;
-		g_pUiInputMgr->ReleaseMouse();
-		break;
-	case MouseEvent::MET_MOUSE_MOVE:
-		if (m_bMouseDown)
-		{
-			Vector2 offset = (g_pUiInputMgr->GetMousePos() - m_LastMouseDownPos);
-			SetPosition(m_LastMouseDownWindowPos+offset);
-		}
-		break;
+		Vector2 offset = (g_pUiInputMgr->GetMousePos() - m_LastMouseDownPos);
+		SetPosition(m_LastMouseDownWindowPos+offset);
 	}
 
 	return true;

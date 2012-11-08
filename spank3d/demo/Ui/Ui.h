@@ -24,12 +24,5 @@ public:
 	virtual void Update(float dt);
 	virtual void Render();
 
-private:
-
-	IFontStyle* m_pFontStyle;
-	uint m_nFPSFrame;
-	float m_fFPSTime;
-	tstring m_strFPS;
-
 };
 #endif // __UI_H__

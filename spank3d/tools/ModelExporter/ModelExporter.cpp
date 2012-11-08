@@ -258,27 +258,27 @@ bool ModelExporter::BuildMeshsInfo()
 
 bool ModelExporter::BuildMaterialsInfo()
 {
-	for (TV_MESH_DATA::iterator it = m_vMeshData.begin(); it != m_vMeshData.end(); ++it)
-	{
-		MESH_DATA& meshData = (*it);
-		IGameMaterial* pMaterial = meshData.pMaterial;
-		if (!pMaterial) continue;
-		if (FindMaterial(pMaterial)) continue;
-
-		MATERIAL material;
-		material.pMaterial = pMaterial;
-		material.nId = m_vMaterial.size();
-		int nNumTexture = pMaterial->GetNumberOfTextureMaps();
-		for (int i = 0; i < nNumTexture; ++i)
-		{
-			IGameTextureMap* pMap = pMaterial->GetIGameTextureMap(i);
-			tstring strMapFile = pMap->GetBitmapFileName();
-			material.vTextureMap.push_back(strMapFile);
-		}
-
-		m_vMaterial.push_back(material);
-		meshData.nMaterialId = material.nId;
-	}
+// 	for (TV_MESH_DATA::iterator it = m_vMeshData.begin(); it != m_vMeshData.end(); ++it)
+// 	{
+// 		MESH_DATA& meshData = (*it);
+// 		IGameMaterial* pMaterial = meshData.pMaterial;
+// 		if (!pMaterial) continue;
+// 		if (FindMaterial(pMaterial)) continue;
+// 
+// 		MATERIAL material;
+// 		material.pMaterial = pMaterial;
+// 		material.nId = m_vMaterial.size();
+// 		int nNumTexture = pMaterial->GetNumberOfTextureMaps();
+// 		for (int i = 0; i < nNumTexture; ++i)
+// 		{
+// 			IGameTextureMap* pMap = pMaterial->GetIGameTextureMap(i);
+// 			tstring strMapFile = pMap->GetBitmapFileName();
+// 			material.vTextureMap.push_back(strMapFile);
+// 		}
+// 
+// 		m_vMaterial.push_back(material);
+// 		meshData.nMaterialId = material.nId;
+// 	}
 
 	return true;
 }

@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <camera/TargetCameraControl.h>
+#include <Spank3d.h>
 
 TargetCameraControl::TargetCameraControl(ICamera* pCamera, const Vector3& eye, const Vector3& target)
 :ICameraControl(pCamera)
@@ -29,59 +30,55 @@ void TargetCameraControl::Update(float dt)
 	// nothing to do
 }
 
-bool TargetCameraControl::HandleMouseEvent(MouseEvent& mouseEvent)
+void TargetCameraControl::BindMouseEvent()
 {
-	switch (mouseEvent.GetMouseEventType())
+	g_pDevice->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, FUNC_HANDLER(&TargetCameraControl::OnMouseEvent));
+	g_pDevice->RegisterEvent(MouseEvent::LBUTTON_UP, this, FUNC_HANDLER(&TargetCameraControl::OnMouseEvent));
+	g_pDevice->RegisterEvent(MouseEvent::MOUSE_MOVE, this, FUNC_HANDLER(&TargetCameraControl::OnMouseEvent));
+}
+
+void TargetCameraControl::UnbindMouseEvent()
+{
+	g_pDevice->UnregisterEvent(MouseEvent::LBUTTON_DOWN, this, FUNC_HANDLER(&TargetCameraControl::OnMouseEvent));
+	g_pDevice->UnregisterEvent(MouseEvent::LBUTTON_UP, this, FUNC_HANDLER(&TargetCameraControl::OnMouseEvent));
+	g_pDevice->UnregisterEvent(MouseEvent::MOUSE_MOVE, this, FUNC_HANDLER(&TargetCameraControl::OnMouseEvent));
+}
+
+bool TargetCameraControl::OnMouseEvent(MouseEvent& event)
+{
+	if (event.GetId() == MouseEvent::LBUTTON_DOWN)
 	{
-	case MouseEvent::MET_LBUTTON_DOWN:
-		{
-			m_bMouseDown = true;
-		}
-		break;
-	case MouseEvent::MET_MOUSE_MOVE:
-		{
-			if (m_bMouseDown) DoMouseMove(mouseEvent.GetOffset());
-		}
-		break;
-	case MouseEvent::MET_LBUTTON_UP:
-		{
-			m_bMouseDown = false;
-		}
-		break;
-	case MouseEvent::MET_MOUSE_WHEEL:
-		{
-			DoMouseWheel(float(mouseEvent.GetWheelDetail()));
-		}
-		break;
-	default:
-		return false;
-		break;
+		m_bMouseDown = true;
 	}
+	else if (event.GetId() == MouseEvent::LBUTTON_UP)
+	{
+		m_bMouseDown = false;
+	}
+	else if (event.GetId() == MouseEvent::MOUSE_MOVE)
+	{
+		if (m_bMouseDown)
+		{
+			const Vector2& offset = event.GetOffset();
+			m_fRotX += offset.x*0.01f;
+			m_fRotY -= offset.y*0.01f;
+			UpdateMatrix();
+		}
+	}
+	else if (event.GetId() == MouseEvent::MOUSE_WHEEL)
+	{
+		Vector3 dir = m_vTarget - m_vEye;
+		dir.Normalize();
+
+		m_vEye += (dir*float(event.GetWheelDetail())*0.01f);
+
+		UpdateMatrix();
+	}
+	else
+	{
+		return false;
+	}
+
 	return true;
-}
-
-bool TargetCameraControl::HandleKeyboardEvent(KeyboardEvent& keyboardEvent)
-{
-	// TODO: 
-	return false;
-}
-
-void TargetCameraControl::DoMouseMove(const Vector2& offset)
-{
-	m_fRotX += offset.x*0.01f;
-	m_fRotY -= offset.y*0.01f;
-
-	UpdateMatrix();
-}
-
-void TargetCameraControl::DoMouseWheel(float wheel)
-{
-	Vector3 dir = m_vTarget - m_vEye;
-	dir.Normalize();
-
-	m_vEye += (dir*wheel*0.01f);
-
-	UpdateMatrix();
 }
 
 void TargetCameraControl::UpdateMatrix()

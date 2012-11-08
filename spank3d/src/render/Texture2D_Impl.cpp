@@ -9,7 +9,6 @@
 #include <util/LogUtil.h>
 #include <util/TextureUtil.h>
 #include <gl/glew.h>
-#include <event/EventIds.h>
 
 Texture2D_Impl::Texture2D_Impl(const tstring& id, const IBitmapData* pBitmapData)
 :ITexture(id)
@@ -28,7 +27,7 @@ Texture2D_Impl::Texture2D_Impl(const tstring& id, uint width, uint height, uint 
 Texture2D_Impl::~Texture2D_Impl()
 {
 	FreeTexture();
-	DispatchEvent(Event(EID_OBJECT_DESTROYED));
+	DispatchEvent(ObjectEvent(ObjectEvent::OBJECT_DESTROYED));
 }
 
 void Texture2D_Impl::InitMember()

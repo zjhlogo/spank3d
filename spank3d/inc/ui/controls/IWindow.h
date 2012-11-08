@@ -90,9 +90,6 @@ public:
 	void RemoveAllChildren();
 	bool FindChild(IWindow* pChild);
 
-	bool SystemMouseEvent(MouseEvent& event, bool force = false);
-	bool SystemKeyboardEvent(KeyboardEvent& event);
-
 	bool SetBgStyle(const tstring& styleId);
 	IGraphicsStyle* GetBgStyle();
 
@@ -101,10 +98,8 @@ public:
 	inline bool SetWindowState(uint stateMask, bool set)
 	{
 		uint oldState = m_WindowState;
-
 		if (set) m_WindowState |= stateMask;
 		else m_WindowState &= (~stateMask);
-
 		return (oldState != m_WindowState);
 	};
 
@@ -115,12 +110,15 @@ public:
 
 	void SystemRender(const Vector2& basePos, const Rect& clipRect, uint state);
 
+	/*!
+	 * \brief find window under point pos
+	 * \param pos position relate to the window's parent coordinate
+	 * \return 
+	 */
+	IWindow* FindWindowUnderPoint(const Vector2& pos);
+
 protected:
 	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state) = 0;
-
-	IWindow* FindChildUnderPoint(const Vector2& pos);
-	bool PreProcessMouseEvent(const MouseEvent& event);
-	bool PostProcessMouseEvent(const MouseEvent& event);
 
 protected:
 	Vector2 m_Position;

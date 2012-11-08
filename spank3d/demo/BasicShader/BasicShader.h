@@ -26,9 +26,6 @@ public:
 	virtual void Render();
 
 private:
-	bool OnMouseEvent(MouseEvent& mouseEvent);
-
-private:
 	IShader* m_pShader;
 	IMesh* m_pMesh;
 

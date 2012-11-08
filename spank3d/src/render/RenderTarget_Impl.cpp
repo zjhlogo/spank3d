@@ -18,7 +18,7 @@ RenderTarget_Impl::RenderTarget_Impl(ITexture* pColorTexture, ITexture* pDepthTe
 RenderTarget_Impl::~RenderTarget_Impl()
 {
 	DestroyRenderTarget();
-	DispatchEvent(Event(EID_OBJECT_DESTROYED));
+	DispatchEvent(ObjectEvent(ObjectEvent::OBJECT_DESTROYED));
 }
 
 void RenderTarget_Impl::InitMember()

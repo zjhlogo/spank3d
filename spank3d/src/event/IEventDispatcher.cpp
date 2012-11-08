@@ -5,30 +5,30 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <core/EventDispatcher.h>
+#include <event/IEventDispatcher.h>
 
-EventDispatcher::EventDispatcher()
+IEventDispatcher::IEventDispatcher()
 {
 	// TODO: 
 }
 
-EventDispatcher::~EventDispatcher()
+IEventDispatcher::~IEventDispatcher()
 {
 	// TODO: 
 }
 
-void EventDispatcher::RegisterEvent(uint nId, EventDispatcher* pHandler, FUNC_HANDLER pFunc)
+void IEventDispatcher::RegisterEvent(const tstring& strId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc)
 {
 	EVENT_HANDLER handler;
 	handler.pHandler = pHandler;
 	handler.pFunc = pFunc;
 	handler.nDepth = 0;
-	m_EventMap.insert(std::make_pair(nId, handler));
+	m_EventMap.insert(std::make_pair(strId, handler));
 }
 
-void EventDispatcher::UnregisterEvent(uint nId, EventDispatcher* pHandler, FUNC_HANDLER pFunc)
+void IEventDispatcher::UnregisterEvent(const tstring& strId, IEventDispatcher* pHandler, FUNC_HANDLER pFunc)
 {
-	TP_EVENT_HANDLER range = m_EventMap.equal_range(nId);
+	TP_EVENT_HANDLER range = m_EventMap.equal_range(strId);
 	if (range.first == range.second) return;
 
 	for (TM_EVENT_HANDLER::iterator it = range.first; it != range.second; ++it)
@@ -42,7 +42,7 @@ void EventDispatcher::UnregisterEvent(uint nId, EventDispatcher* pHandler, FUNC_
 	}
 }
 
-bool EventDispatcher::DispatchEvent(Event& event)
+bool IEventDispatcher::DispatchEvent(IEvent& event)
 {
 	TP_EVENT_HANDLER range = m_EventMap.equal_range(event.GetId());
 	if (range.first == range.second) return false;

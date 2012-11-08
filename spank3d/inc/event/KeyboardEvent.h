@@ -8,31 +8,25 @@
 #ifndef __KEYBOARDEVENT_H__
 #define __KEYBOARDEVENT_H__
 
-#include "../core/Event.h"
+#include "IEvent.h"
 
-class KeyboardEvent : public Event
+class KeyboardEvent : public IEvent
 {
 public:
-	enum KEYBOARD_EVENT_TYPE
-	{
-		KET_KEY_DOWN,					// KeyboardEvent
-		KET_KEY_UP,						// KeyboardEvent
-		KET_CHAR,						// KeyboardEvent
-	};
+	static const tstring KEY_DOWN;
+	static const tstring KEY_UP;
+	static const tstring KEY_CHAR;
+
 public:
-	RTTI_DEF(KeyboardEvent, Event);
+	RTTI_DEF(KeyboardEvent, IEvent);
 
-	KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType);
-	KeyboardEvent(uint nId, KEYBOARD_EVENT_TYPE eEventType);
+	KeyboardEvent(const tstring& strId);
 	virtual ~KeyboardEvent();
-
-	KEYBOARD_EVENT_TYPE GetKeyboardEventType() const;
 
 	void SetKeyCode(uchar nKeyCode);
 	uchar GetKeyCode() const;
 
 private:
-	KEYBOARD_EVENT_TYPE m_eKeyboardEventType;
 	uchar m_nKeyCode;
 
 };

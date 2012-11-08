@@ -137,7 +137,7 @@ void UiSystemMgr_Impl::SetWindowDownState(IWindow* pWindow)
 	if (m_pDownWindow)
 	{
 		m_pDownWindow->SetWindowState(IWindow::WS_MOUSE_DOWN, false);
-		m_pDownWindow->UnregisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnDownWindowDestroyed);
+		m_pDownWindow->UnregisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnDownWindowDestroyed);
 // 		LOG(_T("Mouse down leave %s"), m_pDownWindow->GetRtti()->GetClassName().c_str());
 	}
 
@@ -146,7 +146,7 @@ void UiSystemMgr_Impl::SetWindowDownState(IWindow* pWindow)
 	if (m_pDownWindow)
 	{
 		m_pDownWindow->SetWindowState(IWindow::WS_MOUSE_DOWN, true);
-		m_pDownWindow->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnDownWindowDestroyed);
+		m_pDownWindow->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnDownWindowDestroyed);
 // 		LOG(_T("Mouse down enter %s"), m_pDownWindow->GetRtti()->GetClassName().c_str());
 	}
 }
@@ -158,7 +158,7 @@ void UiSystemMgr_Impl::SetWindowHoverState(IWindow* pWindow)
 	if (m_pHoverWindow)
 	{
 		m_pHoverWindow->SetWindowState(IWindow::WS_MOUSE_HOVER, false);
-		m_pHoverWindow->UnregisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnHoverWindowDestroyed);
+		m_pHoverWindow->UnregisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnHoverWindowDestroyed);
 // 		LOG(_T("Mouse hover leave %s"), m_pHoverWindow->GetRtti()->GetClassName().c_str());
 	}
 
@@ -167,7 +167,7 @@ void UiSystemMgr_Impl::SetWindowHoverState(IWindow* pWindow)
 	if (m_pHoverWindow)
 	{
 		m_pHoverWindow->SetWindowState(IWindow::WS_MOUSE_HOVER, true);
-		m_pHoverWindow->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnHoverWindowDestroyed);
+		m_pHoverWindow->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnHoverWindowDestroyed);
 // 		LOG(_T("Mouse hover enter %s"), m_pHoverWindow->GetRtti()->GetClassName().c_str());
 	}
 }
@@ -179,7 +179,7 @@ void UiSystemMgr_Impl::SetWindowFocusState(IWindow* pWindow)
 	if (m_pFocusWindow)
 	{
 		m_pFocusWindow->SetWindowState(IWindow::WS_FOCUS, false);
-		m_pFocusWindow->UnregisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnFocusWindowDestroyed);
+		m_pFocusWindow->UnregisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnFocusWindowDestroyed);
 // 		LOG(_T("Mouse focus leave %s"), m_pFocusWindow->GetRtti()->GetClassName().c_str());
 	}
 
@@ -188,7 +188,7 @@ void UiSystemMgr_Impl::SetWindowFocusState(IWindow* pWindow)
 	if (m_pFocusWindow && m_pFocusWindow->CheckWindowState(IWindow::WS_FOCUS_ENABLE))
 	{
 		m_pFocusWindow->SetWindowState(IWindow::WS_FOCUS, true);
-		m_pFocusWindow->RegisterEvent(EID_OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnFocusWindowDestroyed);
+		m_pFocusWindow->RegisterEvent(ObjectEvent::OBJECT_DESTROYED, this, (FUNC_HANDLER)&UiSystemMgr_Impl::OnFocusWindowDestroyed);
 // 		LOG(_T("Mouse focus enter %s"), m_pFocusWindow->GetRtti()->GetClassName().c_str());
 	}
 	else
@@ -212,19 +212,19 @@ IWindow* UiSystemMgr_Impl::GetFocusWindow()
 	return m_pFocusWindow;
 }
 
-bool UiSystemMgr_Impl::OnDownWindowDestroyed(Event& event)
+bool UiSystemMgr_Impl::OnDownWindowDestroyed(IEvent& event)
 {
 	m_pDownWindow = NULL;
 	return true;
 }
 
-bool UiSystemMgr_Impl::OnHoverWindowDestroyed(Event& event)
+bool UiSystemMgr_Impl::OnHoverWindowDestroyed(IEvent& event)
 {
 	m_pHoverWindow = NULL;
 	return true;
 }
 
-bool UiSystemMgr_Impl::OnFocusWindowDestroyed(Event& event)
+bool UiSystemMgr_Impl::OnFocusWindowDestroyed(IEvent& event)
 {
 	m_pFocusWindow = NULL;
 	return true;

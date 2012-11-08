@@ -32,7 +32,6 @@ public:
 	virtual void Render();
 
 private:
-	bool OnMouseEvent(MouseEvent& mouseEvent);
 	void RenderDepth();
 	void RenderScene();
 
