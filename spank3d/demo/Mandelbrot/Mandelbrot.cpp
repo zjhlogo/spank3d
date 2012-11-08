@@ -20,9 +20,8 @@ Mandelbrot::Mandelbrot()
 	m_pLblMaxIterations = NULL;
 	m_maxIterations = 1;
 
-	m_pLblZoom = NULL;
 	m_zoom = 1.0f;
-
+	m_bMouseDown = false;
 }
 
 Mandelbrot::~Mandelbrot()
@@ -58,24 +57,13 @@ bool Mandelbrot::Initialize()
 	pBtnIncIterations->SetLabel(_T("+"));
 	pBtnIncIterations->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnIncIterationsDown);
 
-	// zoom
-	PushButton* pBtnDecZoom = new PushButton(pMainScreen);
-	pBtnDecZoom->SetPosition(10.0f, 60.0f);
-	pBtnDecZoom->SetSize(20.0f, 20.0f);
-	pBtnDecZoom->SetLabel(_T("-"));
-	pBtnDecZoom->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnDecZoomDown);
-
-	m_pLblZoom = new Label(pMainScreen);
-	m_pLblZoom->SetPosition(40.0f, 60.0f);
-	m_pLblZoom->SetSize(100.0f, 20.0f);
-
-	PushButton* pBtnIncZoom = new PushButton(pMainScreen);
-	pBtnIncZoom->SetPosition(150.0f, 60.0f);
-	pBtnIncZoom->SetSize(20.0f, 20.0f);
-	pBtnIncZoom->SetLabel(_T("+"));
-	pBtnIncZoom->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnIncZoomDown);
-
 	UpdateIterations(m_maxIterations);
+
+	g_pDevice->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnMouseDown);
+	g_pDevice->RegisterEvent(MouseEvent::LBUTTON_UP, this, (FUNC_HANDLER)&Mandelbrot::OnMouseUp);
+	g_pDevice->RegisterEvent(MouseEvent::MOUSE_MOVE, this, (FUNC_HANDLER)&Mandelbrot::OnMouseMove);
+	g_pDevice->RegisterEvent(MouseEvent::MOUSE_WHEEL, this, (FUNC_HANDLER)&Mandelbrot::OnMouseWheel);
+
 	return true;
 }
 
@@ -109,6 +97,7 @@ void Mandelbrot::Render()
 
 	m_pShader->SetFloat(_("u_maxIterations"), float(m_maxIterations));
 	m_pShader->SetFloat(_("u_zoom"), float(m_zoom));
+	m_pShader->SetVector2(_("u_centerPos"), m_centerPos);
 
 	m_pShader->DrawTriangleList(s_Verts, 4, s_Indis, 6);
 
@@ -137,23 +126,40 @@ void Mandelbrot::UpdateIterations(int iterations)
 	m_pLblMaxIterations->SetLabel(strLabel);
 }
 
-bool Mandelbrot::OnBtnDecZoomDown(MouseEvent& event)
+bool Mandelbrot::OnMouseDown(MouseEvent& event)
 {
-	UpdateZoom(m_zoom/2.0f);
+	m_bMouseDown = true;
 	return true;
 }
 
-bool Mandelbrot::OnBtnIncZoomDown(MouseEvent& event)
+bool Mandelbrot::OnMouseUp(MouseEvent& event)
 {
-	UpdateZoom(m_zoom*2.0f);
+	m_bMouseDown = false;
 	return true;
 }
 
-void Mandelbrot::UpdateZoom(float zoom)
+bool Mandelbrot::OnMouseMove(MouseEvent& event)
 {
-	m_zoom = zoom;
+	if (m_bMouseDown)
+	{
+		const Vector2& offset = event.GetOffset();
+		m_centerPos.x -= (offset.x / g_pDevice->GetSize().y * m_zoom * 3.75f);
+		m_centerPos.y += (offset.y / g_pDevice->GetSize().y * m_zoom * 3.75f);
+	}
 
-	tstring strLabel;
-	StringUtil::strformat(strLabel, _T("Zoom: %f"), m_zoom);
-	m_pLblZoom->SetLabel(strLabel);
+	return true;
+}
+
+bool Mandelbrot::OnMouseWheel(MouseEvent& event)
+{
+	if (event.GetWheelDetail() < 0)
+	{
+		m_zoom *= 2.0f;
+	}
+	else
+	{
+		m_zoom *= 0.5f;
+	}
+
+	return true;
 }

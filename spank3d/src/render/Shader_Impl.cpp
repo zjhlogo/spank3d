@@ -55,6 +55,17 @@ bool Shader_Impl::SetFloat(const tstring& strName, float value)
 	return true;
 }
 
+bool Shader_Impl::SetVector2(const tstring& strName, const Vector2& v)
+{
+	if (!IsOk()) return false;
+
+	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName.c_str()));
+	if (nLoc < 0) return false;
+
+	glUniform2f(nLoc, v.x, v.y);
+	return true;
+}
+
 bool Shader_Impl::SetVector3(const tstring& strName, const Vector3& v)
 {
 	if (!IsOk()) return false;
