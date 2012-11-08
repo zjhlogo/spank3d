@@ -8,33 +8,26 @@
 #ifndef __MOUSEEVENT_H__
 #define __MOUSEEVENT_H__
 
-#include "../core/Event.h"
-#include "EventIds.h"
+#include "IEvent.h"
 #include "../math/Vector2.h"
 
-class MouseEvent : public Event
+class MouseEvent : public IEvent
 {
 public:
-	enum MOUSE_EVENT_TYPE
-	{
-		MET_LBUTTON_DOWN,				// MouseEvent
-		MET_LBUTTON_UP,					// MouseEvent
-		MET_MBUTTON_DOWN,				// MouseEvent
-		MET_MBUTTON_UP,					// MouseEvent
-		MET_RBUTTON_DOWN,				// MouseEvent
-		MET_RBUTTON_UP,					// MouseEvent
-		MET_MOUSE_MOVE,					// MouseEvent
-		MET_MOUSE_WHEEL					// MouseEvent
-	};
+	static const tstring LBUTTON_DOWN;
+	static const tstring LBUTTON_UP;
+	static const tstring MBUTTON_DOWN;
+	static const tstring MBUTTON_UP;
+	static const tstring RBUTTON_DOWN;
+	static const tstring RBUTTON_UP;
+	static const tstring MOUSE_MOVE;
+	static const tstring MOUSE_WHEEL;
 
 public:
-	RTTI_DEF(MouseEvent, Event);
+	RTTI_DEF(MouseEvent, IEvent);
 
-	MouseEvent(MOUSE_EVENT_TYPE eEventType);
-	MouseEvent(uint nId, MOUSE_EVENT_TYPE eEventType);
+	MouseEvent(const tstring& strId);
 	virtual ~MouseEvent();
-
-	MOUSE_EVENT_TYPE GetMouseEventType() const;
 
 	void SetPosition(const Vector2& pos);
 	void SetPosition(float x, float y);
@@ -48,7 +41,6 @@ public:
 	int GetWheelDetail() const;
 
 private:
-	MOUSE_EVENT_TYPE m_eMouseEventType;
 	Vector2 m_vPosition;
 	Vector2 m_vOffset;
 	int m_nWheelDetail;

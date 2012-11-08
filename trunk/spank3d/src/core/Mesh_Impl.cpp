@@ -7,7 +7,6 @@
  */
 #include "Mesh_Impl.h"
 #include <util/FileUtil.h>
-#include <event/EventIds.h>
 
 Mesh_Impl::Mesh_Impl(const tstring& strFullPath)
 {
@@ -19,7 +18,7 @@ Mesh_Impl::Mesh_Impl(const tstring& strFullPath)
 Mesh_Impl::~Mesh_Impl()
 {
 	Destroy();
-	DispatchEvent(Event(EID_OBJECT_DESTROYED));
+	DispatchEvent(ObjectEvent(ObjectEvent::OBJECT_DESTROYED));
 }
 
 void Mesh_Impl::Init()

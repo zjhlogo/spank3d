@@ -7,7 +7,6 @@
  */
 #include "HelloWorld.h"
 #include <util/AppUtil.h>
-#include <event/EventIds.h>
 
 IMPLEMENT_APP(HelloWorld);
 
@@ -27,19 +26,20 @@ HelloWorld::~HelloWorld()
 
 bool HelloWorld::Initialize()
 {
+	if (!IApp::Initialize()) return false;
+
 	m_pShader = g_pResMgr->CreateShader(_("shaders/default.xml"));
 	if (!m_pShader) return false;
 
-	m_pMesh = g_pResMgr->CreateMesh(_("teapot.mesh"));
+	m_pMesh = g_pResMgr->CreateMesh(_("test.mesh"));
 	if (!m_pMesh) return false;
 
-	m_pTexture = g_pResMgr->CreateTexture2D(_("grid16.png"));
+	m_pTexture = g_pResMgr->CreateTexture2D(_("white256.png"));
 	if (!m_pTexture) return false;
 
 	m_pCamera = new ICamera();
 	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC3_ZERO);
-
-	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&HelloWorld::OnMouseEvent));
+	m_pTargetCameraCtrl->BindMouseEvent();
 
 	return true;
 }
@@ -51,6 +51,7 @@ void HelloWorld::Terminate()
 	SAFE_RELEASE(m_pTexture);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pShader);
+	IApp::Terminate();
 }
 
 void HelloWorld::Update(float dt)
@@ -89,9 +90,4 @@ void HelloWorld::Render()
 	}
 
 	m_pShader->EndRender();
-}
-
-bool HelloWorld::OnMouseEvent(MouseEvent& mouseEvent)
-{
-	return m_pTargetCameraCtrl->HandleMouseEvent(mouseEvent);
 }

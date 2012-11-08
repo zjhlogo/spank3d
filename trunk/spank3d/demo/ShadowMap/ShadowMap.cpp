@@ -7,7 +7,6 @@
  */
 #include "ShadowMap.h"
 #include <util/AppUtil.h>
-#include <event/EventIds.h>
 #include <ui/controls/Picture.h>
 
 IMPLEMENT_APP(ShadowMap);
@@ -32,6 +31,8 @@ ShadowMap::~ShadowMap()
 
 bool ShadowMap::Initialize()
 {
+	if (!IApp::Initialize()) return false;
+
 	m_pShaderDepth = g_pResMgr->CreateShader(_("shaders/depth_mapping.xml"));
 	if (!m_pShaderDepth) return false;
 
@@ -49,8 +50,7 @@ bool ShadowMap::Initialize()
 
 	m_pCamera = new ICamera();
 	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC3_ZERO);
-
-	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&ShadowMap::OnMouseEvent));
+	m_pTargetCameraCtrl->BindMouseEvent();
 
 	Picture* pPicture = new Picture(g_pUiSystemMgr->GetCurrScreen());
 	pPicture->SetTexture(m_pDepthTexture);
@@ -76,6 +76,7 @@ void ShadowMap::Terminate()
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pShaderShadowMap);
 	SAFE_RELEASE(m_pShaderDepth);
+	IApp::Terminate();
 }
 
 void ShadowMap::Update(float dt)
@@ -101,11 +102,6 @@ void ShadowMap::Render()
 
 	g_pUiSystemMgr->Render();
 	g_pUiRenderer->FlushAll();
-}
-
-bool ShadowMap::OnMouseEvent(MouseEvent& mouseEvent)
-{
-	return m_pTargetCameraCtrl->HandleMouseEvent(mouseEvent);
 }
 
 void ShadowMap::RenderDepth()

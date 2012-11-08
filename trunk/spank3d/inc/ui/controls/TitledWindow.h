@@ -26,7 +26,9 @@ protected:
 	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 private:
-	bool OnMouseEvent(MouseEvent& event);
+	bool OnMouseDown(MouseEvent& event);
+	bool OnMouseUp(MouseEvent& event);
+	bool OnMouseMove(MouseEvent& event);
 
 private:
 	IGraphicsStyle* m_pTitleStyle;

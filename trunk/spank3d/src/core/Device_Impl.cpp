@@ -94,9 +94,7 @@ void Device_Impl::StartPerform()
 	// reset time
 	m_fLastTime = GetTime();
 
-	// notify start perform
-	Event event(EID_START_PERFORM);
-	DispatchEvent(event);
+	// TODO: notify start perform
 
 	MSG msg;
 	memset(&msg, 0, sizeof(msg));
@@ -196,7 +194,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvent(MouseEvent::MET_LBUTTON_DOWN);
+			MouseEvent mouseEvent(MouseEvent::LBUTTON_DOWN);
 			mouseEvent.SetPosition(x, y);
 			g_pDevice->DispatchEvent(mouseEvent);
 
@@ -210,7 +208,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvent(MouseEvent::MET_LBUTTON_UP);
+			MouseEvent mouseEvent(MouseEvent::LBUTTON_UP);
 			mouseEvent.SetPosition(x, y);
 			g_pDevice->DispatchEvent(mouseEvent);
 
@@ -226,7 +224,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short y = HIWORD(lParam);
 
 			// dispatch event
-			MouseEvent mouseEvent(MouseEvent::MET_MOUSE_MOVE);
+			MouseEvent mouseEvent(MouseEvent::MOUSE_MOVE);
 			mouseEvent.SetPosition(x, y);
 			mouseEvent.SetOffset(float(x-s_nLastMousePosX), float(y-s_nLastMousePosY));
 			g_pDevice->DispatchEvent(mouseEvent);
@@ -242,7 +240,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			short wheel = HIWORD(wParam);
 
 			// dispatch event
-			MouseEvent mouseEvent(MouseEvent::MET_MOUSE_WHEEL);
+			MouseEvent mouseEvent(MouseEvent::MOUSE_WHEEL);
 			mouseEvent.SetPosition(x, y);
 			mouseEvent.SetWheelDetail(wheel);
 			g_pDevice->DispatchEvent(mouseEvent);
@@ -251,7 +249,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		{
 			// dispatch event
-			KeyboardEvent keyboardEvent(KeyboardEvent::KET_KEY_DOWN);
+			KeyboardEvent keyboardEvent(KeyboardEvent::KEY_DOWN);
 			keyboardEvent.SetKeyCode(wParam);
 			g_pDevice->DispatchEvent(keyboardEvent);
 		}
@@ -259,7 +257,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYUP:
 		{
 			// dispatch event
-			KeyboardEvent keyboardEvent(KeyboardEvent::KET_KEY_UP);
+			KeyboardEvent keyboardEvent(KeyboardEvent::KEY_UP);
 			keyboardEvent.SetKeyCode(wParam);
 			g_pDevice->DispatchEvent(keyboardEvent);
 		}
@@ -424,10 +422,8 @@ void Device_Impl::InternalDestroyOGL()
 
 void Device_Impl::PerformOnce(float dt)
 {
-	g_pApp->Update(dt);
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
-	g_pApp->Render();
+	g_pApp->SystemUpdate(dt);
 	SwapBuffers(g_hDc);					// Swap Buffers (Double Buffering)
 }
 

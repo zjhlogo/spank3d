@@ -242,22 +242,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\core\Event.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\core\Event.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\core\EventDispatcher.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\inc\core\EventDispatcher.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\core\IApp.cpp"
 				>
 			</File>
@@ -414,7 +398,19 @@
 			Name="event"
 			>
 			<File
-				RelativePath=".\inc\event\EventIds.h"
+				RelativePath=".\src\event\IEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\event\IEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\event\IEventDispatcher.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\event\IEventDispatcher.h"
 				>
 			</File>
 			<File
@@ -431,6 +427,14 @@
 			</File>
 			<File
 				RelativePath=".\inc\event\MouseEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\event\PreMouseEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\event\PreMouseEvent.h"
 				>
 			</File>
 		</Filter>
@@ -538,6 +542,14 @@
 				</File>
 				<File
 					RelativePath=".\inc\ui\controls\IWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ui\controls\Label.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\controls\Label.h"
 					>
 				</File>
 				<File
@@ -656,10 +668,6 @@
 					RelativePath=".\inc\ui\style\VerticalPatchStyle.h"
 					>
 				</File>
-			</Filter>
-			<Filter
-				Name="events"
-				>
 			</Filter>
 			<Filter
 				Name="parsers"

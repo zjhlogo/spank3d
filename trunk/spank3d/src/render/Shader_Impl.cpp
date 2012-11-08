@@ -9,7 +9,6 @@
 #include <gl/glew.h>
 #include <util/StringUtil.h>
 #include <util/LogUtil.h>
-#include <event/EventIds.h>
 
 Shader_Impl::Shader_Impl(const tstring& id, const tstring& strVertexShader, const tstring& strGeometryShader, const tstring& strFragmentShader, const VertexAttribute::ATTRIBUTE_ITEM* pVertexAttrItem)
 {
@@ -25,7 +24,7 @@ Shader_Impl::Shader_Impl(const tstring& id, const tstring& strVertexShader, cons
 Shader_Impl::~Shader_Impl()
 {
 	DestroyShader();
-	DispatchEvent(Event(EID_OBJECT_DESTROYED));
+	DispatchEvent(ObjectEvent(ObjectEvent::OBJECT_DESTROYED));
 }
 
 const tstring& Shader_Impl::GetId() const
@@ -43,6 +42,17 @@ bool Shader_Impl::BeginRender()
 void Shader_Impl::EndRender()
 {
 	// nothing to do
+}
+
+bool Shader_Impl::SetFloat(const tstring& strName, float value)
+{
+	if (!IsOk()) return false;
+
+	int nLoc = glGetUniformLocation(m_nProgram, StringUtil::tchar2char(strName.c_str()));
+	if (nLoc < 0) return false;
+
+	glUniform1f(nLoc, value);
+	return true;
 }
 
 bool Shader_Impl::SetVector3(const tstring& strName, const Vector3& v)

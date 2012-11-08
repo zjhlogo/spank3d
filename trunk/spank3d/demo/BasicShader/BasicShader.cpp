@@ -7,7 +7,6 @@
  */
 #include "BasicShader.h"
 #include <util/AppUtil.h>
-#include <event/EventIds.h>
 
 IMPLEMENT_APP(BasicShader);
 
@@ -26,7 +25,9 @@ BasicShader::~BasicShader()
 
 bool BasicShader::Initialize()
 {
-	m_pShader = g_pResMgr->CreateShader(_("diffuse_shader.xml"));
+	if (!IApp::Initialize()) return false;
+
+	m_pShader = g_pResMgr->CreateShader(_("shaders/diffuse.xml"));
 	if (!m_pShader) return false;
 
 	m_pMesh = g_pResMgr->CreateMesh(_("teapot.mesh"));
@@ -34,8 +35,7 @@ bool BasicShader::Initialize()
 
 	m_pCamera = new ICamera();
 	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC3_ZERO);
-
-	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&BasicShader::OnMouseEvent));
+	m_pTargetCameraCtrl->BindMouseEvent();
 
 	return true;
 }
@@ -46,6 +46,7 @@ void BasicShader::Terminate()
 	SAFE_DELETE(m_pCamera);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pShader);
+	IApp::Terminate();
 }
 
 void BasicShader::Update(float dt)
@@ -82,9 +83,4 @@ void BasicShader::Render()
 	}
 
 	m_pShader->EndRender();
-}
-
-bool BasicShader::OnMouseEvent(MouseEvent& mouseEvent)
-{
-	return m_pTargetCameraCtrl->HandleMouseEvent(mouseEvent);
 }

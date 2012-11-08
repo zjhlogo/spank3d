@@ -7,28 +7,24 @@
  */
 #include <event/MouseEvent.h>
 
-MouseEvent::MouseEvent(MOUSE_EVENT_TYPE eEventType)
-:Event(EID_MOUSE_EVENT)
-{
-	m_eMouseEventType = eEventType;
-	m_nWheelDetail = 0;
-}
+const tstring MouseEvent::MOUSE_WHEEL = _("MOUSE_WHEEL");
+const tstring MouseEvent::MOUSE_MOVE = _("MOUSE_MOVE");
+const tstring MouseEvent::RBUTTON_UP = _("RBUTTON_UP");
+const tstring MouseEvent::RBUTTON_DOWN = _("RBUTTON_DOWN");
+const tstring MouseEvent::MBUTTON_UP = _("MBUTTON_UP");
+const tstring MouseEvent::MBUTTON_DOWN = _("MBUTTON_DOWN");
+const tstring MouseEvent::LBUTTON_UP = _("LBUTTON_UP");
+const tstring MouseEvent::LBUTTON_DOWN = _("LBUTTON_DOWN");
 
-MouseEvent::MouseEvent(uint nId, MOUSE_EVENT_TYPE eEventType)
-:Event(nId)
+MouseEvent::MouseEvent(const tstring& strId)
+:IEvent(strId)
 {
-	m_eMouseEventType = eEventType;
 	m_nWheelDetail = 0;
 }
 
 MouseEvent::~MouseEvent()
 {
 	// TODO: 
-}
-
-MouseEvent::MOUSE_EVENT_TYPE MouseEvent::GetMouseEventType() const
-{
-	return m_eMouseEventType;
 }
 
 void MouseEvent::SetPosition(const Vector2& pos)

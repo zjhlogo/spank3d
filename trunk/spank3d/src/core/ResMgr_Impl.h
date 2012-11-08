@@ -54,11 +54,11 @@ private:
 	virtual ~ResMgr_Impl();
 
 private:
-	bool OnMeshDestroyed(Event& event);
-	bool OnBitmapDataDestroyed(Event& event);
-	bool OnTextureDestroyed(Event& event);
-	bool OnShaderDestroyed(Event& event);
-	bool OnRenderTargetDestroyed(Event& event);
+	bool OnMeshDestroyed(IEvent& event);
+	bool OnBitmapDataDestroyed(IEvent& event);
+	bool OnTextureDestroyed(IEvent& event);
+	bool OnShaderDestroyed(IEvent& event);
+	bool OnRenderTargetDestroyed(IEvent& event);
 
 private:
 	TM_MESH m_MeshMap;

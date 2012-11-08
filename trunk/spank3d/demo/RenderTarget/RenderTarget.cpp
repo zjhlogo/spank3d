@@ -7,7 +7,6 @@
  */
 #include "RenderTarget.h"
 #include <util/AppUtil.h>
-#include <event/EventIds.h>
 #include <ui/controls/Picture.h>
 
 IMPLEMENT_APP(RenderTarget);
@@ -32,6 +31,8 @@ RenderTarget::~RenderTarget()
 
 bool RenderTarget::Initialize()
 {
+	if (!IApp::Initialize()) return false;
+
 	m_pShader = g_pResMgr->CreateShader(_("shaders/default.xml"));
 	if (!m_pShader) return false;
 
@@ -51,8 +52,7 @@ bool RenderTarget::Initialize()
 
 	m_pCamera = new ICamera();
 	m_pTargetCameraCtrl = new TargetCameraControl(m_pCamera, Vector3(0.0f, 0.0f, 10.0f), Math::VEC3_ZERO);
-
-	g_pDevice->RegisterEvent(EID_MOUSE_EVENT, this, FUNC_HANDLER(&RenderTarget::OnMouseEvent));
+	m_pTargetCameraCtrl->BindMouseEvent();
 
 	Picture* pPicture = new Picture(g_pUiSystemMgr->GetCurrScreen());
 	pPicture->SetTexture(m_pColorTexture);
@@ -71,12 +71,13 @@ void RenderTarget::Terminate()
 
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pShader);
+
+	IApp::Terminate();
 }
 
 void RenderTarget::Update(float dt)
 {
-	// TODO: 
-	g_pUiSystemMgr->Update(dt);
+
 }
 
 void RenderTarget::Render()
@@ -88,14 +89,6 @@ void RenderTarget::Render()
 
 	// render scene
 	RenderScene(m_pCamera->GetProjectionMatrix(), m_pColorTexture);
-
-	g_pUiSystemMgr->Render();
-	g_pUiRenderer->FlushAll();
-}
-
-bool RenderTarget::OnMouseEvent(MouseEvent& mouseEvent)
-{
-	return m_pTargetCameraCtrl->HandleMouseEvent(mouseEvent);
 }
 
 void RenderTarget::RenderScene(const Matrix4x4& matProj, ITexture* pTexture)

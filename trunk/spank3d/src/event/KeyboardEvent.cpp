@@ -7,28 +7,19 @@
  */
 #include <event/KeyboardEvent.h>
 
-KeyboardEvent::KeyboardEvent(KEYBOARD_EVENT_TYPE eEventType)
-:Event(EID_KEYBOARD_EVENT)
-{
-	m_eKeyboardEventType = eEventType;
-	m_nKeyCode = 0;
-}
+const tstring KeyboardEvent::KEY_CHAR = _("KEY_CHAR");
+const tstring KeyboardEvent::KEY_UP = _("KEY_UP");
+const tstring KeyboardEvent::KEY_DOWN = _("KEY_DOWN");
 
-KeyboardEvent::KeyboardEvent(uint nId, KEYBOARD_EVENT_TYPE eEventType)
-:Event(nId)
+KeyboardEvent::KeyboardEvent(const tstring& strId)
+:IEvent(strId)
 {
-	m_eKeyboardEventType = eEventType;
 	m_nKeyCode = 0;
 }
 
 KeyboardEvent::~KeyboardEvent()
 {
 	// TODO: 
-}
-
-KeyboardEvent::KEYBOARD_EVENT_TYPE KeyboardEvent::GetKeyboardEventType() const
-{
-	return m_eKeyboardEventType;
 }
 
 void KeyboardEvent::SetKeyCode(uchar nKeyCode)

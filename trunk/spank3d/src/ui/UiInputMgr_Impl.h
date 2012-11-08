@@ -24,6 +24,8 @@ public:
 		NUM_KEYS = 256,
 	};
 
+	typedef std::vector<IWindow*> TV_WINDOW;
+
 public:
 	RTTI_DEF(UiInputMgr_Impl, IUiInputMgr);
 
