@@ -29,9 +29,9 @@ const tstring& PushButton::GetLabel() const
 	return m_strLabel;
 }
 
-void PushButton::Render(const Vector2& basePos, const Rect& clipRect, uint state)
+bool PushButton::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 {
-	m_pBgStyle->Render(basePos+m_Position, m_Size, clipRect, state);
+	if (!IWindow::Render(basePos, clipRect, state)) return true;
 
 	if (!m_strLabel.empty())
 	{
@@ -39,4 +39,6 @@ void PushButton::Render(const Vector2& basePos, const Rect& clipRect, uint state
 		Vector2 pos = m_Position + (m_Size - textSize) * 0.5f;
 		m_pFontStyle->Render(m_strLabel, basePos+pos, clipRect, state);
 	}
+
+	return true;
 }

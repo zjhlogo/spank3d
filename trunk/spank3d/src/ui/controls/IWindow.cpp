@@ -199,6 +199,19 @@ bool IWindow::IsOnMe(const Vector2& pos)
 	return true;
 }
 
+bool IWindow::SetWindowState(uint stateMask, bool set)
+{
+	uint oldState = m_WindowState;
+	if (set) m_WindowState |= stateMask;
+	else m_WindowState &= (~stateMask);
+	return (oldState != m_WindowState);
+}
+
+bool IWindow::CheckWindowState(uint stateMask)
+{
+	return (m_WindowState & stateMask) == stateMask;
+}
+
 void IWindow::SystemRender(const Vector2& basePos, const Rect& clipRect, uint state)
 {
 	uint myState = UiState::STATE_DEFAULT;
@@ -243,4 +256,11 @@ IWindow* IWindow::FindWindowUnderPoint(const Vector2& pos)
 	}
 
 	return this;
+}
+
+bool IWindow::Render(const Vector2& basePos, const Rect& clipRect, uint state)
+{
+	if (m_Size.x <= 0.0f || m_Size.y <= 0.0f) return false;
+	m_pBgStyle->Render(basePos+m_Position, m_Size, clipRect, state);
+	return true;
 }

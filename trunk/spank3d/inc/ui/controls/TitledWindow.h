@@ -8,8 +8,7 @@
 #ifndef __TITLEDWINDOW_H__
 #define __TITLEDWINDOW_H__
 
-#include "IWindow.h"
-#include "../style/IFontStyle.h"
+#include "TitleBar.h"
 
 class TitledWindow : public IWindow
 {
@@ -19,26 +18,19 @@ public:
 	TitledWindow(IWindow* parent);
 	virtual ~TitledWindow();
 
+	virtual void SetSize(float width, float height);
+
 	void SetTitle(const tstring& strTitle);
 	const tstring& GetTitle() const;
 
+	void SetTitleStyle(const tstring& styleId);
+	IGraphicsStyle* GetTitleStyle();
+
 protected:
-	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
+	virtual bool Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 private:
-	bool OnMouseDown(MouseEvent& event);
-	bool OnMouseUp(MouseEvent& event);
-	bool OnMouseMove(MouseEvent& event);
-
-private:
-	IGraphicsStyle* m_pTitleStyle;
-	IFontStyle* m_pFontStyle;
-
-	tstring m_strTitle;
-
-	Vector2 m_LastMouseDownPos;
-	Vector2 m_LastMouseDownWindowPos;
-	bool m_bMouseDown;
+	TitleBar* m_pTitleBar;
 
 };
 #endif // __TITLEDWINDOW_H__

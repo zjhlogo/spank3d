@@ -33,10 +33,10 @@ ITexture* Picture::GetTexture()
 	return m_pTexture;
 }
 
-void Picture::Render(const Vector2& basePos, const Rect& clipRect, uint state)
+bool Picture::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 {
-	m_pBgStyle->Render(basePos+m_Position, m_Size, clipRect, state);
-	if (!m_pTexture) return;
+	if (!IWindow::Render(basePos, clipRect, state)) return true;
+	if (!m_pTexture) return true;
 
 	const Vector2& paddingLT = m_pBgStyle->GetPaddingLT();
 	const Vector2& paddingRB = m_pBgStyle->GetPaddingRB();
@@ -48,4 +48,6 @@ void Picture::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 	float scale = scaleX < scaleY ? scaleX : scaleY;
 
 	g_pUiRenderer->DrawRect(basePos+m_Position+paddingLT, texSize*scale, 0xFFFFFFFF, clipRect, m_pTexture);
+
+	return true;
 }
