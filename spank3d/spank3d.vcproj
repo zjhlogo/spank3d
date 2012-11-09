@@ -577,6 +577,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ui\controls\TitleBar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\controls\TitleBar.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ui\controls\TitledWindow.cpp"
 					>
 				</File>

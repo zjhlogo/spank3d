@@ -32,14 +32,14 @@ public:
 	virtual void Render();
 
 private:
-	void RenderScene(const Matrix4x4& matProj, ITexture* pTexture);
+	void RenderTextureMap();
+	void RenderScene();
 
 private:
-	IShader* m_pShader;
+	IShader* m_pShaderScene;
+	IShader* m_pShaderUvMapping;
 	IMesh* m_pMesh;
-	ITexture* m_pTexture;
 
-	Matrix4x4 m_matRenderTargetProj;
 	IRenderTarget* m_pRenderTarget;
 	ITexture* m_pColorTexture;
 

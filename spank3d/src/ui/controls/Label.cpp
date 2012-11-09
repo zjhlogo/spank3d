@@ -29,7 +29,7 @@ const tstring& Label::GetLabel() const
 	return m_strLabel;
 }
 
-void Label::Render(const Vector2& basePos, const Rect& clipRect, uint state)
+bool Label::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 {
 	if (!m_strLabel.empty())
 	{
@@ -38,4 +38,6 @@ void Label::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 		pos.x = m_Position.x;
 		m_pFontStyle->Render(m_strLabel, basePos+pos, clipRect, state);
 	}
+
+	return true;
 }

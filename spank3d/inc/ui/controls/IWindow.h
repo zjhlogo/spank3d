@@ -68,16 +68,16 @@ public:
 	virtual ~IWindow();
 
 	void SetPosition(const Vector2& pos);
-	void SetPosition(float x, float y);
+	virtual void SetPosition(float x, float y);
 	const Vector2& GetPosition() const;
 	Vector2 GetPositionAbs() const;
 
 	void SetSize(const Vector2& size);
-	void SetSize(float width, float height);
+	virtual void SetSize(float width, float height);
 	const Vector2& GetSize() const;
 
 	void SetScroll(const Vector2& scroll);
-	void SetScroll(float scrollX, float scrollY);
+	virtual void SetScroll(float scrollX, float scrollY);
 	const Vector2& GetScroll() const;
 
 	IWindow* GetParent() const;
@@ -94,19 +94,8 @@ public:
 	IGraphicsStyle* GetBgStyle();
 
 	bool IsOnMe(const Vector2& pos);
-
-	inline bool SetWindowState(uint stateMask, bool set)
-	{
-		uint oldState = m_WindowState;
-		if (set) m_WindowState |= stateMask;
-		else m_WindowState &= (~stateMask);
-		return (oldState != m_WindowState);
-	};
-
-	inline bool CheckWindowState(uint stateMask)
-	{
-		return (m_WindowState & stateMask) == stateMask;
-	};
+	bool SetWindowState(uint stateMask, bool set);
+	bool CheckWindowState(uint stateMask);
 
 	void SystemRender(const Vector2& basePos, const Rect& clipRect, uint state);
 
@@ -118,7 +107,7 @@ public:
 	IWindow* FindWindowUnderPoint(const Vector2& pos);
 
 protected:
-	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state) = 0;
+	virtual bool Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 protected:
 	Vector2 m_Position;

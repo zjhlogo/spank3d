@@ -22,7 +22,7 @@ public:
 	ITexture* GetTexture();
 
 protected:
-	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
+	virtual bool Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 private:
 	ITexture* m_pTexture;

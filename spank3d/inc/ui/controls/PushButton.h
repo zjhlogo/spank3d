@@ -23,7 +23,7 @@ public:
 	const tstring& GetLabel() const;
 
 protected:
-	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
+	virtual bool Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 private:
 	IFontStyle* m_pFontStyle;

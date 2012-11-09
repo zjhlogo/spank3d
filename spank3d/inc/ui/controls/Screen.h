@@ -21,7 +21,7 @@ public:
 	uint GetScreenIndex() const;
 
 protected:
-	virtual void Render(const Vector2& basePos, const Rect& clipRect, uint state);
+	virtual bool Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 private:
 	uint m_nScreenIndex;
