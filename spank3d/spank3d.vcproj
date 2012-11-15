@@ -382,6 +382,10 @@
 			Name="type"
 			>
 			<File
+				RelativePath=".\src\type\BaseType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\type\BaseType.h"
 				>
 			</File>
@@ -537,6 +541,14 @@
 				Name="controls"
 				>
 				<File
+					RelativePath=".\src\ui\controls\HContainer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\controls\HContainer.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ui\controls\IWindow.cpp"
 					>
 				</File>
@@ -590,6 +602,14 @@
 				</File>
 				<File
 					RelativePath=".\inc\ui\controls\TitledWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ui\controls\VContainer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inc\ui\controls\VContainer.h"
 					>
 				</File>
 			</Filter>

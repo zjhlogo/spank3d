@@ -18,7 +18,7 @@ Rtti::~Rtti()
 	// TODO: 
 }
 
-const tstring& Rtti::GetClassName() const
+const tstring& Rtti::GetClsName() const
 {
 	return m_strClassName;
 }
@@ -39,7 +39,7 @@ bool Rtti::IsDerived(const tstring& strClassName) const
 
 	while (pRtti)
 	{
-		if (pRtti->GetClassName() == strClassName) return true;
+		if (pRtti->GetClsName() == strClassName) return true;
 		pRtti = pRtti->GetBaseRtti();
 	}
 

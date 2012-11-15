@@ -10,6 +10,7 @@
 
 #include <Spank3d.h>
 #include <ui/controls/Label.h>
+#include <ui/controls/VContainer.h>
 
 class Mandelbrot : public IApp
 {
@@ -28,7 +29,9 @@ public:
 private:
 	bool OnBtnDecIterationsDown(MouseEvent& event);
 	bool OnBtnIncIterationsDown(MouseEvent& event);
+
 	void UpdateIterations(int iterations);
+	void UpdateUi();
 
 	bool OnMouseDown(MouseEvent& event);
 	bool OnMouseUp(MouseEvent& event);
@@ -42,10 +45,19 @@ private:
 	Label* m_pLblMaxIterations;
 	int m_maxIterations;
 
+	Label* m_pLblZoom;
+	Label* m_pLblCenterPos;
+	VContainer* m_pVContainer;
+
 	float m_zoom;
+	float m_destZoom;
+	float m_zoomSpeed;
+	bool m_bZooming;
 
 	bool m_bMouseDown;
 	Vector2 m_centerPos;
+	Vector2 m_destCenterPos;
+	Vector2 m_centerPosSpeed;
 
 };
 #endif // __MANDELBROT_H__

@@ -16,7 +16,7 @@ public:
 	Rtti(const tstring& strClassName, const Rtti* pBaseRtti);
 	~Rtti();
 
-	const tstring& GetClassName() const;
+	const tstring& GetClsName() const;
 	const Rtti* GetBaseRtti() const;
 
 	bool IsType(const tstring& strClassName) const;

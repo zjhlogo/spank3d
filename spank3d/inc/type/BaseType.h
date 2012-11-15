@@ -48,4 +48,6 @@ typedef std::basic_string<tchar>	tstring;
 #define SAFE_DELETE_ARRAY(x)		if (x) {delete[] (x); (x) = NULL;}
 #define SAFE_RELEASE(x)				if (x) {(x)->Release(); (x) = NULL;}
 
+extern const tstring EMPTY_STRING;
+
 #endif // __BASETYPE_H__
