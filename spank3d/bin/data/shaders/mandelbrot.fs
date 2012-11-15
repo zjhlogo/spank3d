@@ -2,11 +2,8 @@
 
 uniform float u_maxIterations = 1.0;
 uniform float u_zoom = 1.0;
-uniform vec2 u_centerPos = vec2(0.0, 0.0);
 
-uniform vec3 INNER_COLOR = vec3(0.0, 0.0, 0.0);
-uniform vec3 OUTER_COLOR1 = vec3(0.0, 0.0, 0.1);
-uniform vec3 OUTER_COLOR2 = vec3(0.0, 1.0, 0.0);
+uniform vec2 u_centerPos = vec2(0.0, 0.0);
 
 in vec3 v2f_position;
 
