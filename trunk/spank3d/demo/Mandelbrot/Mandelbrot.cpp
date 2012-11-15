@@ -49,27 +49,26 @@ bool Mandelbrot::Initialize()
 
 	Screen* pMainScreen = g_pUiSystemMgr->GetCurrScreen();
 
-	// max iterations
-	HContainer* pHContaner = new HContainer(pMainScreen);
-	pHContaner->SetPosition(10.0f, 30.0f);
+	m_pVContainer = new VContainer(pMainScreen);
+	m_pVContainer->SetPosition(10.0f, 30.0f);
 
-	PushButton* pBtnDecIterations = new PushButton(pHContaner);
+	// max iterations
+	HContainer* pHContanerIteration = new HContainer(m_pVContainer);
+	PushButton* pBtnDecIterations = new PushButton(pHContanerIteration);
 	pBtnDecIterations->SetSize(20.0f, 20.0f);
 	pBtnDecIterations->SetLabel(_T("-"));
 	pBtnDecIterations->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnDecIterationsDown);
-
-	m_pLblMaxIterations = new Label(pHContaner, _T("Max Iterations: 000"));
-
-	PushButton* pBtnIncIterations = new PushButton(pHContaner);
+	m_pLblMaxIterations = new Label(pHContanerIteration, _T("Max Iterations: 00000"));
+	PushButton* pBtnIncIterations = new PushButton(pHContanerIteration);
 	pBtnIncIterations->SetSize(20.0f, 20.0f);
 	pBtnIncIterations->SetLabel(_T("+"));
 	pBtnIncIterations->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnIncIterationsDown);
+	pHContanerIteration->ReLayout();
 
-	pHContaner->ReLayout();
-
-	m_pVContainer = new VContainer(pMainScreen);
-	m_pVContainer->SetPosition(10.0f, 60.0f);
+	// zoom
 	m_pLblZoom = new Label(m_pVContainer);
+
+	// center pos
 	m_pLblCenterPos = new Label(m_pVContainer);
 
 	UpdateIterations(m_maxIterations);
@@ -134,7 +133,7 @@ void Mandelbrot::Render()
 	m_pShader->SetMatrix4x4(_("u_matModelViewProj"), m_matModelViewProj);
 
 	m_pShader->SetFloat(_("u_maxIterations"), float(m_maxIterations));
-	m_pShader->SetFloat(_("u_zoom"), float(m_zoom));
+	m_pShader->SetFloat(_("u_zoom"), m_zoom);
 	m_pShader->SetVector2(_("u_centerPos"), m_centerPos);
 
 	m_pShader->DrawTriangleList(s_Verts, 4, s_Indis, 6);
