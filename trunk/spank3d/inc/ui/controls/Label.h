@@ -16,7 +16,7 @@ class Label : public IWindow
 public:
 	RTTI_DEF(Label, IWindow);
 
-	Label(IWindow* pParent);
+	Label(IWindow* pParent, const tstring& strLabel = EMPTY_STRING);
 	virtual ~Label();
 
 	void SetLabel(const tstring& strLabel);
@@ -28,6 +28,7 @@ protected:
 private:
 	IFontStyle* m_pFontStyle;
 	tstring m_strLabel;
+	Vector2 m_TextSize;
 
 };
 #endif // __LABEL_H__

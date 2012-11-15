@@ -152,8 +152,10 @@ bool IWindow::RemoveChild(IWindow* pChild)
 	return false;
 }
 
-void IWindow::RemoveAllChildren()
+bool IWindow::RemoveAllChildren()
 {
+	if (m_vChildren.empty()) return false;
+
 	for (TV_WINDOW::iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
 	{
 		IWindow* pChild = (*it);
@@ -161,6 +163,8 @@ void IWindow::RemoveAllChildren()
 	}
 
 	m_vChildren.clear();
+
+	return true;
 }
 
 bool IWindow::FindChild(IWindow* pChild)

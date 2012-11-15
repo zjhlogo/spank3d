@@ -235,13 +235,11 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_MOUSEWHEEL:
 		{
-			short x = LOWORD(lParam);
-			short y = HIWORD(lParam);
 			short wheel = HIWORD(wParam);
 
 			// dispatch event
 			MouseEvent mouseEvent(MouseEvent::MOUSE_WHEEL);
-			mouseEvent.SetPosition(x, y);
+			mouseEvent.SetPosition(s_nLastMousePosX, s_nLastMousePosY);
 			mouseEvent.SetWheelDetail(wheel);
 			g_pDevice->DispatchEvent(mouseEvent);
 		}
@@ -283,6 +281,8 @@ bool Device_Impl::InternalCreateWindow()
 
 	HINSTANCE hInst = (HINSTANCE)GetModuleHandle(NULL);
 
+	const tstring& strClsName = g_pApp->GetRtti()->GetClsName();
+
 	WNDCLASSEX wc = {sizeof(WNDCLASSEX),	// Specifies the size of this structure
 		CS_OWNDC,							// Specifies the class style
 		MainWndProc,						// Pointer to the window procedure
@@ -293,7 +293,7 @@ bool Device_Impl::InternalCreateWindow()
 		LoadCursor(NULL, IDC_ARROW),		// Handle to the class cursor
 		(HBRUSH)COLOR_WINDOW,				// Handle to the class background brush
 		NULL,								// resource name of the class menu
-		"SPANK3D",							// Pointer to a null-terminated string or is an atom
+		strClsName.c_str(),					// Pointer to a null-terminated string or is an atom
 		LoadIcon(NULL, IDI_APPLICATION)};	// Handle to a small icon that is associated with the window class
 	RegisterClassEx(&wc);
 
@@ -308,8 +308,8 @@ bool Device_Impl::InternalCreateWindow()
 	uint nAdjustHeight = rc.bottom - rc.top;
 
 	// create the window
-	g_hWnd = CreateWindow("SPANK3D",
-		"Spank 3D",
+	g_hWnd = CreateWindow(strClsName.c_str(),
+		strClsName.c_str(),
 		dwStyle,
 		(nScreenWidth-nAdjustWidth)/2,
 		(nScreenHeight-nAdjustHeight)/2,

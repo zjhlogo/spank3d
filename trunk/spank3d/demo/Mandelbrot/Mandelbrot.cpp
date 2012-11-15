@@ -9,6 +9,7 @@
 #include <util/AppUtil.h>
 #include <ui/controls/PushButton.h>
 #include <ui/controls/Label.h>
+#include <ui/controls/HContainer.h>
 #include <util/StringUtil.h>
 
 IMPLEMENT_APP(Mandelbrot);
@@ -18,9 +19,17 @@ Mandelbrot::Mandelbrot()
 	m_pShader = NULL;
 
 	m_pLblMaxIterations = NULL;
-	m_maxIterations = 1;
+	m_maxIterations = 128;
+
+	m_pLblZoom = NULL;
+	m_pLblCenterPos = NULL;
+	m_pVContainer = NULL;
 
 	m_zoom = 1.0f;
+	m_destZoom = 1.0f;
+	m_zoomSpeed = 0.0f;
+	m_bZooming = false;
+
 	m_bMouseDown = false;
 }
 
@@ -41,23 +50,30 @@ bool Mandelbrot::Initialize()
 	Screen* pMainScreen = g_pUiSystemMgr->GetCurrScreen();
 
 	// max iterations
-	PushButton* pBtnDecIterations = new PushButton(pMainScreen);
-	pBtnDecIterations->SetPosition(10.0f, 30.0f);
+	HContainer* pHContaner = new HContainer(pMainScreen);
+	pHContaner->SetPosition(10.0f, 30.0f);
+
+	PushButton* pBtnDecIterations = new PushButton(pHContaner);
 	pBtnDecIterations->SetSize(20.0f, 20.0f);
 	pBtnDecIterations->SetLabel(_T("-"));
 	pBtnDecIterations->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnDecIterationsDown);
 
-	m_pLblMaxIterations = new Label(pMainScreen);
-	m_pLblMaxIterations->SetPosition(40.0f, 30.0f);
-	m_pLblMaxIterations->SetSize(100.0f, 20.0f);
+	m_pLblMaxIterations = new Label(pHContaner, _T("Max Iterations: 000"));
 
-	PushButton* pBtnIncIterations = new PushButton(pMainScreen);
-	pBtnIncIterations->SetPosition(150.0f, 30.0f);
+	PushButton* pBtnIncIterations = new PushButton(pHContaner);
 	pBtnIncIterations->SetSize(20.0f, 20.0f);
 	pBtnIncIterations->SetLabel(_T("+"));
 	pBtnIncIterations->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnIncIterationsDown);
 
+	pHContaner->ReLayout();
+
+	m_pVContainer = new VContainer(pMainScreen);
+	m_pVContainer->SetPosition(10.0f, 60.0f);
+	m_pLblZoom = new Label(m_pVContainer);
+	m_pLblCenterPos = new Label(m_pVContainer);
+
 	UpdateIterations(m_maxIterations);
+	UpdateUi();
 
 	g_pDevice->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnMouseDown);
 	g_pDevice->RegisterEvent(MouseEvent::LBUTTON_UP, this, (FUNC_HANDLER)&Mandelbrot::OnMouseUp);
@@ -75,7 +91,29 @@ void Mandelbrot::Terminate()
 
 void Mandelbrot::Update(float dt)
 {
-	// TODO: 
+	if (m_bZooming)
+	{
+		m_zoom += (m_zoomSpeed*dt);
+		m_centerPos += (m_centerPosSpeed*dt);
+
+		if (m_zoomSpeed > 0.0f)
+		{
+			if (m_zoom >= m_destZoom) m_bZooming = false;
+		}
+		else
+		{
+			if (m_zoom <= m_destZoom) m_bZooming = false;
+		}
+
+		if (!m_bZooming)
+		{
+			m_zoomSpeed = 0.0f;
+			m_zoom = m_destZoom;
+
+			m_centerPosSpeed.Reset();
+			m_centerPos = m_destCenterPos;
+		}
+	}
 }
 
 void Mandelbrot::Render()
@@ -107,12 +145,14 @@ void Mandelbrot::Render()
 bool Mandelbrot::OnBtnDecIterationsDown(MouseEvent& event)
 {
 	UpdateIterations(m_maxIterations-1);
+	UpdateUi();
 	return true;
 }
 
 bool Mandelbrot::OnBtnIncIterationsDown(MouseEvent& event)
 {
 	UpdateIterations(m_maxIterations+1);
+	UpdateUi();
 	return true;
 }
 
@@ -120,10 +160,6 @@ void Mandelbrot::UpdateIterations(int iterations)
 {
 	m_maxIterations = iterations;
 	if (m_maxIterations < 1) m_maxIterations = 1;
-
-	tstring strLabel;
-	StringUtil::strformat(strLabel, _T("Max Iterations: %d"), m_maxIterations);
-	m_pLblMaxIterations->SetLabel(strLabel);
 }
 
 bool Mandelbrot::OnMouseDown(MouseEvent& event)
@@ -143,8 +179,10 @@ bool Mandelbrot::OnMouseMove(MouseEvent& event)
 	if (m_bMouseDown)
 	{
 		const Vector2& offset = event.GetOffset();
-		m_centerPos.x -= (offset.x / g_pDevice->GetSize().y * m_zoom * 3.75f);
-		m_centerPos.y += (offset.y / g_pDevice->GetSize().y * m_zoom * 3.75f);
+		m_destCenterPos.x -= (offset.x / g_pDevice->GetSize().y * m_zoom * 3.75f);
+		m_destCenterPos.y += (offset.y / g_pDevice->GetSize().y * m_zoom * 3.75f);
+		m_centerPos = m_destCenterPos;
+		UpdateUi();
 	}
 
 	return true;
@@ -154,12 +192,36 @@ bool Mandelbrot::OnMouseWheel(MouseEvent& event)
 {
 	if (event.GetWheelDetail() < 0)
 	{
-		m_zoom *= 2.0f;
+		m_destZoom *= 2.0f;
+		m_bZooming = true;
 	}
 	else
 	{
-		m_zoom *= 0.5f;
+		m_destZoom *= 0.5f;
+		m_bZooming = true;
 	}
+	m_zoomSpeed = m_destZoom - m_zoom;
 
+	Vector2 mouseOffset = event.GetPosition() - g_pDevice->GetSize()*0.5f;
+	m_destCenterPos.x = m_centerPos.x + mouseOffset.x / g_pDevice->GetSize().y * m_zoom * 3.75f;
+	m_destCenterPos.y = m_centerPos.y - mouseOffset.y / g_pDevice->GetSize().y * m_zoom * 3.75f;
+	m_centerPosSpeed = m_destCenterPos - m_centerPos;
+
+	UpdateUi();
 	return true;
+}
+
+void Mandelbrot::UpdateUi()
+{
+	tstring strLabel;
+	StringUtil::strformat(strLabel, _T("Max Iterations: %d"), m_maxIterations);
+	m_pLblMaxIterations->SetLabel(strLabel);
+
+	StringUtil::strformat(strLabel, _T("Use Mouse Wheel To Zoom In / Zoom Out, Current Zoom: %f"), m_destZoom);
+	m_pLblZoom->SetLabel(strLabel);
+
+	StringUtil::strformat(strLabel, _T("Use Mouse Left Button To Drag, Current Center Pos: (%f, %f)"), m_destCenterPos.x, m_destCenterPos.y);
+	m_pLblCenterPos->SetLabel(strLabel);
+
+	m_pVContainer->ReLayout();
 }

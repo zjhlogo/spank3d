@@ -31,14 +31,9 @@ void main()
 	}
 
 	vec3 color;
-	if (r2 < 4.0)
-	{
-		color = INNER_COLOR;
-	}
-	else
-	{
-		color = mix(OUTER_COLOR1, OUTER_COLOR2, fract(iter * 0.05));
-	}
+	color.r = (sin((iter/u_maxIterations+0.3)*6.282)+1.0)*0.5;
+	color.g = (sin((iter/u_maxIterations+0.5)*6.282)+1.0)*0.5;
+	color.b = (sin((iter/u_maxIterations+0.7)*6.282)+1.0)*0.5;
 
 	f2d_color = vec4(color, 1.0);
 }

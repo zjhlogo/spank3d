@@ -85,9 +85,9 @@ public:
 	void SetTag(const tstring& tag);
 	const tstring& GetTag() const;
 
-	bool AddChild(IWindow* pChild, uint index = UINT_MAX);
-	bool RemoveChild(IWindow* pChild);
-	void RemoveAllChildren();
+	virtual bool AddChild(IWindow* pChild, uint index = UINT_MAX);
+	virtual bool RemoveChild(IWindow* pChild);
+	virtual bool RemoveAllChildren();
 	bool FindChild(IWindow* pChild);
 
 	bool SetBgStyle(const tstring& styleId);
