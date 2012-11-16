@@ -8,6 +8,7 @@
 #include <ui/controls/IWindow.h>
 #include <ui/UiState.h>
 #include <Spank3d.h>
+#include <event/WindowEvent.h>
 
 IWindow::IWindow(IWindow* pParent)
 {
@@ -75,6 +76,8 @@ void IWindow::SetSize(float width, float height)
 {
 	m_Size.x = width;
 	m_Size.y = height;
+
+	DispatchEvent(WindowEvent(WindowEvent::WINDOW_SIZE_CHANGED));
 }
 
 const Vector2& IWindow::GetSize() const

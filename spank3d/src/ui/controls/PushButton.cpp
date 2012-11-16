@@ -6,27 +6,19 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/controls/PushButton.h>
+#include <ui/UiState.h>
 #include <Spank3d.h>
 
 PushButton::PushButton(IWindow* pParent)
-:IWindow(pParent)
+:Label(pParent, true)
 {
-	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
+	m_paddingLT.Reset(5.0f, 1.0f);
+	m_paddingRB.Reset(5.0f, 1.0f);
 }
 
 PushButton::~PushButton()
 {
 	// TODO: 
-}
-
-void PushButton::SetLabel(const tstring& strLabel)
-{
-	m_strLabel = strLabel;
-}
-
-const tstring& PushButton::GetLabel() const
-{
-	return m_strLabel;
 }
 
 bool PushButton::Render(const Vector2& basePos, const Rect& clipRect, uint state)
@@ -35,10 +27,15 @@ bool PushButton::Render(const Vector2& basePos, const Rect& clipRect, uint state
 
 	if (!m_strLabel.empty())
 	{
-		Vector2 textSize = m_pFontStyle->CalcSize(m_strLabel, state);
-		Vector2 pos = m_Position + (m_Size - textSize) * 0.5f;
+		Vector2 clientSize = m_Size - m_pBgStyle->GetPaddingLT() - m_pBgStyle->GetPaddingRB() - m_paddingLT - m_paddingRB;
+		Vector2 pos = m_Position + m_pBgStyle->GetPaddingLT() + m_paddingLT + (clientSize - m_TextSize) * 0.5f;
 		m_pFontStyle->Render(m_strLabel, basePos+pos, clipRect, state);
 	}
 
 	return true;
+}
+
+void PushButton::AdjustSize()
+{
+	SetSize(m_TextSize+m_pBgStyle->GetPaddingLT()+m_pBgStyle->GetPaddingRB()+m_paddingLT+m_paddingRB);
 }

@@ -8,26 +8,21 @@
 #ifndef __PUSHBUTTON_H__
 #define __PUSHBUTTON_H__
 
-#include "IWindow.h"
-#include "../style/IFontStyle.h"
+#include "Label.h"
 
-class PushButton : public IWindow
+class PushButton : public Label
 {
 public:
-	RTTI_DEF(PushButton, IWindow);
+	RTTI_DEF(PushButton, Label);
 
 	PushButton(IWindow* pParent);
 	virtual ~PushButton();
 
-	void SetLabel(const tstring& strLabel);
-	const tstring& GetLabel() const;
-
 protected:
 	virtual bool Render(const Vector2& basePos, const Rect& clipRect, uint state);
+	virtual void AdjustSize();
 
 private:
-	IFontStyle* m_pFontStyle;
-	tstring m_strLabel;
 
 };
 #endif // __PUSHBUTTON_H__

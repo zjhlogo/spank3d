@@ -9,6 +9,7 @@
 #define __VCONTAINER_H__
 
 #include "IWindow.h"
+#include "../../event/WindowEvent.h"
 
 class VContainer : public IWindow
 {
@@ -18,13 +19,21 @@ public:
 	VContainer(IWindow* pParent);
 	virtual ~VContainer();
 
+	virtual bool AddChild(IWindow* pChild, uint index = UINT_MAX);
+	virtual bool RemoveChild(IWindow* pChild);
+	virtual bool RemoveAllChildren();
+
 	void ReLayout();
 
 protected:
 	virtual bool Render(const Vector2& basePos, const Rect& clipRect, uint state);
 
 private:
-	float m_padding;
+	bool OnChildrenSizeChanged(WindowEvent& event);
+
+private:
+	Vector2 m_paddingLT;
+	Vector2 m_paddingRB;
 
 };
 #endif // __VCONTAINER_H__

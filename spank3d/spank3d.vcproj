@@ -441,6 +441,14 @@
 				RelativePath=".\inc\event\PreMouseEvent.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\event\WindowEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\event\WindowEvent.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="camera"
