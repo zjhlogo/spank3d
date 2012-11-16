@@ -9,12 +9,15 @@
 #include <ui/UiState.h>
 #include <Spank3d.h>
 
-Label::Label(IWindow* pParent, const tstring& strLabel /* = EMPTY_STRING */)
+Label::Label(IWindow* pParent, bool solid /*= false*/)
 :IWindow(pParent)
 {
 	m_pFontStyle = g_pUiResMgr->FindFontStyle(_("12px_Tahoma"));
-	SetWindowState(WS_SOLID, false);
-	SetLabel(strLabel);
+
+	m_paddingLT.Reset(1.0f, 1.0f);
+	m_paddingRB.Reset(1.0f, 1.0f);
+
+	SetWindowState(WS_SOLID, solid);
 }
 
 Label::~Label()
@@ -26,7 +29,7 @@ void Label::SetLabel(const tstring& strLabel)
 {
 	m_strLabel = strLabel;
 	m_TextSize = m_pFontStyle->CalcSize(m_strLabel, UiState::STATE_DEFAULT);
-	SetSize(m_TextSize);
+	AdjustSize();
 }
 
 const tstring& Label::GetLabel() const
@@ -44,4 +47,9 @@ bool Label::Render(const Vector2& basePos, const Rect& clipRect, uint state)
 	}
 
 	return true;
+}
+
+void Label::AdjustSize()
+{
+	SetSize(m_TextSize+m_paddingLT+m_paddingRB);
 }

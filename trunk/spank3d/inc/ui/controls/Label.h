@@ -16,7 +16,7 @@ class Label : public IWindow
 public:
 	RTTI_DEF(Label, IWindow);
 
-	Label(IWindow* pParent, const tstring& strLabel = EMPTY_STRING);
+	Label(IWindow* pParent, bool solid = false);
 	virtual ~Label();
 
 	void SetLabel(const tstring& strLabel);
@@ -24,11 +24,15 @@ public:
 
 protected:
 	virtual bool Render(const Vector2& basePos, const Rect& clipRect, uint state);
+	virtual void AdjustSize();
 
-private:
+protected:
 	IFontStyle* m_pFontStyle;
 	tstring m_strLabel;
 	Vector2 m_TextSize;
+
+	Vector2 m_paddingLT;
+	Vector2 m_paddingRB;
 
 };
 #endif // __LABEL_H__

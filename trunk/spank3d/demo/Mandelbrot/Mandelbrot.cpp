@@ -55,15 +55,13 @@ bool Mandelbrot::Initialize()
 	// max iterations
 	HContainer* pHContanerIteration = new HContainer(m_pVContainer);
 	PushButton* pBtnDecIterations = new PushButton(pHContanerIteration);
-	pBtnDecIterations->SetSize(20.0f, 20.0f);
 	pBtnDecIterations->SetLabel(_T("-"));
 	pBtnDecIterations->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnDecIterationsDown);
-	m_pLblMaxIterations = new Label(pHContanerIteration, _T("Max Iterations: 00000"));
+	m_pLblMaxIterations = new Label(pHContanerIteration);
+	m_pLblMaxIterations->SetLabel(_T("Max Iterations: 00000"));
 	PushButton* pBtnIncIterations = new PushButton(pHContanerIteration);
-	pBtnIncIterations->SetSize(20.0f, 20.0f);
 	pBtnIncIterations->SetLabel(_T("+"));
 	pBtnIncIterations->RegisterEvent(MouseEvent::LBUTTON_DOWN, this, (FUNC_HANDLER)&Mandelbrot::OnBtnIncIterationsDown);
-	pHContanerIteration->ReLayout();
 
 	// zoom
 	m_pLblZoom = new Label(m_pVContainer);
@@ -221,6 +219,4 @@ void Mandelbrot::UpdateUi()
 
 	StringUtil::strformat(strLabel, _T("Use Mouse Left Button To Drag, Current Center Pos: (%f, %f)"), m_destCenterPos.x, m_destCenterPos.y);
 	m_pLblCenterPos->SetLabel(strLabel);
-
-	m_pVContainer->ReLayout();
 }
