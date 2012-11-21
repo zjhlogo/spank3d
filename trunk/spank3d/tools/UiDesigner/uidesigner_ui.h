@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      zjhlogo
 // Modified by: 
-// Created:     21/11/2012 14:12:52
+// Created:     21/11/2012 17:43:55
 // RCS-ID:      
 // Copyright:   zjhlogo (C) 2011-2012
 // Licence:     
@@ -74,11 +74,9 @@ public:
 	void CreateControls();
 
 ////@begin UiDesigner_ui event handler declarations
-
 ////@end UiDesigner_ui event handler declarations
 
 ////@begin UiDesigner_ui member function declarations
-
 	/// Returns the AUI manager object
 	wxAuiManager& GetAuiManager() { return m_auiManager; }
 

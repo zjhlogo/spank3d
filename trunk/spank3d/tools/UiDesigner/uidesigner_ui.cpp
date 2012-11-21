@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      zjhlogo
 // Modified by: 
-// Created:     21/11/2012 14:12:52
+// Created:     21/11/2012 17:43:55
 // RCS-ID:      
 // Copyright:   zjhlogo (C) 2011-2012
 // Licence:     
@@ -27,6 +27,7 @@
 #include "uidesigner_ui.h"
 
 ////@begin XPM images
+
 #include "images/doc_new.xpm"
 #include "images/folder_open.xpm"
 #include "images/save.xpm"
