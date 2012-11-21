@@ -8,6 +8,8 @@
 #ifndef __IMAGEPACKERAPP_H__
 #define __IMAGEPACKERAPP_H__
 
+#include <wx/app.h>
+
 class ImagePackerApp : public wxApp
 {
 public:

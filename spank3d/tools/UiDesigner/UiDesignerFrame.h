@@ -8,6 +8,7 @@
 #ifndef __UIDESIGNERFRAME_H__
 #define __UIDESIGNERFRAME_H__
 
+#include <wx/wx.h>
 #include "uidesigner_ui.h"
 
 class UiDesignerFrame : public UiDesigner_ui
