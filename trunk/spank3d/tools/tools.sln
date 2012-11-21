@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtinyxml", "..\vendor\tin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UiImagePacker", "UiImagePacker\UiImagePacker.vcproj", "{93BB0F52-9F03-4906-B764-95E6DDA6120C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UiDesigner", "UiDesigner\UiDesigner.vcproj", "{16449F0E-42E7-4E81-B225-0CAEDB861DC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -28,6 +30,10 @@ Global
 		{93BB0F52-9F03-4906-B764-95E6DDA6120C}.Debug|Win32.Build.0 = Debug|Win32
 		{93BB0F52-9F03-4906-B764-95E6DDA6120C}.Release|Win32.ActiveCfg = Release|Win32
 		{93BB0F52-9F03-4906-B764-95E6DDA6120C}.Release|Win32.Build.0 = Release|Win32
+		{16449F0E-42E7-4E81-B225-0CAEDB861DC3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{16449F0E-42E7-4E81-B225-0CAEDB861DC3}.Debug|Win32.Build.0 = Debug|Win32
+		{16449F0E-42E7-4E81-B225-0CAEDB861DC3}.Release|Win32.ActiveCfg = Release|Win32
+		{16449F0E-42E7-4E81-B225-0CAEDB861DC3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

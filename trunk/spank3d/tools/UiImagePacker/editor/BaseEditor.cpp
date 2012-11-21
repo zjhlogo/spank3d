@@ -5,8 +5,9 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "BaseEditor.h"
+#include <wx/wxprec.h>
 #include <wx/dcbuffer.h>
+#include "BaseEditor.h"
 
 #define SAFE_DELETE(x) if (x) {delete (x); (x) = NULL;}
 

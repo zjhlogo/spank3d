@@ -8,7 +8,6 @@
 #ifndef __PIECELISTTRANSFORMER_H__
 #define __PIECELISTTRANSFORMER_H__
 
-#include <wx/treectrl.h>
 #include <wx/propgrid/propgrid.h>
 #include "../document/PieceInfo.h"
 

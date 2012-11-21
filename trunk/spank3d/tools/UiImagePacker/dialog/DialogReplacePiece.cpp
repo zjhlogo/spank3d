@@ -5,12 +5,11 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "DialogReplacePiece.h"
-#include <wx/msgdlg.h>
-#include <wx/filedlg.h>
+#include <wx/wxprec.h>
 #include <wx/dcgraph.h>
 #include <algorithm>
 
+#include "DialogReplacePiece.h"
 #include "../Config.h"
 #include "../document/ImagePieceDocument.h"
 #include "../document/ProjectDocument.h"

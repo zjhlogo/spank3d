@@ -5,8 +5,10 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "NineGridStyleEditor.h"
 #include "../Config.h"
+
 NineGridStyleEditor* NineGridStyleEditor::m_pNineGridStyleEditor = NULL;
 
 NineGridStyleEditor::NineGridStyleEditor()

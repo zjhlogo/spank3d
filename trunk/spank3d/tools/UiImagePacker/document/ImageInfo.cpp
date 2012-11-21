@@ -5,9 +5,9 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "ImageInfo.h"
 #include "ProjectDocument.h"
-#include <wx/msgdlg.h>
 #include "../utils/FileUtil.h"
 #include "../ImagePackerFrame.h"
 

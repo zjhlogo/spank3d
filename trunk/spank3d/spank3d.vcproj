@@ -454,6 +454,14 @@
 			Name="camera"
 			>
 			<File
+				RelativePath=".\src\camera\FreeCameraControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\camera\FreeCameraControl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\camera\ICamera.cpp"
 				>
 			</File>

@@ -5,6 +5,7 @@
 
 	@brief RectangleBinPack is a data structure for performing online rectangle bin packing.
 */
+#include <wx/wxprec.h>
 #include "RectangleBinPack.h"
 
 RectangleBinPack::RectangleBinPack()
