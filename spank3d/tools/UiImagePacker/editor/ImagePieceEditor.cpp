@@ -5,6 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "ImagePieceEditor.h"
 #include "../document/ImagePieceDocument.h"
 #include "../transformer/PieceListTransformer.h"

@@ -8,7 +8,6 @@
 #ifndef __CLIPBITMAPSTYLETRANSFORMER_H__
 #define __CLIPBITMAPSTYLETRANSFORMER_H__
 
-#include <wx/treectrl.h>
 #include <wx/propgrid/propgrid.h>
 #include "../document/ClipBitmapStyle.h"
 

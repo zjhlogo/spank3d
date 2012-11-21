@@ -8,9 +8,7 @@
 #ifndef __COLORSTYLETRANSFORMER_H__
 #define __COLORSTYLETRANSFORMER_H__
 
-#include <wx/treectrl.h>
 #include <wx/propgrid/propgrid.h>
-#include <wx/propgrid/advprops.h>
 #include "../document/ColorStyle.h"
 
 class ColorStyleTransformer

@@ -5,13 +5,8 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "ImagePackerFrame.h"
-#include <wx/menu.h>
-#include <wx/propgrid/propgrid.h>
-#include <wx/propgrid/advprops.h>
-#include <wx/treectrl.h>
-#include <wx/filedlg.h>
-#include <wx/textdlg.h>
 
 #include "resource.h"
 #include "Config.h"

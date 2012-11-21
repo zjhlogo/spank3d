@@ -5,11 +5,13 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "NineGridStyleTransformer.h"
 #include "../ImagePackerFrame.h"
 #include "../document/NineGridStyleDocument.h"
 #include "../document/ImagePieceDocument.h"
 #include "../editor/NineGridStyleEditor.h"
+#include <wx/propgrid/advprops.h>
 
 NineGridStyleTransformer::NineGridStyleTransformer()
 {

@@ -8,7 +8,6 @@
 #ifndef __DIALOGADDPIECE_H__
 #define __DIALOGADDPIECE_H__
 
-#include <wx/wx.h>
 #include "../document/ImageInfo.h"
 #include "../document/PieceInfo.h"
 #include "../utils/RectangleBinPack.h"

@@ -8,7 +8,6 @@
 #ifndef __IMAGELISTTRANSFORMER_H__
 #define __IMAGELISTTRANSFORMER_H__
 
-#include <wx/treectrl.h>
 #include <wx/propgrid/propgrid.h>
 #include "../document/ImageInfo.h"
 

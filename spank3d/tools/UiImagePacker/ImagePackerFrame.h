@@ -8,11 +8,9 @@
 #ifndef __IMAGEPACKERFRAME_H__
 #define __IMAGEPACKERFRAME_H__
 
-#include <wx/frame.h>
-#include <wx/aui/aui.h>
-#include <wx/treectrl.h>
-#include <wx/propgrid/propgrid.h>
 #include <set>
+#include <wx/aui/aui.h>
+#include <wx/propgrid/propgrid.h>
 
 #include "document/PieceInfo.h"
 #include "document/ImageInfo.h"

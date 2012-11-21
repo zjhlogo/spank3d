@@ -5,10 +5,12 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "ColorStyleTransformer.h"
 #include "../ImagePackerFrame.h"
 #include "../document/ColorStyleDocument.h"
 #include "../editor/ColorStyleEditor.h"
+#include <wx/propgrid/advprops.h>
 
 ColorStyleTransformer::ColorStyleTransformer()
 {

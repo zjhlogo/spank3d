@@ -5,6 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "ImagePackerApp.h"
 #include "ImagePackerFrame.h"
 

@@ -5,9 +5,9 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "NineGridStyle.h"
 #include "ImagePieceDocument.h"
-#include <wx/msgdlg.h>
 #include "../ImagePackerFrame.h"
 
 #define SAFE_DELETE(x) if (x) {delete (x); (x) = NULL;}

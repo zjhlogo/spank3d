@@ -5,6 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
+#include <wx/wxprec.h>
 #include "ClipBitmapStyleTransformer.h"
 #include "../ImagePackerFrame.h"
 #include "../document/ClipBitmapStyleDocument.h"

@@ -8,7 +8,6 @@
 #ifndef __BITMAPSTYLETRANSFORMER_H__
 #define __BITMAPSTYLETRANSFORMER_H__
 
-#include <wx/treectrl.h>
 #include <wx/propgrid/propgrid.h>
 #include "../document/BitmapStyle.h"
 

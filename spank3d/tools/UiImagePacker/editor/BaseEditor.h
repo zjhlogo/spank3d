@@ -8,9 +8,6 @@
 #ifndef __BASEEDITOR_H__
 #define __BASEEDITOR_H__
 
-#include <wx/scrolwin.h>
-#include <wx/bitmap.h>
-#include <wx/dcmemory.h>
 #include "../document/PieceInfo.h"
 
 class BaseEditor : public wxWindow

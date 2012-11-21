@@ -8,9 +8,7 @@
 #ifndef __NINEGRIDSTYLETRANSFORMER_H__
 #define __NINEGRIDSTYLETRANSFORMER_H__
 
-#include <wx/treectrl.h>
 #include <wx/propgrid/propgrid.h>
-#include <wx/propgrid/advprops.h>
 #include "../document/NineGridStyle.h"
 
 class NineGridStyleTransformer
