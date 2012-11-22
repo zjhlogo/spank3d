@@ -19,7 +19,7 @@ HorizontalPatchStyle::~HorizontalPatchStyle()
 {
 	for (TV_HORIZONTAL_PATCH_INFO::iterator it = m_vHorizontalPatchInfo.begin(); it != m_vHorizontalPatchInfo.end(); ++it)
 	{
-		HORIZONTAL_PATCH_INFO *pHorizontalPatchInfo = (*it);
+		HORIZONTAL_PATCH_INFO* pHorizontalPatchInfo = (*it);
 		SAFE_DELETE(pHorizontalPatchInfo);
 	}
 	m_vHorizontalPatchInfo.clear();
@@ -29,7 +29,7 @@ bool HorizontalPatchStyle::Render(const Vector2& pos, const Vector2& size, const
 {
 	for (TV_HORIZONTAL_PATCH_INFO::iterator it = m_vHorizontalPatchInfo.begin(); it != m_vHorizontalPatchInfo.end(); ++it)
 	{
-		HORIZONTAL_PATCH_INFO *pHorizontalPatchInfo = (*it);
+		HORIZONTAL_PATCH_INFO* pHorizontalPatchInfo = (*it);
 		if ((pHorizontalPatchInfo->nState & state) != 0)
 		{
 			return RenderHorizontalPatchPiece(*pHorizontalPatchInfo, pos, size, clipRect);
@@ -39,9 +39,9 @@ bool HorizontalPatchStyle::Render(const Vector2& pos, const Vector2& size, const
 	return true;
 }
 
-bool HorizontalPatchStyle::LoadFromXml(TiXmlElement* pXmlHorizontalPatchStyle)
+bool HorizontalPatchStyle::FromXml(TiXmlElement* pXmlHorizontalPatchStyle)
 {
-	if (!IGraphicsStyle::LoadFromXml(pXmlHorizontalPatchStyle)) return false;
+	if (!IGraphicsStyle::FromXml(pXmlHorizontalPatchStyle)) return false;
 
 	for (TiXmlElement* pXmlState = pXmlHorizontalPatchStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
@@ -103,6 +103,32 @@ bool HorizontalPatchStyle::LoadFromXml(TiXmlElement* pXmlHorizontalPatchStyle)
 	}
 
 	return true;
+}
+
+TiXmlElement* HorizontalPatchStyle::ToXml()
+{
+	TiXmlElement* pXmlHorizontalPatchStyle = new TiXmlElement(_("HorizontalPatchStyle"));
+	if (!IGraphicsStyle::ToXml(pXmlHorizontalPatchStyle))
+	{
+		SAFE_DELETE(pXmlHorizontalPatchStyle);
+		return NULL;
+	}
+
+	for (TV_HORIZONTAL_PATCH_INFO::const_iterator it = m_vHorizontalPatchInfo.begin(); it != m_vHorizontalPatchInfo.end(); ++it)
+	{
+		const HORIZONTAL_PATCH_INFO* pHorizontalPatchInfo = (*it);
+
+		tstring strState = UiState::GetStateString(pHorizontalPatchInfo->nState);
+		TiXmlElement* pXmlState = new TiXmlElement(_("State"));
+		pXmlState->SetAttribute(_("id"), strState.c_str());
+		pXmlState->SetAttribute(_("piece"), pHorizontalPatchInfo->pPieceInfo->GetId().c_str());
+		pXmlState->SetAttribute(_("minY"), int(pHorizontalPatchInfo->pieceWidths[0]));
+		pXmlState->SetAttribute(_("maxY"), int(pHorizontalPatchInfo->pieceWidths[0]+pHorizontalPatchInfo->pieceWidths[1]));
+
+		pXmlHorizontalPatchStyle->LinkEndChild(pXmlState);
+	}
+
+	return pXmlHorizontalPatchStyle;
 }
 
 bool HorizontalPatchStyle::RenderHorizontalPatchPiece(HORIZONTAL_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)

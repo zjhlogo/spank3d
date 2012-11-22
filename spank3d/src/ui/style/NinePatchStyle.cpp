@@ -19,7 +19,7 @@ NinePatchStyle::~NinePatchStyle()
 {
 	for (TV_NINE_PATCH_INFO::iterator it = m_vNinePatchInfo.begin(); it != m_vNinePatchInfo.end(); ++it)
 	{
-		NINE_PATCH_INFO *pNinePatchInfo = (*it);
+		NINE_PATCH_INFO* pNinePatchInfo = (*it);
 		SAFE_DELETE(pNinePatchInfo);
 	}
 	m_vNinePatchInfo.clear();
@@ -29,7 +29,7 @@ bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size, const Rect&
 {
 	for (TV_NINE_PATCH_INFO::iterator it = m_vNinePatchInfo.begin(); it != m_vNinePatchInfo.end(); ++it)
 	{
-		NINE_PATCH_INFO *pNinePatchInfo = (*it);
+		NINE_PATCH_INFO* pNinePatchInfo = (*it);
 		if ((pNinePatchInfo->nState & state) != 0)
 		{
 			return RenderNinePatchPiece(*pNinePatchInfo, pos, size, clipRect);
@@ -39,9 +39,9 @@ bool NinePatchStyle::Render(const Vector2& pos, const Vector2& size, const Rect&
 	return true;
 }
 
-bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
+bool NinePatchStyle::FromXml(TiXmlElement* pXmlNinePatchStyle)
 {
-	if (!IGraphicsStyle::LoadFromXml(pXmlNinePatchStyle)) return false;
+	if (!IGraphicsStyle::FromXml(pXmlNinePatchStyle)) return false;
 
 	for (TiXmlElement* pXmlState = pXmlNinePatchStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
@@ -57,10 +57,10 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 		const PieceInfo* pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);
 		if (!pPieceInfo) continue;
 
-		float minX = 0;
-		float minY = 0;
-		float maxX = 0;
-		float maxY = 0;
+		float minX = 0.0f;
+		float minY = 0.0f;
+		float maxX = 0.0f;
+		float maxY = 0.0f;
 		pXmlState->Attribute(_("minX"), &minX);
 		pXmlState->Attribute(_("minY"), &minY);
 		pXmlState->Attribute(_("maxX"), &maxX);
@@ -129,6 +129,34 @@ bool NinePatchStyle::LoadFromXml(TiXmlElement* pXmlNinePatchStyle)
 	}
 
 	return true;
+}
+
+TiXmlElement* NinePatchStyle::ToXml()
+{
+	TiXmlElement* pXmlNinePatchStyle = new TiXmlElement(_("NinePatchStyle"));
+	if (!IGraphicsStyle::ToXml(pXmlNinePatchStyle))
+	{
+		SAFE_DELETE(pXmlNinePatchStyle);
+		return NULL;
+	}
+
+	for (TV_NINE_PATCH_INFO::const_iterator it = m_vNinePatchInfo.begin(); it != m_vNinePatchInfo.end(); ++it)
+	{
+		const NINE_PATCH_INFO* pNinePatchInfo = (*it);
+
+		tstring strState = UiState::GetStateString(pNinePatchInfo->nState);
+		TiXmlElement* pXmlState = new TiXmlElement(_("State"));
+		pXmlState->SetAttribute(_("id"), strState.c_str());
+		pXmlState->SetAttribute(_("piece"), pNinePatchInfo->pPieceInfo->GetId().c_str());
+		pXmlState->SetAttribute(_("minX"), int(pNinePatchInfo->pieceSize[0].x));
+		pXmlState->SetAttribute(_("minY"), int(pNinePatchInfo->pieceSize[0].y));
+		pXmlState->SetAttribute(_("maxX"), int(pNinePatchInfo->pieceSize[0].x+pNinePatchInfo->pieceSize[1].x));
+		pXmlState->SetAttribute(_("maxY"), int(pNinePatchInfo->pieceSize[0].y+pNinePatchInfo->pieceSize[1].y));
+
+		pXmlNinePatchStyle->LinkEndChild(pXmlState);
+	}
+
+	return pXmlNinePatchStyle;
 }
 
 bool NinePatchStyle::RenderNinePatchPiece(NINE_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)

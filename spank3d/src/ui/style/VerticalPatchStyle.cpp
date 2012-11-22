@@ -19,7 +19,7 @@ VerticalPatchStyle::~VerticalPatchStyle()
 {
 	for (TV_VERTICAL_PATCH_INFO::iterator it = m_vVerticalPatchInfo.begin(); it != m_vVerticalPatchInfo.end(); ++it)
 	{
-		VERTICAL_PATCH_INFO *pVerticalPatchInfo = (*it);
+		VERTICAL_PATCH_INFO* pVerticalPatchInfo = (*it);
 		SAFE_DELETE(pVerticalPatchInfo);
 	}
 	m_vVerticalPatchInfo.clear();
@@ -29,7 +29,7 @@ bool VerticalPatchStyle::Render(const Vector2& pos, const Vector2& size, const R
 {
 	for (TV_VERTICAL_PATCH_INFO::iterator it = m_vVerticalPatchInfo.begin(); it != m_vVerticalPatchInfo.end(); ++it)
 	{
-		VERTICAL_PATCH_INFO *pVerticalPatchInfo = (*it);
+		VERTICAL_PATCH_INFO* pVerticalPatchInfo = (*it);
 		if ((pVerticalPatchInfo->nState & state) != 0)
 		{
 			return RenderVerticalPatchPiece(*pVerticalPatchInfo, pos, size, clipRect);
@@ -39,9 +39,9 @@ bool VerticalPatchStyle::Render(const Vector2& pos, const Vector2& size, const R
 	return true;
 }
 
-bool VerticalPatchStyle::LoadFromXml(TiXmlElement* pXmlVerticalPatchStyle)
+bool VerticalPatchStyle::FromXml(TiXmlElement* pXmlVerticalPatchStyle)
 {
-	if (!IGraphicsStyle::LoadFromXml(pXmlVerticalPatchStyle)) return false;
+	if (!IGraphicsStyle::FromXml(pXmlVerticalPatchStyle)) return false;
 
 	for (TiXmlElement* pXmlState = pXmlVerticalPatchStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
@@ -57,8 +57,8 @@ bool VerticalPatchStyle::LoadFromXml(TiXmlElement* pXmlVerticalPatchStyle)
 		const PieceInfo* pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);
 		if (!pPieceInfo) continue;
 
-		float minY = 0;
-		float maxY = 0;
+		float minY = 0.0f;
+		float maxY = 0.0f;
 		pXmlState->Attribute(_("minY"), &minY);
 		pXmlState->Attribute(_("maxY"), &maxY);
 
@@ -107,6 +107,32 @@ bool VerticalPatchStyle::LoadFromXml(TiXmlElement* pXmlVerticalPatchStyle)
 	}
 
 	return true;
+}
+
+TiXmlElement* VerticalPatchStyle::ToXml()
+{
+	TiXmlElement* pXmlVerticalPatchStyle = new TiXmlElement(_("VerticalPatchStyle"));
+	if (!IGraphicsStyle::ToXml(pXmlVerticalPatchStyle))
+	{
+		SAFE_DELETE(pXmlVerticalPatchStyle);
+		return NULL;
+	}
+
+	for (TV_VERTICAL_PATCH_INFO::const_iterator it = m_vVerticalPatchInfo.begin(); it != m_vVerticalPatchInfo.end(); ++it)
+	{
+		const VERTICAL_PATCH_INFO* pVerticalPatchInfo = (*it);
+
+		tstring strState = UiState::GetStateString(pVerticalPatchInfo->nState);
+		TiXmlElement* pXmlState = new TiXmlElement(_("State"));
+		pXmlState->SetAttribute(_("id"), strState.c_str());
+		pXmlState->SetAttribute(_("piece"), pVerticalPatchInfo->pPieceInfo->GetId().c_str());
+		pXmlState->SetAttribute(_("minY"), int(pVerticalPatchInfo->pieceHeights[0]));
+		pXmlState->SetAttribute(_("maxY"), int(pVerticalPatchInfo->pieceHeights[0]+pVerticalPatchInfo->pieceHeights[1]));
+
+		pXmlVerticalPatchStyle->LinkEndChild(pXmlState);
+	}
+
+	return pXmlVerticalPatchStyle;
 }
 
 bool VerticalPatchStyle::RenderVerticalPatchPiece(VERTICAL_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)

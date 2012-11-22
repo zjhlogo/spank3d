@@ -74,9 +74,11 @@ public:
 	void CreateControls();
 
 ////@begin UiDesigner_ui event handler declarations
+
 ////@end UiDesigner_ui event handler declarations
 
 ////@begin UiDesigner_ui member function declarations
+
 	/// Returns the AUI manager object
 	wxAuiManager& GetAuiManager() { return m_auiManager; }
 

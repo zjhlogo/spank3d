@@ -19,7 +19,7 @@ BitmapStyle::~BitmapStyle()
 {
 	for (TV_BITMAP_INFO::iterator it = m_vBitmapInfo.begin(); it != m_vBitmapInfo.end(); ++it)
 	{
-		BITMAP_INFO *pBitmapInfo = (*it);
+		BITMAP_INFO* pBitmapInfo = (*it);
 		SAFE_DELETE(pBitmapInfo);
 	}
 
@@ -30,7 +30,7 @@ bool BitmapStyle::Render(const Vector2& pos, const Vector2& size, const Rect& cl
 {
 	for (TV_BITMAP_INFO::iterator it = m_vBitmapInfo.begin(); it != m_vBitmapInfo.end(); ++it)
 	{
-		BITMAP_INFO *pBitmapInfo = (*it);
+		BITMAP_INFO* pBitmapInfo = (*it);
 		if ((pBitmapInfo->nState & state) != 0)
 		{
 			return RenderBitmapPiece(*pBitmapInfo, pos, size, clipRect);
@@ -40,9 +40,9 @@ bool BitmapStyle::Render(const Vector2& pos, const Vector2& size, const Rect& cl
 	return true;
 }
 
-bool BitmapStyle::LoadFromXml(TiXmlElement* pXmlBitmapStyle)
+bool BitmapStyle::FromXml(TiXmlElement* pXmlBitmapStyle)
 {
-	if (!IGraphicsStyle::LoadFromXml(pXmlBitmapStyle)) return false;
+	if (!IGraphicsStyle::FromXml(pXmlBitmapStyle)) return false;
 
 	for (TiXmlElement* pXmlState = pXmlBitmapStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
 	{
@@ -66,6 +66,30 @@ bool BitmapStyle::LoadFromXml(TiXmlElement* pXmlBitmapStyle)
 	}
 
 	return true;
+}
+
+TiXmlElement* BitmapStyle::ToXml()
+{
+	TiXmlElement* pXmlBitmapStyle = new TiXmlElement(_("BitmapStyle"));
+	if (!IGraphicsStyle::ToXml(pXmlBitmapStyle))
+	{
+		SAFE_DELETE(pXmlBitmapStyle);
+		return NULL;
+	}
+
+	for (TV_BITMAP_INFO::const_iterator it = m_vBitmapInfo.begin(); it != m_vBitmapInfo.end(); ++it)
+	{
+		const BITMAP_INFO* pBitmapInfo = (*it);
+
+		tstring strState = UiState::GetStateString(pBitmapInfo->nState);
+		TiXmlElement* pXmlState = new TiXmlElement(_("State"));
+		pXmlState->SetAttribute(_("id"), strState.c_str());
+		pXmlState->SetAttribute(_("piece"), pBitmapInfo->pPieceInfo->GetId().c_str());
+
+		pXmlBitmapStyle->LinkEndChild(pXmlState);
+	}
+
+	return pXmlBitmapStyle;
 }
 
 bool BitmapStyle::RenderBitmapPiece(const BITMAP_INFO& bitmapInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect)

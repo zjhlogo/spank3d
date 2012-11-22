@@ -37,7 +37,9 @@ public:
 	virtual ~VerticalPatchStyle();
 
 	virtual bool Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state);
-	bool LoadFromXml(TiXmlElement* pXmlVerticalPatchStyle);
+
+	bool FromXml(TiXmlElement* pXmlVerticalPatchStyle);
+	TiXmlElement* ToXml();
 
 private:
 	bool RenderVerticalPatchPiece(VERTICAL_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect);

@@ -87,18 +87,23 @@ bool StringUtil::strHex2Uint(uint& nValue, const tchar* pstrIn)
 	return true;
 }
 
-bool StringUtil::bool2str(tstring& strOut, bool bValue)
+void StringUtil::bool2str(tstring& strOut, bool bValue)
 {
 	if (bValue) strOut = _("true");
 	else strOut = _("false");
-
-	return true;
 }
 
 void StringUtil::int2str(tstring& strOut, int nValue)
 {
 	static tchar s_strBuffer[1024];
 	_sntprintf_s(s_strBuffer, 1024, _("%d"), nValue);
+	strOut = s_strBuffer;
+}
+
+void StringUtil::hex2str(tstring& strOut, uint nValue)
+{
+	static tchar s_strBuffer[1024];
+	_sntprintf_s(s_strBuffer, 1024, _("0x%08X"), nValue);
 	strOut = s_strBuffer;
 }
 

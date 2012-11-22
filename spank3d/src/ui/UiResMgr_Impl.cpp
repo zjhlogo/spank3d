@@ -228,7 +228,7 @@ bool UiResMgr_Impl::LoadPieceInfoList(const tstring& strFile)
 		}
 
 		PieceInfo* pPieceInfo = new PieceInfo(pszId);
-		if (!pPieceInfo->LoadFromXml(pXmlPieceInfo, pTexture))
+		if (!pPieceInfo->FromXml(pXmlPieceInfo, pTexture))
 		{
 			SAFE_DELETE(pPieceInfo);
 			continue;
@@ -265,7 +265,7 @@ bool UiResMgr_Impl::LoadBitmapStyleList(const tstring& strFile)
 		}
 
 		BitmapStyle* pBitmapStyle = new BitmapStyle(pszId);
-		if (!pBitmapStyle->LoadFromXml(pXmlBitmapStyle))
+		if (!pBitmapStyle->FromXml(pXmlBitmapStyle))
 		{
 			SAFE_DELETE(pBitmapStyle);
 			continue;
@@ -303,7 +303,7 @@ bool UiResMgr_Impl::LoadNinePatchStyleList(const tstring& strFile)
 		}
 
 		NinePatchStyle* pNinePatchStyle = new NinePatchStyle(pszId);
-		if (!pNinePatchStyle->LoadFromXml(pXmlNinePatchStyle))
+		if (!pNinePatchStyle->FromXml(pXmlNinePatchStyle))
 		{
 			SAFE_DELETE(pNinePatchStyle);
 			continue;
@@ -341,7 +341,7 @@ bool UiResMgr_Impl::LoadHorizontalPatchStyleList(const tstring& strFile)
 		}
 
 		HorizontalPatchStyle* pHorizontalPatchStyle = new HorizontalPatchStyle(pszId);
-		if (!pHorizontalPatchStyle->LoadFromXml(pXmlHorizontalPatchStyle))
+		if (!pHorizontalPatchStyle->FromXml(pXmlHorizontalPatchStyle))
 		{
 			SAFE_DELETE(pHorizontalPatchStyle);
 			continue;
@@ -379,7 +379,7 @@ bool UiResMgr_Impl::LoadVerticalPatchStyleList(const tstring& strFile)
 		}
 
 		VerticalPatchStyle* pVerticalPatchStyle = new VerticalPatchStyle(pszId);
-		if (!pVerticalPatchStyle->LoadFromXml(pXmlVerticalPatchStyle))
+		if (!pVerticalPatchStyle->FromXml(pXmlVerticalPatchStyle))
 		{
 			SAFE_DELETE(pVerticalPatchStyle);
 			continue;
@@ -440,7 +440,7 @@ bool UiResMgr_Impl::LoadBitmapFontStyleList(const tstring& strFile)
 		}
 
 		BitmapFontStyle* pBitmapFontStyle = new BitmapFontStyle(pszId);
-		if (!pBitmapFontStyle->LoadFromXml(pXmlBitmapFontStyle))
+		if (!pBitmapFontStyle->FromXml(pXmlBitmapFontStyle))
 		{
 			SAFE_DELETE(pBitmapFontStyle);
 			continue;

@@ -35,7 +35,8 @@ public:
 	virtual Vector2 CalcSize(const tstring& strText, uint state);
 	virtual bool Render(const tstring& strText, const Vector2& pos, const Rect& clipRect, uint state);
 
-	bool LoadFromXml(TiXmlElement* pXmlBitmapFontStyle);
+	bool FromXml(TiXmlElement* pXmlBitmapFontStyle);
+	TiXmlElement* ToXml();
 
 private:
 	const BITMAP_FONT_INFO* FindFontInfo(uint state) const;

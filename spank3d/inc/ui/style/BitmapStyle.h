@@ -29,7 +29,9 @@ public:
 	virtual ~BitmapStyle();
 
 	virtual bool Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state);
-	bool LoadFromXml(TiXmlElement* pXmlBitmapStyle);
+
+	bool FromXml(TiXmlElement* pXmlBitmapStyle);
+	TiXmlElement* ToXml();
 
 private:
 	bool RenderBitmapPiece(const BITMAP_INFO& bitmapInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect);

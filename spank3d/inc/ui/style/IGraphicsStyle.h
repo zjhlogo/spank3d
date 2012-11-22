@@ -46,7 +46,8 @@ public:
 	virtual bool Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state) = 0;
 
 protected:
-	bool LoadFromXml(TiXmlElement* pXmlGraphicsStyle);
+	bool FromXml(TiXmlElement* pXmlGraphicsStyle);
+	bool ToXml(TiXmlElement* pXmlGraphicsStyle);
 
 private:
 	Vector2 m_PaddingLT;

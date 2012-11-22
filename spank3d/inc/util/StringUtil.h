@@ -25,9 +25,11 @@ public:
 	static bool char2tchar(tstring& strOut, const char* pstrIn);
 	static const tchar* char2tchar(const char* pszIn);
 
-	static bool bool2str(tstring& strOut, bool bValue);
+	static void bool2str(tstring& strOut, bool bValue);
 	static void int2str(tstring& strOut, int nValue);
+	static void hex2str(tstring& strOut, uint nValue);
 	static void float2str(tstring& strOut, float fValue);
+
 	static bool strformat(tstring& strOut, const tchar* strFormat, ...);
 	static void toupper(tstring& strOut, const tstring& strIn);
 	static void tolower(tstring& strOut, const tstring& strIn);
