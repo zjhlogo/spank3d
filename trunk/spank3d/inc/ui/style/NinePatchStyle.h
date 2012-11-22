@@ -38,7 +38,9 @@ public:
 	virtual ~NinePatchStyle();
 
 	virtual bool Render(const Vector2& pos, const Vector2& size, const Rect& clipRect, uint state);
-	bool LoadFromXml(TiXmlElement* pXmlNinePatchStyle);
+
+	bool FromXml(TiXmlElement* pXmlNinePatchStyle);
+	TiXmlElement* ToXml();
 
 private:
 	bool RenderNinePatchPiece(NINE_PATCH_INFO& patchInfo, const Vector2& pos, const Vector2& size, const Rect& clipRect);

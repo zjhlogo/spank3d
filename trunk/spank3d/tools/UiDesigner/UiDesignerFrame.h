@@ -13,9 +13,15 @@
 
 class UiDesignerFrame : public UiDesigner_ui
 {
+	DECLARE_CLASS(UiDesignerFrame)
+	DECLARE_EVENT_TABLE()
+
 public:
 	UiDesignerFrame();
 	virtual ~UiDesignerFrame();
+
+private:
+	void OnFileNewProjectClicked(wxCommandEvent& event);
 
 };
 #endif // __UIDESIGNERFRAME_H__

@@ -33,7 +33,7 @@ const tstring& PieceInfo::GetId() const
 	return strId;
 }
 
-bool PieceInfo::LoadFromXml(TiXmlElement* pXmlPieceInfo, ITexture* pTex)
+bool PieceInfo::FromXml(TiXmlElement* pXmlPieceInfo, ITexture* pTex)
 {
 	pTexture = pTex;
 
@@ -50,4 +50,15 @@ bool PieceInfo::LoadFromXml(TiXmlElement* pXmlPieceInfo, ITexture* pTex)
 	dv = height / size.y;
 
 	return true;
+}
+
+TiXmlElement* PieceInfo::ToXml()
+{
+	TiXmlElement* pXmlPieceInfo = new TiXmlElement(_("PieceInfo"));
+	pXmlPieceInfo->SetAttribute(_("id"), strId.c_str());
+	pXmlPieceInfo->SetAttribute(_("x"), int(x+0.5f));
+	pXmlPieceInfo->SetAttribute(_("y"), int(y+0.5f));
+	pXmlPieceInfo->SetAttribute(_("width"), int(width+0.5f));
+	pXmlPieceInfo->SetAttribute(_("height"), int(height+0.5f));
+	return pXmlPieceInfo;
 }

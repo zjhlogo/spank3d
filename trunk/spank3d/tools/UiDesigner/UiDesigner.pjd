@@ -1221,7 +1221,7 @@
             <long name="proxy-AUI floating width">-1</long>
             <long name="proxy-AUI floating height">-1</long>
             <document>
-              <string name="title">"wxTreeCtrl: IDC_PROJECT"</string>
+              <string name="title">"ProjectCtrl: IDC_PROJECT"</string>
               <string name="type">"dialog-control-document"</string>
               <string name="filename">""</string>
               <string name="icon-name">"treectrl"</string>
@@ -1233,12 +1233,12 @@
               <string name="proxy-Id name">"IDC_PROJECT"</string>
               <long name="proxy-Id value">10016</long>
               <string name="proxy-Name">""</string>
-              <string name="proxy-Class">"wxTreeCtrl"</string>
+              <string name="proxy-Class">"ProjectCtrl"</string>
               <string name="proxy-Base class">"wxTreeCtrl"</string>
               <bool name="proxy-External implementation">1</bool>
               <bool name="proxy-Separate files">0</bool>
-              <string name="proxy-Implementation filename">""</string>
-              <string name="proxy-Header filename">""</string>
+              <string name="proxy-Implementation filename">"controls/ProjectCtrl.cpp"</string>
+              <string name="proxy-Header filename">"controls/ProjectCtrl.h"</string>
               <string name="proxy-Member variable name">""</string>
               <string name="proxy-Tab label">"Project"</string>
               <string name="proxy-Tab icon">""</string>
@@ -1259,13 +1259,13 @@
               <string name="proxy-Data class manager window">""</string>
               <bool name="proxy-wxTR_EDIT_LABELS">0</bool>
               <bool name="proxy-wxTR_NO_BUTTONS">0</bool>
-              <bool name="proxy-wxTR_HAS_BUTTONS ">0</bool>
-              <bool name="proxy-wxTR_TWIST_BUTTONS">0</bool>
+              <bool name="proxy-wxTR_HAS_BUTTONS ">1</bool>
+              <bool name="proxy-wxTR_TWIST_BUTTONS">1</bool>
               <bool name="proxy-wxTR_NO_LINES">0</bool>
               <bool name="proxy-wxTR_FULL_ROW_HIGHLIGHT">0</bool>
               <bool name="proxy-wxTR_LINES_AT_ROOT">0</bool>
-              <bool name="proxy-wxTR_HIDE_ROOT">0</bool>
-              <bool name="proxy-wxTR_ROW_LINES">0</bool>
+              <bool name="proxy-wxTR_HIDE_ROOT">1</bool>
+              <bool name="proxy-wxTR_ROW_LINES">1</bool>
               <bool name="proxy-wxTR_HAS_VARIABLE_ROW_HEIGHT">0</bool>
               <bool name="proxy-wxTR_SINGLE">1</bool>
               <bool name="proxy-wxTR_MULTIPLE">0</bool>

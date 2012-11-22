@@ -22,12 +22,12 @@
 
 ////@begin includes
 #include "wx/imaglist.h"
+#include "controls/ProjectCtrl.h"
 ////@end includes
 
 #include "uidesigner_ui.h"
 
 ////@begin XPM images
-
 #include "images/doc_new.xpm"
 #include "images/folder_open.xpm"
 #include "images/save.xpm"
@@ -184,7 +184,7 @@ void UiDesigner_ui::CreateControls()
 	m_noteSolution = new wxNotebook( itemFrame1, IDC_SOLUTION, wxDefaultPosition, wxDefaultSize, wxBK_DEFAULT );
 	m_noteSolution->SetName(_T("solution"));
 
-	wxTreeCtrl* itemTreeCtrl23 = new wxTreeCtrl( m_noteSolution, IDC_PROJECT, wxDefaultPosition, m_noteSolution->ConvertDialogToPixels(wxSize(66, 57)), wxTR_SINGLE );
+	ProjectCtrl* itemTreeCtrl23 = new ProjectCtrl( m_noteSolution, IDC_PROJECT, wxDefaultPosition, m_noteSolution->ConvertDialogToPixels(wxSize(66, 57)), wxTR_HAS_BUTTONS |wxTR_TWIST_BUTTONS|wxTR_HIDE_ROOT|wxTR_ROW_LINES|wxTR_SINGLE );
 
 	m_noteSolution->AddPage(itemTreeCtrl23, _("Project"));
 
@@ -294,3 +294,6 @@ wxIcon UiDesigner_ui::GetIconResource( const wxString& name )
 	return wxNullIcon;
 ////@end UiDesigner_ui icon retrieval
 }
+
+
+

@@ -12,7 +12,7 @@ UiState::TV_STRING UiState::m_vStateNames;
 UiState::TV_UINT UiState::m_vStates;
 UiState::TM_STRING_UINT_MAP UiState::m_StateNameMap;
 
-tstring UiState::GetStateName(uint state)
+tstring UiState::GetStateString(uint state)
 {
 	static bool s_Initialized = InitStateList();
 

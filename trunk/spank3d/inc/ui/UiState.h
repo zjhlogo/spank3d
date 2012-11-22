@@ -31,7 +31,7 @@ public:
 	typedef std::vector<uint> TV_UINT;
 
 public:
-	static tstring GetStateName(uint state);
+	static tstring GetStateString(uint state);
 	static uint GetStateValue(const tstring& stateName);
 
 private:

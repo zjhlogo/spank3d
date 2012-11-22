@@ -61,6 +61,60 @@ bool BitmapFontStyle::Render(const tstring& strText, const Vector2& pos, const R
 	return RenderText(*pBitmapFontInfo, strText, pos, clipRect);
 }
 
+bool BitmapFontStyle::FromXml(TiXmlElement* pXmlBitmapFontStyle)
+{
+	const tchar* pszFontInfoId = pXmlBitmapFontStyle->Attribute(_("fontInfoId"));
+	if (!pszFontInfoId) return false;
+
+	IFontInfo* pFontInfo = g_pUiResMgr->FindFontInfo(pszFontInfoId);
+	if (!pFontInfo) return false;
+
+	for (TiXmlElement* pXmlState = pXmlBitmapFontStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
+	{
+		const tchar* pszId = pXmlState->Attribute(_("id"));
+		if (!pszId) continue;
+
+		uint nState = UiState::GetStateValue(pszId);
+		if (nState == 0) continue;
+
+		const tchar* pszColor = pXmlState->Attribute(_("color"));
+		if (!pszColor) continue;
+
+		BITMAP_FONT_INFO bitmapFontInfo;
+		bitmapFontInfo.nState = nState;
+		bitmapFontInfo.pFontInfo = pFontInfo;
+		StringUtil::strHex2Uint(bitmapFontInfo.color, pszColor);
+		m_vBitmapFontInfo.push_back(bitmapFontInfo);
+	}
+
+	return true;
+}
+
+TiXmlElement* BitmapFontStyle::ToXml()
+{
+	TiXmlElement* pXmlBitmapFontStyle = new TiXmlElement(_("BitmapFontStyle"));
+
+	pXmlBitmapFontStyle->SetAttribute(_("id"), GetId().c_str());
+	pXmlBitmapFontStyle->SetAttribute(_("fontInfoId"), m_vBitmapFontInfo[0].pFontInfo->GetId().c_str());
+
+	for (TV_BITMAP_FONT_INFO::const_iterator it = m_vBitmapFontInfo.begin(); it != m_vBitmapFontInfo.end(); ++it)
+	{
+		const BITMAP_FONT_INFO& bitmapFontInfo = (*it);
+
+		tstring strState = UiState::GetStateString(bitmapFontInfo.nState);
+		tstring strColor;
+		StringUtil::hex2str(strColor, bitmapFontInfo.color);
+
+		TiXmlElement* pXmlState = new TiXmlElement(_("State"));
+		pXmlState->SetAttribute(_("id"), strState.c_str());
+		pXmlState->SetAttribute(_("color"), strColor.c_str());
+
+		pXmlBitmapFontStyle->LinkEndChild(pXmlState);
+	}
+
+	return pXmlBitmapFontStyle;
+}
+
 const BitmapFontStyle::BITMAP_FONT_INFO* BitmapFontStyle::FindFontInfo(uint state) const
 {
 	for (TV_BITMAP_FONT_INFO::const_iterator it = m_vBitmapFontInfo.begin(); it != m_vBitmapFontInfo.end(); ++it)
@@ -93,35 +147,6 @@ bool BitmapFontStyle::RenderText(const BITMAP_FONT_INFO& bitmapFontInfo, const t
 
 		currPos.x += (pCharInfo->advance+kerning);
 		lastChar = ch;
-	}
-
-	return true;
-}
-
-bool BitmapFontStyle::LoadFromXml(TiXmlElement* pXmlBitmapFontStyle)
-{
-	const tchar* pszFontInfoId = pXmlBitmapFontStyle->Attribute(_("fontInfoId"));
-	if (!pszFontInfoId) return false;
-
-	IFontInfo* pFontInfo = g_pUiResMgr->FindFontInfo(pszFontInfoId);
-	if (!pFontInfo) return false;
-
-	for (TiXmlElement* pXmlState = pXmlBitmapFontStyle->FirstChildElement(_("State")); pXmlState != NULL; pXmlState = pXmlState->NextSiblingElement(_("State")))
-	{
-		const tchar* pszId = pXmlState->Attribute(_("id"));
-		if (!pszId) continue;
-
-		uint nState = UiState::GetStateValue(pszId);
-		if (nState == 0) continue;
-
-		const tchar* pszColor = pXmlState->Attribute(_("color"));
-		if (!pszColor) continue;
-
-		BITMAP_FONT_INFO bitmapFontInfo;
-		bitmapFontInfo.nState = nState;
-		bitmapFontInfo.pFontInfo = pFontInfo;
-		StringUtil::strHex2Uint(bitmapFontInfo.color, pszColor);
-		m_vBitmapFontInfo.push_back(bitmapFontInfo);
 	}
 
 	return true;
