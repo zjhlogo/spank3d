@@ -22,6 +22,7 @@ public:
 
 private:
 	void OnFileNewProjectClicked(wxCommandEvent& event);
+	void OnFileCloseProjectClicked(wxCommandEvent& event);
 
 };
 #endif // __UIDESIGNERFRAME_H__

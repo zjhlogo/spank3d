@@ -25,37 +25,49 @@ DocProject& DocProject::GetInstance()
 	return s_DocProject;
 }
 
-const DocProject::TM_PIECE_INFO& DocProject::GetPieceInfoMap() const
+DocPieceInfo::PIECE_INFO* DocProject::FindPieceInfo(const wxString& strId)
+{
+	for (TM_DOC_PIECE_INFO::iterator it = m_pieceInfoMap.begin(); it != m_pieceInfoMap.end(); ++it)
+	{
+		DocPieceInfo* pDocPieceInfo = it->second;
+		DocPieceInfo::PIECE_INFO* pPieceInfo = pDocPieceInfo->FindPieceInfo(strId);
+		if (pPieceInfo) return pPieceInfo;
+	}
+
+	return NULL;
+}
+
+DocProject::TM_DOC_PIECE_INFO& DocProject::GetPieceInfoMap()
 {
 	return m_pieceInfoMap;
 }
 
-const DocProject::TM_BITMAP_FONT& DocProject::GetBitmapFontMap() const
+DocProject::TM_DOC_BITMAP_FONT& DocProject::GetBitmapFontMap()
 {
 	return m_bitmapFontMap;
 }
 
-const DocProject::TM_BITMAP_STYLE& DocProject::GetBitmapStyleMap() const
+DocProject::TM_DOC_BITMAP_STYLE& DocProject::GetBitmapStyleMap()
 {
 	return m_bitmapStyleMap;
 }
 
-const DocProject::TM_NINE_PATCH_STYLE& DocProject::GetNinePatchStyleMap() const
+DocProject::TM_DOC_NINE_PATCH_STYLE& DocProject::GetNinePatchStyleMap()
 {
 	return m_ninePatchStyleMap;
 }
 
-const DocProject::TM_VERTICAL_PATCH_STYLE& DocProject::GetVerticalPatchStyleMap() const
+DocProject::TM_DOC_VERTICAL_PATCH_STYLE& DocProject::GetVerticalPatchStyleMap()
 {
 	return m_verticalPatchStyleMap;
 }
 
-const DocProject::TM_HORIZONTAL_PATCH_STYLE& DocProject::GetHorizontalPatchStyleMap() const
+DocProject::TM_DOC_HORIZONTAL_PATCH_STYLE& DocProject::GetHorizontalPatchStyleMap()
 {
 	return m_horizontalPatchStyleMap;
 }
 
-const DocProject::TM_BITMAP_FONT_STYLE& DocProject::GetBitmapFontStyleMap() const
+DocProject::TM_DOC_BITMAP_FONT_STYLE& DocProject::GetBitmapFontStyleMap()
 {
 	return m_bitmapFontStyleMap;
 }
@@ -71,7 +83,7 @@ bool DocProject::DoOpen(const wxString& strFile)
 	m_strRootDir = pXmlUiRes->GetAttribute(wxT("root"));
 
 	// load piece info
-	wxXmlNode* pXmlPieceInfo = FindChildNode(pXmlUiRes, wxT("PieceInfo"));
+	wxXmlNode* pXmlPieceInfo = XmlUtil::FindChildNode(pXmlUiRes, wxT("PieceInfo"));
 	while (pXmlPieceInfo)
 	{
 		DocPieceInfo* pPieceInfo = new DocPieceInfo();
@@ -84,11 +96,11 @@ bool DocProject::DoOpen(const wxString& strFile)
 			wxDELETE(pPieceInfo);
 		}
 
-		pXmlPieceInfo = FindNextSiblingNode(pXmlPieceInfo, wxT("PieceInfo"));
+		pXmlPieceInfo = XmlUtil::FindNextSiblingNode(pXmlPieceInfo, wxT("PieceInfo"));
 	}
 
 	// load bitmap font
-	wxXmlNode* pXmlBitmapFont = FindChildNode(pXmlUiRes, wxT("BitmapFont"));
+	wxXmlNode* pXmlBitmapFont = XmlUtil::FindChildNode(pXmlUiRes, wxT("BitmapFont"));
 	while (pXmlBitmapFont)
 	{
 		DocBitmapFont* pBitmapFont = new DocBitmapFont();
@@ -101,11 +113,11 @@ bool DocProject::DoOpen(const wxString& strFile)
 			wxDELETE(pBitmapFont);
 		}
 
-		pXmlBitmapFont = FindNextSiblingNode(pXmlBitmapFont, wxT("BitmapFont"));
+		pXmlBitmapFont = XmlUtil::FindNextSiblingNode(pXmlBitmapFont, wxT("BitmapFont"));
 	}
 
 	// load bitmap style
-	wxXmlNode* pXmlBitmapStyle = FindChildNode(pXmlUiRes, wxT("BitmapStyle"));
+	wxXmlNode* pXmlBitmapStyle = XmlUtil::FindChildNode(pXmlUiRes, wxT("BitmapStyle"));
 	while (pXmlBitmapStyle)
 	{
 		DocBitmapStyle* pBitmapStyle = new DocBitmapStyle();
@@ -118,11 +130,11 @@ bool DocProject::DoOpen(const wxString& strFile)
 			wxDELETE(pBitmapStyle);
 		}
 
-		pXmlBitmapStyle = FindNextSiblingNode(pXmlBitmapStyle, wxT("BitmapStyle"));
+		pXmlBitmapStyle = XmlUtil::FindNextSiblingNode(pXmlBitmapStyle, wxT("BitmapStyle"));
 	}
 
 	// load nine patch style
-	wxXmlNode* pXmlNinePatchStyle = FindChildNode(pXmlUiRes, wxT("NinePatchStyle"));
+	wxXmlNode* pXmlNinePatchStyle = XmlUtil::FindChildNode(pXmlUiRes, wxT("NinePatchStyle"));
 	while (pXmlNinePatchStyle)
 	{
 		DocNinePatchStyle* pNinePatchStyle = new DocNinePatchStyle();
@@ -135,11 +147,11 @@ bool DocProject::DoOpen(const wxString& strFile)
 			wxDELETE(pNinePatchStyle);
 		}
 
-		pXmlNinePatchStyle = FindNextSiblingNode(pXmlNinePatchStyle, wxT("NinePatchStyle"));
+		pXmlNinePatchStyle = XmlUtil::FindNextSiblingNode(pXmlNinePatchStyle, wxT("NinePatchStyle"));
 	}
 
 	// load horizontal patch style
-	wxXmlNode* pXmlHorizontalPatchStyle = FindChildNode(pXmlUiRes, wxT("HorizontalPatchStyle"));
+	wxXmlNode* pXmlHorizontalPatchStyle = XmlUtil::FindChildNode(pXmlUiRes, wxT("HorizontalPatchStyle"));
 	while (pXmlHorizontalPatchStyle)
 	{
 		DocHorizontalPatchStyle* pHorizontalPatchStyle = new DocHorizontalPatchStyle();
@@ -152,11 +164,11 @@ bool DocProject::DoOpen(const wxString& strFile)
 			wxDELETE(pHorizontalPatchStyle);
 		}
 
-		pXmlHorizontalPatchStyle = FindNextSiblingNode(pXmlHorizontalPatchStyle, wxT("HorizontalPatchStyle"));
+		pXmlHorizontalPatchStyle = XmlUtil::FindNextSiblingNode(pXmlHorizontalPatchStyle, wxT("HorizontalPatchStyle"));
 	}
 
 	// load vertical patch style
-	wxXmlNode* pXmlVerticalPatchStyle = FindChildNode(pXmlUiRes, wxT("VerticalPatchStyle"));
+	wxXmlNode* pXmlVerticalPatchStyle = XmlUtil::FindChildNode(pXmlUiRes, wxT("VerticalPatchStyle"));
 	while (pXmlVerticalPatchStyle)
 	{
 		DocVerticalPatchStyle* pVerticalPatchStyle = new DocVerticalPatchStyle();
@@ -169,11 +181,11 @@ bool DocProject::DoOpen(const wxString& strFile)
 			wxDELETE(pVerticalPatchStyle);
 		}
 
-		pXmlVerticalPatchStyle = FindNextSiblingNode(pXmlVerticalPatchStyle, wxT("VerticalPatchStyle"));
+		pXmlVerticalPatchStyle = XmlUtil::FindNextSiblingNode(pXmlVerticalPatchStyle, wxT("VerticalPatchStyle"));
 	}
 
 	// load bitmap font style
-	wxXmlNode* pXmlBitmapFontStyle = FindChildNode(pXmlUiRes, wxT("BitmapFontStyle"));
+	wxXmlNode* pXmlBitmapFontStyle = XmlUtil::FindChildNode(pXmlUiRes, wxT("BitmapFontStyle"));
 	while (pXmlBitmapFontStyle)
 	{
 		DocBitmapFontStyle* pBitmapFontStyle = new DocBitmapFontStyle();
@@ -186,7 +198,7 @@ bool DocProject::DoOpen(const wxString& strFile)
 			wxDELETE(pBitmapFontStyle);
 		}
 
-		pXmlBitmapFontStyle = FindNextSiblingNode(pXmlBitmapFontStyle, wxT("BitmapFontStyle"));
+		pXmlBitmapFontStyle = XmlUtil::FindNextSiblingNode(pXmlBitmapFontStyle, wxT("BitmapFontStyle"));
 	}
 
 	wxDocEvent event(wxEVT_DOCUMENT_RESET);
@@ -204,49 +216,49 @@ bool DocProject::DoSave(const wxString& strFile)
 
 void DocProject::Reset()
 {
-	for (TM_PIECE_INFO::iterator it = m_pieceInfoMap.begin(); it != m_pieceInfoMap.end(); ++it)
+	for (TM_DOC_PIECE_INFO::iterator it = m_pieceInfoMap.begin(); it != m_pieceInfoMap.end(); ++it)
 	{
 		DocPieceInfo* pPieceInfo = it->second;
 		wxDELETE(pPieceInfo);
 	}
 	m_pieceInfoMap.clear();
 
-	for (TM_BITMAP_FONT::iterator it = m_bitmapFontMap.begin(); it != m_bitmapFontMap.end(); ++it)
+	for (TM_DOC_BITMAP_FONT::iterator it = m_bitmapFontMap.begin(); it != m_bitmapFontMap.end(); ++it)
 	{
 		DocBitmapFont* pBitmapFont = it->second;
 		wxDELETE(pBitmapFont);
 	}
 	m_bitmapFontMap.clear();
 
-	for (TM_BITMAP_STYLE::iterator it = m_bitmapStyleMap.begin(); it != m_bitmapStyleMap.end(); ++it)
+	for (TM_DOC_BITMAP_STYLE::iterator it = m_bitmapStyleMap.begin(); it != m_bitmapStyleMap.end(); ++it)
 	{
 		DocBitmapStyle* pBitmapStyle = it->second;
 		wxDELETE(pBitmapStyle);
 	}
 	m_bitmapStyleMap.clear();
 
-	for (TM_NINE_PATCH_STYLE::iterator it = m_ninePatchStyleMap.begin(); it != m_ninePatchStyleMap.end(); ++it)
+	for (TM_DOC_NINE_PATCH_STYLE::iterator it = m_ninePatchStyleMap.begin(); it != m_ninePatchStyleMap.end(); ++it)
 	{
 		DocNinePatchStyle* pNinePatchStyle = it->second;
 		wxDELETE(pNinePatchStyle);
 	}
 	m_ninePatchStyleMap.clear();
 
-	for (TM_VERTICAL_PATCH_STYLE::iterator it = m_verticalPatchStyleMap.begin(); it != m_verticalPatchStyleMap.end(); ++it)
+	for (TM_DOC_VERTICAL_PATCH_STYLE::iterator it = m_verticalPatchStyleMap.begin(); it != m_verticalPatchStyleMap.end(); ++it)
 	{
 		DocVerticalPatchStyle* pVerticalPatchStyle = it->second;
 		wxDELETE(pVerticalPatchStyle);
 	}
 	m_verticalPatchStyleMap.clear();
 
-	for (TM_HORIZONTAL_PATCH_STYLE::iterator it = m_horizontalPatchStyleMap.begin(); it != m_horizontalPatchStyleMap.end(); ++it)
+	for (TM_DOC_HORIZONTAL_PATCH_STYLE::iterator it = m_horizontalPatchStyleMap.begin(); it != m_horizontalPatchStyleMap.end(); ++it)
 	{
 		DocHorizontalPatchStyle* pHorizontalPatchStyle = it->second;
 		wxDELETE(pHorizontalPatchStyle);
 	}
 	m_horizontalPatchStyleMap.clear();
 
-	for (TM_BITMAP_FONT_STYLE::iterator it = m_bitmapFontStyleMap.begin(); it != m_bitmapFontStyleMap.end(); ++it)
+	for (TM_DOC_BITMAP_FONT_STYLE::iterator it = m_bitmapFontStyleMap.begin(); it != m_bitmapFontStyleMap.end(); ++it)
 	{
 		DocBitmapFontStyle* pBitmapFontStyle = it->second;
 		wxDELETE(pBitmapFontStyle);

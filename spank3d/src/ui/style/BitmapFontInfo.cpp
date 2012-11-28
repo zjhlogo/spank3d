@@ -75,7 +75,8 @@ bool BitmapFontInfo::LoadFromFile(const tstring& strFile)
 bool BitmapFontInfo::ParseCommonInfo(TiXmlElement* pXmlCommon)
 {
 	if (!pXmlCommon) return false;
-	if (!pXmlCommon->Attribute(_("lineHeight"), &m_fLineHeight)) return false;
+	m_fLineHeight = 0.0f;
+	if (pXmlCommon->QueryFloatAttribute(_("lineHeight"), &m_fLineHeight) != TIXML_SUCCESS) return false;
 	return true;
 }
 
@@ -124,10 +125,11 @@ bool BitmapFontInfo::CreateCharsInfo(TiXmlElement* pXmlCharsInfo)
 		pXmlChar->Attribute(_("width"), &charInfo.width);
 		pXmlChar->Attribute(_("height"), &charInfo.height);
 
-		pXmlChar->Attribute(_("xoffset"), &charInfo.offset.x);
-		pXmlChar->Attribute(_("yoffset"), &charInfo.offset.y);
+		pXmlChar->QueryFloatAttribute(_("xoffset"), &charInfo.offset.x);
+		pXmlChar->QueryFloatAttribute(_("yoffset"), &charInfo.offset.y);
 
-		pXmlChar->Attribute(_("xadvance"), &charInfo.advance);
+		charInfo.advance = 0.0f;
+		pXmlChar->QueryFloatAttribute(_("xadvance"), &charInfo.advance);
 
 		int pageIndex = 0;
 		pXmlChar->Attribute(_("page"), &pageIndex);
@@ -158,7 +160,7 @@ bool BitmapFontInfo::CreateKerningsInfo(TiXmlElement* pXmlKerningsInfo)
 		pXmlKerning->Attribute(_("second"), &secondId);
 
 		float offset = 0.0f;
-		pXmlKerning->Attribute(_("amount"), &offset);
+		pXmlKerning->QueryFloatAttribute(_("amount"), &offset);
 
 		uint hashKey = ((firstId << 16) | (secondId & 0x0000FFFF));
 		m_KerningMap.insert(std::make_pair(hashKey, offset));
