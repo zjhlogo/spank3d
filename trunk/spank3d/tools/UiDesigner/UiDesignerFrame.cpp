@@ -13,6 +13,7 @@ IMPLEMENT_CLASS(UiDesignerFrame, UiDesigner_ui)
 
 BEGIN_EVENT_TABLE(UiDesignerFrame, UiDesigner_ui)
 	EVT_MENU(IDM_FILE_OPEN_PROJECT, UiDesignerFrame::OnFileNewProjectClicked)
+	EVT_MENU(IDM_FILE_CLOSE_PROJECT, UiDesignerFrame::OnFileCloseProjectClicked)
 END_EVENT_TABLE()
 
 UiDesignerFrame::UiDesignerFrame()
@@ -36,4 +37,10 @@ void UiDesignerFrame::OnFileNewProjectClicked(wxCommandEvent& event)
 		wxString strName = dialog.GetFilename();
 		DocProject::GetInstance().Open(strDir, strName);
 	}
+}
+
+void UiDesignerFrame::OnFileCloseProjectClicked(wxCommandEvent& event)
+{
+	// TODO: ask to save if nessary
+	DocProject::GetInstance().Close();
 }

@@ -47,13 +47,13 @@ bool IWindowParser::ParseWindow(TiXmlElement* pXmlWindow, IWindow* pWindow)
 	pWindow->SetTag(strTag);
 
 	Vector2 pos;
-	pXmlWindow->Attribute(_("x"), &pos.x);
-	pXmlWindow->Attribute(_("y"), &pos.y);
+	pXmlWindow->QueryFloatAttribute(_("x"), &pos.x);
+	pXmlWindow->QueryFloatAttribute(_("y"), &pos.y);
 	pWindow->SetPosition(pos);
 
 	Vector2 size;
-	pXmlWindow->Attribute(_("width"), &size.x);
-	pXmlWindow->Attribute(_("height"), &size.y);
+	pXmlWindow->QueryFloatAttribute(_("width"), &size.x);
+	pXmlWindow->QueryFloatAttribute(_("height"), &size.y);
 	pWindow->SetSize(size);
 
 	const tchar* pszBgStyle = pXmlWindow->Attribute(_("bgstyle"));

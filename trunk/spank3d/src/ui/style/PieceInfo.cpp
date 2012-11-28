@@ -37,10 +37,10 @@ bool PieceInfo::FromXml(TiXmlElement* pXmlPieceInfo, ITexture* pTex)
 {
 	pTexture = pTex;
 
-	pXmlPieceInfo->Attribute(_("x"), &x);
-	pXmlPieceInfo->Attribute(_("y"), &y);
-	pXmlPieceInfo->Attribute(_("width"), &width);
-	pXmlPieceInfo->Attribute(_("height"), &height);
+	if (pXmlPieceInfo->QueryFloatAttribute(_("x"), &x) != TIXML_SUCCESS) return false;
+	if (pXmlPieceInfo->QueryFloatAttribute(_("y"), &y) != TIXML_SUCCESS) return false;
+	if (pXmlPieceInfo->QueryFloatAttribute(_("width"), &width) != TIXML_SUCCESS) return false;
+	if (pXmlPieceInfo->QueryFloatAttribute(_("height"), &height) != TIXML_SUCCESS) return false;
 
 	const Vector2& size = pTexture->GetSize();
 
@@ -56,9 +56,9 @@ TiXmlElement* PieceInfo::ToXml()
 {
 	TiXmlElement* pXmlPieceInfo = new TiXmlElement(_("PieceInfo"));
 	pXmlPieceInfo->SetAttribute(_("id"), strId.c_str());
-	pXmlPieceInfo->SetAttribute(_("x"), int(x+0.5f));
-	pXmlPieceInfo->SetAttribute(_("y"), int(y+0.5f));
-	pXmlPieceInfo->SetAttribute(_("width"), int(width+0.5f));
-	pXmlPieceInfo->SetAttribute(_("height"), int(height+0.5f));
+	pXmlPieceInfo->SetAttribute(_("x"), int(x));
+	pXmlPieceInfo->SetAttribute(_("y"), int(y));
+	pXmlPieceInfo->SetAttribute(_("width"), int(width));
+	pXmlPieceInfo->SetAttribute(_("height"), int(height));
 	return pXmlPieceInfo;
 }

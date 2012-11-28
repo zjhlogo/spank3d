@@ -23,6 +23,7 @@ public:
 
 private:
 	void OnDocumentReset(wxDocEvent& event);
+	void ResetAllItems();
 
 private:
 	wxTreeItemId m_resRoot;
@@ -30,8 +31,8 @@ private:
 	wxTreeItemId m_styleRoot;
 	wxTreeItemId m_styleBitmap;
 	wxTreeItemId m_styleNinePatch;
-	wxTreeItemId m_styleVerticalPatch;
 	wxTreeItemId m_styleHorizontalPatch;
+	wxTreeItemId m_styleVerticalPatch;
 	wxTreeItemId m_styleBitmapFont;
 
 	wxTreeItemId m_dialogRoot;

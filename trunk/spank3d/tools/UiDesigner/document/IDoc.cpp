@@ -38,35 +38,12 @@ bool IDoc::Save(const wxString& strFile /* = wxEmptyString */)
 	return DoSave(path);
 }
 
+void IDoc::Close()
+{
+	Reset();
+}
+
 const wxString& IDoc::GetFileName() const
 {
 	return m_strFileName;
-}
-
-wxXmlNode* IDoc::FindChildNode(wxXmlNode* pNode, const wxString& name)
-{
-	if (!pNode) return NULL;
-
-	wxXmlNode* pChild = pNode->GetChildren();
-	while (pChild)
-	{
-		if (pChild->GetName() == name) return pChild;
-		pChild = pChild->GetNext();
-	}
-
-	return NULL;
-}
-
-wxXmlNode* IDoc::FindNextSiblingNode(wxXmlNode* pNode, const wxString& name)
-{
-	if (!pNode) return NULL;
-
-	wxXmlNode* pCurrNode = pNode->GetNext();
-	while (pCurrNode)
-	{
-		if (pCurrNode->GetName() == name) return pCurrNode;
-		pCurrNode = pCurrNode->GetNext();
-	}
-
-	return NULL;
 }

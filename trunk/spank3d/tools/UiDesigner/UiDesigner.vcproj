@@ -206,6 +206,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\document\DocGraphicsStyle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\document\DocGraphicsStyle.h"
+				>
+			</File>
+			<File
 				RelativePath=".\document\DocHorizontalPatchStyle.cpp"
 				>
 			</File>
@@ -254,6 +262,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\document\State.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\document\State.h"
+				>
+			</File>
+			<File
 				RelativePath=".\document\wxDocEvent.cpp"
 				>
 			</File>
@@ -283,6 +299,14 @@
 			</File>
 			<File
 				RelativePath=".\utils\StringUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\utils\XmlUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\utils\XmlUtil.h"
 				>
 			</File>
 		</Filter>

@@ -640,19 +640,6 @@ const char* TiXmlElement::Attribute( const char* name, double* d ) const
 	return result;
 }
 
-const char* TiXmlElement::Attribute( const char* name, float* f ) const
-{
-	const TiXmlAttribute* attrib = attributeSet.Find( name );
-	const char* result = 0;
-
-	if ( attrib ) {
-		result = attrib->Value();
-		if ( f ) {
-			attrib->QueryFloatValue( f );
-		}
-	}
-	return result;
-}
 
 #ifdef TIXML_USE_STL
 const std::string* TiXmlElement::Attribute( const std::string& name, double* d ) const
@@ -1256,13 +1243,6 @@ int TiXmlAttribute::QueryIntValue( int* ival ) const
 int TiXmlAttribute::QueryDoubleValue( double* dval ) const
 {
 	if ( TIXML_SSCANF( value.c_str(), "%lf", dval ) == 1 )
-		return TIXML_SUCCESS;
-	return TIXML_WRONG_TYPE;
-}
-
-int TiXmlAttribute::QueryFloatValue( float* fval ) const
-{
-	if ( TIXML_SSCANF( value.c_str(), "%f", fval ) == 1 )
 		return TIXML_SUCCESS;
 	return TIXML_WRONG_TYPE;
 }

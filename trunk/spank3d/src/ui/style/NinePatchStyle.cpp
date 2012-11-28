@@ -61,10 +61,10 @@ bool NinePatchStyle::FromXml(TiXmlElement* pXmlNinePatchStyle)
 		float minY = 0.0f;
 		float maxX = 0.0f;
 		float maxY = 0.0f;
-		pXmlState->Attribute(_("minX"), &minX);
-		pXmlState->Attribute(_("minY"), &minY);
-		pXmlState->Attribute(_("maxX"), &maxX);
-		pXmlState->Attribute(_("maxY"), &maxY);
+		pXmlState->QueryFloatAttribute(_("minX"), &minX);
+		pXmlState->QueryFloatAttribute(_("minY"), &minY);
+		pXmlState->QueryFloatAttribute(_("maxX"), &maxX);
+		pXmlState->QueryFloatAttribute(_("maxY"), &maxY);
 
 		NINE_PATCH_INFO* pPatchInfo = new NINE_PATCH_INFO();
 		pPatchInfo->nState = nState;

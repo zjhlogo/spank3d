@@ -59,8 +59,8 @@ bool VerticalPatchStyle::FromXml(TiXmlElement* pXmlVerticalPatchStyle)
 
 		float minY = 0.0f;
 		float maxY = 0.0f;
-		pXmlState->Attribute(_("minY"), &minY);
-		pXmlState->Attribute(_("maxY"), &maxY);
+		pXmlState->QueryFloatAttribute(_("minY"), &minY);
+		pXmlState->QueryFloatAttribute(_("maxY"), &maxY);
 
 		VERTICAL_PATCH_INFO* pPatchInfo = new VERTICAL_PATCH_INFO();
 		pPatchInfo->nState = nState;

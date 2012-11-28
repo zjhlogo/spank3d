@@ -81,3 +81,59 @@ wxString StringUtil::RemoveRootDir(const wxString& strPath, const wxString& strR
 
 	return strPath.SubString(nEndPos, strPath.length());
 }
+
+int StringUtil::SplitString(std::vector<wxString>& arrOut, const wxString& strIn, const wxString& strSplit)
+{
+	int totalSplit = 0;
+	size_t startIndex = 0;
+	size_t endIndex = 0;
+
+	endIndex = strIn.find(strSplit.c_str(), startIndex);
+	while (endIndex != wxString::npos)
+	{
+		arrOut.push_back(strIn.substr(startIndex, endIndex-startIndex));
+		totalSplit++;
+
+		startIndex += strSplit.length();
+		endIndex = strIn.find(strSplit.c_str(), startIndex);
+	}
+
+	if (startIndex >= strIn.length()-1) return totalSplit;
+
+	arrOut.push_back(strIn.substr(startIndex));
+	totalSplit++;
+
+	return totalSplit;
+}
+
+wxString StringUtil::JoinString(const std::vector<wxString>& arrIn, const wxString& strSplit)
+{
+	wxString strOut;
+
+	int nLength = int(arrIn.size());
+	if (nLength <= 0) return strOut;
+
+	strOut += arrIn[0];
+
+	for (int i = 1; i < nLength; ++i)
+	{
+		strOut += strSplit;
+		strOut += arrIn[i];
+	}
+
+	return strOut;
+}
+
+wxString StringUtil::Hex2Str(unsigned int nValue)
+{
+	wxString strOut;
+	strOut.Printf(wxT("0x%08X"), nValue);
+	return strOut;
+}
+
+unsigned int StringUtil::Str2Hex(const wxString& strIn)
+{
+	unsigned int value = 0;
+	_stscanf_s(strIn.c_str(), wxT("%x"), &value);
+	return value;
+}

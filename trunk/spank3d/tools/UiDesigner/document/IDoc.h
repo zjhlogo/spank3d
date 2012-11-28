@@ -8,8 +8,8 @@
 #ifndef __IDOC_H__
 #define __IDOC_H__
 
-#include <wx/xml/xml.h>
 #include "wxDocEvent.h"
+#include "../utils/XmlUtil.h"
 
 class IDoc : public wxEvtHandler
 {
@@ -19,6 +19,7 @@ public:
 
 	virtual bool Open(const wxString& strDir, const wxString& strFile);
 	virtual bool Save(const wxString& strFile = wxEmptyString);
+	virtual void Close();
 
 	const wxString& GetFileName() const;
 
@@ -26,9 +27,6 @@ protected:
 	virtual bool DoOpen(const wxString& strFile) = 0;
 	virtual bool DoSave(const wxString& strFile) = 0;
 	virtual void Reset() = 0;
-
-	wxXmlNode* FindChildNode(wxXmlNode* pNode, const wxString& name);
-	wxXmlNode* FindNextSiblingNode(wxXmlNode* pNode, const wxString& name);
 
 protected:
 	wxString m_strBaseDir;

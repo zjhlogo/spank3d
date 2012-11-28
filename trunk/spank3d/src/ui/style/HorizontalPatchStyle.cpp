@@ -57,10 +57,10 @@ bool HorizontalPatchStyle::FromXml(TiXmlElement* pXmlHorizontalPatchStyle)
 		const PieceInfo* pPieceInfo = g_pUiResMgr->FindPieceInfo(pszPieceId);
 		if (!pPieceInfo) continue;
 
-		float minX = 0;
-		float maxX = 0;
-		pXmlState->Attribute(_("minX"), &minX);
-		pXmlState->Attribute(_("maxX"), &maxX);
+		float minX = 0.0f;
+		float maxX = 0.0f;
+		pXmlState->QueryFloatAttribute(_("minX"), &minX);
+		pXmlState->QueryFloatAttribute(_("maxX"), &maxX);
 
 		HORIZONTAL_PATCH_INFO* pPatchInfo = new HORIZONTAL_PATCH_INFO();
 		pPatchInfo->nState = nState;
