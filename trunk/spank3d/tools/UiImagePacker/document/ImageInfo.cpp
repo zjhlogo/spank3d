@@ -41,6 +41,8 @@ bool ImageInfo::SaveToXml(wxXmlNode* pNodeImageList)
 	wxXmlNode* pNodeImage = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("Image"));
 	pNodeImage->AddAttribute(wxT("id"), m_strId);
 	pNodeImage->AddAttribute(wxT("path"), m_strPath);
+	pNodeImage->AddAttribute(wxT("width"), wxString::Format(wxT("%d"), GetBitmap()->GetWidth()));
+	pNodeImage->AddAttribute(wxT("height"), wxString::Format(wxT("%d"), GetBitmap()->GetHeight()));
 	pNodeImageList->AddChild(pNodeImage);
 	return true;
 }
