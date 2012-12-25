@@ -284,7 +284,7 @@ bool DialogAddPiece::RepackImagePiece(const ImageInfo* pImageInfo)
 	for (TV_PACKING_PIECE_INFO::iterator it = vPackingInfo.begin(); it != vPackingInfo.end(); ++it)
 	{
 		PACKING_PIECE_INFO* pPackingInfo = (*it);
-		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->pNode->width, pPackingInfo->pNode->height);
+		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->bmpSize.x, pPackingInfo->bmpSize.y);
 		ImagePieceDocument::GetInstance().SetPieceRect(pPackingInfo->pPieceInfo, rect);
 	}
 
@@ -449,7 +449,7 @@ bool DialogAddPiece::AddPieceToExistingImage(const wxSize& newSize)
 	for (TV_PACKING_PIECE_INFO::iterator it = vPackingInfo.begin(); it != vPackingInfo.end(); ++it)
 	{
 		PACKING_PIECE_INFO* pPackingInfo = (*it);
-		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->pNode->width, pPackingInfo->pNode->height);
+		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->bmpSize.x, pPackingInfo->bmpSize.y);
 		if (pPackingInfo->pPieceInfo)
 		{
 			ImagePieceDocument::GetInstance().SetPieceRect(pPackingInfo->pPieceInfo, rect);
@@ -510,7 +510,7 @@ bool DialogAddPiece::AddPieceIntoNewImage(const wxSize& newSize)
 	for (TV_PACKING_PIECE_INFO::iterator it = vPackingInfo.begin(); it != vPackingInfo.end(); ++it)
 	{
 		PACKING_PIECE_INFO* pPackingInfo = (*it);
-		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->pNode->width, pPackingInfo->pNode->height);
+		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->bmpSize.x, pPackingInfo->bmpSize.y);
 		wxString strId = FileUtil::GetFileName(pPackingInfo->strId);
 		FileUtil::FormatId(strId);
 		ImagePieceDocument::GetInstance().AddPiece(strId, rect, pImageInfo);
@@ -567,7 +567,7 @@ bool DialogAddPiece::GeneratePackingInfo(TV_PACKING_PIECE_INFO& vPackingInfo, co
 		PACKING_PIECE_INFO* pPackingInfo = (*it);
 
 		// Pack the next rectangle in the input list.
-		pPackingInfo->pNode = m_Packer.Insert(pPackingInfo->bmpSize.x, pPackingInfo->bmpSize.y);
+		pPackingInfo->pNode = m_Packer.Insert(pPackingInfo->bmpSize.x+RectangleBinPack::GAP, pPackingInfo->bmpSize.y+RectangleBinPack::GAP);
 		if (!pPackingInfo->pNode)
 		{
 			m_strError = wxString::Format(_("Not enough space to pack sub bitmaps %s"), pPackingInfo->strId);

@@ -302,7 +302,7 @@ bool DialogMovePiece::AddPieceToExistingImage(const wxSize& newSize)
 		}
 
 		// set new bitmap info
-		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->pNode->width, pPackingInfo->pNode->height);
+		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->bmpSize.x, pPackingInfo->bmpSize.y);
 		ImagePieceDocument::GetInstance().SetPieceRect(pPieceInfo, rect);
 	}
 
@@ -371,7 +371,7 @@ bool DialogMovePiece::GeneratePackingInfo(TV_PACKING_PIECE_INFO& vPackingInfo, c
 		PACKING_PIECE_INFO* pPackingInfo = (*it);
 
 		// Pack the next rectangle in the input list.
-		pPackingInfo->pNode = m_Packer.Insert(pPackingInfo->bmpSize.x, pPackingInfo->bmpSize.y);
+		pPackingInfo->pNode = m_Packer.Insert(pPackingInfo->bmpSize.x+RectangleBinPack::GAP, pPackingInfo->bmpSize.y+RectangleBinPack::GAP);
 		if (!pPackingInfo->pNode)
 		{
 			m_strError = wxString::Format(_("Not enough space to pack sub bitmaps %s"), pPackingInfo->strId);

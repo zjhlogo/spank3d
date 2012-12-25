@@ -35,6 +35,12 @@
 class RectangleBinPack
 {
 public:
+	enum CONST_DEFINE
+	{
+		GAP = 1,
+	};
+
+public:
 	/** A node of a binary tree. Each node represents a rectangular area of the texture
 	    we surface. Internal nodes store rectangles of used data, whereas leaf nodes track 
 	    rectangles of free space. All the rectangles stored in the tree are disjoint. */
