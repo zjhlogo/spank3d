@@ -61,7 +61,9 @@ void ClipBitmapStyleTransformer::UpdateProperty(const ClipBitmapStyle* pClipBitm
 	if (!pClipBitmapStyle) return;
 
 	m_pPropertyGrid->Append(new wxStringProperty(_("id"), wxT("id"), pClipBitmapStyle->GetId()));
-	m_pPropertyGrid->Append(new wxBoolProperty(_("auto gen bitmap"), wxT("auto_bitmap"), pClipBitmapStyle->isAutoGenBitmap()))->SetAttribute(wxPG_BOOL_USE_CHECKBOX, true);
+	m_pPropertyGrid->Append(new wxBoolProperty(_("auto gen bitmap"), wxT("auto_bitmap"), pClipBitmapStyle->IsAutoGenBitmap()))->SetAttribute(wxPG_BOOL_USE_CHECKBOX, true);
+	m_pPropertyGrid->Append(new wxBoolProperty(_("flip x"), wxT("flip_x"), pClipBitmapStyle->IsFlipX()))->SetAttribute(wxPG_BOOL_USE_CHECKBOX, true);
+	m_pPropertyGrid->Append(new wxBoolProperty(_("flip y"), wxT("flip_y"), pClipBitmapStyle->IsFlipY()))->SetAttribute(wxPG_BOOL_USE_CHECKBOX, true);
 
 	const wxArrayString& pieceIds = ImagePieceDocument::GetInstance().GetPieceIds();
 	const wxArrayInt& pieceIdsIndex = ImagePieceDocument::GetInstance().GetPieceIdsIndex();
@@ -100,6 +102,16 @@ void ClipBitmapStyleTransformer::PropertyChanged(const wxPGProperty* pProperty)
 	{
 		bool bAutoGenBitmap = pProperty->GetValue().GetBool();
 		bRedraw = ClipBitmapStyleDocument::GetInstance().SetAutoGenBitmap(pClipBitmapStyle, bAutoGenBitmap);
+	}
+	else if (pProperty->GetName() == wxT("flip_x"))
+	{
+		bool bFlipX = pProperty->GetValue().GetBool();
+		bRedraw = ClipBitmapStyleDocument::GetInstance().SetFlipX(pClipBitmapStyle, bFlipX);
+	}
+	else if (pProperty->GetName() == wxT("flip_y"))
+	{
+		bool bFlipY = pProperty->GetValue().GetBool();
+		bRedraw = ClipBitmapStyleDocument::GetInstance().SetFlipY(pClipBitmapStyle, bFlipY);
 	}
 	else if (pProperty->GetName() == wxT("normal"))
 	{

@@ -34,6 +34,16 @@ bool NineGridStyle::LoadFromXml(wxXmlNode* pNodeNineGridStyle)
 		SetAutoGenBitmap(true);
 	}
 
+	if (pNodeNineGridStyle->GetAttribute(wxT("flip_x")) == wxT("true"))
+	{
+		SetFlipX(true);
+	}
+
+	if (pNodeNineGridStyle->GetAttribute(wxT("flip_y")) == wxT("true"))
+	{
+		SetFlipY(true);
+	}
+
 	if (!LoadStateInfo(m_NineGridInfo[SS_NORMAL], pNodeNineGridStyle, wxT("normal"))) return false;
 	LoadStateInfo(m_NineGridInfo[SS_DOWN], pNodeNineGridStyle, wxT("down"));
 	LoadStateInfo(m_NineGridInfo[SS_HOVER], pNodeNineGridStyle, wxT("hover"));
@@ -48,7 +58,9 @@ bool NineGridStyle::SaveToXml(wxXmlNode* pNodeNineGridStyleList)
 
 	wxXmlNode* pNodeNineGridStyle = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("NineGridStyle"));
 	pNodeNineGridStyle->AddAttribute(wxT("id"), GetId());
-	if (isAutoGenBitmap()) pNodeNineGridStyle->AddAttribute(wxT("auto_bitmap"), wxT("true"));
+	if (IsAutoGenBitmap()) pNodeNineGridStyle->AddAttribute(wxT("auto_bitmap"), wxT("true"));
+	if (IsFlipX()) pNodeNineGridStyle->AddAttribute(wxT("flip_x"), wxT("true"));
+	if (IsFlipY()) pNodeNineGridStyle->AddAttribute(wxT("flip_y"), wxT("true"));
 
 	if (!SaveStateInfo(pNodeNineGridStyle, wxT("normal"), m_NineGridInfo[SS_NORMAL]))
 	{

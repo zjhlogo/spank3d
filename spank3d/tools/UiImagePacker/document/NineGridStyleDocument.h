@@ -33,6 +33,9 @@ public:
 
 	bool RenameNineGridStyleId(const NineGridStyle* pNineGridStyle, const wxString& strNewId);
 	bool SetAutoGenBitmap(const NineGridStyle* pNineGridStyle, bool bAutoGenBitmap);
+	bool SetFlipX(const NineGridStyle* pNineGridStyle, bool bFlipX);
+	bool SetFlipY(const NineGridStyle* pNineGridStyle, bool bFlipY);
+
 	bool SetStatePiece(const NineGridStyle* pNineGridStyle, const PieceInfo* pPieceInfo, IStyle::STYLE_STATE eState);
 	bool SetStateMinX(const NineGridStyle* pNineGridStyle, int value, IStyle::STYLE_STATE eState);
 	bool SetStateMinY(const NineGridStyle* pNineGridStyle, int value, IStyle::STYLE_STATE eState);

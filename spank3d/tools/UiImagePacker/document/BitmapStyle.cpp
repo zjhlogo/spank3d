@@ -34,6 +34,16 @@ bool BitmapStyle::LoadFromXml(wxXmlNode* pNodeBitmapStyle)
 		SetAutoGenBitmap(true);
 	}
 
+	if (pNodeBitmapStyle->GetAttribute(wxT("flip_x")) == wxT("true"))
+	{
+		SetFlipX(true);
+	}
+
+	if (pNodeBitmapStyle->GetAttribute(wxT("flip_y")) == wxT("true"))
+	{
+		SetFlipY(true);
+	}
+
 	m_PieceInfo[SS_NORMAL] = LoadStateInfo(pNodeBitmapStyle, wxT("normal"), NULL);
 	if (!m_PieceInfo[SS_NORMAL]) return false;
 
@@ -50,7 +60,9 @@ bool BitmapStyle::SaveToXml(wxXmlNode* pNodeBitmapStyleList)
 
 	wxXmlNode* pNodeBitmapStyle = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("BitmapStyle"));
 	pNodeBitmapStyle->AddAttribute(wxT("id"), GetId());
-	if (isAutoGenBitmap()) pNodeBitmapStyle->AddAttribute(wxT("auto_bitmap"), wxT("true"));
+	if (IsAutoGenBitmap()) pNodeBitmapStyle->AddAttribute(wxT("auto_bitmap"), wxT("true"));
+	if (IsFlipX()) pNodeBitmapStyle->AddAttribute(wxT("flip_x"), wxT("true"));
+	if (IsFlipY()) pNodeBitmapStyle->AddAttribute(wxT("flip_y"), wxT("true"));
 
 	if (!SaveStateInfo(pNodeBitmapStyle, wxT("normal"), m_PieceInfo[SS_NORMAL]))
 	{

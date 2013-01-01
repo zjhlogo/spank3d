@@ -33,6 +33,8 @@ public:
 
 	bool RenameClipBitmapStyleId(const ClipBitmapStyle* pClipBitmapStyle, const wxString& strNewId);
 	bool SetAutoGenBitmap(const ClipBitmapStyle* pClipBitmapStyle, bool bAutoGenBitmap);
+	bool SetFlipX(const ClipBitmapStyle* pClipBitmapStyle, bool bFlipX);
+	bool SetFlipY(const ClipBitmapStyle* pClipBitmapStyle, bool bFlipY);
 	bool SetStatePiece(const ClipBitmapStyle* pClipBitmapStyle, const PieceInfo* pPieceInfo, IStyle::STYLE_STATE eState);
 
 	const ClipBitmapStyle* AddClipBitmapStyle(const wxString& strId);

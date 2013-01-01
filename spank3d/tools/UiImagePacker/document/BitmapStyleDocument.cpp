@@ -157,6 +157,30 @@ bool BitmapStyleDocument::SetAutoGenBitmap(const BitmapStyle* pBitmapStyle, bool
 	return true;
 }
 
+bool BitmapStyleDocument::SetFlipX(const BitmapStyle* pBitmapStyle, bool bFlipX)
+{
+	if (!pBitmapStyle) return false;
+
+	BitmapStyle* pFoundBitmapStyle = InternalFindBitmapStyle(pBitmapStyle->GetId());
+	if (!pFoundBitmapStyle) return false;
+	SetModifiedFlag();
+
+	pFoundBitmapStyle->SetFlipX(bFlipX);
+	return true;
+}
+
+bool BitmapStyleDocument::SetFlipY(const BitmapStyle* pBitmapStyle, bool bFlipY)
+{
+	if (!pBitmapStyle) return false;
+
+	BitmapStyle* pFoundBitmapStyle = InternalFindBitmapStyle(pBitmapStyle->GetId());
+	if (!pFoundBitmapStyle) return false;
+	SetModifiedFlag();
+
+	pFoundBitmapStyle->SetFlipY(bFlipY);
+	return true;
+}
+
 bool BitmapStyleDocument::SetStatePiece(const BitmapStyle* pBitmapStyle, const PieceInfo* pPieceInfo, IStyle::STYLE_STATE eState)
 {
 	if (!pBitmapStyle) return false;

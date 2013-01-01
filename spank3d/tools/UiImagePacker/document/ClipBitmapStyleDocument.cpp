@@ -157,6 +157,30 @@ bool ClipBitmapStyleDocument::SetAutoGenBitmap(const ClipBitmapStyle* pClipBitma
 	return true;
 }
 
+bool ClipBitmapStyleDocument::SetFlipX(const ClipBitmapStyle* pClipBitmapStyle, bool bFlipX)
+{
+	if (!pClipBitmapStyle) return false;
+
+	ClipBitmapStyle* pFoundClipBitmapStyle = InternalFindClipBitmapStyle(pClipBitmapStyle->GetId());
+	if (!pFoundClipBitmapStyle) return false;
+	SetModifiedFlag();
+
+	pFoundClipBitmapStyle->SetFlipX(bFlipX);
+	return true;
+}
+
+bool ClipBitmapStyleDocument::SetFlipY(const ClipBitmapStyle* pClipBitmapStyle, bool bFlipY)
+{
+	if (!pClipBitmapStyle) return false;
+
+	ClipBitmapStyle* pFoundClipBitmapStyle = InternalFindClipBitmapStyle(pClipBitmapStyle->GetId());
+	if (!pFoundClipBitmapStyle) return false;
+	SetModifiedFlag();
+
+	pFoundClipBitmapStyle->SetFlipY(bFlipY);
+	return true;
+}
+
 bool ClipBitmapStyleDocument::SetStatePiece(const ClipBitmapStyle* pClipBitmapStyle, const PieceInfo* pPieceInfo, IStyle::STYLE_STATE eState)
 {
 	if (!pClipBitmapStyle) return false;

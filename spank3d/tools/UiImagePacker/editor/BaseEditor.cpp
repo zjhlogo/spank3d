@@ -7,6 +7,8 @@
  */
 #include <wx/wxprec.h>
 #include <wx/dcbuffer.h>
+#include <wx/rawbmp.h>
+
 #include "BaseEditor.h"
 
 #define SAFE_DELETE(x) if (x) {delete (x); (x) = NULL;}
@@ -140,7 +142,7 @@ void BaseEditor::DrawImage(wxDC& dc, const wxPoint& destPos, const ImageInfo* pI
 	m_memDC.SelectObject(wxNullBitmap);
 }
 
-void BaseEditor::DrawPiece(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo)
+void BaseEditor::DrawPieceNormal(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo, bool flipX, bool flipY)
 {
 	if (!pPieceInfo) return;
 
@@ -150,9 +152,78 @@ void BaseEditor::DrawPiece(wxDC& dc, const wxPoint& destPos, const PieceInfo* pP
 	const wxBitmap* pBitmap = ((ImageInfo*)pImageInfo)->GetBitmap();
 	if (!pBitmap) return;
 
-	m_memDC.SelectObject((wxBitmap)(*pBitmap));
-	dc.StretchBlit(destPos*m_nZoom-m_ptOriginOffset, pPieceInfo->GetRect().GetSize()*m_nZoom, &m_memDC, pPieceInfo->GetRect().GetPosition(), pPieceInfo->GetRect().GetSize());
-	m_memDC.SelectObject(wxNullBitmap);
+	if (flipX || flipY)
+	{
+		wxBitmap bmpNormalPiece = pBitmap->GetSubBitmap(pPieceInfo->GetRect());
+		BitmapFilterFlip(bmpNormalPiece, flipX, flipY);
+
+		m_memDC.SelectObjectAsSource(bmpNormalPiece);
+		dc.StretchBlit(destPos*m_nZoom-m_ptOriginOffset, pPieceInfo->GetRect().GetSize()*m_nZoom, &m_memDC, wxPoint(0, 0), bmpNormalPiece.GetSize());
+		m_memDC.SelectObjectAsSource(wxNullBitmap);
+	}
+	else
+	{
+		m_memDC.SelectObjectAsSource(*pBitmap);
+		dc.StretchBlit(destPos*m_nZoom-m_ptOriginOffset, pPieceInfo->GetRect().GetSize()*m_nZoom, &m_memDC, pPieceInfo->GetRect().GetPosition(), pPieceInfo->GetRect().GetSize());
+		m_memDC.SelectObjectAsSource(wxNullBitmap);
+	}
+}
+
+void BaseEditor::DrawPieceDarken(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo, bool flipX, bool flipY)
+{
+	if (!pPieceInfo) return;
+
+	const ImageInfo* pImageInfo = pPieceInfo->GetImageInfo();
+	if (!pImageInfo) return;
+
+	const wxBitmap* pBitmap = ((ImageInfo*)pImageInfo)->GetBitmap();
+	if (!pBitmap) return;
+
+	wxBitmap bmpDarkenPiece = pBitmap->GetSubBitmap(pPieceInfo->GetRect());
+	BitmapFilterFlip(bmpDarkenPiece, flipX, flipY);
+	BitmapFilterBrighten(bmpDarkenPiece, 0.8f, 0.8f, 0.8f);
+
+	m_memDC.SelectObjectAsSource(bmpDarkenPiece);
+	dc.StretchBlit(destPos*m_nZoom-m_ptOriginOffset, pPieceInfo->GetRect().GetSize()*m_nZoom, &m_memDC, wxPoint(0, 0), bmpDarkenPiece.GetSize());
+	m_memDC.SelectObjectAsSource(wxNullBitmap);
+}
+
+void BaseEditor::DrawPieceHighlight(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo, bool flipX, bool flipY)
+{
+	if (!pPieceInfo) return;
+
+	const ImageInfo* pImageInfo = pPieceInfo->GetImageInfo();
+	if (!pImageInfo) return;
+
+	const wxBitmap* pBitmap = ((ImageInfo*)pImageInfo)->GetBitmap();
+	if (!pBitmap) return;
+
+	wxBitmap bmpHighlightPiece = pBitmap->GetSubBitmap(pPieceInfo->GetRect());
+	BitmapFilterFlip(bmpHighlightPiece, flipX, flipY);
+	BitmapFilterBrighten(bmpHighlightPiece, 1.2f, 1.2f, 1.2f);
+
+	m_memDC.SelectObjectAsSource(bmpHighlightPiece);
+	dc.StretchBlit(destPos*m_nZoom-m_ptOriginOffset, pPieceInfo->GetRect().GetSize()*m_nZoom, &m_memDC, wxPoint(0, 0), bmpHighlightPiece.GetSize());
+	m_memDC.SelectObjectAsSource(wxNullBitmap);
+}
+
+void BaseEditor::DrawPieceDisabled(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo, bool flipX, bool flipY)
+{
+	if (!pPieceInfo) return;
+
+	const ImageInfo* pImageInfo = pPieceInfo->GetImageInfo();
+	if (!pImageInfo) return;
+
+	const wxBitmap* pBitmap = ((ImageInfo*)pImageInfo)->GetBitmap();
+	if (!pBitmap) return;
+
+	wxBitmap bmpDisabledPiece = pBitmap->GetSubBitmap(pPieceInfo->GetRect());
+	BitmapFilterFlip(bmpDisabledPiece, flipX, flipY);
+	BitmapFilterGray(bmpDisabledPiece, 0.3f, 0.59f, 0.11f);
+
+	m_memDC.SelectObjectAsSource(bmpDisabledPiece);
+	dc.StretchBlit(destPos*m_nZoom-m_ptOriginOffset, pPieceInfo->GetRect().GetSize()*m_nZoom, &m_memDC, wxPoint(0, 0), bmpDisabledPiece.GetSize());
+	m_memDC.SelectObjectAsSource(wxNullBitmap);
 }
 
 void BaseEditor::DrawRectangle(wxDC& dc, const wxRect& rect)
@@ -368,4 +439,167 @@ wxPoint BaseEditor::CalculateZoomedPos(const wxPoint& pos)
 wxPoint BaseEditor::CalculateOriginPos(const wxPoint& zoomedPos)
 {
 	return (zoomedPos - m_ptOriginOffset) / m_nZoom;
+}
+
+void BaseEditor::BitmapFilterBrighten(wxBitmap& bmpInOut, float scaleR, float scaleG, float scaleB)
+{
+	int width = bmpInOut.GetWidth();
+	int height = bmpInOut.GetHeight();
+
+	wxAlphaPixelData data(bmpInOut);
+	wxAlphaPixelData::Iterator p(data);
+
+	for (int y = 0; y < height; ++y)
+	{
+		wxAlphaPixelData::Iterator rowStart = p;
+		for (int x = 0; x < width; ++x, ++p)
+		{
+			p.Red() = wxMin(p.Red()*scaleR, 255);
+			p.Green() = wxMin(p.Green()*scaleG, 255);
+			p.Blue() = wxMin(p.Blue()*scaleB, 255);
+		}
+		p = rowStart;
+		p.OffsetY(data, 1);
+	}
+}
+
+void BaseEditor::BitmapFilterGray(wxBitmap& bmpInOut, float scaleR, float scaleG, float scaleB)
+{
+	int width = bmpInOut.GetWidth();
+	int height = bmpInOut.GetHeight();
+
+	wxAlphaPixelData data(bmpInOut);
+	wxAlphaPixelData::Iterator p(data);
+
+	for (int y = 0; y < height; ++y)
+	{
+		wxAlphaPixelData::Iterator rowStart = p;
+		for (int x = 0; x < width; ++x, ++p)
+		{
+			byte gray = wxMin(p.Red()*scaleR + p.Green()*scaleG + p.Blue()*scaleB, 255);
+			p.Red() = gray;
+			p.Green() = gray;
+			p.Blue() = gray;
+		}
+		p = rowStart;
+		p.OffsetY(data, 1);
+	}
+}
+
+void BaseEditor::BitmapFilterFlip(wxBitmap& bmpInOut, bool flipX, bool flipY)
+{
+	if (!flipX && !flipY) return;
+
+	int width = bmpInOut.GetWidth();
+	int height = bmpInOut.GetHeight();
+	int halfWidth = width / 2;
+	int halfHeight = height / 2;
+
+	wxAlphaPixelData data(bmpInOut);
+
+	wxAlphaPixelData::Iterator p1(data);
+	wxAlphaPixelData::Iterator p2(data);
+
+	if (flipX && flipY)
+	{
+		for (int y = 0; y < halfHeight; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				p1.MoveTo(data, x, y);
+				p2.MoveTo(data, width-x-1, height-y-1);
+
+				byte r = p1.Red();
+				byte g = p1.Green();
+				byte b = p1.Blue();
+				byte a = p1.Alpha();
+
+				p1.Red() = p2.Red();
+				p1.Green() = p2.Green();
+				p1.Blue() = p2.Blue();
+				p1.Alpha() = p2.Alpha();
+
+				p2.Red() = r;
+				p2.Green() = g;
+				p2.Blue() = b;
+				p2.Alpha() = a;
+			}
+		}
+
+		if (height % 2 == 1)
+		{
+			for (int x = 0; x < halfWidth; ++x)
+			{
+				p1.MoveTo(data, x, halfHeight);
+				p2.MoveTo(data, width-x-1, halfHeight);
+
+				byte r = p1.Red();
+				byte g = p1.Green();
+				byte b = p1.Blue();
+				byte a = p1.Alpha();
+
+				p1.Red() = p2.Red();
+				p1.Green() = p2.Green();
+				p1.Blue() = p2.Blue();
+				p1.Alpha() = p2.Alpha();
+
+				p2.Red() = r;
+				p2.Green() = g;
+				p2.Blue() = b;
+				p2.Alpha() = a;
+			}
+		}
+	}
+	else if (flipX)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < halfWidth; ++x)
+			{
+				p1.MoveTo(data, x, y);
+				p2.MoveTo(data, width-x-1, y);
+
+				byte r = p1.Red();
+				byte g = p1.Green();
+				byte b = p1.Blue();
+				byte a = p1.Alpha();
+
+				p1.Red() = p2.Red();
+				p1.Green() = p2.Green();
+				p1.Blue() = p2.Blue();
+				p1.Alpha() = p2.Alpha();
+
+				p2.Red() = r;
+				p2.Green() = g;
+				p2.Blue() = b;
+				p2.Alpha() = a;
+			}
+		}
+	}
+	else if (flipY)
+	{
+		for (int y = 0; y < halfHeight; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				p1.MoveTo(data, x, y);
+				p2.MoveTo(data, x, height-y-1);
+
+				byte r = p1.Red();
+				byte g = p1.Green();
+				byte b = p1.Blue();
+				byte a = p1.Alpha();
+
+				p1.Red() = p2.Red();
+				p1.Green() = p2.Green();
+				p1.Blue() = p2.Blue();
+				p1.Alpha() = p2.Alpha();
+
+				p2.Red() = r;
+				p2.Green() = g;
+				p2.Blue() = b;
+				p2.Alpha() = a;
+			}
+		}
+	}
 }
