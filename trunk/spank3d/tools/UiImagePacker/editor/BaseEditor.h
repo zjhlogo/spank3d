@@ -69,7 +69,16 @@ public:
 
 protected:
 	void DrawImage(wxDC& dc, const wxPoint& destPos, const ImageInfo* pImageInfo);
-	void DrawPiece(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo);
+
+	void DrawPieceNormal(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo, bool flipX, bool flipY);
+	void DrawPieceDarken(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo, bool flipX, bool flipY);
+	void DrawPieceHighlight(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo, bool flipX, bool flipY);
+	void DrawPieceDisabled(wxDC& dc, const wxPoint& destPos, const PieceInfo* pPieceInfo, bool flipX, bool flipY);
+
+	void BitmapFilterBrighten(wxBitmap& bmpInOut, float scaleR, float scaleG, float scaleB);
+	void BitmapFilterGray(wxBitmap& bmpInOut, float scaleR, float scaleG, float scaleB);
+	void BitmapFilterFlip(wxBitmap& bmpInOut, bool flipX, bool flipY);
+
 	void DrawRectangle(wxDC& dc, const wxRect& rect);
 	void DrawRectangle(wxDC& dc, const wxPoint& pos, const wxSize& size);
 	void DrawLine(wxDC& dc, const wxPoint& pt1, const wxPoint& pt2);

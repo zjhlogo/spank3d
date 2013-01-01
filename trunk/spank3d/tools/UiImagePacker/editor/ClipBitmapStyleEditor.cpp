@@ -97,7 +97,30 @@ void ClipBitmapStyleEditor::Draw(wxDC& dc)
 		}
 		else
 		{
-			DrawPiece(dc, m_rectState[i].GetPosition(), pPieceInfo);
+			if (m_pClipBitmapStyle->IsAutoGenBitmap()
+				&& pPieceInfo == pDefaultPieceInfo)
+			{
+				if (i == IStyle::SS_DOWN)
+				{
+					DrawPieceDarken(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pClipBitmapStyle->IsFlipX(), m_pClipBitmapStyle->IsFlipY());
+				}
+				else if (i == IStyle::SS_HOVER)
+				{
+					DrawPieceHighlight(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pClipBitmapStyle->IsFlipX(), m_pClipBitmapStyle->IsFlipY());
+				}
+				else if (i == IStyle::SS_DISABLED)
+				{
+					DrawPieceDisabled(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pClipBitmapStyle->IsFlipX(), m_pClipBitmapStyle->IsFlipY());
+				}
+				else
+				{
+					DrawPieceNormal(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pClipBitmapStyle->IsFlipX(), m_pClipBitmapStyle->IsFlipY());
+				}
+			}
+			else
+			{
+				DrawPieceNormal(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pClipBitmapStyle->IsFlipX(), m_pClipBitmapStyle->IsFlipY());
+			}
 		}
 	}
 

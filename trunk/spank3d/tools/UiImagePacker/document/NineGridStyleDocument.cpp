@@ -155,6 +155,30 @@ bool NineGridStyleDocument::SetAutoGenBitmap(const NineGridStyle* pNineGridStyle
 	return true;
 }
 
+bool NineGridStyleDocument::SetFlipX(const NineGridStyle* pNineGridStyle, bool bFlipX)
+{
+	if (!pNineGridStyle) return false;
+
+	NineGridStyle* pFoundNineGridStyle = InternalFindNineGridStyle(pNineGridStyle->GetId());
+	if (!pFoundNineGridStyle) return false;
+	SetModifiedFlag();
+
+	pFoundNineGridStyle->SetFlipX(bFlipX);
+	return true;
+}
+
+bool NineGridStyleDocument::SetFlipY(const NineGridStyle* pNineGridStyle, bool bFlipY)
+{
+	if (!pNineGridStyle) return false;
+
+	NineGridStyle* pFoundNineGridStyle = InternalFindNineGridStyle(pNineGridStyle->GetId());
+	if (!pFoundNineGridStyle) return false;
+	SetModifiedFlag();
+
+	pFoundNineGridStyle->SetFlipY(bFlipY);
+	return true;
+}
+
 bool NineGridStyleDocument::SetStatePiece(const NineGridStyle* pNineGridStyle, const PieceInfo* pPieceInfo, IStyle::STYLE_STATE eState)
 {
 	if (!pNineGridStyle) return false;

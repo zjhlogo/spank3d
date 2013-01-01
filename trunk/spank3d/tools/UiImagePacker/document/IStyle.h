@@ -32,7 +32,13 @@ public:
 	const wxString& GetId() const;
 
 	void SetAutoGenBitmap(bool bAutoGenBitmap);
-	bool isAutoGenBitmap() const;
+	bool IsAutoGenBitmap() const;
+
+	void SetFlipX(bool bFlipX);
+	bool IsFlipX() const;
+
+	void SetFlipY(bool bFlipY);
+	bool IsFlipY() const;
 
 	void SetTreeItemId(wxTreeItemId itemId);
 	const wxTreeItemId& GetTreeItemId() const;
@@ -44,6 +50,8 @@ private:
 	wxString m_strId;
 	wxTreeItemId m_TreeItemId;
 	bool m_AutoGenBitmap;
+	bool m_FlipX;
+	bool m_FlipY;
 
 };
 

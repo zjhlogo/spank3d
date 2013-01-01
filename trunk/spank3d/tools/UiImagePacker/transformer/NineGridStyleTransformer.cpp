@@ -62,7 +62,9 @@ void NineGridStyleTransformer::UpdateProperty(const NineGridStyle* pNineGrieStyl
 	if (!pNineGrieStyle) return;
 
 	m_pPropertyGrid->Append(new wxStringProperty(_("id"), wxT("id"), pNineGrieStyle->GetId()));
-	m_pPropertyGrid->Append(new wxBoolProperty(_("auto gen bitmap"), wxT("auto_bitmap"), pNineGrieStyle->isAutoGenBitmap()))->SetAttribute(wxPG_BOOL_USE_CHECKBOX, true);
+	m_pPropertyGrid->Append(new wxBoolProperty(_("auto gen bitmap"), wxT("auto_bitmap"), pNineGrieStyle->IsAutoGenBitmap()))->SetAttribute(wxPG_BOOL_USE_CHECKBOX, true);
+	m_pPropertyGrid->Append(new wxBoolProperty(_("flip x"), wxT("flip_x"), pNineGrieStyle->IsFlipX()))->SetAttribute(wxPG_BOOL_USE_CHECKBOX, true);
+	m_pPropertyGrid->Append(new wxBoolProperty(_("flip y"), wxT("flip_y"), pNineGrieStyle->IsFlipY()))->SetAttribute(wxPG_BOOL_USE_CHECKBOX, true);
 
 	const wxArrayString& pieceIds = ImagePieceDocument::GetInstance().GetPieceIds();
 	const wxArrayInt& pieceIdsIndex = ImagePieceDocument::GetInstance().GetPieceIdsIndex();
@@ -126,6 +128,16 @@ void NineGridStyleTransformer::PropertyChanged(wxPGProperty* pProperty)
 	{
 		bool bAutoGenBitmap = pProperty->GetValue().GetBool();
 		bRefresh = NineGridStyleDocument::GetInstance().SetAutoGenBitmap(pNineGridStyle, bAutoGenBitmap);
+	}
+	else if (pProperty->GetName() == wxT("flip_x"))
+	{
+		bool bFlipX = pProperty->GetValue().GetBool();
+		bRefresh = NineGridStyleDocument::GetInstance().SetFlipX(pNineGridStyle, bFlipX);
+	}
+	else if (pProperty->GetName() == wxT("flip_y"))
+	{
+		bool bFlipY = pProperty->GetValue().GetBool();
+		bRefresh = NineGridStyleDocument::GetInstance().SetFlipY(pNineGridStyle, bFlipY);
 	}
 	else if (pProperty->GetName() == wxT("normal_piece_id"))
 	{

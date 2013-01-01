@@ -11,6 +11,8 @@
 IStyle::IStyle()
 {
 	m_AutoGenBitmap = false;
+	m_FlipX = false;
+	m_FlipY = false;
 }
 
 IStyle::~IStyle()
@@ -55,7 +57,27 @@ void IStyle::SetAutoGenBitmap(bool bAutoGenBitmap)
 	m_AutoGenBitmap = bAutoGenBitmap;
 }
 
-bool IStyle::isAutoGenBitmap() const
+bool IStyle::IsAutoGenBitmap() const
 {
 	return m_AutoGenBitmap;
+}
+
+void IStyle::SetFlipX(bool bFlipX)
+{
+	m_FlipX = bFlipX;
+}
+
+bool IStyle::IsFlipX() const
+{
+	return m_FlipX;
+}
+
+void IStyle::SetFlipY(bool bFlipY)
+{
+	m_FlipY = bFlipY;
+}
+
+bool IStyle::IsFlipY() const
+{
+	return m_FlipY;
 }

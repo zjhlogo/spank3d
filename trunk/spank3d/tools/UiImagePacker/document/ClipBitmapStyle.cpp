@@ -34,6 +34,16 @@ bool ClipBitmapStyle::LoadFromXml(wxXmlNode* pNodeClipBitmapStyle)
 		SetAutoGenBitmap(true);
 	}
 
+	if (pNodeClipBitmapStyle->GetAttribute(wxT("flip_x")) == wxT("true"))
+	{
+		SetFlipX(true);
+	}
+
+	if (pNodeClipBitmapStyle->GetAttribute(wxT("flip_y")) == wxT("true"))
+	{
+		SetFlipY(true);
+	}
+
 	m_PieceInfo[SS_NORMAL] = LoadStateInfo(pNodeClipBitmapStyle, wxT("normal"), NULL);
 	if (!m_PieceInfo[SS_NORMAL]) return false;
 
@@ -50,7 +60,9 @@ bool ClipBitmapStyle::SaveToXml(wxXmlNode* pNodeClipBitmapStyleList)
 
 	wxXmlNode* pNodeClipBitmapStyle = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("ClipBitmapStyle"));
 	pNodeClipBitmapStyle->AddAttribute(wxT("id"), GetId());
-	if (isAutoGenBitmap()) pNodeClipBitmapStyle->AddAttribute(wxT("auto_bitmap"), wxT("true"));
+	if (IsAutoGenBitmap()) pNodeClipBitmapStyle->AddAttribute(wxT("auto_bitmap"), wxT("true"));
+	if (IsFlipX()) pNodeClipBitmapStyle->AddAttribute(wxT("flip_x"), wxT("true"));
+	if (IsFlipY()) pNodeClipBitmapStyle->AddAttribute(wxT("flip_y"), wxT("true"));
 
 	if (!SaveStateInfo(pNodeClipBitmapStyle, wxT("normal"), m_PieceInfo[SS_NORMAL]))
 	{

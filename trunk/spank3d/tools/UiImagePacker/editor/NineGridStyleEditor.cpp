@@ -99,7 +99,30 @@ void NineGridStyleEditor::Draw(wxDC& dc)
 		}
 		else
 		{
-			DrawPiece(dc, m_rectState[i].GetPosition(), pPieceInfo);
+			if (m_pNineGridStyle->IsAutoGenBitmap()
+				&& pPieceInfo == pDefaultPieceInfo)
+			{
+				if (i == IStyle::SS_DOWN)
+				{
+					DrawPieceDarken(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pNineGridStyle->IsFlipX(), m_pNineGridStyle->IsFlipY());
+				}
+				else if (i == IStyle::SS_HOVER)
+				{
+					DrawPieceHighlight(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pNineGridStyle->IsFlipX(), m_pNineGridStyle->IsFlipY());
+				}
+				else if (i == IStyle::SS_DISABLED)
+				{
+					DrawPieceDisabled(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pNineGridStyle->IsFlipX(), m_pNineGridStyle->IsFlipY());
+				}
+				else
+				{
+					DrawPieceNormal(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pNineGridStyle->IsFlipX(), m_pNineGridStyle->IsFlipY());
+				}
+			}
+			else
+			{
+				DrawPieceNormal(dc, m_rectState[i].GetPosition(), pPieceInfo, m_pNineGridStyle->IsFlipX(), m_pNineGridStyle->IsFlipY());
+			}
 		}
 	}
 
