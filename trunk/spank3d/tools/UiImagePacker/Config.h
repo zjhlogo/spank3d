@@ -19,6 +19,8 @@ public:
 		DEFAULT_PIECE_SIZE = 100,
 		DEFAULT_COLOR = 0x808080,
 		DISABLED_PEN_WIDTH = 3,
+
+		ATLAS_GAP = 1,
 	};
 
 public:

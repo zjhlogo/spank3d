@@ -437,11 +437,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\utils\RectangleBinPack.cpp"
+				RelativePath=".\utils\MaxRectsBinPack.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\utils\RectangleBinPack.h"
+				RelativePath=".\utils\MaxRectsBinPack.h"
+				>
+			</File>
+			<File
+				RelativePath=".\utils\Rect.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\utils\Rect.h"
 				>
 			</File>
 		</Filter>

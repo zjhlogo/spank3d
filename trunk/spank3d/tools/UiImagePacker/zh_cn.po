@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UiImagePacker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-01 23:30+0800\n"
-"PO-Revision-Date: 2013-01-01 23:31+0800\n"
+"POT-Creation-Date: 2013-01-04 09:22+0800\n"
+"PO-Revision-Date: 2013-01-04 09:22+0800\n"
 "Last-Translator: zjhlogo <zjhlogo@gmail.com>\n"
 "Language-Team: zjhlogo <zjhlogo@gmail.com>\n"
-"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: f:\\code\\spank3d\\trunk\\spank3d\\tools\\UiImagePacker\n"
+"X-Poedit-Basepath: f:\\code\\spank3d\\trunk\\spank3d\\tools\\UiImagePacker\\\n"
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -210,11 +210,13 @@ msgstr "缩小 ( Ctrl+- )"
 msgid "Toolbar"
 msgstr "工具栏"
 
-#: ImagePackerFrame.cpp:397 ImagePackerFrame.cpp:398
+#: ImagePackerFrame.cpp:397
+#: ImagePackerFrame.cpp:398
 msgid "Property"
 msgstr "属性"
 
-#: ImagePackerFrame.cpp:414 ImagePackerFrame.cpp:415
+#: ImagePackerFrame.cpp:414
+#: ImagePackerFrame.cpp:415
 msgid "List"
 msgstr "列表"
 
@@ -242,7 +244,8 @@ msgstr "颜色样式"
 msgid "Clip Bitmap Styles"
 msgstr "可裁剪的位图样式"
 
-#: ImagePackerFrame.cpp:462 ImagePackerFrame.cpp:463
+#: ImagePackerFrame.cpp:462
+#: ImagePackerFrame.cpp:463
 msgid "Editor"
 msgstr "编辑器"
 
@@ -278,19 +281,23 @@ msgstr "行1\n"
 msgid "line 2\n"
 msgstr "行2\n"
 
-#: ImagePackerFrame.cpp:506 ImagePackerFrame.cpp:507
+#: ImagePackerFrame.cpp:506
+#: ImagePackerFrame.cpp:507
 msgid "Output"
 msgstr "输出"
 
-#: ImagePackerFrame.cpp:522 ImagePackerFrame.cpp:596
+#: ImagePackerFrame.cpp:522
+#: ImagePackerFrame.cpp:596
 msgid "Do you want to save the Project ?"
 msgstr "是否保存项目?"
 
-#: ImagePackerFrame.cpp:522 ImagePackerFrame.cpp:596
+#: ImagePackerFrame.cpp:522
+#: ImagePackerFrame.cpp:596
 msgid "Save Project"
 msgstr "保存项目"
 
-#: ImagePackerFrame.cpp:543 dialog/DialogAddPiece.cpp:185
+#: ImagePackerFrame.cpp:543
+#: dialog/DialogAddPiece.cpp:185
 #: dialog/DialogReplacePiece.cpp:152
 msgid "Choose a file"
 msgstr "选择文件"
@@ -299,20 +306,27 @@ msgstr "选择文件"
 msgid "Project files (*.ipproj)|*.ipproj"
 msgstr "项目文件 (*.ipproj)|*.ipproj"
 
-#: ImagePackerFrame.cpp:637 ImagePackerFrame.cpp:907 ImagePackerFrame.cpp:929
-#: ImagePackerFrame.cpp:944 ImagePackerFrame.cpp:959 ImagePackerFrame.cpp:974
+#: ImagePackerFrame.cpp:637
+#: ImagePackerFrame.cpp:907
+#: ImagePackerFrame.cpp:929
+#: ImagePackerFrame.cpp:944
+#: ImagePackerFrame.cpp:959
+#: ImagePackerFrame.cpp:974
 msgid "Please open a project first"
 msgstr "请先打开项目文件"
 
-#: ImagePackerFrame.cpp:738 ImagePackerFrame.cpp:799
+#: ImagePackerFrame.cpp:738
+#: ImagePackerFrame.cpp:799
 msgid "also delete bitmap styles:"
 msgstr "同时也删除位图样式:"
 
-#: ImagePackerFrame.cpp:739 ImagePackerFrame.cpp:800
+#: ImagePackerFrame.cpp:739
+#: ImagePackerFrame.cpp:800
 msgid "also delete 9-grid styles:"
 msgstr "同时也删除9宫格样式:"
 
-#: ImagePackerFrame.cpp:740 ImagePackerFrame.cpp:801
+#: ImagePackerFrame.cpp:740
+#: ImagePackerFrame.cpp:801
 msgid "also delete clip bitmap styles:"
 msgstr "同时也删除可裁剪的位图样式:"
 
@@ -374,7 +388,8 @@ msgstr "是否要删除可裁剪的位图样式: %s"
 msgid "Delete Clip Bitmap Style"
 msgstr "删除可裁剪的位图样式"
 
-#: ImagePackerFrame.cpp:990 ImagePackerFrame.cpp:1013
+#: ImagePackerFrame.cpp:990
+#: ImagePackerFrame.cpp:1013
 msgid "Please select a image first"
 msgstr "请先选择图片"
 
@@ -394,15 +409,18 @@ msgstr "关于"
 msgid "Choose a directory to extract"
 msgstr "选择解压缩到目录"
 
-#: dialog/DialogAddPiece.cpp:52 dialog/DialogAddPiece.cpp:97
+#: dialog/DialogAddPiece.cpp:52
+#: dialog/DialogAddPiece.cpp:97
 msgid "Add Piece"
 msgstr "添加切片"
 
-#: dialog/DialogAddPiece.cpp:104 dialog/DialogReplacePiece.cpp:98
+#: dialog/DialogAddPiece.cpp:104
+#: dialog/DialogReplacePiece.cpp:98
 msgid "+"
 msgstr "+"
 
-#: dialog/DialogAddPiece.cpp:107 dialog/DialogReplacePiece.cpp:101
+#: dialog/DialogAddPiece.cpp:107
+#: dialog/DialogReplacePiece.cpp:101
 msgid "-"
 msgstr "-"
 
@@ -418,41 +436,49 @@ msgstr "添加已存在图片"
 msgid "Create New"
 msgstr "新建"
 
-#: dialog/DialogAddPiece.cpp:141 dialog/DialogMovePiece.cpp:107
+#: dialog/DialogAddPiece.cpp:141
+#: dialog/DialogMovePiece.cpp:107
 #: dialog/DialogReplacePiece.cpp:109
 msgid "Image Info"
 msgstr "图片信息"
 
-#: dialog/DialogAddPiece.cpp:148 dialog/DialogMovePiece.cpp:128
+#: dialog/DialogAddPiece.cpp:148
+#: dialog/DialogMovePiece.cpp:128
 #: dialog/DialogReplacePiece.cpp:123
 msgid "Width"
 msgstr "宽"
 
-#: dialog/DialogAddPiece.cpp:154 dialog/DialogMovePiece.cpp:134
+#: dialog/DialogAddPiece.cpp:154
+#: dialog/DialogMovePiece.cpp:134
 #: dialog/DialogReplacePiece.cpp:129
 msgid "Height"
 msgstr "高"
 
-#: dialog/DialogAddPiece.cpp:163 dialog/DialogMovePiece.cpp:145
+#: dialog/DialogAddPiece.cpp:163
+#: dialog/DialogMovePiece.cpp:145
 #: dialog/DialogReplacePiece.cpp:140
 msgid "&OK"
 msgstr "确定(&O)"
 
-#: dialog/DialogAddPiece.cpp:166 dialog/DialogMovePiece.cpp:148
+#: dialog/DialogAddPiece.cpp:166
+#: dialog/DialogMovePiece.cpp:148
 #: dialog/DialogReplacePiece.cpp:143
 msgid "&Cancel"
 msgstr "取消(&C)"
 
-#: dialog/DialogAddPiece.cpp:188 dialog/DialogReplacePiece.cpp:155
+#: dialog/DialogAddPiece.cpp:188
+#: dialog/DialogReplacePiece.cpp:155
 msgid "Image files (*.png;*.jpg)|*.png;*.jpg"
 msgstr "图片文件 (*.png;*.jpg)|*.png;*.jpg"
 
-#: dialog/DialogAddPiece.cpp:306 dialog/DialogMovePiece.cpp:205
+#: dialog/DialogAddPiece.cpp:306
+#: dialog/DialogMovePiece.cpp:205
 #: dialog/DialogReplacePiece.cpp:200
 msgid "width and height must greater than 0"
 msgstr "宽度与高度必须大于0"
 
-#: dialog/DialogAddPiece.cpp:306 dialog/DialogMovePiece.cpp:205
+#: dialog/DialogAddPiece.cpp:306
+#: dialog/DialogMovePiece.cpp:205
 #: dialog/DialogReplacePiece.cpp:200
 msgid "Error"
 msgstr "错误"
@@ -469,13 +495,15 @@ msgstr "未命名.png"
 msgid "Image files (*.png)|*.png"
 msgstr "图片文件 (*.png)|*.png"
 
-#: dialog/DialogAddPiece.cpp:573 dialog/DialogMovePiece.cpp:377
+#: dialog/DialogAddPiece.cpp:573
+#: dialog/DialogMovePiece.cpp:377
 #: dialog/DialogReplacePiece.cpp:381
 #, c-format
 msgid "Not enough space to pack sub bitmaps %s"
 msgstr "没有足够的空间打包子位图 %s"
 
-#: dialog/DialogAddPiece.cpp:596 dialog/DialogReplacePiece.cpp:413
+#: dialog/DialogAddPiece.cpp:596
+#: dialog/DialogReplacePiece.cpp:413
 #, c-format
 msgid "Load Bimap Failed: %s"
 msgstr "加载位图失败: %s"
@@ -501,7 +529,8 @@ msgstr "到图片"
 msgid "Can not find piece %s from image %s"
 msgstr "无法找到切片 %s, 在图片 %s 中"
 
-#: dialog/DialogReplacePiece.cpp:49 dialog/DialogReplacePiece.cpp:91
+#: dialog/DialogReplacePiece.cpp:49
+#: dialog/DialogReplacePiece.cpp:91
 msgid "Replace Piece"
 msgstr "替换切片"
 

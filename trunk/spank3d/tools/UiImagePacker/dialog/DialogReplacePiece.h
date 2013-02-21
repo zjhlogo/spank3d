@@ -11,7 +11,7 @@
 #include <wx/wx.h>
 #include "../document/ImageInfo.h"
 #include "../document/PieceInfo.h"
-#include "../utils/RectangleBinPack.h"
+#include "../utils/MaxRectsBinPack.h"
 #include <vector>
 
 class DialogReplacePiece: public wxDialog
@@ -37,7 +37,7 @@ public:
 		wxString strPath;
 		wxBitmap subBitmap;
 		wxSize bmpSize;
-		RectangleBinPack::Node* pNode;
+		Rect rect;
 		const PieceInfo* pPieceInfo;
 	} PACKING_PIECE_INFO;
 	typedef std::vector<PACKING_PIECE_INFO*> TV_PACKING_PIECE_INFO;
@@ -84,7 +84,7 @@ private:
 	wxTextCtrl* m_EdtImageHeight;
 
 	wxString m_strError;
-	RectangleBinPack m_Packer;
+	MaxRectsBinPack m_Packer;
 	const ImageInfo* m_pCurrImageInfo;
 
 };
