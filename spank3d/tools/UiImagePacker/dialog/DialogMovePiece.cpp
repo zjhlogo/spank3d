@@ -302,7 +302,7 @@ bool DialogMovePiece::AddPieceToExistingImage(const wxSize& newSize)
 		}
 
 		// set new bitmap info
-		wxRect rect(pPackingInfo->pNode->x, pPackingInfo->pNode->y, pPackingInfo->bmpSize.x, pPackingInfo->bmpSize.y);
+		wxRect rect(pPackingInfo->rect.x, pPackingInfo->rect.y, pPackingInfo->bmpSize.x, pPackingInfo->bmpSize.y);
 		ImagePieceDocument::GetInstance().SetPieceRect(pPieceInfo, rect);
 	}
 
@@ -328,7 +328,11 @@ bool DialogMovePiece::GetPieceFromList(TV_PACKING_PIECE_INFO& vPackingInfo)
 		const wxRect& pieceRect = pPieceInfo->GetRect();
 
 		PACKING_PIECE_INFO* pPackingInfo = new PACKING_PIECE_INFO();
-		pPackingInfo->pNode = NULL;
+		pPackingInfo->rect.x = 0;
+		pPackingInfo->rect.y = 0;
+		pPackingInfo->rect.width = 0;
+		pPackingInfo->rect.height = 0;
+
 		pPackingInfo->subBitmap = ((ImageInfo*)m_pFromImageInfo)->GetBitmap()->GetSubBitmap(pieceRect);
 		pPackingInfo->bmpSize = pPackingInfo->subBitmap.GetSize();
 		pPackingInfo->strId = pPieceInfo->GetId();
@@ -350,7 +354,11 @@ bool DialogMovePiece::GetPieceFromImage(TV_PACKING_PIECE_INFO& vPackingInfo, con
 		const wxRect& pieceRect = pPieceInfo->GetRect();
 
 		PACKING_PIECE_INFO* pPackingInfo = new PACKING_PIECE_INFO();
-		pPackingInfo->pNode = NULL;
+		pPackingInfo->rect.x = 0;
+		pPackingInfo->rect.y = 0;
+		pPackingInfo->rect.width = 0;
+		pPackingInfo->rect.height = 0;
+
 		pPackingInfo->subBitmap = ((ImageInfo*)pImageInfo)->GetBitmap()->GetSubBitmap(pieceRect);
 		pPackingInfo->bmpSize = pPackingInfo->subBitmap.GetSize();
 		pPackingInfo->strId = pPieceInfo->GetId();
@@ -371,8 +379,8 @@ bool DialogMovePiece::GeneratePackingInfo(TV_PACKING_PIECE_INFO& vPackingInfo, c
 		PACKING_PIECE_INFO* pPackingInfo = (*it);
 
 		// Pack the next rectangle in the input list.
-		pPackingInfo->pNode = m_Packer.Insert(pPackingInfo->bmpSize.x+RectangleBinPack::GAP, pPackingInfo->bmpSize.y+RectangleBinPack::GAP);
-		if (!pPackingInfo->pNode)
+		pPackingInfo->rect = m_Packer.Insert(pPackingInfo->bmpSize.x+Config::ATLAS_GAP, pPackingInfo->bmpSize.y+Config::ATLAS_GAP, MaxRectsBinPack::RectBestAreaFit, false);
+		if (pPackingInfo->rect.height <= 0)
 		{
 			m_strError = wxString::Format(_("Not enough space to pack sub bitmaps %s"), pPackingInfo->strId);
 			return false;
@@ -407,7 +415,7 @@ wxBitmap* DialogMovePiece::PackImage(const wxSize& bmpSize, const TV_PACKING_PIE
 	for (TV_PACKING_PIECE_INFO::const_iterator it = vPackingInfo.begin(); it != vPackingInfo.end(); ++it)
 	{
 		const PACKING_PIECE_INFO* pPackingInfo = (*it);
-		wxPoint destPos(pPackingInfo->pNode->x, pPackingInfo->pNode->y);
+		wxPoint destPos(pPackingInfo->rect.x, pPackingInfo->rect.y);
 
 		wxBitmap& subBitmap = (wxBitmap)pPackingInfo->subBitmap;
 		wxMemoryDC memSubDC(subBitmap);
