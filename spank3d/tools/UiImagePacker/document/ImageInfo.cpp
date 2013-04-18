@@ -13,11 +13,14 @@
 
 #define SAFE_DELETE(x) if (x) {delete (x); (x) = NULL;}
 
-ImageInfo::ImageInfo()
+ImageInfo::ImageInfo(const wxString& strBaseDir)
 {
 	m_pBitmap = NULL;
 	m_bLoaded = false;
 	m_bIsModified = false;
+
+	m_strBaseDir = strBaseDir;
+	FileUtil::FormatDir(m_strBaseDir);
 }
 
 ImageInfo::~ImageInfo()
@@ -30,8 +33,9 @@ bool ImageInfo::LoadFromXml(wxXmlNode* pNodeImage)
 	if (!pNodeImage) return false;
 
 	m_strId = pNodeImage->GetAttribute(wxT("id"));
-	m_strPath = pNodeImage->GetAttribute(wxT("path"));
-	FileUtil::FormatDir(m_strPath);
+
+	m_strFileName = pNodeImage->GetAttribute(wxT("file_name"));
+	FileUtil::FormatDir(m_strFileName);
 
 	return true;
 }
@@ -40,7 +44,7 @@ bool ImageInfo::SaveToXml(wxXmlNode* pNodeImageList)
 {
 	wxXmlNode* pNodeImage = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("Image"));
 	pNodeImage->AddAttribute(wxT("id"), m_strId);
-	pNodeImage->AddAttribute(wxT("path"), m_strPath);
+	pNodeImage->AddAttribute(wxT("file_name"), m_strFileName);
 	pNodeImage->AddAttribute(wxT("width"), wxString::Format(wxT("%d"), GetBitmap()->GetWidth()));
 	pNodeImage->AddAttribute(wxT("height"), wxString::Format(wxT("%d"), GetBitmap()->GetHeight()));
 	pNodeImageList->AddChild(pNodeImage);
@@ -53,7 +57,7 @@ bool ImageInfo::SaveImage()
 	m_bIsModified = false;
 	if (!m_pBitmap) return true;
 
-	wxString strFullPath = ProjectDocument::GetInstance().GetRootPath() + wxT("/") + m_strPath;
+	wxString strFullPath = m_strBaseDir + wxT("/") + m_strFileName;
 	if (!m_pBitmap->SaveFile(strFullPath, wxBITMAP_TYPE_PNG))
 	{
 		wxMessageDialog msg(&ImagePackerFrame::GetInstance(), wxString::Format(_("save image bitmap failed, path=%s"), strFullPath));
@@ -73,15 +77,19 @@ const wxString& ImageInfo::GetId() const
 	return m_strId;
 }
 
-void ImageInfo::SetPath(const wxString& strPath)
+void ImageInfo::SetFileName(const wxString& strFileName)
 {
-	m_strPath = strPath;
-	FileUtil::FormatDir(m_strPath);
+	m_strFileName = strFileName;
 }
 
-const wxString& ImageInfo::GetPath() const
+const wxString& ImageInfo::GetFileName() const
 {
-	return m_strPath;
+	return m_strFileName;
+}
+
+const wxString& ImageInfo::GetBaseDir() const
+{
+	return m_strBaseDir;
 }
 
 bool ImageInfo::SetBitmap(wxBitmap* pBitmap)
@@ -114,7 +122,7 @@ bool ImageInfo::LoadImageFromFile()
 	m_pBitmap = new wxBitmap();
 
 	// load bitmap from path
-	wxString strFullPath = ProjectDocument::GetInstance().GetRootPath() + wxT("/") + m_strPath;
+	wxString strFullPath = m_strBaseDir + wxT("/") + m_strFileName;
 	if (!m_pBitmap->LoadFile(strFullPath, wxBITMAP_TYPE_ANY))
 	{
 		wxMessageDialog msg(&ImagePackerFrame::GetInstance(), wxString::Format(_("can not open file: %s"), strFullPath));

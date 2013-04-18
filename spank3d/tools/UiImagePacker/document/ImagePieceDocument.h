@@ -58,7 +58,7 @@ public:
 	bool SetPieceRect(const PieceInfo* pPieceInfo, const wxRect& rect);
 	bool SetPieceImageInfo(const PieceInfo* pPieceInfo, const ImageInfo* pImageInfo);
 
-	const ImageInfo* AddImage(const wxString& strImageId, const wxString& strPath, wxBitmap* pImageBitmap);
+	const ImageInfo* AddImage(const wxString& strImageId, const wxString& strFileName, wxBitmap* pImageBitmap);
 	bool RemoveImage(const wxString& strId);
 
 	const PieceInfo* AddPiece(const wxString& strId, const wxRect& rect, const ImageInfo* pImageInfo);

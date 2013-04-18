@@ -23,6 +23,7 @@ public:
 
 	void SetFilePath(const wxString& strFilePath);
 	const wxString& GetFilePath() const;
+	const wxString& GetFileDir() const;
 
 	void SetModifiedFlag();
 	void ClearModifiedFlag();
@@ -35,6 +36,7 @@ protected:
 private:
 	bool m_bModifiedFlag;
 	wxString m_strFilePath;
+	wxString m_strFileDir;
 
 };
 #endif // __DOCUMENTBASE_H__

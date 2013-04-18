@@ -112,6 +112,11 @@ const wxString& ProjectDocument::GetRootDir() const
 
 wxString ProjectDocument::GetRootPath() const
 {
+	if (m_strRootDir.empty())
+	{
+		return m_strProjectDir;
+	}
+
 	return m_strProjectDir + wxT("/") + m_strRootDir;
 }
 

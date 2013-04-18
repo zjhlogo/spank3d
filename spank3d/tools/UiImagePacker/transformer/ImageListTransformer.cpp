@@ -59,7 +59,7 @@ void ImageListTransformer::UpdateProperty(const ImageInfo* pImageInfo)
 	if (!pImageInfo) return;
 
 	m_pPropertyGrid->Append(new wxStringProperty(_("id"), wxT("id"), pImageInfo->GetId()));
-	m_pPropertyGrid->Append(new wxFileProperty(_("path"), wxT("path"), pImageInfo->GetPath()))->Enable(false);
+	m_pPropertyGrid->Append(new wxFileProperty(_("path"), wxT("path"), pImageInfo->GetFileName()))->Enable(false);
 
 	wxSize bitmapSize = ((ImageInfo*)pImageInfo)->GetBitmap()->GetSize();
 	m_pPropertyGrid->Append(new wxPropertyCategory(_("size"), wxT("size")));
