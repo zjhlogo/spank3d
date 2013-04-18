@@ -8,6 +8,7 @@
 #include <wx/wxprec.h>
 #include "DocumentBase.h"
 #include "../ImagePackerFrame.h"
+#include "../utils/FileUtil.h"
 
 DocumentBase::DocumentBase()
 {
@@ -21,11 +22,17 @@ DocumentBase::~DocumentBase()
 void DocumentBase::SetFilePath(const wxString& strFilePath)
 {
 	m_strFilePath = strFilePath;
+	FileUtil::GetFileDir(m_strFileDir, m_strFilePath);
 }
 
 const wxString& DocumentBase::GetFilePath() const
 {
 	return m_strFilePath;
+}
+
+const wxString& DocumentBase::GetFileDir() const
+{
+	return m_strFileDir;
 }
 
 void DocumentBase::SetModifiedFlag()

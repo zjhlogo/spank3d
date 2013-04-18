@@ -15,7 +15,7 @@
 class ImageInfo
 {
 public:
-	ImageInfo();
+	ImageInfo(const wxString& strBaseDir);
 	~ImageInfo();
 
 	bool LoadFromXml(wxXmlNode* pNodeImage);
@@ -25,8 +25,9 @@ public:
 	void SetId(const wxString& strId);
 	const wxString& GetId() const;
 
-	void SetPath(const wxString& strPath);
-	const wxString& GetPath() const;
+	void SetFileName(const wxString& strFileName);
+	const wxString& GetFileName() const;
+	const wxString& GetBaseDir() const;
 
 	bool SetBitmap(wxBitmap* pBitmap);
 	const wxBitmap* GetBitmap();
@@ -41,11 +42,12 @@ private:
 
 private:
 	wxString m_strId;
-	wxString m_strPath;
+	wxString m_strFileName;
 	wxBitmap* m_pBitmap;
 	bool m_bLoaded;
 	bool m_bIsModified;
 	wxTreeItemId m_TreeItemId;
 
+	wxString m_strBaseDir;
 };
 #endif // __IMAGEINFO_H__

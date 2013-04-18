@@ -40,7 +40,7 @@ bool ImagePieceDocument::OpenFile(const wxString& strFile)
 	wxXmlNode* pNodeImage = this->FindXmlChild(pNodeImageList, wxT("Image"));
 	while (pNodeImage)
 	{
-		ImageInfo* pImageInfo = new ImageInfo();
+		ImageInfo* pImageInfo = new ImageInfo(GetFileDir());
 		if (!pImageInfo->LoadFromXml(pNodeImage))
 		{
 			wxMessageDialog msg(&ImagePackerFrame::GetInstance(), wxString::Format(_("load image failed, id=%s"), pImageInfo->GetId()));
@@ -363,16 +363,16 @@ bool ImagePieceDocument::SetPieceImageInfo(const PieceInfo* pPieceInfo, const Im
 	return true;
 }
 
-const ImageInfo* ImagePieceDocument::AddImage(const wxString& strImageId, const wxString& strPath, wxBitmap* pImageBitmap)
+const ImageInfo* ImagePieceDocument::AddImage(const wxString& strImageId, const wxString& strFileName, wxBitmap* pImageBitmap)
 {
 	if (!pImageBitmap) return NULL;
 	SetModifiedFlag();
 
 	wxString strNewId = GenerateNewImageId(strImageId);
-	ImageInfo* pImageInfo = new ImageInfo();
+	ImageInfo* pImageInfo = new ImageInfo(GetFileDir());
 	pImageInfo->SetId(strNewId);
 	pImageInfo->SetBitmap(pImageBitmap);
-	pImageInfo->SetPath(strPath);
+	pImageInfo->SetFileName(strFileName);
 	m_ImageInfoMap.insert(std::make_pair(pImageInfo->GetId(), pImageInfo));
 
 	m_bNeedUpdateImageIds = true;

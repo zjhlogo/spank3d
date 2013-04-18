@@ -7,6 +7,7 @@
  */
 #include <wx/wxprec.h>
 #include "FileUtil.h"
+#include <Windows.h>
 
 void FileUtil::FormatDir(wxString& strDirInOut)
 {
@@ -33,9 +34,10 @@ wxString FileUtil::GetFileName(const wxString& strPath)
 	{
 		if (strPath[i] == wxT('\\') || strPath[i] == wxT('/'))
 		{
-			nStartPos = i;
 			break;
 		}
+
+		nStartPos = i;
 	}
 
 	int nEndPos = nStartPos;
@@ -44,7 +46,7 @@ wxString FileUtil::GetFileName(const wxString& strPath)
 		if (strPath[nEndPos] == wxT('.')) break;
 	}
 
-	return strPath.SubString(nStartPos+1, nEndPos-1);
+	return strPath.SubString(nStartPos, nEndPos-1);
 }
 
 wxString FileUtil::RemoveRootDir(const wxString& strPath, const wxString& strRootDir)
@@ -82,4 +84,30 @@ void FileUtil::FormatId(wxString& strId)
 			strId[i] = wxT('_');
 		}
 	}
+}
+
+void FileUtil::GetFileDir(wxString& strOut, const wxString& strIn)
+{
+	size_t nPosEnd = strIn.rfind(wxT('\\'));
+	if (nPosEnd == wxString::npos)
+	{
+		nPosEnd = strIn.rfind(wxT('/'));
+		if (nPosEnd == wxString::npos)
+		{
+			nPosEnd = -1;
+			strOut.clear();
+			return;
+		}
+	}
+
+	strOut = strIn.substr(0, nPosEnd);
+}
+
+void FileUtil::GetCurrDir(wxString& strOut)
+{
+	wxChar currDir[1024];
+	GetCurrentDirectory(1024, currDir);
+
+	strOut = currDir;
+	FormatDir(strOut);
 }

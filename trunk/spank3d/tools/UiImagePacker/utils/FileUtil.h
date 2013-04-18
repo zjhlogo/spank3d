@@ -17,5 +17,9 @@ public:
 	static wxString GetFileName(const wxString& strPath);
 	static wxString RemoveRootDir(const wxString& strPath, const wxString& strRootDir);
 	static void FormatId(wxString& strId);
+
+	static void GetFileDir(wxString& strOut, const wxString& strIn);
+	static void GetCurrDir(wxString& strOut);
+
 };
 #endif // __FILEUTIL_H__

@@ -540,7 +540,10 @@ void ImagePackerFrame::OnFileOpenProject(wxCommandEvent& event)
 
 void ImagePackerFrame::DoOpenProject()
 {
-	wxFileDialog dialog(this, _("Choose a file"), wxEmptyString, wxEmptyString, _("Project files (*.ipproj)|*.ipproj"), wxFD_DEFAULT_STYLE);
+	wxString strCurrDir;
+	FileUtil::GetCurrDir(strCurrDir);
+
+	wxFileDialog dialog(this, _("Choose a file"), strCurrDir, wxEmptyString, _("Project files (*.ipproj)|*.ipproj"), wxFD_DEFAULT_STYLE);
 	if (dialog .ShowModal() == wxID_OK)
 	{
 		SwitchEditor(NUM_EDITOR);

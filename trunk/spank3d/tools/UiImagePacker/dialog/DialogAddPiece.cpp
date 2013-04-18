@@ -319,15 +319,26 @@ void DialogAddPiece::OnOkClicked(wxCommandEvent& event)
 	{
 		wxFileDialog dialog(this,
 			_("Save to file"),
-			ProjectDocument::GetInstance().GetRootPath(),
+			ImagePieceDocument::GetInstance().GetFileDir(),
 			_("Untitled.png"),
 			_("Image files (*.png)|*.png"),
 			wxFD_SAVE);
 
 		if (dialog .ShowModal() == wxID_OK)
 		{
-			m_EdtImageName->SetValue(dialog.GetPath());
-			bOk = AddPieceIntoNewImage(newSize);
+			wxString strRootDir = dialog.GetDirectory();
+			FileUtil::FormatDir(strRootDir);
+
+			if (strRootDir != ImagePieceDocument::GetInstance().GetFileDir())
+			{
+				m_strError = wxString::Format(_("Save path must under the directory of %s"), strRootDir);
+				bOk = false;
+			}
+			else
+			{
+				m_EdtImageName->SetValue(dialog.GetFilename());
+				bOk = AddPieceIntoNewImage(newSize);
+			}
 		}
 		else
 		{
@@ -472,8 +483,8 @@ bool DialogAddPiece::AddPieceToExistingImage(const wxSize& newSize)
 
 bool DialogAddPiece::AddPieceIntoNewImage(const wxSize& newSize)
 {
-	wxString strPath = m_EdtImageName->GetValue();
-	if (strPath.empty()) return false;
+	wxString strFileName = m_EdtImageName->GetValue();
+	if (strFileName.empty()) return false;
 
 	TV_PACKING_PIECE_INFO vPackingInfo;
 
@@ -503,10 +514,10 @@ bool DialogAddPiece::AddPieceIntoNewImage(const wxSize& newSize)
 	}
 
 	// apply new image and piece info to documents
-	wxString strImageId = FileUtil::GetFileName(strPath);
+	wxString strImageId = FileUtil::GetFileName(strFileName);
 	FileUtil::FormatId(strImageId);
-	wxString strRelativePath = FileUtil::RemoveRootDir(strPath, ProjectDocument::GetInstance().GetRootPath() + wxT("/"));
-	const ImageInfo* pImageInfo = ImagePieceDocument::GetInstance().AddImage(strImageId, strRelativePath, pNewBitmap);
+
+	const ImageInfo* pImageInfo = ImagePieceDocument::GetInstance().AddImage(strImageId, strFileName, pNewBitmap);
 
 	for (TV_PACKING_PIECE_INFO::iterator it = vPackingInfo.begin(); it != vPackingInfo.end(); ++it)
 	{
